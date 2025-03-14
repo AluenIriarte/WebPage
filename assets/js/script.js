@@ -71,7 +71,7 @@ document.addEventListener('visibilitychange',
 
 // <!-- typed js effect starts -->
 var typed = new Typed(".typing-text", {
-    strings: ["frontend development", "backend development", "web designing", "android development", "web development"],
+    strings: ["Automatización de procesos", "RPA", "Integración de sistemas", "Flujos de trabajo automatizados", "Optimización de procesos", "Automatización de tareas repetitivas", "Análisis de datos automatizado", "Desarrollo de dashboards", "Desarrollo de aplicaciones web", "Desarrollo de aplicaciones móviles", "Automatización de informes", "Transformación digital"],
     loop: true,
     typeSpeed: 50,
     backSpeed: 25,
