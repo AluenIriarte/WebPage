@@ -236,6 +236,8 @@ header .navbar ul li a:hover {
   z-index: 1;
 }
 
+  @media only screen and (max-width: 600px) { .prev, .next {  top: 25%;  }}
+
 /* Position the prev button to the left */
 .prev {
   left: 20px;
