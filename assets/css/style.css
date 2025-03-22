@@ -183,6 +183,7 @@ header .navbar ul li a:hover {
 /* Banner start */
 .slider-container {
   position: relative;
+  z-index: 10;
   width: 100%;
   max-width: 1200px;
   margin: auto;
@@ -233,6 +234,7 @@ header .navbar ul li a:hover {
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem;
+  margin-top: 100px;
   min-height: 100vh;
   align-items: center;
 }
