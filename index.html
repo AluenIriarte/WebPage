@@ -149,7 +149,7 @@ Alan<!DOCTYPE html>
     <div class="box">
       <video class="video-preview" controls>
         <source src="./assets/Videos/RBaExcel.mp4" type="video/mp4">
-        Your browser does not support the video tag.
+        Tu navegador no soporta el video.
       </video>
       <div class="content">
         <h3>RB a Excel</h3>
@@ -157,39 +157,70 @@ Alan<!DOCTYPE html>
       </div>
     </div>
 
-<!-- Segundo Proyecto con Imágenes Estáticas -->
-<div class="box">
-  <div class="slider1">
-    <div class="slides1">
-      <img src="./assets/images/projects/netflix titles/img1.jpg" alt="Imagen 1">
-      <img src="./assets/images/projects/netflix titles/img2.jpg" alt="Imagen 2">
-      <img src="./assets/images/projects/netflix titles/img3.jpg" alt="Imagen 3">
-      <img src="./assets/images/projects/netflix titles/img4.jpg" alt="Imagen 4">
+    <!-- Segundo Proyecto con Slider -->
+    <div class="box">
+      <div class="slider1">
+        <div class="slides1">
+          <img src="./assets/images/projects/netflix titles/img1.jpg" alt="Imagen 1">
+          <img src="./assets/images/projects/netflix titles/img2.jpg" alt="Imagen 2">
+          <img src="./assets/images/projects/netflix titles/img3.jpg" alt="Imagen 3">
+          <img src="./assets/images/projects/netflix titles/img4.jpg" alt="Imagen 4">
+        </div>
+        <!-- Botones de navegación -->
+        <button class="prev" onclick="moveSlide1(-1)">&#10094;</button>
+        <button class="next" onclick="moveSlide1(1)">&#10095;</button>
+      </div>
+      <div class="content">
+        <h3>Netflix Titles Dashboard</h3>
+        <p>Dashboard con análisis de títulos de Netflix.</p>
+      </div>
     </div>
-    <!-- Botones de navegación -->
-    <button class="prev" onclick="moveSlide1(-1)">&#10094;</button>
-    <button class="next" onclick="moveSlide1(1)">&#10095;</button>
-  </div>
 
-  <div class="content">
-    <h3>Netflix Titles Dashboard</h3>
-    <p>Dashboard con análisis de títulos de Netflix.</p>
+    <!-- Tercer Proyecto con Imagen Estática -->
+    <div class="box">
+      <img src="./assets/images/projects/ExcelDashboard.png" alt="Excel Dashboard">
+      <div class="content">
+        <h3>Excel Dashboard</h3>
+        <p>Dashboard visualizado en Excel.</p>
+      </div>
+    </div>
   </div>
-</div>
+</section>
 
 <style>
+  .box-container {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .box {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .video-preview {
+    width: 100%;
+    border-radius: 10px;
+  }
+
   .slider1 {
     position: relative;
     width: 100%;
-    max-width: 600px;
-    height: 300px; /* Ajusta la altura según necesites */
+    max-width: 300px;
+    height: 200px;
     overflow: hidden;
     border-radius: 10px;
   }
 
   .slides1 {
     display: flex;
-    width: 400%; /* 4 imágenes */
+    width: 100%;
     height: 100%;
     transition: transform 0.5s ease-in-out;
   }
@@ -197,11 +228,10 @@ Alan<!DOCTYPE html>
   .slides1 img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Ajusta la imagen correctamente */
+    object-fit: contain;
     flex: 1 0 100%;
   }
 
-  /* Botones de navegación */
   .prev, .next {
     position: absolute;
     top: 50%;
@@ -210,17 +240,14 @@ Alan<!DOCTYPE html>
     color: white;
     border: none;
     cursor: pointer;
-    padding: 10px;
-    font-size: 20px;
+    padding: 5px;
+    font-size: 18px;
     border-radius: 50%;
   }
 
-  .prev { left: 10px; }
-  .next { right: 10px; }
-
-  .prev:hover, .next:hover {
-    background: black;
-  }
+  .prev { left: 5px; }
+  .next { right: 5px; }
+  .prev:hover, .next:hover { background: black; }
 </style>
 
 <script>
@@ -238,19 +265,8 @@ Alan<!DOCTYPE html>
     slides.style.transform = `translateX(-${index1 * 100}%)`;
   }
 
-  // Cambio automático cada 3 segundos
   setInterval(() => moveSlide1(1), 3000);
 </script>
-
-<!-- Tercer Proyecto con Imagen Estática -->
-<div class="box">
-  <img src="./assets/images/projects/ExcelDashboard.png" alt="Excel Dashboard">
-  <div class="content">
-    <h3>Excel Dashboard</h3>
-    <p>Dashboard visualizado en Excel.</p>
-  </div>
-</div>
-</section>
 <!-- Work Project Section Ends -->
 
 
