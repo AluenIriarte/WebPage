@@ -193,12 +193,11 @@ Alan<!DOCTYPE html>
 </div>
 
 <style>
-  .box-container1 {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
+.box-container1 {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
 
   .box1 {
     background: white;
@@ -207,11 +206,16 @@ Alan<!DOCTYPE html>
     text-align: center;
     width: 300px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
 
-  .video-preview {
-    width: 100%;
-    border-radius: 10px;
+    img, .video-preview {
+      width: 100%;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .content {
+      margin-top: 10px;
+    }
   }
 
   .slider1 {
@@ -221,52 +225,50 @@ Alan<!DOCTYPE html>
     height: 200px;
     overflow: hidden;
     border-radius: 10px;
-  }
 
-  .slides1 {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    transition: transform 0.5s ease-in-out;
-  }
+    .slides1 {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
 
-  .slides1 img, .box img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    cursor: pointer;
-  }
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        cursor: pointer;
+      }
+    }
 
-  .prev, .next {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.5);
-    color: white;
-    border: none;
-    cursor: pointer;
-    padding: 5px;
-    font-size: 18px;
-    border-radius: 50%;
-  }
+    .prev, .next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      cursor: pointer;
+      padding: 5px;
+      font-size: 18px;
+      border-radius: 50%;
+    }
 
-  .prev { left: 5px; }
-  .next { right: 5px; }
-  .prev:hover, .next:hover { background: black; }
-
-  /* Estilos para el modal */
-  .modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    justify-content: center;
-    align-items: center;
+    .prev { left: 5px; }
+    .next { right: 5px; }
+    .prev:hover, .next:hover { background: black; }
   }
+}
+
+/* Estilos para el modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
 
   .modal-content {
     max-width: 90%;
@@ -286,32 +288,32 @@ Alan<!DOCTYPE html>
   .close:hover {
     color: red;
   }
+}
 </style>
 
 <script>
-  let index1 = 0;
+ let index1 = 0;
 
-  function moveSlide1(step) {
-    const slides = document.querySelector(".slides1");
-    const totalSlides = document.querySelectorAll(".slides1 img").length;
-    
-    index1 += step;
+function moveSlide1(step) {
+  const slides = document.querySelector(".slides1");
+  const totalSlides = document.querySelectorAll(".slides1 img").length;
+  
+  index1 += step;
+  if (index1 < 0) index1 = totalSlides - 1;
+  if (index1 >= totalSlides) index1 = 0;
 
-    if (index1 < 0) index1 = totalSlides - 1;
-    if (index1 >= totalSlides) index1 = 0;
+  slides.style.transform = `translateX(-${index1 * 100}%)`;
+}
 
-    slides.style.transform = `translateX(-${index1 * 100}%)`;
-  }
+// Modal para mostrar imágenes en grande
+function openModal(src) {
+  document.getElementById("modalImg").src = src;
+  document.getElementById("imageModal").style.display = "flex";
+}
 
-  // Modal para mostrar imágenes en grande
-  function openModal(src) {
-    document.getElementById("modalImg").src = src;
-    document.getElementById("imageModal").style.display = "flex";
-  }
-
-  function closeModal() {
-    document.getElementById("imageModal").style.display = "none";
-  }
+function closeModal() {
+  document.getElementById("imageModal").style.display = "none";
+}
 </script>
 <!-- Work Project Section Ends -->
 
