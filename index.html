@@ -158,17 +158,84 @@ Alan<!DOCTYPE html>
 
 <!-- Segundo Proyecto con Imágenes Estáticas -->
 <div class="box">
-  <div class="content">
-    <img src="./assets/images/projects/netflix titles/img1.jpg" alt="Imagen 1">
-    <img src="./assets/images/projects/netflix titles/img2.jpg" alt="Imagen 2">
-    <img src="./assets/images/projects/netflix titles/img3.jpg" alt="Imagen 3">
-    <img src="./assets/images/projects/netflix titles/img4.jpg" alt="Imagen 4">
+  <div class="slider">
+    <div class="slides">
+      <img src="./assets/images/projects/netflix titles/img1.jpg" alt="Imagen 1">
+      <img src="./assets/images/projects/netflix titles/img2.jpg" alt="Imagen 2">
+      <img src="./assets/images/projects/netflix titles/img3.jpg" alt="Imagen 3">
+      <img src="./assets/images/projects/netflix titles/img4.jpg" alt="Imagen 4">
+    </div>
+    <!-- Botones de navegación -->
+    <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+    <button class="next" onclick="moveSlide(1)">&#10095;</button>
   </div>
+
   <div class="content">
     <h3>Netflix Titles Dashboard</h3>
     <p>Dashboard con análisis de títulos de Netflix.</p>
   </div>
 </div>
+
+<style>
+  .slider {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    overflow: hidden;
+    border-radius: 10px;
+  }
+
+  .slides {
+    display: flex;
+    width: 400%; /* 4 imágenes */
+    transition: transform 0.5s ease-in-out;
+  }
+
+  .slides img {
+    width: 100%;
+    flex: 1 0 100%;
+  }
+
+  /* Botones de navegación */
+  .prev, .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 20px;
+    border-radius: 50%;
+  }
+
+  .prev { left: 10px; }
+  .next { right: 10px; }
+
+  .prev:hover, .next:hover {
+    background: black;
+  }
+</style>
+
+<script>
+  let index = 0;
+
+  function moveSlide(step) {
+    const slides = document.querySelector(".slides");
+    const totalSlides = document.querySelectorAll(".slides img").length;
+    
+    index += step;
+
+    if (index < 0) index = totalSlides - 1;
+    if (index >= totalSlides) index = 0;
+
+    slides.style.transform = `translateX(-${index * 100}%)`;
+  }
+
+  // Cambio automático cada 3 segundos
+  setInterval(() => moveSlide(1), 3000);
+</script>
 
 <!-- Tercer Proyecto con Imagen Estática -->
 <div class="box">
