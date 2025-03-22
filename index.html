@@ -140,116 +140,97 @@ Alan<!DOCTYPE html>
 
 </section>
 <!-- Work Project Section Starts -->
-<section class="work" id="work">
-  <h2 class="heading"><i class="fas fa-laptop-code"></i> Mis <span>Proyectos</span></h2>
-
-  <div class="box-container">
-    <!-- Primer Proyecto con Video -->
-    <div class="box">
-      <video class="video-preview" controls>
-        <source src="./assets/Videos/RBaExcel.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-      <div class="content">
-        <h3>RB a Excel</h3>
-        <p>RPA Example.</p>
-      </div>
+   <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+        .slider {
+            position: relative;
+            max-width: 100%;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        .slides {
+            display: flex;
+            width: 400%; /* 4 imágenes */
+            transition: transform 0.5s ease-in-out;
+        }
+        .slides img {
+            width: 100%;
+            height: auto;
+            flex: 1 0 100%;
+        }
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            font-size: 20px;
+            border-radius: 50%;
+        }
+        .prev { left: 10px; }
+        .next { right: 10px; }
+        .prev:hover, .next:hover { background: black; }
+        .project-info {
+            margin-top: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Mis Proyectos</h2>
+        <div class="slider">
+            <div class="slides">
+                <img src="./assets/images/project1.jpg" alt="Proyecto 1">
+                <img src="./assets/images/project2.jpg" alt="Proyecto 2">
+                <img src="./assets/images/project3.jpg" alt="Proyecto 3">
+                <img src="./assets/images/project4.jpg" alt="Proyecto 4">
+            </div>
+            <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+            <button class="next" onclick="moveSlide(1)">&#10095;</button>
+        </div>
+        <div class="project-info">
+            <h3 id="project-title">Proyecto 1</h3>
+            <p id="project-description">Descripción del proyecto 1.</p>
+        </div>
     </div>
-
-<!-- Segundo Proyecto con Imágenes Estáticas -->
-<div class="box">
-  <div class="slider1">
-    <div class="slides1">
-      <img src="./assets/images/projects/netflix titles/img1.jpg" alt="Imagen 1">
-      <img src="./assets/images/projects/netflix titles/img2.jpg" alt="Imagen 2">
-      <img src="./assets/images/projects/netflix titles/img3.jpg" alt="Imagen 3">
-      <img src="./assets/images/projects/netflix titles/img4.jpg" alt="Imagen 4">
-    </div>
-    <!-- Botones de navegación -->
-    <button class="prev" onclick="moveSlide1(-1)">&#10094;</button>
-    <button class="next" onclick="moveSlide1(1)">&#10095;</button>
-  </div>
-
-  <div class="content">
-    <h3>Netflix Titles Dashboard</h3>
-    <p>Dashboard con análisis de títulos de Netflix.</p>
-  </div>
-</div>
-
-<style>
-  .slider1 {
-    position: relative;
-    width: 100%;
-    max-width: 600px;
-    height: 300px; /* Ajusta la altura según necesites */
-    overflow: hidden;
-    border-radius: 10px;
-  }
-
-  .slides1 {
-    display: flex;
-    width: 400%; /* 4 imágenes */
-    height: 100%;
-    transition: transform 0.5s ease-in-out;
-  }
-
-  .slides1 img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ajusta la imagen correctamente */
-    flex: 1 0 100%;
-  }
-
-  /* Botones de navegación */
-  .prev, .next {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.5);
-    color: white;
-    border: none;
-    cursor: pointer;
-    padding: 10px;
-    font-size: 20px;
-    border-radius: 50%;
-  }
-
-  .prev { left: 10px; }
-  .next { right: 10px; }
-
-  .prev:hover, .next:hover {
-    background: black;
-  }
-</style>
-
-<script>
-  let index1 = 0;
-
-  function moveSlide1(step) {
-    const slides = document.querySelector(".slides1");
-    const totalSlides = document.querySelectorAll(".slides1 img").length;
     
-    index1 += step;
-
-    if (index1 < 0) index1 = totalSlides - 1;
-    if (index1 >= totalSlides) index1 = 0;
-
-    slides.style.transform = `translateX(-${index1 * 100}%)`;
-  }
-
-  // Cambio automático cada 3 segundos
-  setInterval(() => moveSlide1(1), 3000);
-</script>
-
-<!-- Tercer Proyecto con Imagen Estática -->
-<div class="box">
-  <img src="./assets/images/projects/ExcelDashboard.png" alt="Excel Dashboard">
-  <div class="content">
-    <h3>Excel Dashboard</h3>
-    <p>Dashboard visualizado en Excel.</p>
-  </div>
-</div>
-</section>
+    <script>
+        let index = 0;
+        const projectTitles = ["Proyecto 1", "Proyecto 2", "Proyecto 3", "Proyecto 4"];
+        const projectDescriptions = [
+            "Descripción del proyecto 1.",
+            "Descripción del proyecto 2.",
+            "Descripción del proyecto 3.",
+            "Descripción del proyecto 4."
+        ];
+        function moveSlide(step) {
+            const slides = document.querySelector(".slides");
+            const totalSlides = projectTitles.length;
+            index += step;
+            if (index < 0) index = totalSlides - 1;
+            if (index >= totalSlides) index = 0;
+            slides.style.transform = `translateX(-${index * 100}%)`;
+            document.getElementById("project-title").innerText = projectTitles[index];
+            document.getElementById("project-description").innerText = projectDescriptions[index];
+        }
+        setInterval(() => moveSlide(1), 3000);
+    </script>
 <!-- Work Project Section Ends -->
 
 
