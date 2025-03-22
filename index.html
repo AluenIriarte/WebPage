@@ -181,6 +181,7 @@ Alan<!DOCTYPE html>
     position: relative;
     width: 100%;
     max-width: 600px;
+    height: 300px; /* Ajusta la altura según necesites */
     overflow: hidden;
     border-radius: 10px;
   }
@@ -188,11 +189,14 @@ Alan<!DOCTYPE html>
   .slides {
     display: flex;
     width: 400%; /* 4 imágenes */
+    height: 100%;
     transition: transform 0.5s ease-in-out;
   }
 
   .slides img {
     width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ajusta la imagen correctamente */
     flex: 1 0 100%;
   }
 
