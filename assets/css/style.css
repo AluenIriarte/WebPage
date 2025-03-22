@@ -220,7 +220,7 @@ header .navbar ul li a:hover {
 .slide img {
   width: 100%;
   height: auto;
-  object-fit: cover;
+  object-fit: 1;
 }
 
 /* Prev and Next buttons */
