@@ -161,12 +161,11 @@ Alan<!DOCTYPE html>
     <div class="box">
       <div class="slider1">
         <div class="slides1">
-          <img src="./assets/images/projects/netflix titles/img1.jpg" alt="Imagen 1">
-          <img src="./assets/images/projects/netflix titles/img2.jpg" alt="Imagen 2">
-          <img src="./assets/images/projects/netflix titles/img3.jpg" alt="Imagen 3">
-          <img src="./assets/images/projects/netflix titles/img4.jpg" alt="Imagen 4">
+          <img src="./assets/images/projects/netflix titles/img1.jpg" onclick="openModal(this.src)" alt="Imagen 1">
+          <img src="./assets/images/projects/netflix titles/img2.jpg" onclick="openModal(this.src)" alt="Imagen 2">
+          <img src="./assets/images/projects/netflix titles/img3.jpg" onclick="openModal(this.src)" alt="Imagen 3">
+          <img src="./assets/images/projects/netflix titles/img4.jpg" onclick="openModal(this.src)" alt="Imagen 4">
         </div>
-        <!-- Botones de navegación -->
         <button class="prev" onclick="moveSlide1(-1)">&#10094;</button>
         <button class="next" onclick="moveSlide1(1)">&#10095;</button>
       </div>
@@ -178,7 +177,7 @@ Alan<!DOCTYPE html>
 
     <!-- Tercer Proyecto con Imagen Estática -->
     <div class="box">
-      <img src="./assets/images/projects/ExcelDashboard.png" alt="Excel Dashboard">
+      <img src="./assets/images/projects/ExcelDashboard.png" onclick="openModal(this.src)" alt="Excel Dashboard">
       <div class="content">
         <h3>Excel Dashboard</h3>
         <p>Dashboard visualizado en Excel.</p>
@@ -186,6 +185,12 @@ Alan<!DOCTYPE html>
     </div>
   </div>
 </section>
+
+<!-- Modal para ver imágenes en grande -->
+<div id="imageModal" class="modal" onclick="closeModal()">
+  <span class="close">&times;</span>
+  <img class="modal-content" id="modalImg">
+</div>
 
 <style>
   .box-container {
@@ -225,11 +230,11 @@ Alan<!DOCTYPE html>
     transition: transform 0.5s ease-in-out;
   }
 
-  .slides1 img {
+  .slides1 img, .box img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    flex: 1 0 100%;
+    cursor: pointer;
   }
 
   .prev, .next {
@@ -248,6 +253,39 @@ Alan<!DOCTYPE html>
   .prev { left: 5px; }
   .next { right: 5px; }
   .prev:hover, .next:hover { background: black; }
+
+  /* Estilos para el modal */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-content {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 10px;
+  }
+
+  .close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 35px;
+    color: white;
+    cursor: pointer;
+  }
+
+  .close:hover {
+    color: red;
+  }
 </style>
 
 <script>
@@ -266,6 +304,16 @@ Alan<!DOCTYPE html>
   }
 
   setInterval(() => moveSlide1(1), 3000);
+
+  // Modal para mostrar imágenes en grande
+  function openModal(src) {
+    document.getElementById("modalImg").src = src;
+    document.getElementById("imageModal").style.display = "flex";
+  }
+
+  function closeModal() {
+    document.getElementById("imageModal").style.display = "none";
+  }
 </script>
 <!-- Work Project Section Ends -->
 
