@@ -80,6 +80,12 @@ section {
   min-height: 100vh;
   padding: 2rem 9%;
 }
+
+@media only screen and (max-width: 600px) { section {
+  min-height: 50vh;
+  padding: 2rem 9%;
+}}
+
 .heading {
   font-size: 3.5rem;
   color: rgb(32, 32, 32);
@@ -194,6 +200,15 @@ header .navbar ul li a:hover {
   padding: 0; /* Asegura que no haya espacio adicional */
 }
 
+    @media only screen and (max-width: 600px) { .Slider {
+  position: relative;
+  width: 100%;
+  height: 50vh; /* O ajusta según tu preferencia */
+  overflow: hidden;
+  margin-top: 0; /* Asegura que el slider esté pegado a la parte superior */
+  padding: 0; /* Asegura que no haya espacio adicional */
+}}
+
 /* Slider container holds the slides */
 .slider-container {
   position: relative;
@@ -236,7 +251,17 @@ header .navbar ul li a:hover {
   z-index: 1;
 }
 
-  @media only screen and (max-width: 600px) { .prev, .next {  top: 25%;  }}
+  @media only screen and (max-width: 600px) { .prev, .next {
+  position: absolute;
+  top: 25%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1;
+}}
 
 /* Position the prev button to the left */
 .prev {
