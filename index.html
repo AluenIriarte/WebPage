@@ -62,20 +62,23 @@ Alan<!DOCTYPE html>
 <style>
 .slider-container {
     width: 100vw;
-    height: auto;
+    height: 100vh; /* Asegura que la altura sea la del viewport */
     overflow: hidden;
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .slides {
     display: flex;
     width: 100%;
-    height: auto;
+    height: 100%;
 }
 
 .slide {
     min-width: 100%;
-    height: auto;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -83,8 +86,8 @@ Alan<!DOCTYPE html>
 
 .slide img {
     width: 100%;
-    height: auto;
-    object-fit: contain;
+    height: 100%;
+    object-fit: cover; /* Ajusta la imagen sin dejar espacios en blanco */
 }
 </style>
 
