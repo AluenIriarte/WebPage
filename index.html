@@ -17,6 +17,7 @@ Alan<!DOCTYPE html>
 </head>
 <body oncontextmenu="return false">
 
+  
 <!-- pre loader -->
 <!-- <div class="loader-container">
   <img draggable="false" src="./assets/images/preloader.gif" alt="">
@@ -39,12 +40,22 @@ Alan<!DOCTYPE html>
 <!-- navbar ends -->
 
 
+ <!-- Slider starts-->
+ <div class="slider-container">
+  <div class="slides">
+      <div class="slide"><img src="./assets/images/banners/BannerImg1.png" alt="Slide 1"></div>
+      <div class="slide"><img src="./assets/images/banners/BannerImg2.png" alt="Slide 2"></div>
+      <div class="slide"><img src="./assets/images/banners/BannerImg3.png" alt="Slide 3"></div>
+  </div>
+  <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+  <button class="next" onclick="moveSlide(1)">&#10095;</button>
+</div>
+
+<!-- Slider ends-->
+
 
 <!-- hero section starts -->
  <section class="home" id="home">
-  
-
-     <div id="particles-js"></div>
  
      <div class="content">
      <h2>Automatización de procesos<br/>Alan <span>Pérez</span></h2>
@@ -62,7 +73,12 @@ Alan<!DOCTYPE html>
 
  </section>
  <!-- hero section ends -->
- 
+
+
+
+
+
+
 <!-- about section starts -->
 <section class="about" id="about">
   <h2 class="heading"><i class="fas fa-user-alt"></i> About <span>Me</span></h2>
@@ -220,6 +236,15 @@ Alan<!DOCTYPE html>
 </section>
 <!-- footer section ends -->
 
+<!-- WSP starts-->
+<!-- Botón de WhatsApp siempre visible -->
+<a href="https://wa.me/1137757663?text=Hola,%20me%20gustaría%20hacer%20una%20consulta!" target="_blank">
+    <button style="position: fixed; bottom: 20px; left: 20px; padding: 10px 20px; background-color: #25D366; color: white; border: none; border-radius: 5px; font-size: 16px; z-index: 9999;">
+        Contactame por WhatsApp
+    </button>
+</a>
+
+<!-- wsp ends-->
 
 <!-- scroll top btn -->
 <a href="#home" aria-label="ScrollTop" class="fas fa-angle-up" id="scroll-top"></a>
