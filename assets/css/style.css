@@ -1,5 +1,8 @@
+/* Cargar las fuentes desde Google Fonts */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&display=swap");
+
 
 * {
   margin: 0;
@@ -181,52 +184,69 @@ header .navbar ul li a:hover {
 
 
 /* Banner start */
+/* General slider container */
+.Slider {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* O ajusta según tu preferencia */
+  overflow: hidden;
+  margin-top: 0; /* Asegura que el slider esté pegado a la parte superior */
+  padding: 0; /* Asegura que no haya espacio adicional */
+}
+
+/* Slider container holds the slides */
 .slider-container {
   position: relative;
-  z-index: 10;
   width: 100%;
-  max-width: 1200px;
-  margin: auto;
-  overflow: hidden;
-  border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+/* Holds all the individual slides */
 .slides {
   display: flex;
-  transition: transform 0.5s ease-in-out;
+  transition: transform 0.5s ease-in-out; /* Esto hace que la transición sea suave */
 }
 
+/* Individual slide */
 .slide {
   min-width: 100%;
+  height: 100%;
 }
 
+/* For images to fit the slider container */
 .slide img {
   width: 100%;
   height: auto;
+  object-fit: cover;
 }
 
+/* Prev and Next buttons */
 .prev, .next {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   color: white;
   border: none;
   padding: 10px;
   cursor: pointer;
-  font-size: 24px;
-  border-radius: 5px;
+  z-index: 1;
 }
 
-.prev { left: 10px; }
-.next { right: 10px; }
-
-.prev:hover, .next:hover {
-  background: rgba(0, 0, 0, 0.8);
+/* Position the prev button to the left */
+.prev {
+  left: 20px;
 }
 
-/* Banner ends */
+/* Position the next button to the right */
+.next {
+  right: 20px;
+}
+
+
 
 /* hero section starts*/
 .home {
@@ -270,8 +290,9 @@ header .navbar ul li a:hover {
   font-weight: 800;
   color: #000000;
 }
+/* Estilos para el span dentro del h2 */
 .home .content h2 span {
-  font-size: 5rem;
+  font-size: 15rem;
   font-weight: 800;
   color: #ff7b00;
 }
@@ -505,15 +526,16 @@ header .navbar ul li a:hover {
 
 /* work section starts */
 .work {
-  /* background: #010124; */
-  background: linear-gradient(to bottom, #000031, #00002c);
+  background: linear-gradient(to bottom, #000000, #ffae00);
 }
+
 .work h2 {
   color: #fff;
   padding: 1rem;
 }
+
 .work .heading span {
-  color: rgb(255, 230, 0);
+  color: rgb(255, 174, 0);
 }
 
 .work .box-container {
@@ -524,7 +546,7 @@ header .navbar ul li a:hover {
   justify-content: center;
 }
 
-/* Ajustamos el tamaño de cada caja para que se adapte bien a los videos */
+/* Ajustamos el tamaño de cada caja para que se adapte bien a las imágenes */
 .work .box-container .box {
   flex: 1 1 350px;
   border-radius: 0.5rem;
@@ -539,11 +561,12 @@ header .navbar ul li a:hover {
   height: auto;
 }
 
-/* Aseguramos que los videos tengan un tamaño uniforme y de formato vertical */
-.work .box-container .box video {
-  width: 100%;
-  height: 600px; /* Ajustamos la altura para que los videos sean más altos */
-  object-fit: cover;
+/* Ajuste para que las imágenes se adapten bien y no sean gigantes */
+.work .box-container .box img {
+  width: 100%; /* Hace que las imágenes ocupen el ancho total del contenedor */
+  height: auto; /* Mantiene la proporción de las imágenes */
+  max-height: 400px; /* Establece una altura máxima para evitar que sean demasiado grandes */
+  object-fit: cover; /* Cubre el área del contenedor sin distorsionar la imagen */
   border-radius: 8px;
 }
 
@@ -566,7 +589,6 @@ header .navbar ul li a:hover {
   font-size: 1.4rem;
   color: #555;
 }
-
 
 /* Quitamos el efecto hover que movía la descripción */
 .work .box-container .box:hover .content {
@@ -611,6 +633,7 @@ header .navbar ul li a:hover {
 .work .viewall .btn:hover i {
   transform: translateX(5px);
 }
+
 
 
 /* experience section starts */
