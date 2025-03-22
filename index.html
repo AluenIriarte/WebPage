@@ -39,26 +39,61 @@ Alan<!DOCTYPE html>
 <!-- navbar ends -->
 
 
- <!-- Slider starts-->
- <div class="slider-container">
-  <div class="slides">
-      <div class="slide"><img src="./assets/images/banners/BannerImg1.png" alt="Slide 1"></div>
-      <div class="slide"><img src="./assets/images/banners/BannerImg2.png" alt="Slide 2"></div>
-      <div class="slide"><img src="./assets/images/banners/BannerImg3.png" alt="Slide 3"></div>
+<!-- Slider starts-->
+<section class="Slider" id="Slider">
+  <div class="slider-container">
+    <div class="slides">
+      <div class="slide">
+        <a href="https://wa.me/+5401137757663?text=Hola,%20me%20gustaría%20hacer%20una%20consulta!" target="_blank">
+          <img src="./assets/images/banners/BannerImg1.png" alt="Slide 1">
+        </a>
+      </div>
+      <div class="slide">
+        <a href="https://wa.me/+5401137757663?text=Hola,%20me%20gustaría%20hacer%20una%20consulta!" target="_blank">
+          <img src="./assets/images/banners/BannerImg2.png" alt="Slide 2">
+        </a>
+      </div>
+    </div>
+    <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+    <button class="next" onclick="moveSlide(1)">&#10095;</button>
   </div>
-  <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
-  <button class="next" onclick="moveSlide(1)">&#10095;</button>
-</div>
+</section>
 
-<!-- Slider ends-->
+  
+  <title>WhatsApp Banner</title>
+  <style>
+      .banner-container {
+          width: 100%;
+          max-width: 1200px;
+          margin: auto;
+          position: relative;
+      }
+      .banner-container img {
+          width: 100%;
+          height: auto;
+          display: block;
+      }
+      .banner-container a {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          display: block;
+          text-decoration: none;
+      }
+  </style>
+
+</head>
+<body>
 
 
 <!-- hero section starts -->
  <section class="home" id="home">
  
      <div class="content">
-     <h2>Automatización de procesos<br/>Alan <span>Pérez</span></h2>
-     <p>Cuento con experiencia en: <span class="typing-text"></span></p>
+     <h2>Transforma tus<br/><span>Procesos</span></h2>
+     <p><span class="typing-text"></span></p>
      <a href="#about" class="btn"><span>About Me</span>
        <i class="fas fa-arrow-circle-down"></i>
      </a>
@@ -72,7 +107,6 @@ Alan<!DOCTYPE html>
 
  </section>
  <!-- hero section ends -->
-
 
 
 
@@ -107,9 +141,10 @@ Alan<!DOCTYPE html>
 </section>
 <!-- Work Project Section Starts -->
 <section class="work" id="work">
-  <h2 class="heading"><i class="fas fa-laptop-code"></i> Projects <span>Made</span></h2>
+  <h2 class="heading"><i class="fas fa-laptop-code"></i> Mis <span>Proyectos</span></h2>
 
   <div class="box-container">
+    <!-- Primer Proyecto con Video -->
     <div class="box">
       <video class="video-preview" controls>
         <source src="./assets/Videos/RBaExcel.mp4" type="video/mp4">
@@ -121,44 +156,31 @@ Alan<!DOCTYPE html>
       </div>
     </div>
 
-    <div class="box">
-      <video class="video-preview" controls>
-        <source src="./assets/Videos/video2.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-      <div class="content">
-        <h3>Automating Tasks</h3>
-        <p>Automation Project.</p>
-      </div>
-    </div>
-
-    <div class="box">
-      <video class="video-preview" controls>
-        <source src="./assets/Videos/video3.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-      <div class="content">
-        <h3>Data Analysis</h3>
-        <p>Python & Pandas.</p>
-      </div>
-    </div>
-
-    <div class="box">
-      <video class="video-preview" controls>
-        <source src="./assets/Videos/video4.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-      <div class="content">
-        <h3>DashBoards</h3>
-        <p>Analyzing complex data.</p>
-      </div>
-    </div>
+<!-- Segundo Proyecto con Imágenes Estáticas -->
+<div class="box">
+  <div class="content">
+    <img src="./assets/images/projects/netflix titles/img1.jpg" alt="Imagen 1">
+    <img src="./assets/images/projects/netflix titles/img2.jpg" alt="Imagen 2">
+    <img src="./assets/images/projects/netflix titles/img3.jpg" alt="Imagen 3">
+    <img src="./assets/images/projects/netflix titles/img4.jpg" alt="Imagen 4">
   </div>
+  <div class="content">
+    <h3>Netflix Titles Dashboard</h3>
+    <p>Dashboard con análisis de títulos de Netflix.</p>
+  </div>
+</div>
 
-  
+<!-- Tercer Proyecto con Imagen Estática -->
+<div class="box">
+  <img src="./assets/images/projects/ExcelDashboard.png" alt="Excel Dashboard">
+  <div class="content">
+    <h3>Excel Dashboard</h3>
+    <p>Dashboard visualizado en Excel.</p>
+  </div>
+</div>
 </section>
+<!-- Work Project Section Ends -->
 
-<!-- work project section ends -->
 
 
 
@@ -170,7 +192,7 @@ Alan<!DOCTYPE html>
 
       <div class="box">
           <h3>¡Transforma tus procesos con automatización! 🚀</h3>
-          <p>No dudes en contactarme para explorar cómo puedo ayudarte a llevar tu negocio al siguiente nivel.<br/> <br/> ¡Conéctate conmigo a través del chat en vivo y comencemos!</p>
+          <p>No dudes en contactarme para explorar cómo puedo ayudarte a llevar tu negocio al siguiente nivel.<br/> 
       </div>
 
       <div class="box">
