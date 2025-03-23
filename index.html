@@ -158,184 +158,187 @@
 
   <div class="box-container1">
     <!-- Primer Proyecto con Video -->
-    <div class="box1">
-      <video class="video-preview" controls>
-        <source src="./assets/Videos/RBaExcel.mp4" type="video/mp4">
-        Tu navegador no soporta el video.
-      </video>
-      <div class="content">
-        <h3>RB a Excel</h3>
-        <p>RPA Example.</p>
-      </div>
-    </div>
+          <div class="box1">
+                <video class="video-preview" controls>
+                    <source src="./assets/Videos/RBaExcel.mp4" type="video/mp4">
+                    Tu navegador no soporta el video.
+                </video>
+                <div class="content">
+                    <h3>RB a Excel</h3>
+                    <p>RPA Example.</p>
+                </div>
+            </div>
 
-    <!-- Segundo Proyecto con Slider -->
-    <div class="box1">
-      <div class="slider1">
-        <div class="slides1">
-          <img src="./assets/images/projects/netflix titles/img1.jpg" onclick="openModal(this.src)" alt="Imagen 1">
-          <img src="./assets/images/projects/netflix titles/img2.jpg" onclick="openModal(this.src)" alt="Imagen 2">
-          <img src="./assets/images/projects/netflix titles/img3.jpg" onclick="openModal(this.src)" alt="Imagen 3">
-          <img src="./assets/images/projects/netflix titles/img4.jpg" onclick="openModal(this.src)" alt="Imagen 4">
+            <!-- Segundo Proyecto con Slider -->
+            <div class="box1">
+                <div class="slider1">
+                    <div class="slides1">
+                        <img src="./assets/images/projects/netflix%20titles/img1.jpg" onclick="openModal(this.src)" alt="Imagen 1">
+                        <img src="./assets/images/projects/netflix%20titles/img2.jpg" onclick="openModal(this.src)" alt="Imagen 2">
+                        <img src="./assets/images/projects/netflix%20titles/img3.jpg" onclick="openModal(this.src)" alt="Imagen 3">
+                        <img src="./assets/images/projects/netflix%20titles/img4.jpg" onclick="openModal(this.src)" alt="Imagen 4">
+                    </div>
+                    <button class="prev" onclick="moveSlide1(-1)">&#10094;</button>
+                    <button class="next" onclick="moveSlide1(1)">&#10095;</button>
+                </div>
+                <div class="content">
+                    <h3>Netflix Titles Dashboard</h3>
+                    <p>Dashboard con análisis de títulos de Netflix.</p>
+                </div>
+            </div>
+
+            <!-- Tercer Proyecto con Imagen Estática -->
+            <div class="box1">
+                <img src="./assets/images/projects/ExcelDashboard.png" onclick="openModal(this.src)" alt="Excel Dashboard">
+                <div class="content">
+                    <h3>Excel Dashboard</h3>
+                    <p>Dashboard visualizado en Excel.</p>
+                </div>
+            </div>
         </div>
-        <button class="prev" onclick="moveSlide1(-1)">&#10094;</button>
-        <button class="next" onclick="moveSlide1(1)">&#10095;</button>
-      </div>
-      <div class="content">
-        <h3>Netflix Titles Dashboard</h3>
-        <p>Dashboard con análisis de títulos de Netflix.</p>
-      </div>
-    </div>
+    </section>
 
-    <!-- Tercer Proyecto con Imagen Estática -->
-    <div class="box1">
-      <img src="./assets/images/projects/ExcelDashboard.png" onclick="openModal(this.src)" alt="Excel Dashboard">
-      <div class="content">
-        <h3>Excel Dashboard</h3>
-        <p>Dashboard visualizado en Excel.</p>
-      </div>
+    <!-- Modal para ver imágenes en grande -->
+    <div id="imageModal" class="modal" onclick="closeModal()">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImg">
     </div>
-  </div>
-</section>
-
-<!-- Modal para ver imágenes en grande -->
-<div id="imageModal" class="modal" onclick="closeModal()">
-  <span class="close">&times;</span>
-  <img class="modal-content" id="modalImg">
-</div>
 
 <style>
-.box-container1 {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  flex-wrap: wrap;
-  align-items: stretch; /* Hace que todas las tarjetas tengan la misma altura */
-}
+        .box-container1 {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            align-items: stretch;
+        }
 
-  .box1 {
-  background: white;
-  padding: 15px;
-  border-radius: 10px;
-  text-align: center;
-  width: 300px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; /* Distribuye el contenido */
-  height: 100%; /* Hace que todas sean iguales */
-}
+        .box1 {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
 
-.box1 img, .box1 video {
-  width: 100%;
-  height: 200px; /* Ajusta la altura para que sea uniforme */
-  object-fit: cover; /* Evita que haya espacios en blanco */
-  border-radius: 10px;
-}
+        .box1 img, .box1 video {
+            width: 100%;
+            height: 350px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
 
-.content {
-  flex-grow: 1; /* Expande la descripción para ocupar espacio */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+        .content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
 
-.slider1 {
-  position: relative;
-  width: 100%;
-  height: 200px;
-  overflow: hidden;
-  border-radius: 10px;
-}
+        .slider1 {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 10px;
+        }
 
-    .slides1 {
-      display: flex;
-      transition: transform 0.5s ease-in-out;
+        .slides1 {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
 
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        cursor: pointer;
-      }
-    }
+        .slides1 img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            cursor: pointer;
+        }
 
-    .prev, .next {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(0, 0, 0, 0.5);
-      color: white;
-      border: none;
-      cursor: pointer;
-      padding: 5px;
-      font-size: 18px;
-      border-radius: 50%;
-    }
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            font-size: 18px;
+            border-radius: 50%;
+        }
 
-    .prev { left: 5px; }
-    .next { right: 5px; }
-    .prev:hover, .next:hover { background: black; }
-  }
-}
+        .prev { left: 5px; }
+        .next { right: 5px; }
+        .prev:hover, .next:hover { background: black; }
 
-/* Estilos para el modal */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  justify-content: center;
-  align-items: center;
+        /* Estilos para el modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-  .modal-content {
-    max-width: 90%;
-    max-height: 90%;
-    border-radius: 10px;
-  }
+        .modal-content {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 10px;
+        }
 
-  .close {
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    font-size: 35px;
-    color: white;
-    cursor: pointer;
-  }
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 35px;
+            color: white;
+            cursor: pointer;
+        }
 
-  .close:hover {
-    color: red;
-  }
-}
+        .close:hover {
+            color: red;
+        }
 </style>
 
 <script>
- let index1 = 0;
+        let index1 = 0;
 
-function moveSlide1(step) {
-  const slides = document.querySelector(".slides1");
-  const totalSlides = document.querySelectorAll(".slides1 img").length;
-  
-  index1 += step;
-  if (index1 < 0) index1 = totalSlides - 1;
-  if (index1 >= totalSlides) index1 = 0;
+        function moveSlide1(step) {
+            const slides = document.querySelector(".slides1");
+            const totalSlides = document.querySelectorAll(".slides1 img").length;
 
-  slides.style.transform = `translateX(-${index1 * 100}%)`;
-}
+            index1 += step;
+            if (index1 < 0) index1 = totalSlides - 1;
+            if (index1 >= totalSlides) index1 = 0;
 
-// Modal para mostrar imágenes en grande
-function openModal(src) {
-  document.getElementById("modalImg").src = src;
-  document.getElementById("imageModal").style.display = "flex";
-}
+            slides.style.transform = `translateX(-${index1 * 100}%)`;
+        }
 
-function closeModal() {
-  document.getElementById("imageModal").style.display = "none";
-}
+        // Modal para mostrar imágenes en grande
+        function openModal(src) {
+            let modal = document.getElementById("imageModal");
+            let modalImg = document.getElementById("modalImg");
+
+            modal.style.display = "flex"; // Muestra el modal
+            modalImg.src = src;
+        }
+
+        function closeModal() {
+            document.getElementById("imageModal").style.display = "none";
+        }
 </script>
 <!-- Work Project Section Ends -->
 
