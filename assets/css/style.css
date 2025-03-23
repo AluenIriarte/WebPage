@@ -98,7 +98,7 @@ section {
 }
 
 @media only screen and (max-width: 600px) { section {
-  min-height: 50vh;
+  min-height: 40vh;
   padding: 2rem 9%;
 }}
 
@@ -219,7 +219,7 @@ header .navbar ul li a:hover {
     @media only screen and (max-width: 600px) { .Slider {
   position: relative;
   width: 100%;
-  height: 50vh; /* O ajusta según tu preferencia */
+  height: 40vh; /* O ajusta según tu preferencia */
   overflow: hidden;
   margin-top: 0; /* Asegura que el slider esté pegado a la parte superior */
   padding: 0; /* Asegura que no haya espacio adicional */
