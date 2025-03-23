@@ -268,13 +268,43 @@
             color: white;
             border: none;
             cursor: pointer;
-            padding: 20px;
-            font-size: 20px;
+            padding: 13px;
+            font-size: 15px;
             border-radius: 100%;
         }
 
+		   .prev1, .next1 {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 13px;
+            font-size: 15px;
+            border-radius: 50%;
+        }
+		
+		 @media only screen and (max-width: 600px) {  .prev1, .next1 {
+            position: absolute;
+            top: 25%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 13px;
+            font-size: 15px;
+            border-radius: 100%;
+        }}
+
         .prev { left: 5px; }
         .next { right: 5px; }
+        .prev:hover, .next:hover { background: black; }
+		
+		.prev1 { left: 5px; }
+        .next1 { right: 5px; }
         .prev:hover, .next:hover { background: black; }
 
         /* Estilos para el modal */
