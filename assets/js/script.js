@@ -60,11 +60,11 @@ document.addEventListener('visibilitychange',
     function () {
         if (document.visibilityState === "visible") {
             document.title = "Automations | Alan L. Perez";
-            $("#favicon").attr("href", "assets/images/favicon.png");
+            $("#favicon").attr("href", "assets/images/automation.png");
         }
         else {
             document.title = "Automations | Alan L. Perez";
-            $("#favicon").attr("href", "assets/images/favhand.png");
+            $("#favicon").attr("href", "assets/images/automation.png");
         }
     });
 
