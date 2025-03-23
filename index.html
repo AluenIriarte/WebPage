@@ -169,8 +169,19 @@
                 </div>
             </div>
 
-            <!-- Segundo Proyecto con Slider -->
+            <!-- Tercer Proyecto con Imagen Estática -->
             <div class="box1">
+                <img src="./assets/images/projects/ExcelDashboard.png" onclick="openModal(this.src)" alt="Excel Dashboard">
+                <div class="content">
+                    <h3>Excel Dashboard</h3>
+                    <p>Dashboard visualizado en Excel.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+	 <!-- Segundo Proyecto con Slider -->
+            <div class="box2">
                 <div class="slider1">
                     <div class="slides1">
                         <img src="./assets/images/projects/netflix%20titles/img1.jpg" onclick="openModal(this.src)" alt="Imagen 1">
@@ -186,17 +197,6 @@
                     <p>Dashboard con análisis de títulos de Netflix.</p>
                 </div>
             </div>
-
-            <!-- Tercer Proyecto con Imagen Estática -->
-            <div class="box1">
-                <img src="./assets/images/projects/ExcelDashboard.png" onclick="openModal(this.src)" alt="Excel Dashboard">
-                <div class="content">
-                    <h3>Excel Dashboard</h3>
-                    <p>Dashboard visualizado en Excel.</p>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Modal para ver imágenes en grande -->
     <div id="imageModal" class="modal" onclick="closeModal()">
@@ -214,6 +214,19 @@
         }
 
         .box1 {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+	        .box2 {
             background: white;
             padding: 15px;
             border-radius: 10px;
