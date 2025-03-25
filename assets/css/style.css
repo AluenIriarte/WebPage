@@ -209,19 +209,17 @@ header .navbar ul li a:hover {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 15px;
   box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.2); /* Sombra más notable con mayor difuminado */
-  padding: 5px;
-  max-width: 70%;
+  padding: 10px; /* Ajuste de padding para más espacio en móvil */
+  max-width: 90%; /* Aumentar el ancho máximo en móvil */
   margin: auto;
   text-align: center;
   border: none;
 }
 
-
-
 /* Imagen */
 .image-container-vs .vs-image {
   width: 100%;
-  max-width: 800px;
+  max-width: 100%; /* Hacer que la imagen ocupe todo el espacio disponible */
   height: auto;
   border-radius: 1px;
 }
@@ -229,19 +227,19 @@ header .navbar ul li a:hover {
 /* Título encima de la imagen */
 .vs-example-title {
   text-align: center;
-  font-size: 3.8rem; /* Un poco más pequeño */
-  font-weight: 600; /* Menos pesado */
+  font-size: 2.5rem; /* Ajuste de tamaño de fuente para mejor visibilidad */
+  font-weight: 600;
   margin-bottom: 15px;
-  color: #333; /* Un tono más oscuro para menos contraste agresivo */
-  font-family: 'Poppins', sans-serif; /* Fuente más moderna y limpia */
+  color: #333;
+  font-family: 'Poppins', sans-serif;
   letter-spacing: 1px;
-  text-shadow: none; /* Sin sombra para que se vea más limpio */
+  text-shadow: none;
 }
 
 /* Subtítulo dentro del marco de la imagen */
 .vs-image-subtitle {
   text-align: center;
-  font-size: 2.3rem;
+  font-size: 1.8rem; /* Ajuste de tamaño de fuente */
   font-weight: 500;
   margin-bottom: 10px;
   color: #444;
@@ -257,16 +255,16 @@ header .navbar ul li a:hover {
 @media (max-width: 768px) {
   .image-container-vs {
     padding: 15px;
-    border-width: 2px;
+    max-width: 85%; /* Mejor ancho en pantallas más pequeñas */
   }
 
   .vs-example-title {
-    font-size: 1.6rem;
+    font-size: 1.8rem; /* Ajuste de tamaño de fuente */
     letter-spacing: 0.8px;
   }
 
   .vs-image-subtitle {
-    font-size: 1.1rem;
+    font-size: 1.3rem; /* Aumentar un poco el tamaño en móvil */
   }
 
   .image-container-vs .vs-image {
@@ -277,12 +275,16 @@ header .navbar ul li a:hover {
 /* Media queries para teléfonos pequeños */
 @media (max-width: 480px) {
   .vs-example-title {
-    font-size: 1.4rem;
+    font-size: 1.5rem; /* Reducir un poco el tamaño para mejorar legibilidad */
     letter-spacing: 0.5px;
   }
 
   .vs-image-subtitle {
-    font-size: 1rem;
+    font-size: 1.2rem; /* Aumentar el tamaño para mayor visibilidad */
+  }
+
+  .image-container-vs {
+    padding: 20px; /* Más espacio en los bordes */
   }
 }
 
