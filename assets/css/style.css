@@ -204,7 +204,7 @@ header .navbar ul li a:hover {
 }
 /* hamburger icon ends */
 
-/* seccion vs */
+/* Sección vs */
 .image-container-vs {
   background: white; /* Fondo del marco */
   border-radius: 15px; /* Bordes redondeados */
@@ -239,7 +239,37 @@ header .navbar ul li a:hover {
   margin-bottom: 10px;
   color: #555;
 }
-/* seccion vs */
+
+/* Media queries para dispositivos móviles */
+@media (max-width: 768px) {
+  .image-container-vs {
+    padding: 15px; /* Menor padding en pantallas pequeñas */
+  }
+
+  .vs-example-title {
+    font-size: 1.2rem; /* Reducir tamaño del título en pantallas pequeñas */
+  }
+
+  .vs-image-subtitle {
+    font-size: 1rem; /* Reducir tamaño del subtítulo en pantallas pequeñas */
+  }
+
+  .image-container-vs .vs-image {
+    max-width: 100%; /* La imagen ocupa todo el ancho en pantallas pequeñas */
+  }
+}
+
+/* Media queries para dispositivos muy pequeños (ejemplo: teléfonos pequeños) */
+@media (max-width: 480px) {
+  .vs-example-title {
+    font-size: 1rem; /* Ajustar aún más el tamaño del título */
+  }
+
+  .vs-image-subtitle {
+    font-size: 0.9rem; /* Ajustar el tamaño del subtítulo */
+  }
+}
+
 
 
 /* Banner start */
