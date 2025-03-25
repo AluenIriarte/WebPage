@@ -99,7 +99,7 @@ section {
 
 @media only screen and (max-width: 600px) { section {
   min-height: 40vh;
-  padding: 2rem 9%;
+  padding: 2rem 2%;
 }}
 
 .heading {
@@ -246,7 +246,7 @@ header .navbar ul li a:hover {
 }
 
 /* Resaltar palabras clave en naranja sin ser demasiado brillante */
-.highlighted-text {
+.vs .heading span {
   color: #e67e22; /* Naranja más cálido y menos saturado */
   font-weight: bold;
 }
@@ -254,8 +254,8 @@ header .navbar ul li a:hover {
 /* Media queries para dispositivos móviles */
 @media (max-width: 768px) {
   .image-container-vs {
-    padding: 15px;
-    max-width: 85%; /* Mejor ancho en pantallas más pequeñas */
+    padding: 5px;
+    max-width: 100%; /* Mejor ancho en pantallas más pequeñas */
   }
 
   .vs-example-title {
@@ -264,7 +264,7 @@ header .navbar ul li a:hover {
   }
 
   .vs-image-subtitle {
-    font-size: 1.3rem; /* Aumentar un poco el tamaño en móvil */
+    font-size: 2.2rem; /* Aumentar un poco el tamaño en móvil */
   }
 
   .image-container-vs .vs-image {
