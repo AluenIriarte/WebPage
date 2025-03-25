@@ -206,22 +206,41 @@ header .navbar ul li a:hover {
 
 /* seccion vs */
 .image-container-vs {
-    background: white; /* Fondo del marco */
-    border-radius: 15px; /* Bordes redondeados */
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    padding: 20px; /* Espaciado interno */
-    max-width: 90%; /* Ajusta el ancho del contenedor */
-    margin: auto; /* Centrar */
-    text-align: center; /* Centrar el contenido */
+  background: white; /* Fondo del marco */
+  border-radius: 15px; /* Bordes redondeados */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  padding: 20px; /* Espaciado interno */
+  max-width: 90%; /* Ajusta el ancho del contenedor */
+  margin: auto; /* Centrar */
+  text-align: center; /* Centrar el contenido */
 }
 
 .image-container-vs .vs-image {
-    width: 100%; /* La imagen ocupa el 100% del contenedor */
-    max-width: 800px; /* Limita el tamaño máximo */
-    height: auto;
-    border-radius: 10px; /* Bordes redondeados opcionales */
+  width: 100%; /* La imagen ocupa el 100% del contenedor */
+  max-width: 800px; /* Limita el tamaño máximo */
+  height: auto;
+  border-radius: 10px; /* Bordes redondeados opcionales */
+}
+
+/* Título encima de la imagen */
+.vs-example-title {
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+/* Subtítulo dentro del marco de la imagen */
+.vs-image-subtitle {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #555;
 }
 /* seccion vs */
+
 
 /* Banner start */
 /* General slider container */
