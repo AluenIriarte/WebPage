@@ -206,75 +206,87 @@ header .navbar ul li a:hover {
 
 /* Sección vs */
 .image-container-vs {
-  background: white; /* Fondo del marco */
-  border-radius: 15px; /* Bordes redondeados */
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
-  padding: 20px; /* Espaciado interno */
-  max-width: 90%; /* Ajusta el ancho del contenedor */
-  margin: auto; /* Centrar */
-  text-align: center; /* Centrar el contenido */
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.2); /* Sombra más notable con mayor difuminado */
+  padding: 5px;
+  max-width: 90%;
+  margin: auto;
+  text-align: center;
+  border: none;
 }
 
+
+
+/* Imagen */
 .image-container-vs .vs-image {
-  width: 100%; /* La imagen ocupa el 100% del contenedor */
-  max-width: 800px; /* Limita el tamaño máximo */
+  width: 100%;
+  max-width: 800px;
   height: auto;
-  border-radius: 10px; /* Bordes redondeados opcionales */
+  border-radius: 10px;
 }
 
 /* Título encima de la imagen */
 .vs-example-title {
   text-align: center;
-  font-size: 1.4rem;
-  font-weight: bold;
-  margin-bottom: 20px; /* Espacio adicional entre el título y la imagen */
-  color: #333;
-  font-family: 'Impact', sans-serif; /* Aplica la tipografía Impact */
+  font-size: 3.8rem; /* Un poco más pequeño */
+  font-weight: 600; /* Menos pesado */
+  margin-bottom: 15px;
+  color: #333; /* Un tono más oscuro para menos contraste agresivo */
+  font-family: 'Poppins', sans-serif; /* Fuente más moderna y limpia */
+  letter-spacing: 1px;
+  text-shadow: none; /* Sin sombra para que se vea más limpio */
 }
 
 /* Subtítulo dentro del marco de la imagen */
 .vs-image-subtitle {
   text-align: center;
-  font-size: 1.2rem;
-  font-weight: bold;
+  font-size: 1.3rem;
+  font-weight: 500;
   margin-bottom: 10px;
-  color: #555;
+  color: #444;
 }
 
-/* Estilo para la palabra "Transforma" en naranja */
+/* Resaltar palabras clave en naranja sin ser demasiado brillante */
 .highlighted-text {
-  color: orange;
+  color: #e67e22; /* Naranja más cálido y menos saturado */
+  font-weight: bold;
 }
 
 /* Media queries para dispositivos móviles */
 @media (max-width: 768px) {
   .image-container-vs {
-    padding: 15px; /* Menor padding en pantallas pequeñas */
+    padding: 15px;
+    border-width: 2px;
   }
 
   .vs-example-title {
-    font-size: 1.2rem; /* Reducir tamaño del título en pantallas pequeñas */
+    font-size: 1.6rem;
+    letter-spacing: 0.8px;
   }
 
   .vs-image-subtitle {
-    font-size: 1rem; /* Reducir tamaño del subtítulo en pantallas pequeñas */
+    font-size: 1.1rem;
   }
 
   .image-container-vs .vs-image {
-    max-width: 100%; /* La imagen ocupa todo el ancho en pantallas pequeñas */
+    max-width: 100%;
   }
 }
 
-/* Media queries para dispositivos muy pequeños (ejemplo: teléfonos pequeños) */
+/* Media queries para teléfonos pequeños */
 @media (max-width: 480px) {
   .vs-example-title {
-    font-size: 1rem; /* Ajustar aún más el tamaño del título */
+    font-size: 1.4rem;
+    letter-spacing: 0.5px;
   }
 
   .vs-image-subtitle {
-    font-size: 0.9rem; /* Ajustar el tamaño del subtítulo */
+    font-size: 1rem;
   }
 }
+
+
 
 
 
