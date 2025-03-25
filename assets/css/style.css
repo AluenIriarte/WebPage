@@ -1230,4 +1230,17 @@ form .button-area {
 #scroll-top.active {
   top: calc(100% - 12rem);
 }
+
+/* Por defecto, en PC todo en una sola línea */
+.mobile-break {
+    display: inline;
+}
+
+/* En móviles, se mueve "Tu negocio" a la segunda línea */
+@media (max-width: 768px) {
+    .mobile-break {
+        display: block; /* Hace que el texto pase a la siguiente línea */
+    }
+}
+
 /* scroll top ends */
