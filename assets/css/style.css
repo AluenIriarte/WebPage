@@ -204,6 +204,24 @@ header .navbar ul li a:hover {
 }
 /* hamburger icon ends */
 
+/* seccion vs */
+.image-container-vs {
+    background: white; /* Fondo del marco */
+    border-radius: 15px; /* Bordes redondeados */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    padding: 20px; /* Espaciado interno */
+    max-width: 90%; /* Ajusta el ancho del contenedor */
+    margin: auto; /* Centrar */
+    text-align: center; /* Centrar el contenido */
+}
+
+.image-container-vs .vs-image {
+    width: 100%; /* La imagen ocupa el 100% del contenedor */
+    max-width: 800px; /* Limita el tamaño máximo */
+    height: auto;
+    border-radius: 10px; /* Bordes redondeados opcionales */
+}
+/* seccion vs */
 
 /* Banner start */
 /* General slider container */
