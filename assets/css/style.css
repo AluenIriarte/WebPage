@@ -156,7 +156,7 @@ header .navbar ul li a:hover {
   color: white;
   border: none;
   border-radius: 5px;
-  font-size: 46px;  /* Tamaño grande para escritorio */
+  font-size: 26px;  /* Tamaño grande para escritorio */
   z-index: 9999;
   display: flex;
   align-items: center;
