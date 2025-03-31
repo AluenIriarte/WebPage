@@ -938,6 +938,47 @@ header .navbar ul li a:hover {
 /* experience section ends */
 
 
+#whatsapp-button {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  padding: 10px 20px;
+  background-color: #25D366;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 46px;  /* Tamaño grande para escritorio */
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* Estilos generales del ícono */
+#whatsapp-icon {
+  width: 60px; 
+  height: 60px;
+  margin-left: 10px;
+}
+
+/* Ajustes para pantallas de menos de 768px (celulares) */
+@media (max-width: 768px) {
+  #whatsapp-button {
+    font-size: 14px; /* Reducimos el tamaño del texto */
+    padding: 8px 15px; /* Hacemos el botón un poco más compacto */
+    bottom: 15px; /* Ajustamos la posición para que no tape elementos */
+    left: 15px;
+  }
+
+  #whatsapp-icon {
+    width: 20px; /* Reducimos el tamaño del ícono */
+    height: 20px;
+    margin-left: 8px;
+  }
+}
+
+
+
 /* contact section starts */
 .contact {
   background: #e5ecfb;
