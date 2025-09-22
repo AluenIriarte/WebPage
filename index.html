@@ -21,28 +21,7 @@
   <meta property="og:type" content="website"/>
   <meta property="og:url" content="https://tusitio.com"/> <!-- Cambiá por tu dominio -->
 
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { inter: ['Inter','ui-sans-serif','system-ui'] },
-          colors: {
-            brand: {
-              bg: '#0B1220',
-              card: '#0F172A',
-              blue: '#2563EB',
-              cyan: '#22D3EE',
-              mint: '#10B981',
-              slate: '#94A3B8',
-              line: '#1F2A44'
-            }
-          }
-        }
-      }
-    }
-  </script>
+
 
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -139,34 +118,40 @@
   </main>
 
   <!-- Chart.js Script -->
+  
   <script>
-    const ctx = document.getElementById('myChart').getContext('2d');
-    const myChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Idea 1', 'Idea 2', 'Idea 3', 'Idea 4'],
-        datasets: [{
-          label: 'Valor Generado ($)',
-          data: [12000, 15000, 8000, 20000],
-          backgroundColor: 'rgba(37,99,235,0.7)',
-          borderColor: 'rgba(37,99,235,1)',
-          borderWidth: 1,
-          borderRadius: 6
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: { labels: { color: '#94A3B8' } },
-          tooltip: { mode: 'index', intersect: false }
+    document.addEventListener("DOMContentLoaded", function() {
+      const ctx = document.getElementById('myChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Idea 1', 'Idea 2', 'Idea 3', 'Idea 4'],
+          datasets: [{
+            label: 'Valor Generado ($)',
+            data: [12000, 15000, 8000, 20000],
+            backgroundColor: 'rgba(37,99,235,0.7)',
+            borderColor: 'rgba(37,99,235,1)',
+            borderWidth: 1,
+            borderRadius: 6
+          }]
         },
-        scales: {
-          x: { ticks: { color: '#94A3B8' }, grid: { color: 'rgba(37,99,235,0.1)' } },
-          y: { ticks: { color: '#94A3B8' }, grid: { color: 'rgba(37,99,235,0.1)' }, beginAtZero: true }
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { labels: { color: '#94A3B8' } },
+            tooltip: { mode: 'index', intersect: false }
+          },
+          scales: {
+            x: { ticks: { color: '#94A3B8' }, grid: { color: 'rgba(37,99,235,0.1)' } },
+            y: { ticks: { color: '#94A3B8' }, grid: { color: 'rgba(37,99,235,0.1)' }, beginAtZero: true }
+          }
         }
-      }
+      });
     });
   </script>
+</body>
+</html>
+
 
   <main id="inicio" class="max-w-7xl mx-auto px-5">
     <!-- Hero -->
@@ -698,6 +683,7 @@
   </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98331e8f94c0b50e',t:'MTc1ODU1NzkxOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
+
 
 
 
