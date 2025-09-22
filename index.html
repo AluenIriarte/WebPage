@@ -1,497 +1,635 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="keywords" content="Alan Pérez, Servicio de automatización, automatización de procesos" />
-  <meta name="description" content="Bienvenido a mi página. Servicios de automatización para optimizar tu negocio." />
-  
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="./assets/css/style.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Favicon -->
-    <link id='favicon' rel="shortcut icon" href="./assets/images/automation.png" type="image/x-png">
-    <title>Automations | Alan L. Pérez</title>
-</head>
-<body oncontextmenu="return false">
-
-  
-<!-- pre loader -->
-<!-- <div class="loader-container">
-  <img draggable="false" src="./assets/images/preloader.gif" alt="">
-</div> -->
-
-<!-- navbar starts -->
-<header>
-        <a href="https://alueniriarte.github.io/WebPage" class="logo"></i> Alan L </a>
-
-        <div id="menu" class="fas fa-bars"></div>
-        <nav class="navbar">
-            <ul>
-            <li><a class="active" href="#Slider">Inicio</a></li>
-            <li><a href="#about">Quien soy?</a></li>
-            <li><a href="#work">Servicios</a></li>
-            </ul>
-        </nav>
-</header>
-<!-- navbar ends -->
-
-
-<!-- Slider starts-->
-<section class="Slider" id="Slider">
-  <div class="slider-container">
-    <div class="slides">
-      <div class="slide">
-        <a href="https://wa.me/+5401137757663?text=Hola,%20me%20gustaría%20hacer%20una%20consulta!" target="_blank">
-          <img src="./assets/images/Banners/BannerImg1.png" alt="Slide 1">
-        </a>
-      </div>
-      <div class="slide">
-        <a href="https://wa.me/+5401137757663?text=Hola,%20me%20gustaría%20hacer%20una%20consulta!" target="_blank">
-          <img src="./assets/images/Banners/BannerImg2.png" alt="Slide 2">
-        </a>
-      </div>
-    </div>
-    <button class="prev1" onclick="moveSlide(-1)">&#10094;</button>
-    <button class="next1" onclick="moveSlide(1)">&#10095;</button>
-  </div>
-</section>
-
-<style>
-.slider-container {
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .slides {
-    display: flex;
-    width: 100%;
-    height: 100%;
-  }
-
-  .slide {
-    min-width: 100%;
-    height: 100%;
-  }
-
-  .slide img {
-    width: 100%;
-    height: 100%;
-  }
-
-    @media only screen and (max-width: 600px) { .slide img {  width: 100%;   height: 30%;  }}
-</style>
-
-
-  
-  <title>WhatsApp Banner</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>AlanLPerez — Automation & Process Improvement Lead</title>
+  <meta name="description" content="Marca personal de AlanLPerez — Automation & Process Improvement Lead. Automatización, eficiencia operativa, Power BI y SLAs."/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { inter: ['Inter','ui-sans-serif','system-ui'] },
+          colors: {
+            brand: {
+              bg: '#0B1220',
+              card: '#0F172A',
+              blue: '#2563EB',
+              cyan: '#22D3EE',
+              mint: '#10B981',
+              slate: '#94A3B8',
+              line: '#1F2A44'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
-      .banner-container {
-          width: 100%;
-          max-width: 1200px;
-          margin: auto;
-          position: relative;
-      }
-      .banner-container img {
-          width: 100%;
-          height: auto;
-          display: block;
-      }
-      .banner-container a {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          display: block;
-          text-decoration: none;
-      }
+    :root { color-scheme: dark; }
+    body{
+      background:
+        radial-gradient(1100px 600px at 80% -10%, rgba(37,99,235,.25), transparent 40%),
+        linear-gradient(180deg, #0B1220, #0E1629);
+    }
+    .grid-overlay{
+      pointer-events:none; position:fixed; inset:0; z-index:-1;
+      background-image:
+        linear-gradient(transparent 95%, rgba(37,99,235,.08) 96%, transparent 100%),
+        linear-gradient(90deg, transparent 95%, rgba(34,211,238,.08) 96%, transparent 100%);
+      background-size: 22px 22px, 22px 22px;
+      mask-image: radial-gradient(circle at 50% 8%, rgba(0,0,0,.4), transparent 70%);
+    }
+    .glass { background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); border: 1px solid rgba(255,255,255,.08); backdrop-filter: blur(8px); }
+    .card { background: rgba(15,23,42,.85); border: 1px solid rgba(255,255,255,.08); }
+    .hover-float { transition: transform .18s ease, box-shadow .25s ease, background .25s ease; }
+    .hover-float:hover { transform: translateY(-4px); box-shadow: 0 14px 34px rgba(0,0,0,.35), 0 0 0 1px rgba(34,211,238,.15) inset; }
+    .btn { transition: transform .15s ease, box-shadow .2s ease; }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(37,99,235,.35); }
+    .section-title { letter-spacing:.2px; }
+    .tag { border-radius:999px; font-size:.72rem; padding:.2rem .55rem; font-weight:700; }
+    .link-ux { position:relative; }
+    .link-ux::after { content:""; position:absolute; left:0; bottom:-2px; width:0; height:2px; background:#22D3EE; transition:width .2s ease; }
+    .link-ux:hover::after { width:100%; }
+    .modal-backdrop { background: rgba(2,6,23,.6); backdrop-filter: blur(2px); }
+    .field { background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.12); }
   </style>
-
 </head>
-<body>
+<body class="font-inter text-slate-100 antialiased">
+  <div class="grid-overlay"></div>
 
-
-<!-- hero section starts -->
-
- <!-- hero section ends -->
-
-<!-- Manual vs automatico starts -->
-<section class="vs" id="vs">
-  <h2 class="heading"><i class="fas fa-chart-line"></i><span> Transforma </span><div class="mobile-break"> Tu negocio</div></h2>
-  <h1 class="vs-image-subtitle">Ej: Generación de Reportes</h1>
-
-  <div class="image-container-vs">
-    <img src="./assets/images/projects/vs.png" alt="Automatización de reportes" class="vs-image">
-  </div>
-</section>
-<!-- Manual vs automatico ends -->
-	
-<!-- about section starts -->
-<section class="about" id="about">
-  <h2 class="heading"><i class="fas fa-user-alt"></i> Sobre <span>Mi</span></h2>
-  
-<div class="row">
-  <div class="image">
-    <img draggable="false" class="tilt" src="./assets/images/profile2.jfif" alt="Foto de Alan, especialista en automatización">
-  </div>
-  <div class="content">
-    <h3>¡Hola! Soy Alan</h3>
-    <span class="tag">Me dedico a la automatización de procesos.</span>
-
-    <p>💡 <strong>Transformar con tecnología, potenciar con humanidad</strong></p>
-    <p>Creo que la clave de la automatización no es solo optimizar procesos, sino comprender a las personas detrás de ellos. Cada solución debe adaptarse a los recursos y necesidades de cada equipo, permitiendo flexibilidad y un impacto real en su trabajo diario. La tecnología me permite optimizar procesos, reducir errores y acelerar resultados. Pero el verdadero cambio ocurre cuando liberamos tiempo para lo que nos hace humanos: el análisis, la creatividad y el criterio humano.</p>
-
-    <p>📌 <strong>3+ años impulsando eficiencia y resultados</strong></p>
-    <p>He ayudado a empresas a reducir hasta un 50% su tiempo en tareas repetitivas, logrando procesos más ágiles y equipos más productivos.</p>
-
-    <p>Si quieres optimizar tu operación y enfocarte en el impacto real, escríbeme y hablemos. 🚀</p>
-    
-    <p>
-      <span> ✉️ </span> <a href="mailto:alanlperez1996@gmail.com" class="email-link">alanlperez1996@gmail.com</a>
-    </p>
-    
-    <p>
-      <span> 📱 </span> <a href="https://wa.me/+5401137757663?text=Hola,%20me%20gustaría%20hacer%20una%20consulta!" target="_blank" class="whatsapp-link">Contáctame por WhatsApp</a>
-    </p>
-  </div>
-</div>
-</section>
-
-<!-- Work Project Section Starts -->
-
-<section class="work" id="work">
-  <h2 class="heading"><i class="fas fa-laptop-code"></i> Mis <span>Proyectos</span></h2>
-
-  <div class="box-container1">
-    <!-- Primer Proyecto con Video -->
- <div class="box3">
-                <video class="video-preview" controls>
-                    <source src="./assets/Videos/RBaExcel.mp4" type="video/mp4">
-                    Tu navegador no soporta el video.
-                </video>
-                <div class="content">
-                    <h3>RB a Excel</h3>
-                    <p>RPA Example.</p>
-                </div>
-            </div>
-
-            <!-- Segundo Proyecto con Imagen Estática -->
-            <div class="box1">
-                <img src="./assets/images/projects/ExcelDashboard.png" onclick="openModal(this.src)" alt="Excel Dashboard">
-                <div class="content">
-                    <h3>Excel Dashboard</h3>
-                    <p>Dashboard visualizado en Excel.</p>
-                </div>
-            </div>
-
-	  	 <!-- Tercero Proyecto con Slider -->
-            <div class="box2">
-                <div class="slider1">
-                    <div class="slides1">
-                        <img src="./assets/images/projects/netflix%20titles/img1.jpg" onclick="openModal(this.src)" alt="Imagen 1">
-                        <img src="./assets/images/projects/netflix%20titles/img2.jpg" onclick="openModal(this.src)" alt="Imagen 2">
-                        <img src="./assets/images/projects/netflix%20titles/img3.jpg" onclick="openModal(this.src)" alt="Imagen 3">
-                        <img src="./assets/images/projects/netflix%20titles/img4.jpg" onclick="openModal(this.src)" alt="Imagen 4">
-                    </div>
-                    <button class="prev" onclick="moveSlide1(-1)">&#10094;</button>
-                    <button class="next" onclick="moveSlide1(1)">&#10095;</button>
-                </div>
-                <div class="content">
-                    <h3>Netflix Titles Dashboard</h3>
-                    <p>Dashboard con análisis de títulos de Netflix.</p>
-                </div>
-            </div>
+  <!-- Navbar -->
+  <header class="sticky top-0 z-40 glass">
+    <div class="max-w-7xl mx-auto h-16 px-5 flex items-center gap-6">
+      <a href="#inicio" class="flex items-center gap-3">
+        <div class="w-9 h-9 grid place-items-center rounded-lg bg-white/5 ring-1 ring-white/10 text-brand.cyan">
+          <!-- Simple monogram -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1010 10A10.011 10.011 0 0012 2zm1 14.93V20h-2v-3.07A8.019 8.019 0 014.07 13H1v-2h3.07A8.019 8.019 0 0111 4.07V1h2v3.07A8.019 8.019 0 0119.93 11H23v2h-3.07A8.019 8.019 0 0113 16.93z"/></svg>
         </div>
+        <div>
+          <div class="text-base font-extrabold tracking-tight">AlanLPerez</div>
+          <div class="text-xs text-brand.slate">Automation & Process Improvement Lead</div>
+        </div>
+      </a>
+      <nav class="ml-auto hidden md:flex items-center gap-6 text-sm">
+        <a href="#quien-soy" class="link-ux">Quién soy</a>
+        <a href="#servicios" class="link-ux">Servicios</a>
+        <a href="#trabajos" class="link-ux">Trabajos</a>
+        <a href="#contacto" class="link-ux">Contacto</a>
+        <a href="#contacto" class="btn inline-flex items-center gap-2 rounded-md bg-brand.blue px-4 py-2">
+          <span>Hablemos</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </nav>
+      <button id="openMenu" class="md:hidden p-2 rounded-md hover:bg-white/10">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+    <!-- Mobile drawer -->
+    <div id="drawer" class="hidden md:hidden">
+      <nav class="px-5 pb-4 flex flex-col gap-2">
+        <a href="#quien-soy" class="px-3 py-2 rounded-md hover:bg-white/10">Quién soy</a>
+        <a href="#servicios" class="px-3 py-2 rounded-md hover:bg-white/10">Servicios</a>
+        <a href="#trabajos" class="px-3 py-2 rounded-md hover:bg-white/10">Trabajos</a>
+        <a href="#contacto" class="px-3 py-2 rounded-md hover:bg-white/10">Contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="inicio" class="max-w-7xl mx-auto px-5">
+    <!-- Hero -->
+    <section class="pt-12 md:pt-16 lg:pt-20">
+      <div class="grid lg:grid-cols-2 gap-8 items-center">
+        <div>
+          <div class="inline-flex items-center gap-2 tag bg-brand.blue/15 text-brand.cyan ring-1 ring-brand.blue/40">Automatización • Eficiencia • Datos</div>
+          <h1 class="mt-4 text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight section-title">
+            Lidero automatizaciones que aceleran el valor y mejoran la experiencia
+          </h1>
+          <p class="mt-4 text-brand.slate max-w-xl">
+            Soy Automation & Process Improvement Lead en una empresa reconocida. Diseño, implemento y escalo soluciones que simplifican operaciones, mejoran SLAs y habilitan decisiones con datos.
+          </p>
+          <div class="mt-6 flex items-center gap-3">
+            <a href="#trabajos" class="btn rounded-md bg-brand.blue px-5 py-2.5">Ver casos</a>
+            <a href="#servicios" class="rounded-md px-5 py-2.5 border border-white/15 hover:bg-white/5">Servicios</a>
+          </div>
+        </div>
+        <div class="relative">
+          <!-- Mockup: dashboard window -->
+          <div class="hover-float card rounded-xl p-4">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="w-3 h-3 rounded-full bg-rose-400/80"></span>
+              <span class="w-3 h-3 rounded-full bg-amber-300/80"></span>
+              <span class="w-3 h-3 rounded-full bg-emerald-400/80"></span>
+              <div class="ml-auto text-xs text-brand.slate">Demo Dashboard</div>
+            </div>
+            <div class="grid grid-cols-3 gap-3">
+              <div class="rounded-lg bg-white/5 p-3">
+                <div class="text-xs text-brand.slate">Ahorro anual</div>
+                <div class="text-2xl font-bold">$240k</div>
+              </div>
+              <div class="rounded-lg bg-white/5 p-3">
+                <div class="text-xs text-brand.slate">SLAs > 95%</div>
+                <div class="text-2xl font-bold">98.1%</div>
+              </div>
+              <div class="rounded-lg bg-white/5 p-3">
+                <div class="text-xs text-brand.slate">KPIs OKR</div>
+                <div class="text-2xl font-bold">+73%</div>
+              </div>
+            </div>
+            <canvas id="heroChart" class="mt-4"></canvas>
+          </div>
+        </div>
+      </div>
+      <!-- Quick stats -->
+      <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div class="card rounded-lg p-3 text-center">
+          <div class="text-2xl font-extrabold">7+</div><div class="text-xs text-brand.slate">Años experiencia</div>
+        </div>
+        <div class="card rounded-lg p-3 text-center">
+          <div class="text-2xl font-extrabold">60+</div><div class="text-xs text-brand.slate">Procesos automatizados</div>
+        </div>
+        <div class="card rounded-lg p-3 text-center">
+          <div class="text-2xl font-extrabold">98%</div><div class="text-xs text-brand.slate">SLAs cumplidos</div>
+        </div>
+        <div class="card rounded-lg p-3 text-center">
+          <div class="text-2xl font-extrabold">$1.2M</div><div class="text-xs text-brand.slate">Savings estimados</div>
+        </div>
+      </div>
     </section>
 
-
-
-    <!-- Modal para ver imágenes en grande -->
-    <div id="imageModal" class="modal" onclick="closeModal()">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <img class="modal-content" id="modalImg">
-    </div>
-
-<style>
-        .box-container1 {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-            align-items: stretch;
-        }
-
-        .box1 {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            width: 700px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 100%;
-        }
-
-	        .box2 {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            width: 300px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 100%;
-        }
-		
-			.box3 {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            width: 300px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 100%;
-        }
-
-        .box1 img, .box1 video {
-            width: 100%;
-            height: 350px;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-
-	    @media only screen and (max-width: 600px) {   .box1 img, .box1 video {
-            width: 100%;
-            height: 200px;
-            border-radius: 10px;
-            cursor: pointer;
-        }}
-        .content {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .slider1 {
-            position: relative;
-            width: 100%;
-            height: 350px;
-            overflow: hidden;
-            border-radius: 10px;
-        }
-
-        .slides1 {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-        }
-
-        .slides1 img {
-            width: 100%;
-            height: 200%;
-            object-fit: contain;
-            cursor: pointer;
-        }
-
-        .prev, .next {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            cursor: pointer;
-            padding: 13px;
-            font-size: 15px;
-            border-radius: 100%;
-        }
-
-		   .prev1, .next1 {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            cursor: pointer;
-            padding: 13px;
-            font-size: 15px;
-            border-radius: 50%;
-        }
-		
-		 @media only screen and (max-width: 600px) {  .prev1, .next1 {
-            position: absolute;
-            top: 15%;
-            transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            cursor: pointer;
-            padding: 13px;
-            font-size: 15px;
-            border-radius: 100%;
-        }}
-
-        .prev { left: 5px; }
-        .next { right: 5px; }
-        .prev:hover, .next:hover { background: black; }
-		
-		.prev1 { left: 5px; }
-        .next1 { right: 5px; }
-        .prev:hover, .next:hover { background: black; }
-
-        /* Estilos para el modal */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            max-width: 90vw;
-            max-height: 90vh;
-            object-fit: contain;
-            border-radius: 10px;
-        }
-
-        .close {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 35px;
-            color: white;
-            cursor: pointer;
-        }
-
-        .close:hover {
-            color: red;
-        }
-</style>
-
-<script>
-        let index1 = 0;
-
-        function moveSlide1(step) {
-            const slides = document.querySelector(".slides1");
-            const totalSlides = document.querySelectorAll(".slides1 img").length;
-
-            index1 += step;
-            if (index1 < 0) index1 = totalSlides - 1;
-            if (index1 >= totalSlides) index1 = 0;
-
-            slides.style.transform = `translateX(-${index1 * 100}%)`;
-        }
-
-        // Modal para mostrar imágenes en grande
-        function openModal(src) {
-            let modal = document.getElementById("imageModal");
-            let modalImg = document.getElementById("modalImg");
-
-            modal.style.display = "flex"; // Muestra el modal
-            modalImg.src = src;
-        }
-
-        function closeModal() {
-            document.getElementById("imageModal").style.display = "none";
-        }
-</script>
-<!-- Work Project Section Ends -->
-
-
-
-
-
-<!-- footer section starts -->
-<section class="footer">
-
-  <div class="box-container">
-
-      <div class="box">
-          <h3>¡Transforma tus procesos con automatización! 🚀</h3>
-          <p>No dudes en contactarme para explorar cómo puedo ayudarte a llevar tu negocio al siguiente nivel.<br/> 
+    <!-- Quién soy -->
+    <section id="quien-soy" class="pt-14 md:pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold">Quién soy</h2>
+      <div class="mt-5 grid md:grid-cols-[160px,1fr] gap-5 items-start">
+        <!-- Avatar SVG -->
+        <div class="card rounded-xl p-6 grid place-items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-24 h-24 text-brand.cyan" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5z"/><path d="M12 14c-5.33 0-8 2.67-8 6v1h16v-1c0-3.33-2.67-6-8-6z"/>
+          </svg>
+        </div>
+        <div class="card rounded-xl p-6">
+          <p class="text-brand.slate">
+            Soy Alan, apasionado por simplificar y escalar procesos. Conecto negocio y tecnología para automatizar tareas, asegurar la calidad de datos y medir impacto con KPIs accionables. Me enfoco en entregar valor rápido, seguro y sostenible.
+          </p>
+          <ul class="mt-4 grid md:grid-cols-3 gap-3 text-sm">
+            <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand.cyan"></span>Eficiencia operacional</li>
+            <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand.cyan"></span>Data & BI (Power BI)</li>
+            <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand.cyan"></span>Automatización & RPA</li>
+          </ul>
+        </div>
       </div>
+    </section>
 
-      <div class="box">
-          <h3>Enlaces rápidos</h3>
-          <a href="#Slider"><i class="fas fa-chevron-circle-right"></i> Inicio</a>
-          <a href="#about"><i class="fas fa-chevron-circle-right"></i> Quien Soy?</a>
-          <a href="#work"><i class="fas fa-chevron-circle-right"></i> Proyectos</a>
-      </div>
-
-      <div class="box">
-          <h3>contact info</h3>
-          <p> <i class="fas fa-phone"></i>+54 11 3775-7663</p>
-          <p> <i class="fas fa-envelope"></i>Alanlperez1996@gmail.com</p>
-          <div class="share">
-
-              <a href="https://www.linkedin.com/in/alan-leonel-perez-argentina/" class="fab fa-linkedin" aria-label="LinkedIn" target="_blank"></a>
-              <a href="mailto:alanlperez1996@gmail.com" class="fas fa-envelope" aria-label="Mail" target="_blank"></a>
+    <!-- Servicios -->
+    <section id="servicios" class="pt-14 md:pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold">Servicios</h2>
+      <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- 1 -->
+        <div class="hover-float card rounded-xl p-5">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 grid place-items-center rounded-lg bg-brand.blue/20 text-brand.cyan">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3zm0 8h8v-6H3zm10 0h8V11h-8zm0-18v6h8V3z"/></svg>
+            </div>
+            <h3 class="font-semibold">Automatización de procesos administrativos</h3>
           </div>
+          <p class="mt-2 text-sm text-brand.slate">Reducción de tareas manuales, validaciones y controles de calidad.</p>
+        </div>
+        <!-- 2 -->
+        <div class="hover-float card rounded-xl p-5">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 grid place-items-center rounded-lg bg-brand.blue/20 text-brand.cyan">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M4 19h16v2H4z"/><path d="M6 17V9h2v8zm5 0V5h2v12zm5 0v-6h2v6z"/></svg>
+            </div>
+            <h3 class="font-semibold">Power BI: reportes y dashboards</h3>
+          </div>
+          <p class="mt-2 text-sm text-brand.slate">KPIs de control con storytelling y gobernanza de datos.</p>
+        </div>
+        <!-- 3 -->
+        <div class="hover-float card rounded-xl p-5">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 grid place-items-center rounded-lg bg-brand.blue/20 text-brand.cyan">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a4 4 0 00-4 4v1H5a2 2 0 00-2 2v8a4 4 0 004 4h10a4 4 0 004-4V8a2 2 0 00-2-2h-3V5a4 4 0 00-4-4z"/></svg>
+            </div>
+            <h3 class="font-semibold">Gestión de SLAs y seguridad</h3>
+          </div>
+          <p class="mt-2 text-sm text-brand.slate">Monitoreo, alertas y cumplimiento en procesos críticos.</p>
+        </div>
+        <!-- 4 -->
+        <div class="hover-float card rounded-xl p-5">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 grid place-items-center rounded-lg bg-brand.blue/20 text-brand.cyan">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M3 7h18v2H3zm0 4h12v2H3zm0 4h18v2H3z"/></svg>
+            </div>
+            <h3 class="font-semibold">Optimización de flujos comerciales y operativos</h3>
+          </div>
+          <p class="mt-2 text-sm text-brand.slate">Diseño de flujos eficientes, sin fricción, con foco en valor.</p>
+        </div>
+        <!-- 5 -->
+        <div class="hover-float card rounded-xl p-5">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 grid place-items-center rounded-lg bg-brand.blue/20 text-brand.cyan">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M9 12l2 2 4-4 5 5v3H4v-5l3-3z"/></svg>
+            </div>
+            <h3 class="font-semibold">Bots y RPA para tareas repetitivas</h3>
+          </div>
+          <p class="mt-2 text-sm text-brand.slate">Automatizaciones simples y seguras que ahorran tiempo.</p>
+        </div>
+        <!-- 6 -->
+        <div class="hover-float card rounded-xl p-5">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 grid place-items-center rounded-lg bg-brand.blue/20 text-brand.cyan">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v2H4zM4 12h12v2H4zM4 18h8v2H4z"/></svg>
+            </div>
+            <h3 class="font-semibold">Integración y seguimiento de proyectos</h3>
+          </div>
+          <p class="mt-2 text-sm text-brand.slate">Herramientas de colaboración con trazabilidad y métricas.</p>
+        </div>
       </div>
+    </section>
+
+    <!-- Trabajos / Casos de demo -->
+    <section id="trabajos" class="pt-14 md:pt-16">
+      <div class="flex items-center justify-between">
+        <h2 class="text-2xl md:text-3xl font-bold">Ejemplos de trabajos</h2>
+        <span class="tag bg-white/10 text-brand.slate ring-1 ring-white/15">Demo visual</span>
+      </div>
+
+      <div class="mt-6 grid md:grid-cols-2 xl:grid-cols-3 gap-5">
+        <!-- Caso 1: Power BI KPIs -->
+        <article class="hover-float card rounded-xl p-4 flex flex-col">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-8 h-8 grid place-items-center rounded-md bg-brand.blue/20 text-brand.cyan">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M4 19h16v2H4z"/><path d="M6 17V9h2v8zm5 0V5h2v12zm5 0v-6h2v6z"/></svg>
+            </div>
+            <h3 class="font-semibold">Dashboard de KPIs de Operaciones</h3>
+          </div>
+          <p class="text-sm text-brand.slate">Vista de desempeño con tendencias y alertas.</p>
+          <canvas id="workChart1" class="mt-3 h-36"></canvas>
+          <button class="mt-4 btn rounded-md bg-brand.blue px-3 py-2 text-sm self-start" data-detail="kpi">Ver detalle</button>
+        </article>
+
+        <!-- Caso 2: Aprobación de facturas -->
+        <article class="hover-float card rounded-xl p-4">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-8 h-8 grid place-items-center rounded-md bg-brand.blue/20 text-brand.cyan">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M7 2h10a2 2 0 012 2v16l-7-3-7 3V4a2 2 0 012-2z"/></svg>
+            </div>
+            <h3 class="font-semibold">Automatización de aprobación de facturas</h3>
+          </div>
+          <p class="text-sm text-brand.slate">Flujo de aprobación con validaciones y registro.</p>
+          <!-- Diagrama de flujo simplificado (SVG) -->
+          <div class="mt-3 rounded-lg bg-white/5 p-3">
+            <svg viewBox="0 0 420 140" class="w-full h-36">
+              <defs>
+                <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#22D3EE"/></marker>
+              </defs>
+              <rect x="10" y="20" rx="8" ry="8" width="110" height="36" fill="rgba(37,99,235,.25)" stroke="#2563EB"/>
+              <text x="65" y="43" text-anchor="middle" fill="#E2E8F0" font-size="12">Recepción</text>
+
+              <rect x="150" y="20" rx="8" ry="8" width="120" height="36" fill="rgba(16,185,129,.2)" stroke="#10B981"/>
+              <text x="210" y="43" text-anchor="middle" fill="#E2E8F0" font-size="12">Validación</text>
+
+              <rect x="300" y="20" rx="8" ry="8" width="110" height="36" fill="rgba(34,211,238,.2)" stroke="#22D3EE"/>
+              <text x="355" y="43" text-anchor="middle" fill="#E2E8F0" font-size="12">Aprobación</text>
+
+              <line x1="120" y1="38" x2="150" y2="38" stroke="#22D3EE" stroke-width="2" marker-end="url(#arrow)"/>
+              <line x1="270" y1="38" x2="300" y2="38" stroke="#22D3EE" stroke-width="2" marker-end="url(#arrow)"/>
+
+              <rect x="150" y="80" rx="8" ry="8" width="120" height="36" fill="rgba(244,114,182,.2)" stroke="#F472B6"/>
+              <text x="210" y="103" text-anchor="middle" fill="#E2E8F0" font-size="12">Observado</text>
+              <line x1="210" y1="56" x2="210" y2="80" stroke="#F472B6" stroke-width="2" marker-end="url(#arrow)"/>
+            </svg>
+          </div>
+          <button class="mt-4 btn rounded-md bg-brand.blue px-3 py-2 text-sm" data-detail="invoices">Ver detalle</button>
+        </article>
+
+        <!-- Caso 3: SLAs soporte -->
+        <article class="hover-float card rounded-xl p-4">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-8 h-8 grid place-items-center rounded-md bg-brand.blue/20 text-brand.cyan">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a10 10 0 1010 10A10.011 10.011 0 0012 1z"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <h3 class="font-semibold">Control de SLAs en soporte</h3>
+          </div>
+          <p class="text-sm text-brand.slate">Cumplimiento y tiempos de resolución por prioridad.</p>
+          <!-- Gauge donut SVG -->
+          <div class="mt-3 grid place-items-center">
+            <svg viewBox="0 0 120 120" class="w-32 h-32">
+              <circle cx="60" cy="60" r="48" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="10"/>
+              <circle cx="60" cy="60" r="48" fill="none" stroke="#10B981" stroke-width="10" stroke-linecap="round" stroke-dasharray="226" stroke-dashoffset="50" transform="rotate(-90 60 60)"/>
+              <text x="60" y="66" fill="#E2E8F0" font-size="16" font-weight="700" text-anchor="middle">78%</text>
+            </svg>
+          </div>
+          <button class="mt-4 btn rounded-md bg-brand.blue px-3 py-2 text-sm" data-detail="sla">Ver detalle</button>
+        </article>
+
+        <!-- Caso 4: Bot reportes semanales -->
+        <article class="hover-float card rounded-xl p-4">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-8 h-8 grid place-items-center rounded-md bg-brand.blue/20 text-brand.cyan">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16v2H4zM4 8h12v2H4zM4 12h8v2H4z"/></svg>
+            </div>
+            <h3 class="font-semibold">Bot para reportes comerciales</h3>
+          </div>
+          <p class="text-sm text-brand.slate">Generación y envío automático de reportes semanales.</p>
+          <div class="mt-3 rounded-lg bg-black/30 p-3 font-mono text-xs text-brand.slate">
+            > Generando reporte W36... OK<br/>
+            > Enviando a stakeholders... OK<br/>
+            > Publicado en canal #ventas... OK
+          </div>
+          <button class="mt-4 btn rounded-md bg-brand.blue px-3 py-2 text-sm" data-detail="bot">Ver detalle</button>
+        </article>
+
+        <!-- Caso 5: Alertas automáticas -->
+        <article class="hover-float card rounded-xl p-4">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-8 h-8 grid place-items-center rounded-md bg-brand.blue/20 text-brand.cyan">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 00-7 7v4l-2 2v1h18v-1l-2-2V9a7 7 0 00-7-7z"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+            </div>
+            <h3 class="font-semibold">Alertas para tareas críticas</h3>
+          </div>
+          <p class="text-sm text-brand.slate">Notificaciones inteligentes ante desvíos y riesgos.</p>
+          <div class="mt-3 flex flex-col gap-2">
+            <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-amber-400"></span><span class="text-xs">SLA Prioridad Alta — 55 min</span></div>
+            <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-400"></span><span class="text-xs">Backup OK — 03:00</span></div>
+            <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-rose-400"></span><span class="text-xs">Error API Inventarios</span></div>
+          </div>
+          <button class="mt-4 btn rounded-md bg-brand.blue px-3 py-2 text-sm" data-detail="alerts">Ver detalle</button>
+        </article>
+
+        <!-- Caso 6 opcional: Inventarios -->
+        <article class="hover-float card rounded-xl p-4">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-8 h-8 grid place-items-center rounded-md bg-brand.blue/20 text-brand.cyan">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h18v6H3zM3 11h18v10H3z"/></svg>
+            </div>
+            <h3 class="font-semibold">Flujo de automatización de inventarios</h3>
+          </div>
+          <p class="text-sm text-brand.slate">Sincronización de pedidos, stock y alertas de reposición.</p>
+          <!-- Pequeño flujo -->
+          <svg viewBox="0 0 420 110" class="mt-3 w-full h-28">
+            <defs><marker id="arr2" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#2563EB"/></marker></defs>
+            <rect x="20" y="20" width="100" height="28" rx="6" fill="rgba(37,99,235,.25)" stroke="#2563EB"/><text x="70" y="38" fill="#E2E8F0" font-size="12" text-anchor="middle">Pedidos</text>
+            <rect x="160" y="20" width="100" height="28" rx="6" fill="rgba(16,185,129,.2)" stroke="#10B981"/><text x="210" y="38" fill="#E2E8F0" font-size="12" text-anchor="middle">Stock</text>
+            <rect x="300" y="20" width="100" height="28" rx="6" fill="rgba(34,211,238,.2)" stroke="#22D3EE"/><text x="350" y="38" fill="#E2E8F0" font-size="12" text-anchor="middle">Alertas</text>
+            <line x1="120" y1="34" x2="160" y2="34" stroke="#2563EB" stroke-width="2" marker-end="url(#arr2)"/>
+            <line x1="260" y1="34" x2="300" y2="34" stroke="#2563EB" stroke-width="2" marker-end="url(#arr2)"/>
+          </svg>
+          <button class="mt-4 btn rounded-md bg-brand.blue px-3 py-2 text-sm" data-detail="inventory">Ver detalle</button>
+        </article>
+      </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto" class="pt-14 md:pt-16 pb-16">
+      <h2 class="text-2xl md:text-3xl font-bold">Contacto</h2>
+      <div class="mt-6 grid md:grid-cols-2 gap-6">
+        <form id="contactForm" class="card rounded-xl p-6 space-y-4">
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <label class="text-sm text-brand.slate">Nombre</label>
+              <input class="mt-1 w-full rounded-md field px-3 py-2" id="cName" placeholder="Tu nombre"/>
+            </div>
+            <div>
+              <label class="text-sm text-brand.slate">Email</label>
+              <input class="mt-1 w-full rounded-md field px-3 py-2" id="cEmail" type="email" placeholder="tu@email.com"/>
+            </div>
+          </div>
+          <div>
+            <label class="text-sm text-brand.slate">Mensaje</label>
+            <textarea class="mt-1 w-full rounded-md field px-3 py-2" id="cMsg" rows="4" placeholder="Contame brevemente tu necesidad"></textarea>
+          </div>
+          <div class="flex items-center justify-between">
+            <span id="formNote" class="text-xs text-brand.slate">Responderé en 24–48 h. (Demo)</span>
+            <button class="btn rounded-md bg-brand.blue px-5 py-2.5" type="submit">Enviar</button>
+          </div>
+        </form>
+        <div class="card rounded-xl p-6">
+          <div class="space-y-3">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 grid place-items-center rounded-lg bg-white/5 text-brand.cyan">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M2 6a2 2 0 012-2h16a2 2 0 012 2v1H2V6z"/><path d="M22 8v10a2 2 0 01-2 2H4a2 2 0 01-2-2V8l10 6z"/></svg>
+              </div>
+              <div>
+                <div class="text-sm text-brand.slate">Email</div>
+                <a href="mailto:alanlperez@example.com" class="link-ux">alanlperez@example.com</a>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 grid place-items-center rounded-lg bg-white/5 text-brand.cyan">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16v16H4z"/></svg>
+              </div>
+              <div>
+                <div class="text-sm text-brand.slate">LinkedIn</div>
+                <a href="https://www.linkedin.com/in/alanlperez" target="_blank" rel="noopener noreferrer" class="link-ux">linkedin.com/in/alanlperez</a>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 grid place-items-center rounded-lg bg-white/5 text-brand.cyan">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.04c-5.5 0-9.96 4.46-9.96 9.96 0 4.4 2.85 8.14 6.82 9.46.5.1.68-.22.68-.48v-1.7c-2.77.6-3.36-1.17-3.36-1.17-.45-1.15-1.1-1.46-1.1-1.46-.9-.62.07-.6.07-.6 1 .07 1.53 1.05 1.53 1.05.89 1.53 2.35 1.08 2.92.83.09-.64.35-1.08.63-1.33-2.21-.25-4.54-1.1-4.54-4.91 0-1.08.39-1.96 1.03-2.65-.1-.26-.45-1.3.1-2.7 0 0 .84-.27 2.75 1.02A9.6 9.6 0 0112 6.8c.85 0 1.7.12 2.5.35 1.9-1.29 2.75-1.02 2.75-1.02.55 1.4.2 2.45.1 2.7.64.69 1.03 1.57 1.03 2.65 0 3.82-2.34 4.66-4.56 4.91.36.31.68.92.68 1.86v2.76c0 .26.18.58.68.48A9.96 9.96 0 0022 12c0-5.5-4.46-9.96-9.96-9.96z"/></svg>
+              </div>
+              <div>
+                <div class="text-sm text-brand.slate">GitHub</div>
+                <a href="https://github.com/alanlperez" target="_blank" rel="noopener noreferrer" class="link-ux">github.com/alanlperez</a>
+              </div>
+            </div>
+          </div>
+          <div class="mt-6 p-4 rounded-lg bg-white/5 text-sm text-brand.slate">
+            Preferís una reunión rápida? Coordinemos un 1:1 para entender tu caso y estimar impacto.
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-5 py-6 text-sm text-brand.slate flex flex-col md:flex-row items-center justify-between gap-3">
+      <div>© <span id="year"></span> AlanLPerez — Automation & Process Improvement Lead</div>
+      <div class="flex items-center gap-3">
+        <a href="#servicios" class="link-ux">Servicios</a>
+        <a href="#trabajos" class="link-ux">Trabajos</a>
+        <a href="#contacto" class="link-ux">Contacto</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal detalle -->
+  <div id="modal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 modal-backdrop"></div>
+    <div class="relative max-w-2xl mx-auto mt-24 card rounded-xl p-6">
+      <div class="flex items-center justify-between">
+        <h3 id="modalTitle" class="text-lg font-semibold">Detalle</h3>
+        <button id="modalClose" class="p-2 rounded-md hover:bg-white/10">&times;</button>
+      </div>
+      <div id="modalBody" class="mt-3 text-sm text-brand.slate">
+        <!-- Filled dynamically -->
+      </div>
+      <div class="mt-4 text-right">
+        <button id="modalOk" class="btn rounded-md bg-brand.blue px-4 py-2">Cerrar</button>
+      </div>
+    </div>
   </div>
 
- 
+  <!-- Toast -->
+  <div id="toast" class="fixed bottom-4 right-4 z-[60] hidden">
+    <div class="rounded-lg bg-brand.card text-white px-4 py-2 shadow-lg flex items-center gap-2 ring-1 ring-white/10">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-brand.cyan" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1010 10A10.011 10.011 0 0012 2zm-1 15l-5-5 1.41-1.41L11 14.17l6.59-6.59L19 9z"/></svg>
+      <span id="toastMsg" class="text-sm">Enviado. ¡Gracias!</span>
+    </div>
+  </div>
 
-</section>
-<!-- footer section ends -->
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-<!-- WSP starts-->
-<!-- WSP starts-->
-<!-- Botón de WhatsApp siempre visible -->
-<a href="https://wa.me/+5401137757663?text=Hola,%20me%20gustaría%20hacer%20una%20consulta!" target="_blank">
-  <button id="whatsapp-button">
-      Contáctame por WhatsApp
-      <img id="whatsapp-icon" src="./assets/images/WhatsApp_icon.png" alt="WhatsApp">
-  </button>
-</a>
+    // Mobile drawer
+    const openMenu = document.getElementById('openMenu');
+    const drawer = document.getElementById('drawer');
+    openMenu.addEventListener('click', () => drawer.classList.toggle('hidden'));
+    drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', ()=> drawer.classList.add('hidden')));
 
-<!-- wsp ends-->
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const id = a.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      });
+    });
 
-<!-- scroll top btn -->
-<a href="#Slider" aria-label="ScrollTop" class="fas fa-angle-up" id="scroll-top"></a>
-<!-- scroll back to top -->
+    // Charts (Hero + Work 1)
+    function makeHeroChart(){
+      const ctx = document.getElementById('heroChart');
+      if (!ctx) return;
+      new Chart(ctx, {
+        type:'line',
+        data:{
+          labels:['Jan','Feb','Mar','Apr','May','Jun'],
+          datasets:[
+            { label:'Ahorro (k$)', data:[12,18,22,28,35,42], borderColor:'#22D3EE', backgroundColor:'rgba(34,211,238,.2)', tension:.35, fill:true, pointBackgroundColor:'#10B981' },
+            { label:'SLA (%)', data:[93,94,95,95,97,98], borderColor:'#2563EB', backgroundColor:'rgba(37,99,235,.15)', tension:.35, fill:false, yAxisID:'y1', pointBackgroundColor:'#2563EB' }
+          ]
+        },
+        options:{
+          responsive:true,
+          scales:{
+            y:{ beginAtZero:true, grid:{ color:'rgba(255,255,255,.06)' } },
+            y1:{ beginAtZero:true, position:'right', grid:{ display:false }, suggestedMax:100 }
+          },
+          plugins:{ legend:{ labels:{ color:'#E2E8F0' } } }
+        }
+      });
+    }
+    function makeWorkChart1(){
+      const ctx = document.getElementById('workChart1');
+      if (!ctx) return;
+      new Chart(ctx, {
+        type:'bar',
+        data:{ labels:['Ops','Ventas','Finanzas','Soporte','IT'],
+          datasets:[{ label:'Cumplimiento KPI', data:[82,76,91,88,95], backgroundColor:['#2563EB','#2563EB','#10B981','#2563EB','#10B981'] }]
+        },
+        options:{ responsive:true, scales:{ y:{ beginAtZero:true, grid:{ color:'rgba(255,255,255,.06)'} }, x:{ grid:{ display:false } } },
+        plugins:{ legend:{ display:false } } }
+      });
+    }
 
+    // Modal logic
+    const modal = document.getElementById('modal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+    const modalClose = document.getElementById('modalClose');
+    const modalOk = document.getElementById('modalOk');
+    function openModal(title, html){
+      modalTitle.textContent = title;
+      modalBody.innerHTML = html;
+      modal.classList.remove('hidden');
+    }
+    function closeModal(){ modal.classList.add('hidden'); }
+    modalClose.addEventListener('click', closeModal);
+    modalOk.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e)=> { if (e.target === modal) closeModal(); });
 
-<!-- ==== ALL MAJOR JAVASCRIPT CDNS STARTS ==== -->
-<!-- jquery cdn -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    // Detail buttons
+    document.querySelectorAll('[data-detail]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const key = btn.getAttribute('data-detail');
+        const details = {
+          kpi: `
+            <p>Panel con KPIs de operaciones: volumen, eficiencia, SLA y ahorro mensual. Integración con fuentes internas.</p>
+            <ul class="list-disc pl-5 mt-2">
+              <li>Actualizaciones automáticas</li>
+              <li>Alertas por desvíos</li>
+              <li>Segmentación por áreas</li>
+            </ul>`,
+          invoices: `
+            <p>Flujo de aprobación con validaciones de datos, auditoría y registro de tiempos.</p>
+            <ul class="list-disc pl-5 mt-2">
+              <li>Validaciones con reglas de negocio</li>
+              <li>Enrutamiento según montos/responsables</li>
+              <li>Tablero de estados</li>
+            </ul>`,
+          sla: `
+            <p>Monitoreo de SLAs por prioridad con métricas de tiempo de respuesta y resolución.</p>
+            <ul class="list-disc pl-5 mt-2">
+              <li>Distribución por canal</li>
+              <li>Tendencia semanal</li>
+              <li>Alertas de riesgo</li>
+            </ul>`,
+          bot: `
+            <p>Bot que genera, consolida y envía reportes semanales a stakeholders.</p>
+            <ul class="list-disc pl-5 mt-2">
+              <li>Programación automática</li>
+              <li>Publicación en canal</li>
+              <li>Repositorio de histórico</li>
+            </ul>`,
+          alerts: `
+            <p>Integración de alertas para tareas críticas con priorización y seguimiento.</p>
+            <ul class="list-disc pl-5 mt-2">
+              <li>Notificación omnicanal</li>
+              <li>Ventanas de mantenimiento</li>
+              <li>Métrica de tiempo hasta atención</li>
+            </ul>`,
+          inventory: `
+            <p>Automatización de inventarios/pedidos con sincronización de stock y backorders.</p>
+            <ul class="list-disc pl-5 mt-2">
+              <li>Integración con ERP</li>
+              <li>Alertas de reposición</li>
+              <li>Reporte de rotación</li>
+            </ul>`
+        };
+        openModal(btn.parentElement.querySelector('h3').textContent, details[key] || '<p>Detalle no disponible.</p>');
+      });
+    });
 
-<!-- typed.js cdn -->
- <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.5/typed.min.js" integrity="sha512-1KbKusm/hAtkX5FScVR5G36wodIMnVd/aP04af06iyQTkD17szAMGNmxfNH+tEuFp3Og/P5G32L1qEC47CZbUQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  
-<!-- vanilla tilt.js links -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js" integrity="sha512-SttpKhJqONuBVxbRcuH0wezjuX+BoFoli0yPsnrAADcHsQMW8rkR84ItFHGIkPvhnlRnE2FaifDOUw+EltbuHg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    // Contact form (demo)
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toastMsg');
+    document.getElementById('contactForm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const name = document.getElementById('cName').value.trim();
+      const email = document.getElementById('cEmail').value.trim();
+      const msg = document.getElementById('cMsg').value.trim();
+      if (!name || !email || !msg) {
+        toastMsg.textContent = 'Completá nombre, email y mensaje.';
+      } else {
+        toastMsg.textContent = 'Enviado. ¡Gracias! (Demo)';
+        e.target.reset();
+      }
+      toast.classList.remove('hidden');
+      setTimeout(()=> toast.classList.add('hidden'), 1800);
+    });
 
-<!-- scroll reveal anim -->
-<script src="https://unpkg.com/scrollreveal"></script>
-
-<script
-      type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"
-    ></script>
-
-<!-- ==== ALL MAJOR JAVASCRIPT CDNS ENDS ==== -->
-
-<script src="./assets/js/script.js"></script>
-
-</body>
+    // Init
+    function init(){
+      makeHeroChart();
+      makeWorkChart1();
+    }
+    init();
+  </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98331e8f94c0b50e',t:'MTc1ODU1NzkxOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
