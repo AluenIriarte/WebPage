@@ -92,7 +92,9 @@
       <a href="#inicio" class="flex items-center gap-3">
         <div class="w-9 h-9 grid place-items-center rounded-lg bg-white/5 ring-1 ring-white/10 text-brand.cyan">
           <!-- Simple monogram -->
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1010 10A10.011 10.011 0 0012 2zm1 14.93V20h-2v-3.07A8.019 8.019 0 014.07 13H1v-2h3.07A8.019 8.019 0 0111 4.07V1h2v3.07A8.019 8.019 0 0119.93 11H23v2h-3.07A8.019 8.019 0 0113 16.93z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2a10 10 0 1010 10A10.011 10.011 0 0012 2zm1 14.93V20h-2v-3.07A8.019 8.019 0 014.07 13H1v-2h3.07A8.019 8.019 0 0111 4.07V1h2v3.07A8.019 8.019 0 0119.93 11H23v2h-3.07A8.019 8.019 0 0113 16.93z"/>
+          </svg>
         </div>
         <div>
           <div class="text-base font-extrabold tracking-tight">AlanLPerez</div>
@@ -106,11 +108,15 @@
         <a href="#contacto" class="link-ux">Contacto</a>
         <a href="#contacto" class="btn inline-flex items-center gap-2 rounded-md bg-brand.blue px-4 py-2">
           <span>Hablemos</span>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
         </a>
       </nav>
       <button id="openMenu" class="md:hidden p-2 rounded-md hover:bg-white/10">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
       </button>
     </div>
     <!-- Mobile drawer -->
@@ -123,6 +129,44 @@
       </nav>
     </div>
   </header>
+
+  <!-- Sección de gráfico -->
+  <main class="max-w-7xl mx-auto px-5 py-16">
+    <h2 class="text-2xl font-bold mb-6 section-title">Proyectos & Resultados</h2>
+    <div class="card p-6 rounded-xl shadow-lg">
+      <canvas id="myChart" class="w-full h-64"></canvas>
+    </div>
+  </main>
+
+  <!-- Chart.js Script -->
+  <script>
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Idea 1', 'Idea 2', 'Idea 3', 'Idea 4'],
+        datasets: [{
+          label: 'Valor Generado ($)',
+          data: [12000, 15000, 8000, 20000],
+          backgroundColor: 'rgba(37,99,235,0.7)',
+          borderColor: 'rgba(37,99,235,1)',
+          borderWidth: 1,
+          borderRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { labels: { color: '#94A3B8' } },
+          tooltip: { mode: 'index', intersect: false }
+        },
+        scales: {
+          x: { ticks: { color: '#94A3B8' }, grid: { color: 'rgba(37,99,235,0.1)' } },
+          y: { ticks: { color: '#94A3B8' }, grid: { color: 'rgba(37,99,235,0.1)' }, beginAtZero: true }
+        }
+      }
+    });
+  </script>
 
   <main id="inicio" class="max-w-7xl mx-auto px-5">
     <!-- Hero -->
@@ -654,6 +698,7 @@
   </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98331e8f94c0b50e',t:'MTc1ODU1NzkxOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
+
 
 
 
