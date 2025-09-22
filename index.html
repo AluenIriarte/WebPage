@@ -1,34 +1,36 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="logo.png"/>
+  <link rel="apple-touch-icon" href="logo.png"/>
+  <meta name="theme-color" content="#0B1220"/>
+
+  <!-- Básicos -->
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>AlanLPerez — Automation & Process Improvement Lead</title>
   <meta name="description" content="Marca personal de AlanLPerez — Automation & Process Improvement Lead. Automatización, eficiencia operativa, Power BI y SLAs."/>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { inter: ['Inter','ui-sans-serif','system-ui'] },
-          colors: {
-            brand: {
-              bg: '#0B1220',
-              card: '#0F172A',
-              blue: '#2563EB',
-              cyan: '#22D3EE',
-              mint: '#10B981',
-              slate: '#94A3B8',
-              line: '#1F2A44'
-            }
-          }
-        }
-      }
-    }
-  </script>
+  <meta name="keywords" content="automatización, procesos, eficiencia, Power BI, SLAs, RPA, data, KPIs"/>
+  <meta name="author" content="AlanLPerez"/>
+
+  <!-- Open Graph / Social -->
+  <meta property="og:title" content="AlanLPerez — Automation & Process Improvement Lead"/>
+  <meta property="og:description" content="Automatización, eficiencia operativa, Power BI y SLAs."/>
+  <meta property="og:image" content="logo.png"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://tusitio.com"/> <!-- Cambiá por tu dominio -->
+
+
+
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Estilos base -->
   <style>
     :root { color-scheme: dark; }
     body{
@@ -59,6 +61,7 @@
     .field { background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.12); }
   </style>
 </head>
+
 <body class="font-inter text-slate-100 antialiased">
   <div class="grid-overlay"></div>
 
@@ -68,7 +71,9 @@
       <a href="#inicio" class="flex items-center gap-3">
         <div class="w-9 h-9 grid place-items-center rounded-lg bg-white/5 ring-1 ring-white/10 text-brand.cyan">
           <!-- Simple monogram -->
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1010 10A10.011 10.011 0 0012 2zm1 14.93V20h-2v-3.07A8.019 8.019 0 014.07 13H1v-2h3.07A8.019 8.019 0 0111 4.07V1h2v3.07A8.019 8.019 0 0119.93 11H23v2h-3.07A8.019 8.019 0 0113 16.93z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2a10 10 0 1010 10A10.011 10.011 0 0012 2zm1 14.93V20h-2v-3.07A8.019 8.019 0 014.07 13H1v-2h3.07A8.019 8.019 0 0111 4.07V1h2v3.07A8.019 8.019 0 0119.93 11H23v2h-3.07A8.019 8.019 0 0113 16.93z"/>
+          </svg>
         </div>
         <div>
           <div class="text-base font-extrabold tracking-tight">AlanLPerez</div>
@@ -82,11 +87,15 @@
         <a href="#contacto" class="link-ux">Contacto</a>
         <a href="#contacto" class="btn inline-flex items-center gap-2 rounded-md bg-brand.blue px-4 py-2">
           <span>Hablemos</span>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
         </a>
       </nav>
       <button id="openMenu" class="md:hidden p-2 rounded-md hover:bg-white/10">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
       </button>
     </div>
     <!-- Mobile drawer -->
@@ -99,6 +108,44 @@
       </nav>
     </div>
   </header>
+
+  <!-- Sección de gráfico -->
+  <main class="max-w-7xl mx-auto px-5 py-16">
+    <h2 class="text-2xl font-bold mb-6 section-title">Proyectos & Resultados</h2>
+    <div class="card p-6 rounded-xl shadow-lg">
+      <canvas id="myChart" class="w-full h-64"></canvas>
+    </div>
+  </main>
+
+  <!-- Chart.js Script -->
+  <script>
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Idea 1', 'Idea 2', 'Idea 3', 'Idea 4'],
+        datasets: [{
+          label: 'Valor Generado ($)',
+          data: [12000, 15000, 8000, 20000],
+          backgroundColor: 'rgba(37,99,235,0.7)',
+          borderColor: 'rgba(37,99,235,1)',
+          borderWidth: 1,
+          borderRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { labels: { color: '#94A3B8' } },
+          tooltip: { mode: 'index', intersect: false }
+        },
+        scales: {
+          x: { ticks: { color: '#94A3B8' }, grid: { color: 'rgba(37,99,235,0.1)' } },
+          y: { ticks: { color: '#94A3B8' }, grid: { color: 'rgba(37,99,235,0.1)' }, beginAtZero: true }
+        }
+      }
+    });
+  </script>
 
   <main id="inicio" class="max-w-7xl mx-auto px-5">
     <!-- Hero -->
@@ -133,7 +180,7 @@
               </div>
               <div class="rounded-lg bg-white/5 p-3">
                 <div class="text-xs text-brand.slate">SLAs > 95%</div>
-                <div class="text-2xl font-bold">98.1%</div>
+                <div class="text-2xl font-bold">99%</div>
               </div>
               <div class="rounded-lg bg-white/5 p-3">
                 <div class="text-xs text-brand.slate">KPIs OKR</div>
@@ -147,7 +194,7 @@
       <!-- Quick stats -->
       <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3">
         <div class="card rounded-lg p-3 text-center">
-          <div class="text-2xl font-extrabold">7+</div><div class="text-xs text-brand.slate">Años experiencia</div>
+          <div class="text-2xl font-extrabold">3+</div><div class="text-xs text-brand.slate">Años experiencia</div>
         </div>
         <div class="card rounded-lg p-3 text-center">
           <div class="text-2xl font-extrabold">60+</div><div class="text-xs text-brand.slate">Procesos automatizados</div>
@@ -156,7 +203,7 @@
           <div class="text-2xl font-extrabold">98%</div><div class="text-xs text-brand.slate">SLAs cumplidos</div>
         </div>
         <div class="card rounded-lg p-3 text-center">
-          <div class="text-2xl font-extrabold">$1.2M</div><div class="text-xs text-brand.slate">Savings estimados</div>
+          <div class="text-2xl font-extrabold">$0.7M</div><div class="text-xs text-brand.slate">Savings estimados</div>
         </div>
       </div>
     </section>
@@ -173,7 +220,7 @@
         </div>
         <div class="card rounded-xl p-6">
           <p class="text-brand.slate">
-            Soy Alan, apasionado por simplificar y escalar procesos. Conecto negocio y tecnología para automatizar tareas, asegurar la calidad de datos y medir impacto con KPIs accionables. Me enfoco en entregar valor rápido, seguro y sostenible.
+           Soy Alan Perez, especialista en automatización y mejora de procesos, con experiencia en diversos sectores. Conecto la estrategia empresarial con soluciones tecnológicas para optimizar operaciones, garantizar la calidad de datos y proporcionar KPIs accionables que faciliten la toma de decisiones. Implemento metodologías ágiles, prácticas DevOps y estándares de seguridad para asegurar soluciones rápidas, seguras y sostenibles que generen valor tangible para las organizaciones. Pueden ver más sobre en mi perfil de Linkedin en la sección de contacto!
           </p>
           <ul class="mt-4 grid md:grid-cols-3 gap-3 text-sm">
             <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand.cyan"></span>Eficiencia operacional</li>
@@ -384,6 +431,7 @@
       </div>
     </section>
 
+    <!-- Contacto -->
 <!-- Contacto -->
 <section id="contacto" class="pt-14 md:pt-16 pb-16">
   <h2 class="text-2xl md:text-3xl font-bold">Contacto</h2>
@@ -629,5 +677,15 @@
   </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98331e8f94c0b50e',t:'MTc1ODU1NzkxOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
+
+
+
+
+
+
+
+
+
+
 
 
