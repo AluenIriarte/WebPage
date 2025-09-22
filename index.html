@@ -57,6 +57,94 @@
     .link-ux:hover::after { width:100%; }
     .modal-backdrop { background: rgba(2,6,23,.6); backdrop-filter: blur(2px); }
     .field { background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.12); }
+
+    /* Personalización de tamaños de texto */
+    .text-4xl {
+      font-size: 2.1rem !important;
+    }
+
+    /* Estilos responsivos para móviles */
+    @media (max-width: 768px) {
+      html {
+        font-size: 14px;
+      }
+
+      #heroChart,
+      #workChart1 {
+        width: 332px !important;
+        height: 166px !important;
+      }
+
+      .section-title {
+        font-size: 1.5rem;
+        line-height: 1.3;
+      }
+
+      section {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+      }
+
+      .card {
+        padding: 0.75rem;
+      }
+
+      .tag {
+        font-size: 0.65rem;
+        padding: 0.15rem 0.5rem;
+      }
+
+      .hover-float {
+        transform: none !important;
+        box-shadow: none !important;
+      }
+
+      #heroChart {
+        height: 140px !important;
+      }
+
+      .grid-stats {
+        gap: 0.5rem;
+      }
+
+      .stat-card {
+        padding: 0.75rem;
+      }
+
+      .stat-value {
+        font-size: 1.25rem;
+      }
+
+      .stat-label {
+        font-size: 0.7rem;
+      }
+
+      .nav-mobile {
+        padding: 0.5rem;
+      }
+
+      .button-mobile {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+      }
+
+      .icon-mobile {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+
+      .text-mobile {
+        font-size: 0.875rem;
+      }
+
+      .heading-mobile {
+        font-size: 1.25rem;
+      }
+
+      .subtext-mobile {
+        font-size: 0.75rem;
+      }
+    }
   </style>
 </head>
 <body class="font-inter text-slate-100 antialiased">
@@ -68,11 +156,11 @@
       <a href="#inicio" class="flex items-center gap-3">
         <div class="w-9 h-9 grid place-items-center rounded-lg bg-white/5 ring-1 ring-white/10 text-brand.cyan">
           <!-- Simple monogram -->
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1010 10A10.011 10.011 0 0012 2zm1 14.93V20h-2v-3.07A8.019 8.019 0 014.07 13H1v-2h3.07A8.019 8.019 0 0111 4.07V1h2v3.07A8.019 8.019 0 0119.93 11H23v2h-3.07A8.019 8.019 0 0113 16.93z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1010 10A10.011 10.011 0 0012 2zm1 14.93V20h-2v-3.07A8.019 8.019 0 014.07 13H1v-2h3.07A8.019 8.019 0 0111 4.07V1h2v3.07A8.019 8.019 0 0119.93 11H23v2h-3.07A8.019 8.019 0 0113 16.93z"></path></svg>
         </div>
         <div>
           <div class="text-base font-extrabold tracking-tight">AlanLPerez</div>
-          <div class="text-xs text-brand.slate">Automation & Process Improvement Lead</div>
+          <div class="text-xs text-brand.slate">Automation &amp; Process Improvement Lead</div>
         </div>
       </a>
       <nav class="ml-auto hidden md:flex items-center gap-6 text-sm">
@@ -82,11 +170,11 @@
         <a href="#contacto" class="link-ux">Contacto</a>
         <a href="#contacto" class="btn inline-flex items-center gap-2 rounded-md bg-brand.blue px-4 py-2">
           <span>Hablemos</span>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
         </a>
       </nav>
-      <button id="openMenu" class="md:hidden p-2 rounded-md hover:bg-white/10">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      <button id="openMenu" class="md:hidden p-2 pr-4 rounded-md hover:bg-white/10 ml-auto">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path></svg>
       </button>
     </div>
     <!-- Mobile drawer -->
@@ -102,97 +190,339 @@
 
   <main id="inicio" class="max-w-7xl mx-auto px-5">
     <!-- Hero -->
-    <section class="pt-12 md:pt-16 lg:pt-20">
-      <div class="grid lg:grid-cols-2 gap-8 items-center">
+    <section class="pt-6 sm:pt-12 md:pt-16 lg:pt-20">
+      <div class="grid lg:grid-cols-2 gap-4 sm:gap-8 items-center">
         <div>
-          <div class="inline-flex items-center gap-2 tag bg-brand.blue/15 text-brand.cyan ring-1 ring-brand.blue/40">Automatización • Eficiencia • Datos</div>
-          <h1 class="mt-4 text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight section-title">
+          <div class="inline-flex items-center gap-1.5 tag bg-brand.blue/15 text-brand.cyan ring-1 ring-brand.blue/40">Automatización • Eficiencia • Datos</div>
+          <h1 class="mt-2.5 sm:mt-4 text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight section-title">
             Lidero automatizaciones que aceleran el valor y mejoran la experiencia
           </h1>
-          <p class="mt-4 text-brand.slate max-w-xl">
+          <p class="mt-2.5 sm:mt-4 text-lg sm:text-xl text-brand.slate max-w-xl">
             Soy Automation & Process Improvement Lead en una empresa reconocida. Diseño, implemento y escalo soluciones que simplifican operaciones, mejoran SLAs y habilitan decisiones con datos.
           </p>
-          <div class="mt-6 flex items-center gap-3">
-            <a href="#trabajos" class="btn rounded-md bg-brand.blue px-5 py-2.5">Ver casos</a>
-            <a href="#servicios" class="rounded-md px-5 py-2.5 border border-white/15 hover:bg-white/5">Servicios</a>
+          <div class="mt-3 sm:mt-6 flex items-center gap-2 sm:gap-3">
+            <a href="#trabajos" class="button-mobile btn rounded-md bg-brand.blue px-3 sm:px-5 py-1.5 sm:py-2.5">Ver casos</a>
+            <a href="#servicios" class="button-mobile rounded-md px-3 sm:px-5 py-1.5 sm:py-2.5 border border-white/15 hover:bg-white/5">Servicios</a>
           </div>
         </div>
-        <div class="relative">
+        <div class="relative mt-4 lg:mt-0">
           <!-- Mockup: dashboard window -->
-          <div class="hover-float card rounded-xl p-4">
-            <div class="flex items-center gap-2 mb-3">
-              <span class="w-3 h-3 rounded-full bg-rose-400/80"></span>
-              <span class="w-3 h-3 rounded-full bg-amber-300/80"></span>
-              <span class="w-3 h-3 rounded-full bg-emerald-400/80"></span>
-              <div class="ml-auto text-xs text-brand.slate">Demo Dashboard</div>
+          <div class="hover-float card rounded-xl p-3 sm:p-4">
+            <div class="flex items-center gap-2 mb-2 sm:mb-3">
+              <span class="w-2 sm:w-3 h-2 sm:h-3 rounded-full bg-rose-400/80"></span>
+              <span class="w-2 sm:w-3 h-2 sm:h-3 rounded-full bg-amber-300/80"></span>
+              <span class="w-2 sm:w-3 h-2 sm:h-3 rounded-full bg-emerald-400/80"></span>
+              <div class="ml-auto text-[10px] sm:text-xs text-brand.slate">Demo Dashboard</div>
             </div>
-            <div class="grid grid-cols-3 gap-3">
-              <div class="rounded-lg bg-white/5 p-3">
-                <div class="text-xs text-brand.slate">Ahorro anual</div>
-                <div class="text-2xl font-bold">$240k</div>
+            <div class="grid grid-cols-3 gap-2 sm:gap-3">
+              <div class="rounded-lg bg-white/5 p-2 sm:p-3">
+                <div class="text-[10px] sm:text-xs text-brand.slate">Ahorro anual</div>
+                <div class="text-lg sm:text-2xl font-bold">$240k</div>
               </div>
-              <div class="rounded-lg bg-white/5 p-3">
-                <div class="text-xs text-brand.slate">SLAs > 95%</div>
-                <div class="text-2xl font-bold">98.1%</div>
+              <div class="rounded-lg bg-white/5 p-2 sm:p-3">
+                <div class="text-[10px] sm:text-xs text-brand.slate">SLAs > 95%</div>
+                <div class="text-lg sm:text-2xl font-bold">98.1%</div>
               </div>
-              <div class="rounded-lg bg-white/5 p-3">
-                <div class="text-xs text-brand.slate">KPIs OKR</div>
-                <div class="text-2xl font-bold">+73%</div>
+              <div class="rounded-lg bg-white/5 p-2 sm:p-3">
+                <div class="text-[10px] sm:text-xs text-brand.slate">KPIs OKR</div>
+                <div class="text-lg sm:text-2xl font-bold">+73%</div>
               </div>
             </div>
-            <canvas id="heroChart" class="mt-4"></canvas>
+            <canvas id="heroChart" class="mt-3 sm:mt-4" width="664" height="332" style="display: block; box-sizing: border-box;"></canvas>
           </div>
         </div>
       </div>
       <!-- Quick stats -->
-      <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3">
-        <div class="card rounded-lg p-3 text-center">
-          <div class="text-2xl font-extrabold">7+</div><div class="text-xs text-brand.slate">Años experiencia</div>
+      <div class="mt-4 sm:mt-8 grid grid-cols-2 md:grid-cols-4 gap-2 grid-stats">
+        <div class="stat-card card rounded-lg text-center">
+          <div class="stat-value font-extrabold">7+</div>
+          <div class="stat-label text-brand.slate">Años experiencia</div>
         </div>
-        <div class="card rounded-lg p-3 text-center">
-          <div class="text-2xl font-extrabold">60+</div><div class="text-xs text-brand.slate">Procesos automatizados</div>
+        <div class="stat-card card rounded-lg text-center">
+          <div class="stat-value font-extrabold">60+</div>
+          <div class="stat-label text-brand.slate">Procesos automatizados</div>
         </div>
-        <div class="card rounded-lg p-3 text-center">
-          <div class="text-2xl font-extrabold">98%</div><div class="text-xs text-brand.slate">SLAs cumplidos</div>
+        <div class="card rounded-lg p-2 sm:p-3 text-center">
+          <div class="text-lg sm:text-2xl font-extrabold">98%</div>
+          <div class="text-[10px] sm:text-xs text-brand.slate">SLAs cumplidos</div>
         </div>
-        <div class="card rounded-lg p-3 text-center">
-          <div class="text-2xl font-extrabold">$1.2M</div><div class="text-xs text-brand.slate">Savings estimados</div>
+        <div class="card rounded-lg p-2 sm:p-3 text-center">
+          <div class="text-lg sm:text-2xl font-extrabold">$1.2M</div>
+          <div class="text-[10px] sm:text-xs text-brand.slate">Savings estimados</div>
         </div>
       </div>
     </section>
 
     <!-- Quién soy -->
-    <section id="quien-soy" class="pt-14 md:pt-16">
-      <h2 class="text-2xl md:text-3xl font-bold">Quién soy</h2>
-      <div class="mt-5 grid md:grid-cols-[160px,1fr] gap-5 items-start">
+    <section id="quien-soy" class="pt-10 sm:pt-14 md:pt-16">
+      <h2 class="text-xl sm:text-2xl md:text-3xl font-bold">Quién soy</h2>
+      <div class="mt-4 sm:mt-5 grid sm:grid-cols-[120px,1fr] md:grid-cols-[160px,1fr] gap-4 sm:gap-5 items-start">
         <!-- Avatar SVG -->
-        <div class="card rounded-xl p-6 grid place-items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-24 h-24 text-brand.cyan" viewBox="0 0 24 24" fill="currentColor">
+        <div class="card rounded-xl p-4 sm:p-6 grid place-items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-16 sm:w-20 md:w-24 h-16 sm:h-20 md:h-24 text-brand.cyan" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5z"/><path d="M12 14c-5.33 0-8 2.67-8 6v1h16v-1c0-3.33-2.67-6-8-6z"/>
           </svg>
         </div>
-        <div class="card rounded-xl p-6">
-          <p class="text-brand.slate">
+        <div class="card rounded-xl p-4 sm:p-6">
+          <p class="text-sm sm:text-base text-brand.slate">
             Soy Alan, apasionado por simplificar y escalar procesos. Conecto negocio y tecnología para automatizar tareas, asegurar la calidad de datos y medir impacto con KPIs accionables. Me enfoco en entregar valor rápido, seguro y sostenible.
           </p>
-          <ul class="mt-4 grid md:grid-cols-3 gap-3 text-sm">
-            <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand.cyan"></span>Eficiencia operacional</li>
-            <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand.cyan"></span>Data & BI (Power BI)</li>
-            <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand.cyan"></span>Automatización & RPA</li>
+          <ul class="mt-3 sm:mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 sm:gap-3 text-xs sm:text-sm">
+            <li class="flex items-center gap-2"><span class="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-brand.cyan"></span>Eficiencia operacional</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-brand.cyan"></span>Data & BI (Power BI)</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-brand.cyan"></span>Automatización & RPA</li>
           </ul>
         </div>
       </div>
     </section>
 
     <!-- Servicios -->
-    <section id="servicios" class="pt-14 md:pt-16">
-      <h2 class="text-2xl md:text-3xl font-bold">Servicios</h2>
-      <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <section id="servicios" class="pt-10 sm:pt-14 md:pt-16">
+      <h2 class="text-xl sm:text-2xl md:text-3xl font-bold">Servicios</h2>
+      <div class="mt-4 sm:mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         <!-- 1 -->
-        <div class="hover-float card rounded-xl p-5">
-          
+        <div class="hover-float card rounded-xl p-4 sm:p-5">
+          <div class="flex items-center gap-2 sm:gap-3">
+            <div class="w-8 sm:w-9 h-8 sm:h-9 grid place-items-center rounded-lg bg-brand.blue/20 text-brand.cyan">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 sm:w-5 h-4 sm:h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3zm0 8h8v-6H3zm10 0h8V11h-8zm0-18v6h8V3z"/></svg>
+            </div>
+            <h3 class="font-semibold text-sm sm:text-base">Automatización de procesos administrativos</h3>
           </div>
-          <div class="mt-6 p-4 rounded-lg bg-white/5 text-sm text-brand.slate">
+          <p class="mt-2 text-xs sm:text-sm text-brand.slate">Reducción de tareas manuales, validaciones y controles de calidad.</p>
+        </div>
+        <!-- 2 -->
+        <div class="hover-float card rounded-xl p-4 sm:p-5">
+          <div class="flex items-center gap-2 sm:gap-3">
+            <div class="w-8 sm:w-9 h-8 sm:h-9 grid place-items-center rounded-lg bg-brand.blue/20 text-brand.cyan">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 sm:w-5 h-4 sm:h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M4 19h16v2H4z"/><path d="M6 17V9h2v8zm5 0V5h2v12zm5 0v-6h2v6z"/></svg>
+            </div>
+            <h3 class="font-semibold text-sm sm:text-base">Power BI: reportes y dashboards</h3>
+          </div>
+          <p class="mt-2 text-xs sm:text-sm text-brand.slate">KPIs de control con storytelling y gobernanza de datos.</p>
+        </div>
+        <!-- 3 -->
+        <div class="hover-float card rounded-xl p-4 sm:p-5">
+          <div class="flex items-center gap-2 sm:gap-3">
+            <div class="w-8 sm:w-9 h-8 sm:h-9 grid place-items-center rounded-lg bg-brand.blue/20 text-brand.cyan">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 sm:w-5 h-4 sm:h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a4 4 0 00-4 4v1H5a2 2 0 00-2 2v8a4 4 0 004 4h10a4 4 0 004-4V8a2 2 0 00-2-2h-3V5a4 4 0 00-4-4z"/></svg>
+            </div>
+            <h3 class="font-semibold text-sm sm:text-base">Gestión de SLAs y seguridad</h3>
+          </div>
+          <p class="mt-2 text-xs sm:text-sm text-brand.slate">Monitoreo, alertas y cumplimiento en procesos críticos.</p>
+        </div>
+        <!-- 4 -->
+        <div class="hover-float card rounded-xl p-4 sm:p-5">
+          <div class="flex items-center gap-2 sm:gap-3">
+            <div class="w-8 sm:w-9 h-8 sm:h-9 grid place-items-center rounded-lg bg-brand.blue/20 text-brand.cyan">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 sm:w-5 h-4 sm:h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M3 7h18v2H3zm0 4h12v2H3zm0 4h18v2H3z"/></svg>
+            </div>
+            <h3 class="font-semibold text-sm sm:text-base">Optimización de flujos comerciales</h3>
+          </div>
+          <p class="mt-2 text-xs sm:text-sm text-brand.slate">Diseño de flujos eficientes, sin fricción, con foco en valor.</p>
+        </div>
+        <!-- 5 -->
+        <div class="hover-float card rounded-xl p-4 sm:p-5">
+          <div class="flex items-center gap-2 sm:gap-3">
+            <div class="w-8 sm:w-9 h-8 sm:h-9 grid place-items-center rounded-lg bg-brand.blue/20 text-brand.cyan">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 sm:w-5 h-4 sm:h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M9 12l2 2 4-4 5 5v3H4v-5l3-3z"/></svg>
+            </div>
+            <h3 class="font-semibold text-sm sm:text-base">Bots y RPA para tareas repetitivas</h3>
+          </div>
+          <p class="mt-2 text-xs sm:text-sm text-brand.slate">Automatizaciones simples y seguras que ahorran tiempo.</p>
+        </div>
+        <!-- 6 -->
+        <div class="hover-float card rounded-xl p-4 sm:p-5">
+          <div class="flex items-center gap-2 sm:gap-3">
+            <div class="w-8 sm:w-9 h-8 sm:h-9 grid place-items-center rounded-lg bg-brand.blue/20 text-brand.cyan">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 sm:w-5 h-4 sm:h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v2H4zM4 12h12v2H4zM4 18h8v2H4z"/></svg>
+            </div>
+            <h3 class="font-semibold text-sm sm:text-base">Integración y seguimiento</h3>
+          </div>
+          <p class="mt-2 text-xs sm:text-sm text-brand.slate">Herramientas de colaboración con trazabilidad y métricas.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trabajos / Casos de demo -->
+    <section id="trabajos" class="pt-10 sm:pt-14 md:pt-16">
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl sm:text-2xl md:text-3xl font-bold">Ejemplos de trabajos</h2>
+        <span class="tag bg-white/10 text-brand.slate ring-1 ring-white/15 text-[10px] sm:text-xs">Demo visual</span>
+      </div>
+
+      <div class="mt-4 sm:mt-6 grid sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-5">
+        <!-- Caso 1: Power BI KPIs -->
+        <article class="hover-float card rounded-xl p-3 sm:p-4 flex flex-col">
+          <div class="flex items-center gap-2">
+            <div class="w-7 sm:w-8 h-7 sm:h-8 grid place-items-center rounded-md bg-brand.blue/20 text-brand.cyan">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 sm:w-5 h-4 sm:h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M4 19h16v2H4z"/><path d="M6 17V9h2v8zm5 0V5h2v12zm5 0v-6h2v6z"/></svg>
+            </div>
+            <h3 class="font-semibold text-sm sm:text-base">Dashboard de KPIs</h3>
+          </div>
+          <p class="text-xs sm:text-sm text-brand.slate mt-1 sm:mt-2">Vista de desempeño con tendencias y alertas.</p>
+          <canvas id="workChart1" class="mt-2 sm:mt-3 h-28 sm:h-36" width="664" height="332" style="display: block; box-sizing: border-box;"></canvas>
+          <button class="mt-3 sm:mt-4 btn rounded-md bg-brand.blue px-3 py-1.5 sm:py-2 text-xs sm:text-sm self-start" data-detail="kpi">Ver detalle</button>
+        </article>
+
+        <!-- Caso 2: Aprobación de facturas -->
+        <article class="hover-float card rounded-xl p-3 sm:p-4">
+          <div class="flex items-center gap-2">
+            <div class="w-7 sm:w-8 h-7 sm:h-8 grid place-items-center rounded-md bg-brand.blue/20 text-brand.cyan">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 sm:w-5 h-4 sm:h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M7 2h10a2 2 0 012 2v16l-7-3-7 3V4a2 2 0 012-2z"/></svg>
+            </div>
+            <h3 class="font-semibold text-sm sm:text-base">Aprobación de facturas</h3>
+          </div>
+          <p class="text-xs sm:text-sm text-brand.slate mt-1 sm:mt-2">Flujo de aprobación con validaciones.</p>
+          <!-- Diagrama de flujo simplificado (SVG) -->
+          <div class="mt-2 sm:mt-3 rounded-lg bg-white/5 p-2 sm:p-3">
+            <svg viewBox="0 0 420 140" class="w-full h-28 sm:h-36">
+              <defs>
+                <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#22D3EE"/></marker>
+              </defs>
+              <rect x="10" y="20" rx="8" ry="8" width="110" height="36" fill="rgba(37,99,235,.25)" stroke="#2563EB"/>
+              <text x="65" y="43" text-anchor="middle" fill="#E2E8F0" font-size="12">Recepción</text>
+
+              <rect x="150" y="20" rx="8" ry="8" width="120" height="36" fill="rgba(16,185,129,.2)" stroke="#10B981"/>
+              <text x="210" y="43" text-anchor="middle" fill="#E2E8F0" font-size="12">Validación</text>
+
+              <rect x="300" y="20" rx="8" ry="8" width="110" height="36" fill="rgba(34,211,238,.2)" stroke="#22D3EE"/>
+              <text x="355" y="43" text-anchor="middle" fill="#E2E8F0" font-size="12">Aprobación</text>
+
+              <line x1="120" y1="38" x2="150" y2="38" stroke="#22D3EE" stroke-width="2" marker-end="url(#arrow)"/>
+              <line x1="270" y1="38" x2="300" y2="38" stroke="#22D3EE" stroke-width="2" marker-end="url(#arrow)"/>
+
+              <rect x="150" y="80" rx="8" ry="8" width="120" height="36" fill="rgba(244,114,182,.2)" stroke="#F472B6"/>
+              <text x="210" y="103" text-anchor="middle" fill="#E2E8F0" font-size="12">Observado</text>
+              <line x1="210" y1="56" x2="210" y2="80" stroke="#F472B6" stroke-width="2" marker-end="url(#arrow)"/>
+            </svg>
+          </div>
+          <button class="mt-3 sm:mt-4 btn rounded-md bg-brand.blue px-3 py-1.5 sm:py-2 text-xs sm:text-sm" data-detail="invoices">Ver detalle</button>
+        </article>
+
+        <!-- Caso 3: SLAs soporte -->
+        <article class="hover-float card rounded-xl p-3 sm:p-4">
+          <div class="flex items-center gap-2">
+            <div class="w-7 sm:w-8 h-7 sm:h-8 grid place-items-center rounded-md bg-brand.blue/20 text-brand.cyan">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 sm:w-5 h-4 sm:h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a10 10 0 1010 10A10.011 10.011 0 0012 1z"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <h3 class="font-semibold text-sm sm:text-base">Control de SLAs</h3>
+          </div>
+          <p class="text-xs sm:text-sm text-brand.slate mt-1 sm:mt-2">Cumplimiento y tiempos por prioridad.</p>
+          <!-- Gauge donut SVG -->
+          <div class="mt-2 sm:mt-3 grid place-items-center">
+            <svg viewBox="0 0 120 120" class="w-24 sm:w-32 h-24 sm:h-32">
+              <circle cx="60" cy="60" r="48" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="10"/>
+              <circle cx="60" cy="60" r="48" fill="none" stroke="#10B981" stroke-width="10" stroke-linecap="round" stroke-dasharray="226" stroke-dashoffset="50" transform="rotate(-90 60 60)"/>
+              <text x="60" y="66" fill="#E2E8F0" font-size="16" font-weight="700" text-anchor="middle">78%</text>
+            </svg>
+          </div>
+          <button class="mt-3 sm:mt-4 btn rounded-md bg-brand.blue px-3 py-1.5 sm:py-2 text-xs sm:text-sm" data-detail="sla">Ver detalle</button>
+        </article>
+
+        <!-- Caso 4: Bot reportes semanales -->
+        <article class="hover-float card rounded-xl p-3 sm:p-4">
+          <div class="flex items-center gap-2">
+            <div class="w-7 sm:w-8 h-7 sm:h-8 grid place-items-center rounded-md bg-brand.blue/20 text-brand.cyan">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 sm:w-5 h-4 sm:h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16v2H4zM4 8h12v2H4zM4 12h8v2H4z"/></svg>
+            </div>
+            <h3 class="font-semibold text-sm sm:text-base">Bot para reportes</h3>
+          </div>
+          <p class="text-xs sm:text-sm text-brand.slate mt-1 sm:mt-2">Generación y envío automático semanal.</p>
+          <div class="mt-2 sm:mt-3 rounded-lg bg-black/30 p-2 sm:p-3 font-mono text-[10px] sm:text-xs text-brand.slate">
+            > Generando reporte W36... OK<br/>
+            > Enviando a stakeholders... OK<br/>
+            > Publicado en canal #ventas... OK
+          </div>
+          <button class="mt-3 sm:mt-4 btn rounded-md bg-brand.blue px-3 py-1.5 sm:py-2 text-xs sm:text-sm" data-detail="bot">Ver detalle</button>
+        </article>
+
+        <!-- Caso 5: Alertas automáticas -->
+        <article class="hover-float card rounded-xl p-3 sm:p-4">
+          <div class="flex items-center gap-2">
+            <div class="w-7 sm:w-8 h-7 sm:h-8 grid place-items-center rounded-md bg-brand.blue/20 text-brand.cyan">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 sm:w-5 h-4 sm:h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 00-7 7v4l-2 2v1h18v-1l-2-2V9a7 7 0 00-7-7z"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+            </div>
+            <h3 class="font-semibold text-sm sm:text-base">Alertas críticas</h3>
+          </div>
+          <p class="text-xs sm:text-sm text-brand.slate mt-1 sm:mt-2">Notificaciones ante desvíos y riesgos.</p>
+          <div class="mt-2 sm:mt-3 flex flex-col gap-1.5 sm:gap-2">
+            <div class="flex items-center gap-2"><span class="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-amber-400"></span><span class="text-[10px] sm:text-xs">SLA Prioridad Alta — 55 min</span></div>
+            <div class="flex items-center gap-2"><span class="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-emerald-400"></span><span class="text-[10px] sm:text-xs">Backup OK — 03:00</span></div>
+            <div class="flex items-center gap-2"><span class="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-rose-400"></span><span class="text-[10px] sm:text-xs">Error API Inventarios</span></div>
+          </div>
+          <button class="mt-3 sm:mt-4 btn rounded-md bg-brand.blue px-3 py-1.5 sm:py-2 text-xs sm:text-sm" data-detail="alerts">Ver detalle</button>
+        </article>
+
+        <!-- Caso 6 opcional: Inventarios -->
+        <article class="hover-float card rounded-xl p-3 sm:p-4">
+          <div class="flex items-center gap-2">
+            <div class="w-7 sm:w-8 h-7 sm:h-8 grid place-items-center rounded-md bg-brand.blue/20 text-brand.cyan">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 sm:w-5 h-4 sm:h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h18v6H3zM3 11h18v10H3z"/></svg>
+            </div>
+            <h3 class="font-semibold text-sm sm:text-base">Gestión de inventarios</h3>
+          </div>
+          <p class="text-xs sm:text-sm text-brand.slate mt-1 sm:mt-2">Control de stock y alertas de reposición.</p>
+          <!-- Pequeño flujo -->
+          <svg viewBox="0 0 420 110" class="mt-2 sm:mt-3 w-full h-24 sm:h-28">
+            <defs><marker id="arr2" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#2563EB"/></marker></defs>
+            <rect x="20" y="20" width="100" height="28" rx="6" fill="rgba(37,99,235,.25)" stroke="#2563EB"/><text x="70" y="38" fill="#E2E8F0" font-size="12" text-anchor="middle">Pedidos</text>
+            <rect x="160" y="20" width="100" height="28" rx="6" fill="rgba(16,185,129,.2)" stroke="#10B981"/><text x="210" y="38" fill="#E2E8F0" font-size="12" text-anchor="middle">Stock</text>
+            <rect x="300" y="20" width="100" height="28" rx="6" fill="rgba(34,211,238,.2)" stroke="#22D3EE"/><text x="350" y="38" fill="#E2E8F0" font-size="12" text-anchor="middle">Alertas</text>
+            <line x1="120" y1="34" x2="160" y2="34" stroke="#2563EB" stroke-width="2" marker-end="url(#arr2)"/>
+            <line x1="260" y1="34" x2="300" y2="34" stroke="#2563EB" stroke-width="2" marker-end="url(#arr2)"/>
+          </svg>
+          <button class="mt-3 sm:mt-4 btn rounded-md bg-brand.blue px-3 py-1.5 sm:py-2 text-xs sm:text-sm" data-detail="inventory">Ver detalle</button>
+        </article>
+      </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto" class="pt-10 sm:pt-14 md:pt-16 pb-10 sm:pb-16">
+      <h2 class="text-xl sm:text-2xl md:text-3xl font-bold">Contacto</h2>
+      <div class="mt-4 sm:mt-6 grid md:grid-cols-2 gap-4 sm:gap-6">
+        <form id="contactForm" action="https://formspree.io/f/xanpwalj" method="POST" class="card rounded-xl p-4 sm:p-6 space-y-3 sm:space-y-4">
+          <div class="grid sm:grid-cols-2 gap-3 sm:gap-4">
+            <div>
+              <label class="text-xs sm:text-sm text-brand.slate" for="name">Nombre</label>
+              <input class="mt-1 w-full rounded-md field px-3 py-2 text-sm sm:text-base" type="text" name="name" placeholder="Tu nombre" required/>
+            </div>
+            <div>
+              <label class="text-xs sm:text-sm text-brand.slate" for="email">Email</label>
+              <input class="mt-1 w-full rounded-md field px-3 py-2 text-sm sm:text-base" type="email" name="email" placeholder="tu@email.com" required/>
+            </div>
+          </div>
+          <div>
+            <label class="text-xs sm:text-sm text-brand.slate" for="message">Mensaje</label>
+            <textarea class="mt-1 w-full rounded-md field px-3 py-2 text-sm sm:text-base" name="message" rows="4" placeholder="Contame brevemente tu necesidad" required></textarea>
+          </div>
+          <div class="flex items-center justify-between">
+            <span id="formNote" class="text-[10px] sm:text-xs text-brand.slate">Responderé en 24–48 h.</span>
+            <button class="btn rounded-md bg-brand.blue px-4 sm:px-5 py-2 sm:py-2.5 text-sm" type="submit">Enviar</button>
+          </div>
+        </form>
+        <div class="card rounded-xl p-4 sm:p-6">
+          <div class="space-y-3">
+            <div class="flex items-center gap-2 sm:gap-3">
+              <div class="w-8 sm:w-9 h-8 sm:h-9 grid place-items-center rounded-lg bg-white/5 text-brand.cyan">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 sm:w-5 h-4 sm:h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M2 6a2 2 0 012-2h16a2 2 0 012 2v1H2V6z"/><path d="M22 8v10a2 2 0 01-2 2H4a2 2 0 01-2-2V8l10 6z"/></svg>
+              </div>
+              <div>
+                <div class="text-xs sm:text-sm text-brand.slate">Email</div>
+                <a href="mailto:alanlperez@example.com" class="link-ux text-sm sm:text-base">alanlperez@example.com</a>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 sm:gap-3">
+              <div class="w-8 sm:w-9 h-8 sm:h-9 grid place-items-center rounded-lg bg-white/5 text-brand.cyan">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 sm:w-5 h-4 sm:h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16v16H4z"/></svg>
+              </div>
+              <div>
+                <div class="text-xs sm:text-sm text-brand.slate">LinkedIn</div>
+                <a href="https://www.linkedin.com/in/alanlperez" target="_blank" rel="noopener noreferrer" class="link-ux text-sm sm:text-base">linkedin.com/in/alanlperez</a>
+              </div>
+            </div>
+
+          </div>
+          <div class="mt-4 sm:mt-6 p-3 sm:p-4 rounded-lg bg-white/5 text-xs sm:text-sm text-brand.slate">
             Preferís una reunión rápida? Coordinemos un 1:1 para entender tu caso y estimar impacto.
           </div>
         </div>
@@ -202,8 +532,8 @@
 
   <!-- Footer -->
   <footer class="border-t border-white/10">
-    <div class="max-w-7xl mx-auto px-5 py-6 text-sm text-brand.slate flex flex-col md:flex-row items-center justify-between gap-3">
-      <div>© <span id="year"></span> AlanLPerez — Automation & Process Improvement Lead</div>
+    <div class="max-w-7xl mx-auto px-3 sm:px-5 py-4 sm:py-6 text-xs sm:text-sm text-brand.slate flex flex-col md:flex-row items-center justify-between gap-2 sm:gap-3">
+      <div class="text-center md:text-left">© <span id="year"></span> AlanLPerez — Automation & Process Improvement Lead</div>
       <div class="flex items-center gap-3">
         <a href="#servicios" class="link-ux">Servicios</a>
         <a href="#trabajos" class="link-ux">Trabajos</a>
@@ -215,25 +545,25 @@
   <!-- Modal detalle -->
   <div id="modal" class="fixed inset-0 z-50 hidden">
     <div class="absolute inset-0 modal-backdrop"></div>
-    <div class="relative max-w-2xl mx-auto mt-24 card rounded-xl p-6">
+    <div class="relative w-[90%] sm:max-w-2xl mx-auto mt-16 sm:mt-24 card rounded-xl p-4 sm:p-6">
       <div class="flex items-center justify-between">
-        <h3 id="modalTitle" class="text-lg font-semibold">Detalle</h3>
+        <h3 id="modalTitle" class="text-base sm:text-lg font-semibold">Detalle</h3>
         <button id="modalClose" class="p-2 rounded-md hover:bg-white/10">&times;</button>
       </div>
-      <div id="modalBody" class="mt-3 text-sm text-brand.slate">
+      <div id="modalBody" class="mt-2 sm:mt-3 text-xs sm:text-sm text-brand.slate">
         <!-- Filled dynamically -->
       </div>
-      <div class="mt-4 text-right">
-        <button id="modalOk" class="btn rounded-md bg-brand.blue px-4 py-2">Cerrar</button>
+      <div class="mt-3 sm:mt-4 text-right">
+        <button id="modalOk" class="btn rounded-md bg-brand.blue px-3 sm:px-4 py-1.5 sm:py-2 text-sm">Cerrar</button>
       </div>
     </div>
   </div>
 
   <!-- Toast -->
   <div id="toast" class="fixed bottom-4 right-4 z-[60] hidden">
-    <div class="rounded-lg bg-brand.card text-white px-4 py-2 shadow-lg flex items-center gap-2 ring-1 ring-white/10">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-brand.cyan" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1010 10A10.011 10.011 0 0012 2zm-1 15l-5-5 1.41-1.41L11 14.17l6.59-6.59L19 9z"/></svg>
-      <span id="toastMsg" class="text-sm">Enviado. ¡Gracias!</span>
+    <div class="rounded-lg bg-brand.card text-white px-3 sm:px-4 py-2 shadow-lg flex items-center gap-2 ring-1 ring-white/10">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-3 sm:w-4 h-3 sm:h-4 text-brand.cyan" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1010 10A10.011 10.011 0 0012 2zm-1 15l-5-5 1.41-1.41L11 14.17l6.59-6.59L19 9z"/></svg>
+      <span id="toastMsg" class="text-xs sm:text-sm">Enviado. ¡Gracias!</span>
     </div>
   </div>
 
@@ -360,22 +690,38 @@
       });
     });
 
-    // Contact form (demo)
+    // Contact form
     const toast = document.getElementById('toast');
     const toastMsg = document.getElementById('toastMsg');
-    document.getElementById('contactForm').addEventListener('submit', (e)=>{
+    document.getElementById('contactForm').addEventListener('submit', async (e)=>{
       e.preventDefault();
-      const name = document.getElementById('cName').value.trim();
-      const email = document.getElementById('cEmail').value.trim();
-      const msg = document.getElementById('cMsg').value.trim();
-      if (!name || !email || !msg) {
-        toastMsg.textContent = 'Completá nombre, email y mensaje.';
-      } else {
-        toastMsg.textContent = 'Enviado. ¡Gracias! (Demo)';
-        e.target.reset();
-      }
+      
+      const form = e.target;
+      const formData = new FormData(form);
+      
+      toastMsg.textContent = 'Enviando mensaje...';
       toast.classList.remove('hidden');
-      setTimeout(()=> toast.classList.add('hidden'), 1800);
+      
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+        
+        if (response.ok) {
+          form.reset();
+          toastMsg.textContent = '¡Gracias por tu mensaje!';
+        } else {
+          throw new Error('Error al enviar el mensaje');
+        }
+      } catch (error) {
+        toastMsg.textContent = 'Error al enviar. Por favor intenta nuevamente.';
+      }
+      
+      setTimeout(() => toast.classList.add('hidden'), 1800);
     });
 
     // Init
@@ -385,5 +731,5 @@
     }
     init();
   </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9833827215c8e9a8',t:'MTc1ODU2MjAxMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98331e8f94c0b50e',t:'MTc1ODU1NzkxOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
