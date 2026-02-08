@@ -1,506 +1,592 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="scroll-smooth" lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="keywords" content="Alan Pérez, Servicio de automatización, automatización de procesos" />
-  <meta name="description" content="Bienvenido a mi página. Servicios de automatización para optimizar tu negocio." />
-  
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="./assets/css/style.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Favicon -->
-    <link id='favicon' rel="shortcut icon" href="./assets/images/automation.png" type="image/x-png">
-    <title>Automations | Alan L. Pérez</title>
-</head>
-<body oncontextmenu="return false">
-
-  
-<!-- pre loader -->
-<!-- <div class="loader-container">
-  <img draggable="false" src="./assets/images/preloader.gif" alt="">
-</div> -->
-
-<!-- navbar starts -->
-<header>
-        <a href="https://alueniriarte.github.io/WebPage" class="logo"></i> Alan L Pérez</a>
-
-        <div id="menu" class="fas fa-bars"></div>
-        <nav class="navbar">
-            <ul>
-            <li><a class="active" href="#Slider">Inicio</a></li>
-            <li><a href="#about">Quien soy?</a></li>
-            <li><a href="#work">Servicios</a></li>
-            </ul>
-        </nav>
-</header>
-<!-- navbar ends -->
-
-
-<!-- Slider starts-->
-<section class="Slider" id="Slider">
-  <div class="slider-container">
-    <div class="slides">
-      <div class="slide">
-        <a href="https://wa.me/+5401137757663?text=Hola,%20me%20gustaría%20hacer%20una%20consulta!" target="_blank">
-          <img src="./assets/images/Banners/BannerImg1.png" alt="Slide 1">
-        </a>
-      </div>
-      <div class="slide">
-        <a href="https://wa.me/+5401137757663?text=Hola,%20me%20gustaría%20hacer%20una%20consulta!" target="_blank">
-          <img src="./assets/images/Banners/BannerImg2.png" alt="Slide 2">
-        </a>
-      </div>
-    </div>
-    <button class="prev1" onclick="moveSlide(-1)">&#10094;</button>
-    <button class="next1" onclick="moveSlide(1)">&#10095;</button>
-  </div>
-</section>
-
-<style>
-.slider-container {
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .slides {
-    display: flex;
-    width: 100%;
-    height: 100%;
-  }
-
-  .slide {
-    min-width: 100%;
-    height: 100%;
-  }
-
-  .slide img {
-    width: 100%;
-    height: 100%;
-  }
-
-    @media only screen and (max-width: 600px) { .slide img {  width: 100%;   height: 30%;  }}
-</style>
-
-
-  
-  <title>WhatsApp Banner</title>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Sistema de Decisi&oacute;n Comercial | BI y Automatizaci&oacute;n</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries,line-clamp"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap"
+    rel="stylesheet"
+  >
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet"
+  >
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#6b4db2",
+            "accent-gold": "#F6C900",
+            "background-light": "#f7f6f7",
+          },
+          fontFamily: {
+            display: ["Manrope", "sans-serif"],
+            sans: ["Manrope", "sans-serif"],
+          },
+          boxShadow: {
+            card: "0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)",
+            "card-hover": "0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04)",
+            "gold-glow": "0 0 20px rgba(246, 201, 0, 0.25)",
+          },
+        },
+      },
+    };
+  </script>
   <style>
-      .banner-container {
-          width: 100%;
-          max-width: 1200px;
-          margin: auto;
-          position: relative;
-      }
-      .banner-container img {
-          width: 100%;
-          height: auto;
-          display: block;
-      }
-      .banner-container a {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          display: block;
-          text-decoration: none;
-      }
+    body {
+      font-family: "Manrope", sans-serif;
+      min-height: max(884px, 100dvh);
+    }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
-
 </head>
-<body>
-
-
-<!-- hero section starts -->
-
- <!-- hero section ends -->
-
-<!-- Manual vs automatico starts -->
-<section class="vs" id="vs">
-<<<<<<< HEAD
-  <h2 class="vs-example-title unique-title">
-    <span class="highlighted-text">Transforma</span> tu negocio
-  </h2>
-=======
-  <h2 class="heading"><i class="fas fa-chart-line"></i><span> Transforma </span><div class="mobile-break"> Tu negocio</div></h2>
-  <h1 class="vs-image-subtitle">Ej: Generación de Reportes</h1>
->>>>>>> 765ccb8dec62563718027493ae9166d949939eb5
-
-  <div class="image-container-vs">
-    <img src="./assets/images/projects/5.png" alt="Automatización de reportes" class="vs-image">
-    <img src="./assets/images/projects/6.png" alt="Automatización de reportes" class="vs-image">
-    <img src="./assets/images/projects/7.png" alt="Automatización de reportes" class="vs-image">
-
-  </div>
-</section>
-<!-- Manual vs automatico ends -->
-	
-<!-- about section starts -->
-<section class="about" id="about">
-  <h2 class="heading"><i class="fas fa-user-alt"></i> Sobre <span>Mi</span></h2>
-  
-<div class="row">
-  <div class="image">
-    <img draggable="false" class="tilt" src="./assets/images/profile2.jfif" alt="Foto de Alan, especialista en automatización">
-  </div>
-  <div class="content">
-    <h3>¡Hola! Soy Alan</h3>
-    <span class="tag">Me dedico a la automatización de procesos.</span>
-
-    <p>💡 <strong>Transformar con tecnología, potenciar con humanidad</strong></p>
-    <p>Creo que la clave de la automatización no es solo optimizar procesos, sino comprender a las personas detrás de ellos. Cada solución debe adaptarse a los recursos y necesidades de cada equipo, permitiendo flexibilidad y un impacto real en su trabajo diario. La tecnología me permite optimizar procesos, reducir errores y acelerar resultados. Pero el verdadero cambio ocurre cuando liberamos tiempo para lo que nos hace humanos: el análisis, la creatividad y el criterio humano.</p>
-
-    <p>📌 <strong>3+ años impulsando eficiencia y resultados</strong></p>
-    <p>He ayudado a empresas a reducir hasta un 50% su tiempo en tareas repetitivas, logrando procesos más ágiles y equipos más productivos.</p>
-
-    <p>Si quieres optimizar tu operación y enfocarte en el impacto real, escríbeme y hablemos. 🚀</p>
-    
-    <p>
-      <span> ✉️ </span> <a href="mailto:alanlperez1996@gmail.com" class="email-link">alanlperez1996@gmail.com</a>
-    </p>
-    
-    <p>
-      <span> 📱 </span> <a href="https://wa.me/+5401137757663?text=Hola,%20me%20gustaría%20hacer%20una%20consulta!" target="_blank" class="whatsapp-link">Contáctame por WhatsApp</a>
-    </p>
-  </div>
-</div>
-</section>
-
-<!-- Work Project Section Starts -->
-
-<section class="work" id="work">
-  <h2 class="heading"><i class="fas fa-laptop-code"></i> Mis <span>Proyectos</span></h2>
-
-  <div class="box-container1">
-    <!-- Primer Proyecto con Video -->
- <div class="box3">
-                <video class="video-preview" controls>
-                    <source src="./assets/Videos/RBaExcel.mp4" type="video/mp4">
-                    Tu navegador no soporta el video.
-                </video>
-                <div class="content">
-                    <h3>RB a Excel</h3>
-                    <p>RPA Example.</p>
-                </div>
-            </div>
-
-            <!-- Segundo Proyecto con Imagen Estática -->
-            <div class="box1">
-                <img src="./assets/images/projects/ExcelDashboard.png" onclick="openModal(this.src)" alt="Excel Dashboard">
-                <div class="content">
-                    <h3>Excel Dashboard</h3>
-                    <p>Dashboard visualizado en Excel.</p>
-                </div>
-            </div>
-
-	  	 <!-- Tercero Proyecto con Slider -->
-            <div class="box2">
-                <div class="slider1">
-                    <div class="slides1">
-                        <img src="./assets/images/projects/netflix%20titles/img1.jpg" onclick="openModal(this.src)" alt="Imagen 1">
-                        <img src="./assets/images/projects/netflix%20titles/img2.jpg" onclick="openModal(this.src)" alt="Imagen 2">
-                        <img src="./assets/images/projects/netflix%20titles/img3.jpg" onclick="openModal(this.src)" alt="Imagen 3">
-                        <img src="./assets/images/projects/netflix%20titles/img4.jpg" onclick="openModal(this.src)" alt="Imagen 4">
-                    </div>
-                    <button class="prev" onclick="moveSlide1(-1)">&#10094;</button>
-                    <button class="next" onclick="moveSlide1(1)">&#10095;</button>
-                </div>
-                <div class="content">
-                    <h3>Netflix Titles Dashboard</h3>
-                    <p>Dashboard con análisis de títulos de Netflix.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-
-    <!-- Modal para ver imágenes en grande -->
-    <div id="imageModal" class="modal" onclick="closeModal()">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <img class="modal-content" id="modalImg">
-    </div>
-
-<style>
-        .box-container1 {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-            align-items: stretch;
-        }
-
-        .box1 {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            width: 700px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 100%;
-        }
-
-	        .box2 {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            width: 300px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 100%;
-        }
-		
-			.box3 {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            width: 300px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 100%;
-        }
-
-        .box1 img, .box1 video {
-            width: 100%;
-            height: 350px;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-
-	    @media only screen and (max-width: 600px) {   .box1 img, .box1 video {
-            width: 100%;
-            height: 200px;
-            border-radius: 10px;
-            cursor: pointer;
-        }}
-        .content {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .slider1 {
-            position: relative;
-            width: 100%;
-            height: 350px;
-            overflow: hidden;
-            border-radius: 10px;
-        }
-
-        .slides1 {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-        }
-
-        .slides1 img {
-            width: 100%;
-            height: 200%;
-            object-fit: contain;
-            cursor: pointer;
-        }
-
-        .prev, .next {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            cursor: pointer;
-            padding: 13px;
-            font-size: 15px;
-            border-radius: 100%;
-        }
-
-		   .prev1, .next1 {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            cursor: pointer;
-            padding: 13px;
-            font-size: 15px;
-            border-radius: 50%;
-        }
-		
-		 @media only screen and (max-width: 600px) {  .prev1, .next1 {
-            position: absolute;
-            top: 15%;
-            transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            cursor: pointer;
-            padding: 13px;
-            font-size: 15px;
-            border-radius: 100%;
-        }}
-
-        .prev { left: 5px; }
-        .next { right: 5px; }
-        .prev:hover, .next:hover { background: black; }
-		
-		.prev1 { left: 5px; }
-        .next1 { right: 5px; }
-        .prev:hover, .next:hover { background: black; }
-
-        /* Estilos para el modal */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            max-width: 90vw;
-            max-height: 90vh;
-            object-fit: contain;
-            border-radius: 10px;
-        }
-
-        .close {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 35px;
-            color: white;
-            cursor: pointer;
-        }
-
-        .close:hover {
-            color: red;
-        }
-</style>
-
-<script>
-        let index1 = 0;
-
-        function moveSlide1(step) {
-            const slides = document.querySelector(".slides1");
-            const totalSlides = document.querySelectorAll(".slides1 img").length;
-
-            index1 += step;
-            if (index1 < 0) index1 = totalSlides - 1;
-            if (index1 >= totalSlides) index1 = 0;
-
-            slides.style.transform = `translateX(-${index1 * 100}%)`;
-        }
-
-        // Modal para mostrar imágenes en grande
-        function openModal(src) {
-            let modal = document.getElementById("imageModal");
-            let modalImg = document.getElementById("modalImg");
-
-            modal.style.display = "flex"; // Muestra el modal
-            modalImg.src = src;
-        }
-
-        function closeModal() {
-            document.getElementById("imageModal").style.display = "none";
-        }
-</script>
-<!-- Work Project Section Ends -->
-
-
-
-
-
-<!-- footer section starts -->
-<section class="footer">
-
-  <div class="box-container">
-
-      <div class="box">
-          <h3>¡Transforma tus procesos con automatización! 🚀</h3>
-          <p>No dudes en contactarme para explorar cómo puedo ayudarte a llevar tu negocio al siguiente nivel.<br/> 
-      </div>
-
-      <div class="box">
-          <h3>Enlaces rápidos</h3>
-          <a href="#Slider"><i class="fas fa-chevron-circle-right"></i> Inicio</a>
-          <a href="#about"><i class="fas fa-chevron-circle-right"></i> Quien Soy?</a>
-          <a href="#work"><i class="fas fa-chevron-circle-right"></i> Proyectos</a>
-      </div>
-
-      <div class="box">
-          <h3>contact info</h3>
-          <p> <i class="fas fa-phone"></i>+54 11 3775-7663</p>
-          <p> <i class="fas fa-envelope"></i>Alanlperez1996@gmail.com</p>
-          <div class="share">
-
-              <a href="https://www.linkedin.com/in/Alan-Pérez" class="fab fa-linkedin" aria-label="LinkedIn" target="_blank"></a>
-              <a href="mailto:alanlperez1996@gmail.com" class="fas fa-envelope" aria-label="Mail" target="_blank"></a>
+<body
+  class="bg-background-light text-slate-900 min-h-screen flex flex-col font-display overflow-x-hidden pb-28"
+>
+  <nav
+    class="sticky top-0 z-50 bg-background-light/80 backdrop-blur-md border-b border-slate-200"
+  >
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <a class="flex-shrink-0 flex items-center gap-2" href="#sistema">
+          <span class="material-symbols-outlined text-primary text-3xl">insights</span>
+          <span class="flex flex-col leading-tight">
+            <span class="font-bold text-lg tracking-tight">BI &amp; Automatizaci&oacute;n</span>
+            <span class="text-[11px] text-slate-500 font-semibold uppercase tracking-wider">
+              Sistema de Decisi&oacute;n Comercial
+            </span>
+          </span>
+        </a>
+        <div class="hidden md:block">
+          <div class="ml-10 flex items-baseline space-x-3">
+            <a class="text-slate-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors" href="#sistema">Sistema</a>
+            <a class="text-slate-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors" href="#sobre-mi">Sobre m&iacute;</a>
+            <a class="text-slate-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors" href="#como-funciona">C&oacute;mo funciona</a>
+            <a class="text-slate-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors" href="#servicios">Servicios</a>
+            <a class="text-slate-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors" href="#guia">Gu&iacute;a</a>
+            <a
+              class="bg-primary text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all"
+              href="./assets/images/Guia_Paso_a_Paso_Sales_Dashboard_AlanPerez.pdf"
+              download
+            >Descargar gu&iacute;a</a>
           </div>
+        </div>
+        <div class="-mr-2 flex md:hidden">
+          <button
+            aria-controls="mobile-menu"
+            aria-expanded="false"
+            class="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-primary hover:bg-slate-100 focus:outline-none"
+            id="mobile-menu-button"
+            type="button"
+          >
+            <span class="sr-only">Abrir men&uacute; principal</span>
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+        </div>
       </div>
+    </div>
+    <div class="hidden md:hidden border-t border-slate-200 bg-background-light" id="mobile-menu">
+      <div class="px-4 py-3 space-y-2">
+        <a class="block px-3 py-2 rounded-md text-sm font-medium text-slate-700 hover:bg-slate-100" href="#sistema">Sistema</a>
+        <a class="block px-3 py-2 rounded-md text-sm font-medium text-slate-700 hover:bg-slate-100" href="#sobre-mi">Sobre m&iacute;</a>
+        <a class="block px-3 py-2 rounded-md text-sm font-medium text-slate-700 hover:bg-slate-100" href="#como-funciona">C&oacute;mo funciona</a>
+        <a class="block px-3 py-2 rounded-md text-sm font-medium text-slate-700 hover:bg-slate-100" href="#servicios">Servicios</a>
+        <a class="block px-3 py-2 rounded-md text-sm font-medium text-slate-700 hover:bg-slate-100" href="#guia">Gu&iacute;a</a>
+        <a class="block px-3 py-2 rounded-md text-sm font-bold text-white bg-primary hover:bg-primary/90" href="./assets/images/Guia_Paso_a_Paso_Sales_Dashboard_AlanPerez.pdf" download>Descargar gu&iacute;a</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="relative pt-10 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full" id="sistema">
+    <div class="flex flex-col lg:flex-row items-center gap-12">
+      <div class="flex-1 text-center lg:text-left space-y-6">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider">
+          <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+          Para l&iacute;deres comerciales B2B
+        </div>
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight text-slate-900">
+          Control&aacute; tu forecast, cada semana.
+        </h1>
+        <p class="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto lg:mx-0">
+          Te ayudo a pasar de reportes manuales a decisiones claras con un flujo simple:
+          Auditar, Implementar y Escalar.
+        </p>
+        <ul class="space-y-2 text-sm sm:text-base text-slate-700 max-w-2xl mx-auto lg:mx-0">
+          <li class="flex items-center gap-2 justify-center lg:justify-start">
+            <span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+            Auditar datos y detectar brechas reales
+          </li>
+          <li class="flex items-center gap-2 justify-center lg:justify-start">
+            <span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+            Implementar tableros y automatizaciones accionables
+          </li>
+          <li class="flex items-center gap-2 justify-center lg:justify-start">
+            <span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+            Escalar con foco comercial y mejora continua
+          </li>
+        </ul>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
+          <a class="flex items-center justify-center gap-2 bg-primary text-white px-8 py-4 rounded-xl text-base font-bold shadow-lg shadow-primary/30 hover:bg-primary/90 hover:-translate-y-1 transition-all duration-300" href="./assets/images/Guia_Paso_a_Paso_Sales_Dashboard_AlanPerez.pdf" download>
+            Descargar gu&iacute;a: Sales Dashboard
+            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+          </a>
+          <a class="flex items-center justify-center gap-2 bg-white text-slate-700 border border-slate-200 px-8 py-4 rounded-xl text-base font-bold hover:bg-slate-50 transition-all duration-300" href="https://calendly.com/alanlperez1996/30min?month=2026-02&date=2026-02-09" rel="noopener noreferrer" target="_blank">
+            Agendar llamada (15 min)
+          </a>
+        </div>
+        <p class="text-xs text-slate-500 max-w-2xl mx-auto lg:mx-0">
+          Te llev&aacute;s: 1 Quick-Win + 2-3 indicadores accionables.<br>
+          Tus Preguntas/Dudas sobre mejoras.
+        </p>
+      </div>
+
+      <div class="flex-1 w-full max-w-lg lg:max-w-none perspective-1000">
+        <div class="relative group">
+          <div class="absolute -inset-1 bg-gradient-to-r from-primary to-purple-400 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+          <div class="relative bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-100">
+            <div class="bg-slate-100 px-4 py-3 border-b border-slate-200 flex items-center gap-2">
+              <div class="flex gap-1.5">
+                <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                <div class="w-3 h-3 rounded-full bg-green-400"></div>
+              </div>
+              <div class="ml-4 h-2 w-32 bg-slate-200 rounded-full"></div>
+            </div>
+            <div class="aspect-[4/3] w-full bg-slate-50 relative overflow-hidden">
+              <img
+                alt="Captura de dashboard de rendimiento comercial"
+                class="object-contain w-full h-full p-2 opacity-95 hover:scale-105 transition-transform duration-700"
+                src="./assets/images/projects/VentasBI.PNG"
+              >
+              <div class="absolute bottom-6 left-6 bg-white/90 backdrop-blur-sm p-3 rounded-lg shadow-lg border border-slate-100 flex items-center gap-3">
+                <div class="p-2 bg-green-100 text-green-600 rounded-md">
+                  <span class="material-symbols-outlined text-xl">task_alt</span>
+                </div>
+                <div>
+                  <p class="text-xs text-slate-500 font-semibold uppercase">Flujo operativo</p>
+                  <p class="text-base font-bold text-slate-900">Auditar + Implementar + Escalar</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="bg-primary/5 py-20 px-6 border-y border-slate-200" id="sobre-mi">
+    <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-8 md:gap-12">
+      <div class="shrink-0 relative">
+        <div class="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-white shadow-xl">
+          <img
+            alt="Foto de perfil de Alan P&eacute;rez"
+            class="w-full h-full object-cover"
+            src="./assets/images/profile2.jfif"
+          >
+        </div>
+        <div class="absolute bottom-1 right-1 bg-white p-1.5 rounded-full shadow-md border border-gray-100">
+          <a
+            aria-label="LinkedIn de Alan P&eacute;rez"
+            class="w-6 h-6 flex items-center justify-center bg-[#0077b5] rounded-full text-white"
+            href="https://www.linkedin.com/in/Alan-P%C3%A9rez"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <div class="text-center md:text-left">
+        <h3 class="text-2xl font-bold text-slate-900 mb-3">Soy Alan. Instalo sistemas de decisi&oacute;n comercial.</h3>
+        <p class="text-slate-600 mb-6 leading-relaxed">
+          Trabajo con l&iacute;deres comerciales B2B que hoy dependen de Excel/CRM a mano. En pocas semanas,
+          dejo instalado un sistema claro para responder en minutos: qu&eacute; auditar, qu&eacute; implementar y
+          c&oacute;mo escalar con foco en resultados.
+        </p>
+        <ul class="space-y-2 text-sm text-slate-700 mb-6">
+          <li class="flex items-center gap-2 justify-center md:justify-start">
+            <span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+            Especialidad: auditor&iacute;a comercial + dashboard accionable
+          </li>
+          <li class="flex items-center gap-2 justify-center md:justify-start">
+            <span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+            Dise&ntilde;ado para adopci&oacute;n en reuni&oacute;n comercial
+          </li>
+          <li class="flex items-center gap-2 justify-center md:justify-start">
+            <span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+            Integraci&oacute;n m&iacute;nima viable: CRM / ERP / planillas
+          </li>
+        </ul>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
+          <a class="inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-white border border-slate-200 text-sm font-bold text-slate-800 hover:bg-slate-50 transition-colors" href="#como-funciona">Ver c&oacute;mo funciona</a>
+          <a class="inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-primary text-sm font-bold text-white hover:bg-primary/90 transition-colors" href="./assets/images/Guia_Paso_a_Paso_Sales_Dashboard_AlanPerez.pdf" download>Descargar gu&iacute;a</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 bg-white relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-slate-900 mb-4">Por qu&eacute; trabajar con el flujo Auditar - Implementar - Escalar</h2>
+        <p class="text-slate-600 max-w-2xl mx-auto">
+          No es solo tener dashboards. Es instalar un proceso comercial que te permite decidir con foco y ejecutar mejor.
+        </p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="group bg-background-light p-6 rounded-2xl border border-slate-200 hover:shadow-card-hover hover:border-primary/30 transition-all duration-300">
+          <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary mb-4 group-hover:scale-110 transition-transform">
+            <span class="material-symbols-outlined">bar_chart_4_bars</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 mb-2">Auditar con foco</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Identific&aacute;s brechas, cuellos de botella y oportunidades reales antes de decidir.
+          </p>
+        </div>
+
+        <div class="group bg-background-light p-6 rounded-2xl border border-slate-200 hover:shadow-card-hover hover:border-primary/30 transition-all duration-300">
+          <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary mb-4 group-hover:scale-110 transition-transform">
+            <span class="material-symbols-outlined">warning</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 mb-2">Implementar r&aacute;pido</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Llevamos tableros y automatizaciones al negocio sin proyectos eternos.
+          </p>
+        </div>
+
+        <div class="group bg-background-light p-6 rounded-2xl border border-slate-200 hover:shadow-card-hover hover:border-primary/30 transition-all duration-300">
+          <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary mb-4 group-hover:scale-110 transition-transform">
+            <span class="material-symbols-outlined">manage_search</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 mb-2">Escalar con criterio</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Evolucion&aacute;s indicadores y decisiones seg&uacute;n el crecimiento del equipo.
+          </p>
+        </div>
+
+        <div class="group bg-background-light p-6 rounded-2xl border border-slate-200 hover:shadow-card-hover hover:border-primary/30 transition-all duration-300">
+          <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary mb-4 group-hover:scale-110 transition-transform">
+            <span class="material-symbols-outlined">hub</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 mb-2">Integraci&oacute;n m&iacute;nima viable</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            CRM, ERP y planillas: conectamos lo necesario para decisiones accionables.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 bg-background-light overflow-hidden" id="como-funciona">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-end justify-between mb-12 gap-4">
+        <div>
+          <h2 class="text-3xl font-bold text-slate-900">C&oacute;mo trabajamos</h2>
+          <p class="text-slate-600 mt-2">
+            Flujo claro: Auditar, Implementar y Escalar.
+          </p>
+        </div>
+        <div class="hidden md:block h-1 flex-1 bg-slate-200 ml-8 rounded-full self-center relative">
+          <div class="absolute inset-y-0 left-0 bg-primary w-1/3 rounded-full opacity-20"></div>
+        </div>
+      </div>
+      <div class="relative">
+        <div class="absolute left-6 top-0 bottom-0 w-0.5 bg-slate-200 md:hidden z-0"></div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4 relative z-10">
+          <div class="flex md:flex-col gap-6 items-start">
+            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-white border-4 border-slate-100 text-slate-900 font-bold flex items-center justify-center text-xl shadow-sm relative z-10">1</div>
+            <div class="pt-1 md:pt-0">
+              <h3 class="text-xl font-bold text-slate-900 mb-2">Auditar</h3>
+              <p class="text-slate-600 text-sm leading-relaxed">
+                Revisamos datos, ritual comercial y puntos de fuga para definir prioridades reales.
+              </p>
+            </div>
+          </div>
+          <div class="flex md:flex-col gap-6 items-start">
+            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-primary text-white border-4 border-primary/20 font-bold flex items-center justify-center text-xl shadow-lg shadow-primary/30 relative z-10">2</div>
+            <div class="pt-1 md:pt-0">
+              <h3 class="text-xl font-bold text-slate-900 mb-2">Implementar</h3>
+              <p class="text-slate-600 text-sm leading-relaxed">
+                Construimos el dashboard y las automatizaciones necesarias para operar con claridad.
+              </p>
+            </div>
+          </div>
+          <div class="flex md:flex-col gap-6 items-start">
+            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-white border-4 border-slate-100 text-slate-900 font-bold flex items-center justify-center text-xl shadow-sm relative z-10">3</div>
+            <div class="pt-1 md:pt-0">
+              <h3 class="text-xl font-bold text-slate-900 mb-2">Escalar</h3>
+              <p class="text-slate-600 text-sm leading-relaxed">
+                Acompa&ntilde;amos mejoras, decisiones y adopci&oacute;n para sostener resultados en el tiempo.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 bg-white" id="demos">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-8">
+        <h2 class="text-3xl font-bold text-slate-900">Demos del sistema</h2>
+        <p class="text-slate-600 mt-2">Estamos preparando esta secci&oacute;n.</p>
+      </div>
+      <div class="max-w-3xl mx-auto bg-background-light rounded-2xl border border-dashed border-slate-300 p-10 text-center">
+        <div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary/10 text-primary mb-4">
+          <span class="material-symbols-outlined text-3xl">schedule</span>
+        </div>
+        <p class="text-xs font-bold uppercase tracking-widest text-primary mb-2">Coming Soon</p>
+        <h3 class="text-2xl font-bold text-slate-900 mb-3">Pr&oacute;ximamente: demos interactivas</h3>
+        <p class="text-slate-600 mb-6">
+          Te voy a mostrar el sistema completo en una llamada, con ejemplos reales de c&oacute;mo auditar,
+          implementar y escalar.
+        </p>
+        <a class="inline-flex items-center justify-center gap-2 bg-primary text-white px-8 py-4 rounded-xl text-base font-bold shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all duration-300" href="https://calendly.com/alanlperez1996/30min?month=2026-02&date=2026-02-09" rel="noopener noreferrer" target="_blank">
+          Ver demo en una llamada (15 min)
+          <span class="material-symbols-outlined text-sm">arrow_forward</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 bg-background-light" id="servicios">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl font-bold text-slate-900">Servicios</h2>
+        <p class="text-slate-600 mt-2">
+          Eleg&iacute; el nivel de implementaci&oacute;n seg&uacute;n tu momento. Flujo: Auditar, Implementar y Escalar.
+        </p>
+      </div>
+      <div class="flex flex-col lg:flex-row items-center justify-center gap-8 lg:items-stretch">
+        <div class="w-full max-w-sm bg-white rounded-2xl p-8 border border-slate-200 shadow-sm flex flex-col">
+          <h3 class="text-xl font-bold text-slate-900 mb-2">Diagn&oacute;stico + Quick Win</h3>
+          <p class="text-slate-500 text-sm mb-8">
+            Para detectar oportunidades de mejora y lograr impacto inmediato.
+          </p>
+          <ul class="space-y-4 mb-8 flex-1">
+            <li class="flex items-start gap-3 text-sm text-slate-700">
+              <span class="material-symbols-outlined text-green-500 text-xl">check_circle</span>
+              <span>Evaluaci&oacute;n de stack + fuentes (CRM/ERP/planillas)</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-slate-700">
+              <span class="material-symbols-outlined text-green-500 text-xl">check_circle</span>
+              <span>Definici&oacute;n del tablero m&iacute;nimo (1-2 p&aacute;ginas)</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-slate-700">
+              <span class="material-symbols-outlined text-green-500 text-xl">check_circle</span>
+              <span>2 alertas clave para tu operaci&oacute;n</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-slate-700">
+              <span class="material-symbols-outlined text-green-500 text-xl">check_circle</span>
+              <span>Entrega: 1 Quick Win implementado + backlog priorizado</span>
+            </li>
+          </ul>
+          <a class="w-full py-3 rounded-xl border-2 border-slate-200 text-slate-900 font-bold hover:bg-slate-50 transition-colors text-center" href="https://calendly.com/alanlperez1996/30min?month=2026-02&date=2026-02-09" rel="noopener noreferrer" target="_blank">Empezar</a>
+        </div>
+
+        <div class="w-full max-w-sm bg-white rounded-2xl p-8 border-2 border-primary relative shadow-2xl shadow-primary/10 transform scale-105 z-10 flex flex-col">
+          <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-accent-gold text-slate-900 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wide shadow-gold-glow">
+            M&aacute;s elegido
+          </div>
+          <h3 class="text-xl font-bold text-primary mb-2">Dashboard a medida</h3>
+          <p class="text-slate-500 text-sm mb-8">Implementaci&oacute;n completa de dashboard y automatizaciones, en semanas.</p>
+          <ul class="space-y-4 mb-8 flex-1">
+            <li class="flex items-start gap-3 text-sm text-slate-700">
+              <span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+              <span>Definici&oacute;n e implementaci&oacute;n de KPIs de alto impacto</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-slate-700">
+              <span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+              <span>Home ejecutivo + tablero comercial accionable</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-slate-700">
+              <span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+              <span>Hasta 3 fuentes/conexiones de datos</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-slate-700">
+              <span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+              <span>Capacitaci&oacute;n comercial para adopci&oacute;n del equipo</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-slate-700">
+              <span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+              <span>Implementaci&oacute;n en semanas (alcance validado en diagn&oacute;stico)</span>
+            </li>
+          </ul>
+          <a class="w-full py-3 rounded-xl bg-primary text-white font-bold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 text-center" href="https://calendly.com/alanlperez1996/30min?month=2026-02&date=2026-02-09" rel="noopener noreferrer" target="_blank">Solicitar implementaci&oacute;n</a>
+        </div>
+
+        <div class="w-full max-w-sm bg-white rounded-2xl p-8 border border-slate-200 shadow-sm flex flex-col">
+          <h3 class="text-xl font-bold text-slate-900 mb-2">Acompa&ntilde;amiento mensual</h3>
+          <p class="text-slate-500 text-sm mb-8">
+            Para sostener adopci&oacute;n, mantenimiento y evoluci&oacute;n continua.
+          </p>
+          <ul class="space-y-4 mb-8 flex-1">
+            <li class="flex items-start gap-3 text-sm text-slate-700">
+              <span class="material-symbols-outlined text-green-500 text-xl">check_circle</span>
+              <span>Consultor&iacute;a mensual (ritual, foco, decisiones)</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-slate-700">
+              <span class="material-symbols-outlined text-green-500 text-xl">check_circle</span>
+              <span>Capacitaci&oacute;n continua (equipo y l&iacute;deres)</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-slate-700">
+              <span class="material-symbols-outlined text-green-500 text-xl">check_circle</span>
+              <span>Desarrollo continuo de dashboards existentes</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-slate-700">
+              <span class="material-symbols-outlined text-green-500 text-xl">check_circle</span>
+              <span>Mantenimiento (ajustes, refresh, cambios menores)</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-slate-700">
+              <span class="material-symbols-outlined text-green-500 text-xl">check_circle</span>
+              <span>Backlog mensual priorizado (1 mejora/semana o seg&uacute;n horas)</span>
+            </li>
+          </ul>
+          <a class="w-full py-3 rounded-xl border-2 border-slate-200 text-slate-900 font-bold hover:bg-slate-50 transition-colors text-center" href="https://calendly.com/alanlperez1996/30min?month=2026-02&date=2026-02-09" rel="noopener noreferrer" target="_blank">Hablar por suscripci&oacute;n</a>
+        </div>
+      </div>
+      <p class="text-xs text-slate-500 mt-8 text-center">
+        Licencias, accesos y disponibilidad de datos no incluidos. Alcance final se define en el diagn&oacute;stico.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-20 bg-white border-y border-slate-200" id="guia">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-gradient-to-r from-primary/10 to-indigo-100 rounded-2xl border border-primary/20 p-8 md:p-12">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+          <div>
+            <p class="text-xs font-bold uppercase tracking-widest text-primary mb-3">Lead magnet</p>
+            <h2 class="text-3xl font-bold text-slate-900 mb-4">Gu&iacute;a paso a paso: Sales Dashboard</h2>
+            <p class="text-slate-700 mb-6">
+              Recurso pr&aacute;ctico para ordenar tu operaci&oacute;n comercial con el flujo:
+              Auditar, Implementar y Escalar.
+            </p>
+            <ul class="space-y-2 text-sm text-slate-700 mb-8">
+              <li class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+                Plantilla de indicadores accionables
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+                Estructura sugerida de dashboard comercial
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+                Checklist para implementar y escalar
+              </li>
+            </ul>
+            <div class="flex flex-col sm:flex-row gap-3">
+              <a class="inline-flex items-center justify-center gap-2 bg-primary text-white px-6 py-3 rounded-xl text-sm font-bold shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all" href="./assets/images/Guia_Paso_a_Paso_Sales_Dashboard_AlanPerez.pdf" download>
+                Descargar gu&iacute;a PDF
+                <span class="material-symbols-outlined text-sm">download</span>
+              </a>
+              <a class="inline-flex items-center justify-center gap-2 bg-white text-slate-700 border border-slate-300 px-6 py-3 rounded-xl text-sm font-bold hover:bg-slate-50 transition-all" href="./assets/images/Guia_Paso_a_Paso_Sales_Dashboard_AlanPerez.pdf" rel="noopener noreferrer" target="_blank">
+                Ver PDF en pantalla completa
+              </a>
+            </div>
+          </div>
+          <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-card">
+            <h3 class="text-lg font-bold text-slate-900 mb-4">Vista previa de la gu&iacute;a</h3>
+            <iframe
+              class="w-full h-80 rounded-lg border border-slate-200"
+              src="./assets/images/Guia_Paso_a_Paso_Sales_Dashboard_AlanPerez.pdf#view=FitH"
+              title="Guia Paso a Paso Sales Dashboard"
+            ></iframe>
+            <p class="text-xs text-slate-500 mt-3">
+              Si no se ve en tu navegador, abrila en una pesta&ntilde;a nueva con el bot&oacute;n de arriba.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-white border-t border-slate-200 pt-16 pb-24" id="contacto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <span class="material-symbols-outlined text-primary text-3xl">insights</span>
+            <span class="font-bold text-xl text-slate-900 tracking-tight">
+              Sistema de Decisi&oacute;n Comercial
+            </span>
+          </div>
+          <p class="text-slate-500 text-sm max-w-md">
+            Ayudo a equipos comerciales a auditar, implementar y escalar decisiones con datos claros.
+          </p>
+        </div>
+        <div>
+          <h4 class="font-bold text-slate-900 mb-4">Servicios</h4>
+          <ul class="space-y-2 text-sm text-slate-500">
+            <li><a class="hover:text-primary transition-colors" href="#servicios">Diagn&oacute;stico + Quick Win</a></li>
+            <li><a class="hover:text-primary transition-colors" href="#servicios">Dashboard a medida</a></li>
+            <li><a class="hover:text-primary transition-colors" href="#servicios">Acompa&ntilde;amiento mensual</a></li>
+            <li><a class="hover:text-primary transition-colors" href="#guia">Gu&iacute;a: Sales Dashboard</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-slate-900 mb-4">Empresa</h4>
+          <ul class="space-y-2 text-sm text-slate-500">
+            <li><a class="hover:text-primary transition-colors" href="#sobre-mi">Sobre m&iacute;</a></li>
+            <li><a class="hover:text-primary transition-colors" href="#contacto">Contacto</a></li>
+            <li><a class="hover:text-primary transition-colors" href="#">Pol&iacute;tica de privacidad</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-slate-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-xs text-slate-400">&copy; 2026 Sistema de Decisi&oacute;n Comercial. Todos los derechos reservados.</p>
+        <a class="text-slate-400 hover:text-primary transition-colors" href="https://www.linkedin.com/in/Alan-P%C3%A9rez" rel="noopener noreferrer" target="_blank" aria-label="LinkedIn">
+          <span class="sr-only">LinkedIn</span>
+          <svg aria-hidden="true" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+            <path clip-rule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" fill-rule="evenodd"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 w-[calc(100%-1.5rem)] max-w-sm">
+    <div class="flex justify-center mb-2">
+      <span class="inline-flex items-center rounded-full bg-accent-gold text-slate-900 text-[11px] sm:text-xs font-extrabold tracking-wide px-3 py-1 shadow-gold-glow">
+        Solo por febrero / Solo este mes
+      </span>
+    </div>
+    <a class="w-full bg-primary text-white font-bold py-3.5 px-6 rounded-full shadow-lg shadow-primary/40 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2" href="https://calendly.com/alanlperez1996/30min?month=2026-02&date=2026-02-09" rel="noopener noreferrer" target="_blank">
+      <span class="material-symbols-outlined">calendar_month</span>
+      Agendar llamada (15 min)
+    </a>
+    <p class="text-[11px] text-slate-600 text-center mt-2 leading-tight">
+      Te llev&aacute;s: 1 Quick-Win + 2-3 indicadores accionables.<br>
+      Tus Preguntas/Dudas sobre mejoras.
+    </p>
   </div>
 
- 
+  <script>
+    const mobileMenuButton = document.getElementById("mobile-menu-button");
+    const mobileMenu = document.getElementById("mobile-menu");
 
-</section>
-<!-- footer section ends -->
+    if (mobileMenuButton && mobileMenu) {
+      mobileMenuButton.addEventListener("click", function () {
+        const isExpanded = mobileMenuButton.getAttribute("aria-expanded") === "true";
+        mobileMenuButton.setAttribute("aria-expanded", String(!isExpanded));
+        mobileMenu.classList.toggle("hidden");
+      });
 
-<!-- WSP starts-->
-<!-- Botón de WhatsApp siempre visible -->
-<a href="https://wa.me/+5401137757663?text=Hola,%20me%20gustaría%20hacer%20una%20consulta!" target="_blank">
-  <button id="whatsapp-button">
-      Contáctame por WhatsApp
-      <img id="whatsapp-icon" src="./assets/images/WhatsApp_icon.png" alt="WhatsApp">
-  </button>
-</a>
-
-
-<!-- wsp ends-->
-
-<!-- scroll top btn -->
-<a href="#Slider" aria-label="ScrollTop" class="fas fa-angle-up" id="scroll-top"></a>
-<!-- scroll back to top -->
-
-
-<!-- ==== ALL MAJOR JAVASCRIPT CDNS STARTS ==== -->
-<!-- jquery cdn -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-<!-- typed.js cdn -->
- <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.5/typed.min.js" integrity="sha512-1KbKusm/hAtkX5FScVR5G36wodIMnVd/aP04af06iyQTkD17szAMGNmxfNH+tEuFp3Og/P5G32L1qEC47CZbUQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  
-<!-- vanilla tilt.js links -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js" integrity="sha512-SttpKhJqONuBVxbRcuH0wezjuX+BoFoli0yPsnrAADcHsQMW8rkR84ItFHGIkPvhnlRnE2FaifDOUw+EltbuHg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-<!-- scroll reveal anim -->
-<script src="https://unpkg.com/scrollreveal"></script>
-
-<script
-      type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"
-    ></script>
-
-<!-- ==== ALL MAJOR JAVASCRIPT CDNS ENDS ==== -->
-
-<script src="./assets/js/script.js"></script>
-
+      mobileMenu.querySelectorAll("a").forEach(function (link) {
+        link.addEventListener("click", function () {
+          mobileMenuButton.setAttribute("aria-expanded", "false");
+          mobileMenu.classList.add("hidden");
+        });
+      });
+    }
+  </script>
 </body>
 </html>
