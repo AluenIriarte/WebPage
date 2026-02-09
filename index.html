@@ -160,11 +160,40 @@
               <div class="ml-4 h-2 w-32 bg-slate-200 rounded-full"></div>
             </div>
             <div class="aspect-[4/3] w-full bg-slate-50 relative overflow-hidden">
-              <img
-                alt="Captura de dashboard de rendimiento comercial"
-                class="object-contain w-full h-full p-2 opacity-95 hover:scale-105 transition-transform duration-700"
-                src="./assets/images/projects/VentasBI.PNG"
-              >
+              <div class="absolute inset-0" id="hero-slider">
+                <img
+                  alt="Vista general del tablero comercial"
+                  class="hero-slide absolute inset-0 object-contain w-full h-full p-2 opacity-100 transition-opacity duration-700"
+                  data-title="Vista General"
+                  src="./assets/images/projects/Slides/1.Vista%20general.PNG"
+                >
+                <img
+                  alt="Vista de vendedores del tablero comercial"
+                  class="hero-slide absolute inset-0 object-contain w-full h-full p-2 opacity-0 transition-opacity duration-700 pointer-events-none"
+                  data-title="Tabla Vendedores"
+                  src="./assets/images/projects/Slides/2.Vendedores.PNG"
+                  loading="lazy"
+                >
+                <img
+                  alt="Detalle de producto del tablero comercial"
+                  class="hero-slide absolute inset-0 object-contain w-full h-full p-2 opacity-0 transition-opacity duration-700 pointer-events-none"
+                  data-title="Tabla Productos"
+                  src="./assets/images/projects/Slides/3.Detalle%20de%20producto.PNG"
+                  loading="lazy"
+                >
+                <img
+                  alt="Vista de huecos y oportunidades del tablero comercial"
+                  class="hero-slide absolute inset-0 object-contain w-full h-full p-2 opacity-0 transition-opacity duration-700 pointer-events-none"
+                  data-title="Matriz de oportunidades"
+                  src="./assets/images/projects/Slides/4.Huecos.PNG"
+                  loading="lazy"
+                >
+              </div>
+              <div class="absolute top-4 left-1/2 -translate-x-1/2 z-20">
+                <p class="px-4 py-2 rounded-full bg-white/90 backdrop-blur-sm border border-slate-200 text-sm font-bold text-slate-800 shadow-sm" id="hero-slide-title">
+                  Vista General
+                </p>
+              </div>
               <div class="absolute bottom-6 left-6 bg-white/90 backdrop-blur-sm p-3 rounded-lg shadow-lg border border-slate-100 flex items-center gap-3">
                 <div class="p-2 bg-green-100 text-green-600 rounded-md">
                   <span class="material-symbols-outlined text-xl">task_alt</span>
@@ -174,6 +203,20 @@
                   <p class="text-base font-bold text-slate-900">Empezar a saber</p>
                 </div>
               </div>
+            </div>
+            <div class="bg-white border-t border-slate-100 px-4 py-3 flex items-center justify-center gap-3">
+              <button aria-label="Slide anterior" class="hero-slider-btn w-9 h-9 rounded-full bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-center hover:bg-slate-100 transition-colors" id="hero-prev" type="button">
+                <span class="material-symbols-outlined text-base">chevron_left</span>
+              </button>
+              <div class="flex items-center gap-2" id="hero-dots">
+                <button aria-label="Ir al slide 1" class="hero-dot w-2.5 h-2.5 rounded-full bg-primary" data-index="0" type="button"></button>
+                <button aria-label="Ir al slide 2" class="hero-dot w-2.5 h-2.5 rounded-full bg-slate-300" data-index="1" type="button"></button>
+                <button aria-label="Ir al slide 3" class="hero-dot w-2.5 h-2.5 rounded-full bg-slate-300" data-index="2" type="button"></button>
+                <button aria-label="Ir al slide 4" class="hero-dot w-2.5 h-2.5 rounded-full bg-slate-300" data-index="3" type="button"></button>
+              </div>
+              <button aria-label="Siguiente slide" class="hero-slider-btn w-9 h-9 rounded-full bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-center hover:bg-slate-100 transition-colors" id="hero-next" type="button">
+                <span class="material-symbols-outlined text-base">chevron_right</span>
+              </button>
             </div>
           </div>
         </div>
@@ -611,6 +654,86 @@
           mobileMenu.classList.add("hidden");
         });
       });
+    }
+
+    const heroSlider = document.getElementById("hero-slider");
+    const heroSlides = Array.from(document.querySelectorAll(".hero-slide"));
+    const heroDots = Array.from(document.querySelectorAll(".hero-dot"));
+    const heroPrev = document.getElementById("hero-prev");
+    const heroNext = document.getElementById("hero-next");
+    const heroSlideTitle = document.getElementById("hero-slide-title");
+    let heroCurrent = 0;
+    let heroTimer = null;
+
+    function showHeroSlide(index) {
+      if (!heroSlides.length) return;
+      heroCurrent = (index + heroSlides.length) % heroSlides.length;
+
+      heroSlides.forEach(function (slide, i) {
+        const isActive = i === heroCurrent;
+        slide.classList.toggle("opacity-100", isActive);
+        slide.classList.toggle("opacity-0", !isActive);
+        slide.classList.toggle("pointer-events-none", !isActive);
+      });
+
+      if (heroSlideTitle) {
+        const currentSlide = heroSlides[heroCurrent];
+        heroSlideTitle.textContent = currentSlide ? (currentSlide.getAttribute("data-title") || "") : "";
+      }
+
+      heroDots.forEach(function (dot, i) {
+        const isActive = i === heroCurrent;
+        dot.classList.toggle("bg-primary", isActive);
+        dot.classList.toggle("bg-slate-300", !isActive);
+        dot.setAttribute("aria-current", isActive ? "true" : "false");
+      });
+    }
+
+    function startHeroSlider() {
+      if (!heroSlides.length) return;
+      stopHeroSlider();
+      heroTimer = setInterval(function () {
+        showHeroSlide(heroCurrent + 1);
+      }, 4000);
+    }
+
+    function stopHeroSlider() {
+      if (heroTimer) {
+        clearInterval(heroTimer);
+        heroTimer = null;
+      }
+    }
+
+    if (heroSlides.length) {
+      showHeroSlide(0);
+      startHeroSlider();
+
+      if (heroPrev) {
+        heroPrev.addEventListener("click", function () {
+          showHeroSlide(heroCurrent - 1);
+          startHeroSlider();
+        });
+      }
+
+      if (heroNext) {
+        heroNext.addEventListener("click", function () {
+          showHeroSlide(heroCurrent + 1);
+          startHeroSlider();
+        });
+      }
+
+      heroDots.forEach(function (dot) {
+        dot.addEventListener("click", function () {
+          const target = Number(dot.getAttribute("data-index"));
+          showHeroSlide(target);
+          startHeroSlider();
+        });
+      });
+
+      if (heroSlider) {
+        heroSlider.addEventListener("mouseenter", stopHeroSlider);
+        heroSlider.addEventListener("mouseleave", startHeroSlider);
+      }
     }
   </script>
 </body>
