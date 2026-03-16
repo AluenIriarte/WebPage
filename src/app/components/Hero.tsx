@@ -403,7 +403,7 @@ export function Hero() {
                 <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
               </a>
               <a
-                href="#proceso"
+                href="#problema"
                 className="inline-flex items-center justify-center px-8 py-4 bg-white border border-border rounded-full font-medium text-base hover:border-accent/40 hover:bg-accent/5 transition-all duration-300"
               >
                 Ver como trabajo
