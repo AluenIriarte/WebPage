@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
+import { CALENDLY_URL } from "../lib/contact";
 
 const coreService = {
   eyebrow: "Servicio principal",
@@ -27,8 +28,8 @@ const coreService = {
     "Indicadores de alerta para equipos comerciales",
     "Reportería automatizada para revisiones de negocio",
   ],
-  cta: "Este es el diagnóstico",
-  ctaHref: "/#contacto",
+  cta: "Agendar diagnóstico",
+  ctaHref: CALENDLY_URL,
 };
 
 const otherServices = [
@@ -144,13 +145,13 @@ export function Servicios() {
                   </h2>
                   <p className="text-base text-muted-foreground leading-relaxed">{coreService.description}</p>
 
-                  <Link
-                    to={coreService.ctaHref}
+                  <a
+                    href={coreService.ctaHref}
                     className="group inline-flex items-center gap-2 px-7 py-3.5 bg-accent text-white rounded-full font-medium text-sm hover:bg-accent/90 transition-all duration-300 hover:shadow-xl hover:shadow-accent/25 hover:scale-[1.02]"
                   >
                     {coreService.cta}
                     <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                  </Link>
+                  </a>
                 </div>
 
                 <div className="space-y-3 pt-1">
@@ -277,13 +278,13 @@ export function Servicios() {
                     ))}
                   </div>
 
-                  <Link
-                    to="/#contacto"
+                  <a
+                    href={CALENDLY_URL}
                     className="group inline-flex items-center gap-2 self-start px-7 py-4 bg-white text-foreground rounded-full font-medium text-sm hover:bg-accent hover:text-white transition-all duration-300 hover:shadow-xl hover:shadow-accent/30 hover:scale-[1.02]"
                   >
-                    Hablemos de tu caso
+                    Agendar diagnóstico
                     <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </Link>
+                  </a>
                 </div>
               </div>
             </motion.div>

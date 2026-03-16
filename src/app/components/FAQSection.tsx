@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Plus, ArrowRight } from "lucide-react";
+import { CALENDLY_URL } from "../lib/contact";
 
 const faqs = [
   {
@@ -174,10 +175,10 @@ export function FAQSection() {
             ¿Quedó alguna duda sin responder?
           </p>
           <a
-            href="#contacto"
+            href={CALENDLY_URL}
             className="inline-flex items-center gap-2 text-sm font-semibold text-accent hover:text-accent/75 transition-colors duration-200 group"
           >
-            Hablemos
+            Agendar diagnóstico
             <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
           </a>
         </motion.div>

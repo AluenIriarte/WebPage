@@ -1,5 +1,6 @@
 import { BarChart3, ArrowLeft, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
+import { CONTACT_EMAIL } from "../../lib/contact";
 
 interface ResourceLayoutProps {
   children: React.ReactNode;
@@ -59,7 +60,7 @@ export function ResourceLayout({ children }: ResourceLayoutProps) {
                 Recursos
               </Link>
               <a
-                href="mailto:alanlperez1996@gmail.com"
+                href={`mailto:${CONTACT_EMAIL}`}
                 className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-accent transition-colors"
               >
                 <Mail className="w-3.5 h-3.5" />

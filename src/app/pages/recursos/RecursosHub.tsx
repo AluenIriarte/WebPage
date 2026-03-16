@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import { Clock, ArrowRight, BarChart2, TrendingUp, Target, LayoutDashboard } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ResourceLayout } from "./ResourceLayout";
+import { CALENDLY_URL } from "../../lib/contact";
 
 const articles = [
   {
@@ -154,14 +155,14 @@ export function RecursosHub() {
             Si querés llevar esto a tu operación, revisamos si hay un caso real
           </h2>
           <p className="text-muted-foreground leading-relaxed">
-            En 15 minutos vemos si hoy hay una oportunidad concreta en cartera, margen o expansión que
+            En 30 minutos vemos si hoy hay una oportunidad concreta en cartera, margen o expansión que
             valga la pena trabajar.
           </p>
           <a
-            href="mailto:alanlperez1996@gmail.com?subject=Diagnóstico inicial"
+            href={CALENDLY_URL}
             className="inline-flex items-center gap-2 px-8 py-3.5 bg-accent text-white rounded-full font-medium text-sm hover:bg-accent/90 transition-all duration-300 hover:shadow-lg hover:shadow-accent/20"
           >
-            Revisar mi caso
+            Agendar diagnóstico
             <ArrowRight className="w-4 h-4" />
           </a>
         </div>

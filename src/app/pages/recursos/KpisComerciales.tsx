@@ -17,6 +17,7 @@ import {
   Line,
 } from "recharts";
 import { ResourceLayout } from "./ResourceLayout";
+import { CALENDLY_URL } from "../../lib/contact";
 
 const kpiRadarData = [
   { kpi: "Tasa cierre", value: 72 },
@@ -293,10 +294,10 @@ export function KpisComerciales() {
                   En una charla breve revisamos tu contexto comercial actual y definimos cuáles son los indicadores que más sentido tiene monitorear.
                 </p>
                 <a
-                  href="mailto:alanlperez1996@gmail.com?subject=KPIs comerciales"
+                  href={CALENDLY_URL}
                   className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-white rounded-full text-sm font-medium hover:bg-accent/90 transition-colors"
                 >
-                  Consultar sobre KPIs
+                  Agendar diagnóstico
                   <ArrowRight className="w-4 h-4" />
                 </a>
               </div>

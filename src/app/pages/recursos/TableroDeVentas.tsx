@@ -16,6 +16,7 @@ import {
   ZAxis,
 } from "recharts";
 import { ResourceLayout } from "./ResourceLayout";
+import { CALENDLY_URL } from "../../lib/contact";
 
 const regionData = [
   { region: "AMBA", real: 1840, meta: 1600 },
@@ -304,10 +305,10 @@ export function TableroDeVentas() {
                   Diseño tableros comerciales conectados a tus datos reales. Revisamos qué información tenés disponible y qué decisiones debe soportar.
                 </p>
                 <a
-                  href="mailto:alanlperez1996@gmail.com?subject=Tablero de ventas"
+                  href={CALENDLY_URL}
                   className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-white rounded-full text-sm font-medium hover:bg-accent/90 transition-colors"
                 >
-                  Hablar sobre mi tablero
+                  Agendar diagnóstico
                   <ArrowRight className="w-4 h-4" />
                 </a>
               </div>

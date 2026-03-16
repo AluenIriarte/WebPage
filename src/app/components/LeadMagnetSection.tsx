@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Check, ArrowRight, Send, TrendingUp, BarChart2, Zap } from "lucide-react";
+import { CALENDLY_URL } from "../lib/contact";
 
 const signals = [
   { ok: true, text: "Los reportes muestran tendencias, no solo totales" },
@@ -210,8 +211,8 @@ function FormBlock() {
             Quiero la guía
             <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
           </button>
-          <a href="#contacto" className="text-[13px] font-medium transition-colors pl-1 text-foreground/40 hover:text-foreground/70">
-            Prefiero revisar mi caso →
+          <a href={CALENDLY_URL} className="text-[13px] font-medium transition-colors pl-1 text-foreground/40 hover:text-foreground/70">
+            Prefiero agendar diagnóstico →
           </a>
           <p className="text-[11px] pl-1 text-foreground/30">
             Sin spam. Solo contenido de valor para equipos comerciales.
@@ -288,8 +289,8 @@ function FormBlock() {
               Revisa <strong className="text-foreground/80">{fields.email}</strong> en los próximos minutos.
             </p>
           </div>
-          <a href="#cierre" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white w-fit" style={{ background: ACCENT }}>
-            Coordinemos una conversación →
+          <a href={CALENDLY_URL} className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white w-fit" style={{ background: ACCENT }}>
+            Agendar diagnóstico →
           </a>
         </motion.div>
       )}

@@ -1,5 +1,6 @@
 import { Linkedin, Mail, BarChart3 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { CONTACT_EMAIL } from "../lib/contact";
 
 export function Footer() {
   const location = useLocation();
@@ -22,7 +23,7 @@ export function Footer() {
       },
       {
         name: "Email",
-        href: "mailto:alanlperez1996@gmail.com",
+        href: `mailto:${CONTACT_EMAIL}`,
         icon: Mail,
       },
     ],
@@ -68,10 +69,10 @@ export function Footer() {
             <h3 className="text-sm font-semibold text-foreground mb-4">Contacto</h3>
             <div className="space-y-3">
               <a
-                href="mailto:alanlperez1996@gmail.com"
+                href={`mailto:${CONTACT_EMAIL}`}
                 className="block text-sm text-muted-foreground hover:text-accent transition-colors"
               >
-                alanlperez1996@gmail.com
+                {CONTACT_EMAIL}
               </a>
               <div className="flex space-x-4 pt-2">
                 {navigation.social.map((item) => (

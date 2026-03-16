@@ -8,6 +8,7 @@ import {
 } from "motion/react";
 import { ArrowRight, BarChart3, TrendingUp, Users, AlertTriangle } from "lucide-react";
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer, Tooltip } from "recharts";
+import { CALENDLY_URL } from "../lib/contact";
 
 type Period = "weekly" | "monthly" | "quarterly";
 
@@ -395,10 +396,10 @@ export function Hero() {
               className="flex flex-col sm:flex-row gap-4"
             >
               <a
-                href="#contacto"
+                href={CALENDLY_URL}
                 className="inline-flex items-center justify-center px-8 py-4 bg-accent text-accent-foreground rounded-full font-medium text-base hover:bg-accent/90 transition-all duration-300 hover:shadow-xl hover:shadow-accent/25 hover:scale-[1.02] group"
               >
-                Solicitar diagnóstico
+                Agendar diagnóstico
                 <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
               </a>
               <a
@@ -416,7 +417,7 @@ export function Hero() {
               className="flex flex-wrap gap-5 pt-6 border-t border-border/50"
             >
               {[
-                { icon: Users, text: "Diagnóstico inicial de 15 minutos" },
+                { icon: Users, text: "Diagnóstico inicial de 30 minutos" },
                 { icon: BarChart3, text: "Prioridades visibles en semanas" },
                 { icon: TrendingUp, text: "Trabajo confidencial y aplicado al negocio" },
               ].map((item) => (

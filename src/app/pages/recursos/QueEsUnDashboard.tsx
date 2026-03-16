@@ -14,6 +14,7 @@ import {
   Legend,
 } from "recharts";
 import { ResourceLayout } from "./ResourceLayout";
+import { CALENDLY_URL } from "../../lib/contact";
 
 const revenueData = [
   { mes: "Ene", ventas: 420, meta: 400 },
@@ -345,13 +346,13 @@ export function QueEsUnDashboard() {
               <div className="p-8 rounded-2xl bg-foreground text-background space-y-4">
                 <h3 className="text-xl font-semibold">¿Tu empresa necesita un dashboard?</h3>
                 <p className="text-background/70 leading-relaxed text-sm">
-                  En 15 minutos revisamos si hay oportunidades comerciales que hoy no estás pudiendo ver.
+                  En 30 minutos revisamos si hay oportunidades comerciales que hoy no estás pudiendo ver.
                 </p>
                 <a
-                  href="mailto:alanlperez1996@gmail.com?subject=Diagnóstico inicial"
+                  href={CALENDLY_URL}
                   className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-white rounded-full text-sm font-medium hover:bg-accent/90 transition-colors"
                 >
-                  Solicitar diagnóstico gratuito
+                  Agendar diagnóstico
                   <ArrowRight className="w-4 h-4" />
                 </a>
               </div>

@@ -15,6 +15,7 @@ import {
   Line,
 } from "recharts";
 import { ResourceLayout } from "./ResourceLayout";
+import { CALENDLY_URL } from "../../lib/contact";
 
 const pipelineData = [
   { etapa: "Prospectos", cantidad: 240, conversion: 100 },
@@ -294,10 +295,10 @@ export function DashboardDeVentas() {
                   Diseño dashboards comerciales que se integran a tus datos actuales y permiten tomar decisiones sin esperar el reporte de fin de mes.
                 </p>
                 <a
-                  href="mailto:alanlperez1996@gmail.com?subject=Dashboard de ventas"
+                  href={CALENDLY_URL}
                   className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-white rounded-full text-sm font-medium hover:bg-accent/90 transition-colors"
                 >
-                  Hablar sobre mi dashboard
+                  Agendar diagnóstico
                   <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
