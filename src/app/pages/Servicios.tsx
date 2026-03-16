@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
-import { CALENDLY_URL } from "../lib/contact";
+import { ROOT_DIAGNOSTIC_SECTION_HREF } from "../lib/contact";
 
 const coreService = {
   eyebrow: "Servicio principal",
@@ -28,8 +28,8 @@ const coreService = {
     "Indicadores de alerta para equipos comerciales",
     "Reportería automatizada para revisiones de negocio",
   ],
-  cta: "Agendar diagnóstico",
-  ctaHref: CALENDLY_URL,
+  cta: "Este es el diagnóstico",
+  ctaHref: ROOT_DIAGNOSTIC_SECTION_HREF,
 };
 
 const otherServices = [
@@ -279,10 +279,10 @@ export function Servicios() {
                   </div>
 
                   <a
-                    href={CALENDLY_URL}
+                    href={ROOT_DIAGNOSTIC_SECTION_HREF}
                     className="group inline-flex items-center gap-2 self-start px-7 py-4 bg-white text-foreground rounded-full font-medium text-sm hover:bg-accent hover:text-white transition-all duration-300 hover:shadow-xl hover:shadow-accent/30 hover:scale-[1.02]"
                   >
-                    Agendar diagnóstico
+                    Hablemos de tu caso
                     <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </a>
                 </div>

@@ -1,6 +1,5 @@
 import { motion } from "motion/react";
 import { Lock, Lightbulb } from "lucide-react";
-import { CALENDLY_URL } from "../lib/contact";
 
 const steps = [
   {
@@ -99,10 +98,10 @@ export function ValueProposition() {
           </div>
 
           <a
-            href={CALENDLY_URL}
+            href="#contacto"
             className="inline-flex items-center gap-2 text-sm font-semibold text-accent hover:text-accent/75 transition-colors duration-200 group flex-shrink-0"
           >
-            Agendar diagnóstico
+            Revisar mi caso
             <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
           </a>
         </motion.div>

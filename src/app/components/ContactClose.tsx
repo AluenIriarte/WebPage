@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import { CALENDLY_URL, CONTACT_EMAIL } from "../lib/contact";
+import { CONTACT_EMAIL } from "../lib/contact";
 
 export function ContactClose() {
   return (
@@ -26,8 +26,8 @@ export function ContactClose() {
               ¿Tiene sentido hablar?
             </h2>
             <p className="text-base text-muted-foreground leading-relaxed">
-              Si algo de lo que leíste resonó, el siguiente paso es simple: agendá un diagnóstico de
-              30 minutos y vemos si hoy hay un caso real para trabajar juntos.
+              Si algo de lo que leíste resonó, el siguiente paso es simple: revisá el diagnóstico de
+              15 minutos y, si hace sentido, desde ahí podés agendar.
             </p>
           </div>
 
@@ -48,10 +48,10 @@ export function ContactClose() {
             </div>
 
             <a
-              href={CALENDLY_URL}
+              href="#contacto"
               className="group inline-flex w-full items-center justify-center gap-2 py-4 px-8 bg-foreground text-background font-medium rounded-full hover:bg-accent transition-all duration-300 hover:shadow-xl hover:shadow-accent/20"
             >
-              Agendar diagnóstico
+              Ver diagnóstico de 15 minutos
               <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
             </a>
 

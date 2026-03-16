@@ -11,7 +11,6 @@ import {
   BookOpen,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { CALENDLY_URL } from "../lib/contact";
 
 const recursos = [
   {
@@ -225,10 +224,10 @@ export function Header() {
 
           <div className="hidden md:flex items-center space-x-4">
             <a
-              href={CALENDLY_URL}
+              href={homeHref("#contacto")}
               className="inline-flex items-center justify-center px-6 py-2.5 bg-accent text-accent-foreground rounded-full font-medium text-sm hover:bg-accent/90 transition-all duration-300 hover:shadow-lg hover:shadow-accent/25"
             >
-              Agendar diagnóstico
+              Solicitar diagnóstico
             </a>
           </div>
 
@@ -325,11 +324,11 @@ export function Header() {
 
               <div className="pt-3">
                 <a
-              href={CALENDLY_URL}
+              href={homeHref("#contacto")}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="block w-full text-center px-6 py-3 bg-accent text-accent-foreground rounded-full font-medium text-sm hover:bg-accent/90 transition-colors"
                 >
-                  Agendar diagnóstico
+                  Solicitar diagnóstico
                 </a>
               </div>
             </div>

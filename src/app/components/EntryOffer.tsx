@@ -35,7 +35,7 @@ export function EntryOffer() {
 
             <div className="space-y-5">
               <h2 className="text-[2rem] md:text-[2.4rem] lg:text-[2.6rem] font-semibold leading-[1.13] tracking-tight text-foreground">
-                En 30 minutos podemos saber si tiene sentido trabajar juntos
+                En 15 minutos podemos saber si tiene sentido trabajar juntos
               </h2>
               <p className="text-[1.05rem] text-muted-foreground leading-[1.75] max-w-md">
                 No es una llamada comercial genérica. Es una revisión inicial para ver si hoy hay una
@@ -84,13 +84,13 @@ export function EntryOffer() {
                   <div className="flex items-center gap-2.5">
                     <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-accent/8 rounded-full border border-accent/12">
                       <Clock className="w-3 h-3 text-accent" />
-                      <span className="text-[11px] font-semibold text-accent">30 min</span>
+                      <span className="text-[11px] font-semibold text-accent">15 min</span>
                     </div>
                     <span className="text-[11px] text-muted-foreground/50 font-medium">Sin costo</span>
                   </div>
 
                   <h3 className="text-[1.5rem] font-semibold tracking-tight text-foreground leading-tight">
-                    Diagnóstico inicial de 30 minutos
+                    Diagnóstico inicial de 15 minutos
                   </h3>
 
                   <p className="text-[0.9rem] text-muted-foreground leading-relaxed">
