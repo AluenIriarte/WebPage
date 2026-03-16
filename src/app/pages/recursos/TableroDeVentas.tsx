@@ -48,13 +48,13 @@ const clienteValorData = [
 ];
 
 const toc = [
-  { id: "definicion", label: "Que es un tablero de ventas?" },
+  { id: "definicion", label: "¿Qué es un tablero de ventas?" },
   { id: "diferencias", label: "Tablero vs. dashboard vs. reporte" },
   { id: "estructura", label: "Estructura recomendada" },
   { id: "indicadores", label: "Indicadores por vista" },
-  { id: "regiones", label: "Analisis regional y territorial" },
+  { id: "regiones", label: "Análisis regional y territorial" },
   { id: "clientes", label: "Vista de cartera de clientes" },
-  { id: "como-presentarlo", label: "Como presentarlo al equipo" },
+  { id: "como-presentarlo", label: "Cómo presentarlo al equipo" },
   { id: "herramientas", label: "Herramientas para construirlo" },
 ];
 
@@ -83,10 +83,10 @@ export function TableroDeVentas() {
               </span>
             </div>
             <h1 className="text-[2.2rem] md:text-[2.8rem] font-semibold tracking-tight text-foreground leading-[1.12]">
-              Tablero de ventas: como construirlo y que indicadores incluir
+              Tablero de ventas: cómo construirlo y qué indicadores incluir
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Un tablero de ventas es la herramienta central para que gerentes y directores comerciales tomen decisiones rapidas con datos reales.
+              Un tablero de ventas es la herramienta central para que gerentes y directores comerciales tomen decisiones rápidas con datos reales.
             </p>
           </motion.div>
         </div>
@@ -105,9 +105,9 @@ export function TableroDeVentas() {
               </div>
 
               <section id="definicion">
-                <h2>Que es un tablero de ventas?</h2>
+                <h2>¿Qué es un tablero de ventas?</h2>
                 <p>
-                  Es una interfaz de control que concentra los indicadores clave del area comercial y los presenta de forma visual para facilitar decisiones rapidas.
+                  Es una interfaz de control que concentra los indicadores clave del área comercial y los presenta de forma visual para facilitar decisiones rápidas.
                 </p>
               </section>
 
@@ -115,10 +115,10 @@ export function TableroDeVentas() {
                 <h2>Tablero de ventas, dashboard y reporte</h2>
                 <div className="p-5 rounded-xl bg-muted/30 border border-border/40 space-y-3">
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    <strong className="text-foreground">Tablero / Dashboard:</strong> Herramienta visual, dinamica y actualizada con frecuencia.
+                    <strong className="text-foreground">Tablero / Dashboard:</strong> Herramienta visual, dinámica y actualizada con frecuencia.
                   </p>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    <strong className="text-foreground">Reporte de ventas:</strong> Documento estatico y retrospectivo.
+                    <strong className="text-foreground">Reporte de ventas:</strong> Documento estático y retrospectivo.
                   </p>
                 </div>
               </section>
@@ -128,14 +128,14 @@ export function TableroDeVentas() {
                 <div className="space-y-4">
                   {[
                     "Nivel 1 - Vista ejecutiva",
-                    "Nivel 2 - Vista de gestion comercial",
-                    "Nivel 3 - Vista de analisis de cartera",
+                    "Nivel 2 - Vista de gestión comercial",
+                    "Nivel 3 - Vista de análisis de cartera",
                     "Nivel 4 - Vista de detalle",
                   ].map((item) => (
                     <div key={item} className="p-5 rounded-xl border border-border/40 bg-white">
                       <h3 className="text-sm font-semibold text-foreground">{item}</h3>
                       <p className="text-sm text-muted-foreground leading-relaxed">
-                        Cada vista responde a un nivel distinto de decision y debe mantener foco propio.
+                        Cada vista responde a un nivel distinto de decisión y debe mantener foco propio.
                       </p>
                     </div>
                   ))}
@@ -154,9 +154,9 @@ export function TableroDeVentas() {
                     </thead>
                     <tbody className="divide-y divide-border/40">
                       {[
-                        ["Ejecutiva", "Revenue total, variacion vs. meta, variacion vs. periodo anterior, margen bruto"],
-                        ["Gestion comercial", "Pipeline activo, cumplimiento por vendedor, oportunidades en riesgo, clientes inactivos"],
-                        ["Analisis de cartera", "Mix por producto/canal, revenue por segmento, frecuencia de compra, ticket promedio"],
+                        ["Ejecutiva", "Revenue total, variación vs. meta, variación vs. período anterior, margen bruto"],
+                        ["Gestión comercial", "Pipeline activo, cumplimiento por vendedor, oportunidades en riesgo, clientes inactivos"],
+                        ["Análisis de cartera", "Mix por producto/canal, revenue por segmento, frecuencia de compra, ticket promedio"],
                         ["Detalle operativo", "Historial de transacciones, actividad por cuenta y estado de oportunidades"],
                       ].map(([view, indicators]) => (
                         <tr key={view} className="hover:bg-muted/20">
@@ -186,7 +186,7 @@ export function TableroDeVentas() {
               </section>
 
               <section id="regiones">
-                <h2>Analisis regional y territorial</h2>
+                <h2>Análisis regional y territorial</h2>
                 <div className="p-6 rounded-2xl border border-border/50 bg-white shadow-sm">
                   <h3 className="text-base font-semibold text-foreground mb-5">Ventas reales vs. meta por region</h3>
                   <ResponsiveContainer width="100%" height={240}>
@@ -226,7 +226,7 @@ export function TableroDeVentas() {
                             return (
                               <div className="bg-white border border-border/50 rounded-lg p-3 shadow-md text-xs">
                                 <p className="font-semibold text-foreground mb-1">{data.name}</p>
-                                <p className="text-muted-foreground">Frecuencia: {data.x} compras/ano</p>
+                                <p className="text-muted-foreground">Frecuencia: {data.x} compras/año</p>
                                 <p className="text-muted-foreground">Ticket: ${data.y.toLocaleString()}</p>
                               </div>
                             );
@@ -241,19 +241,19 @@ export function TableroDeVentas() {
               </section>
 
               <section id="como-presentarlo">
-                <h2>Como presentarlo al equipo</h2>
+                <h2>Cómo presentarlo al equipo</h2>
                 <div className="space-y-3">
                   {[
-                    "Reunion diaria de 10 minutos",
-                    "Reunion semanal de gestion",
-                    "Revision mensual de cartera",
+                    "Reunión diaria de 10 minutos",
+                    "Reunión semanal de gestión",
+                    "Revisión mensual de cartera",
                   ].map((item, index) => (
                     <div key={item} className="flex gap-4 p-5 rounded-xl border border-border/40 bg-white">
                       <div className="text-[11px] font-bold text-accent/40 tabular-nums pt-0.5 flex-shrink-0">0{index + 1}</div>
                       <div>
                         <p className="text-sm font-semibold text-foreground mb-1">{item}</p>
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                          El tablero solo genera valor si se integra a una rutina clara de gestion.
+                          El tablero solo genera valor si se integra a una rutina clara de gestión.
                         </p>
                       </div>
                     </div>
@@ -273,7 +273,7 @@ export function TableroDeVentas() {
                     <div key={tool} className="p-5 rounded-xl border border-border/50 bg-white space-y-2">
                       <h3 className="text-sm font-semibold text-foreground">{tool}</h3>
                       <p className="text-xs text-muted-foreground leading-relaxed">
-                        La herramienta importa menos que la seleccion de indicadores, el diseno de vistas y la rutina de uso.
+                        La herramienta importa menos que la selección de indicadores, el diseño de vistas y la rutina de uso.
                       </p>
                     </div>
                   ))}
@@ -281,27 +281,27 @@ export function TableroDeVentas() {
               </section>
 
               <div className="p-6 rounded-2xl bg-muted/30 border border-border/40 space-y-4 mb-12">
-                <p className="text-sm font-semibold text-foreground">Articulos relacionados</p>
+                <p className="text-sm font-semibold text-foreground">Artículos relacionados</p>
                 <div className="space-y-2">
                   <Link to="/recursos/que-es-un-dashboard" className="flex items-center gap-2 text-sm text-accent hover:underline">
                     <ArrowRight className="w-3.5 h-3.5 flex-shrink-0" />
-                    Que es un dashboard? Definicion, tipos y para que sirve
+                    ¿Qué es un dashboard? Definición, tipos y para qué sirve
                   </Link>
                   <Link to="/recursos/dashboard-de-ventas" className="flex items-center gap-2 text-sm text-accent hover:underline">
                     <ArrowRight className="w-3.5 h-3.5 flex-shrink-0" />
-                    Dashboard de ventas: que medir y como estructurarlo
+                    Dashboard de ventas: qué medir y cómo estructurarlo
                   </Link>
                   <Link to="/recursos/kpis-comerciales" className="flex items-center gap-2 text-sm text-accent hover:underline">
                     <ArrowRight className="w-3.5 h-3.5 flex-shrink-0" />
-                    KPIs comerciales: la guia definitiva
+                    KPIs comerciales: la guía definitiva
                   </Link>
                 </div>
               </div>
 
               <div className="p-8 rounded-2xl bg-foreground text-background space-y-4">
-                <h3 className="text-xl font-semibold">Necesitas un tablero de ventas para tu empresa?</h3>
+                <h3 className="text-xl font-semibold">¿Necesitás un tablero de ventas para tu empresa?</h3>
                 <p className="text-background/70 leading-relaxed text-sm">
-                  Diseno tableros comerciales conectados a tus datos reales. Revisamos que informacion tenes disponible y que decisiones debe soportar.
+                  Diseño tableros comerciales conectados a tus datos reales. Revisamos qué información tenés disponible y qué decisiones debe soportar.
                 </p>
                 <a
                   href="mailto:alanlperez1996@gmail.com?subject=Tablero de ventas"
@@ -316,7 +316,7 @@ export function TableroDeVentas() {
             <aside className="hidden lg:block">
               <div className="sticky top-24 space-y-2">
                 <p className="text-[11px] font-semibold text-muted-foreground/50 uppercase tracking-widest mb-4">
-                  En este articulo
+                  En este artículo
                 </p>
                 {toc.map((item) => (
                   <a key={item.id} href={`#${item.id}`} className="block text-sm text-muted-foreground hover:text-accent transition-colors py-1 border-l-2 border-transparent hover:border-accent/40 pl-3">

@@ -69,7 +69,7 @@ export function ResourceLayout({ children }: ResourceLayoutProps) {
           </div>
           <div className="mt-8 pt-6 border-t border-border/40 text-center">
             <p className="text-xs text-muted-foreground/60">
-              © {new Date().getFullYear()} Alan L. Perez - Business Intelligence & Sistemas de Decision
+              © {new Date().getFullYear()} Alan L. Perez - Business Intelligence & Sistemas de Decisión
               Comercial
             </p>
           </div>

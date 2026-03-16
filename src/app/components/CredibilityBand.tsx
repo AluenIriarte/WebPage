@@ -13,8 +13,8 @@ const tools = [
 ];
 
 const stats = [
-  { value: "+3 anos", label: "de experiencia aplicada" },
-  { value: "Global", label: "clientes en multiples mercados" },
+  { value: "+3 años", label: "de experiencia aplicada" },
+  { value: "Global", label: "clientes en múltiples mercados" },
   { value: "B2B", label: "foco en ventas y margen" },
 ];
 
@@ -58,7 +58,7 @@ export function CredibilityBand() {
 
           <a href="#problema" className="group inline-flex flex-col items-center gap-3 text-center">
             <span className="text-sm font-medium text-muted-foreground/60 tracking-wide">
-              Ver que podrias estar perdiendo hoy
+              Ver qué podrías estar perdiendo hoy
             </span>
             <motion.div
               animate={{ y: [0, 5, 0] }}

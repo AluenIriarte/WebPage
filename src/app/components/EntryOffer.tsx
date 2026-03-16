@@ -2,10 +2,10 @@ import { motion } from "motion/react";
 import { Clock, ArrowRight, FileText } from "lucide-react";
 
 const items = [
-  "Si hay patrones en tus datos que hoy no estan siendo explotados",
-  "Que tan lejos estas de tener visibilidad real sobre lo que mueve el negocio",
-  "Que tendria mas sentido construir o priorizar primero",
-  "Si el sistema que hoy usas esta orientando decisiones o solo acumulando datos",
+  "Dónde puede estar yéndose dinero hoy sin que esté visible",
+  "Qué señal conviene mirar primero",
+  "Si el problema es de datos, de foco o de lectura comercial",
+  "Si tiene sentido construir algo ahora o no",
 ];
 
 export function EntryOffer() {
@@ -37,14 +37,14 @@ export function EntryOffer() {
                 En 15 minutos podemos saber si tiene sentido trabajar juntos
               </h2>
               <p className="text-[1.05rem] text-muted-foreground leading-[1.75] max-w-md">
-                Una conversacion sin costo para entender tu contexto comercial y ver si hoy hay senales
-                o focos que convenga hacer visibles primero.
+                No es una llamada comercial genérica. Es una revisión inicial para ver si hoy hay una
+                pérdida visible en cartera, margen o expansión.
               </p>
             </div>
 
             <div className="space-y-4">
               <p className="text-[0.8rem] font-semibold text-foreground/40 uppercase tracking-[0.12em]">
-                En esta primera conversacion podemos revisar
+                En esa llamada revisamos
               </p>
               <ul className="space-y-3">
                 {items.map((item, index) => (
@@ -89,12 +89,11 @@ export function EntryOffer() {
                   </div>
 
                   <h3 className="text-[1.5rem] font-semibold tracking-tight text-foreground leading-tight">
-                    Diagnostico inicial sin costo
+                    Diagnóstico inicial de 15 minutos
                   </h3>
 
                   <p className="text-[0.9rem] text-muted-foreground leading-relaxed">
-                    15 minutos para revisar si hoy hay oportunidades ocultas en clientes, margen, mix o
-                    segmentos que convenga hacer visibles primero.
+                    Salís con una lectura inicial y con un sí o no honesto sobre si vale la pena avanzar.
                   </p>
                 </div>
 
@@ -102,9 +101,9 @@ export function EntryOffer() {
 
                 <div className="space-y-3">
                   {[
-                    "Revisamos tu contexto comercial actual",
-                    "Identificamos donde mirar primero",
-                    "Te digo si tiene sentido seguir trabajando juntos",
+                    "Entiendo tu contexto y tus datos disponibles",
+                    "Te marco la primera señal que conviene mirar",
+                    "Te digo si tiene sentido avanzar o no",
                   ].map((step, index) => (
                     <div key={step} className="flex items-start gap-3">
                       <span className="text-[10px] font-bold text-accent/40 mt-0.5 w-4 flex-shrink-0 tabular-nums">
@@ -115,12 +114,16 @@ export function EntryOffer() {
                   ))}
                 </div>
 
+                <p className="text-[11px] text-muted-foreground/55 border-t border-border/30 pt-4">
+                  Ideal para: quien hoy decide o lidera lo comercial.
+                </p>
+
                 <div className="space-y-3 pt-1">
                   <a
-                    href="mailto:alanlperez1996@gmail.com?subject=Diagnostico inicial"
+                    href="mailto:alanlperez1996@gmail.com?subject=Diagnóstico inicial"
                     className="group inline-flex items-center justify-center w-full gap-2 px-8 py-4 bg-foreground text-background rounded-full font-medium text-base hover:bg-foreground/90 transition-all duration-300 hover:shadow-xl"
                   >
-                    Solicitar diagnostico
+                    Solicitar diagnóstico
                     <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
                   </a>
 
@@ -129,7 +132,7 @@ export function EntryOffer() {
                     className="inline-flex items-center justify-center w-full gap-1.5 px-8 py-3 text-sm text-muted-foreground hover:text-accent border border-transparent hover:border-accent/15 rounded-full transition-all duration-200"
                   >
                     <FileText className="w-3.5 h-3.5 flex-shrink-0" />
-                    Preferis revisar primero por tu cuenta? Descarga la guia →
+                    Preferís revisar primero por tu cuenta? Descargá la guía →
                   </a>
                 </div>
               </div>
@@ -142,7 +145,7 @@ export function EntryOffer() {
               transition={{ duration: 0.5, delay: 0.5 }}
               className="text-center text-[11px] text-muted-foreground/45 mt-5 font-medium"
             >
-              Sin formularios largos. Sin pitches de venta.
+              Sin presentación comercial. Sin vueltas.
             </motion.p>
           </motion.div>
         </div>

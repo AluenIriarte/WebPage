@@ -44,13 +44,13 @@ const trendData = [
 ];
 
 const toc = [
-  { id: "que-es", label: "Que es un dashboard de ventas?" },
+  { id: "que-es", label: "¿Qué es un dashboard de ventas?" },
   { id: "diferencia", label: "No es un CRM ni un reporte" },
-  { id: "metricas-clave", label: "Metricas que no pueden faltar" },
+  { id: "metricas-clave", label: "Métricas que no pueden faltar" },
   { id: "pipeline", label: "El pipeline visual" },
   { id: "rendimiento", label: "Rendimiento por vendedor" },
-  { id: "frecuencia", label: "Con que frecuencia mirarlo?" },
-  { id: "estructura", label: "Como estructurar las vistas" },
+  { id: "frecuencia", label: "¿Con qué frecuencia mirarlo?" },
+  { id: "estructura", label: "Cómo estructurar las vistas" },
   { id: "errores", label: "Errores frecuentes" },
 ];
 
@@ -79,10 +79,10 @@ export function DashboardDeVentas() {
               </span>
             </div>
             <h1 className="text-[2.2rem] md:text-[2.8rem] font-semibold tracking-tight text-foreground leading-[1.12]">
-              Dashboard de ventas: que medir, como estructurarlo y por que importa
+              Dashboard de ventas: qué medir, cómo estructurarlo y por qué importa
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Un dashboard de ventas bien disenado centraliza en un solo lugar los indicadores que determinan si tu equipo comercial esta avanzando o estancado.
+              Un dashboard de ventas bien diseñado centraliza en un solo lugar los indicadores que determinan si tu equipo comercial está avanzando o estancado.
             </p>
           </motion.div>
         </div>
@@ -101,10 +101,10 @@ export function DashboardDeVentas() {
               </div>
 
               <section id="que-es">
-                <h2>Que es un dashboard de ventas?</h2>
+                <h2>¿Qué es un dashboard de ventas?</h2>
                 <p>
-                  Es una herramienta de visualizacion que concentra los indicadores clave del proceso
-                  comercial. A diferencia de un reporte estatico, es dinamico y pensado para soportar
+                  Es una herramienta de visualización que concentra los indicadores clave del proceso
+                  comercial. A diferencia de un reporte estático, es dinámico y pensado para soportar
                   decisiones en tiempo real.
                 </p>
               </section>
@@ -115,11 +115,11 @@ export function DashboardDeVentas() {
                   {[
                     {
                       title: "CRM",
-                      desc: "Es la base de datos del proceso comercial. Donde se carga y mantiene la informacion.",
+                      desc: "Es la base de datos del proceso comercial. Donde se carga y mantiene la información.",
                     },
                     {
                       title: "Reporte de ventas",
-                      desc: "Documento estatico que resume lo que ocurrio en un periodo.",
+                      desc: "Documento estático que resume lo que ocurrió en un periodo.",
                     },
                     {
                       title: "Dashboard de ventas",
@@ -135,13 +135,13 @@ export function DashboardDeVentas() {
               </section>
 
               <section id="metricas-clave">
-                <h2>Las metricas que no pueden faltar</h2>
+                <h2>Las métricas que no pueden faltar</h2>
                 <div className="space-y-3">
                   {[
                     "Revenue total del periodo",
                     "Ticket promedio",
                     "Cantidad de transacciones",
-                    "Tasa de conversion del pipeline",
+                    "Tasa de conversión del pipeline",
                     "Clientes activos vs. inactivos",
                     "Rendimiento por vendedor",
                     "Margen por producto o segmento",
@@ -153,7 +153,7 @@ export function DashboardDeVentas() {
                       <div>
                         <p className="text-sm font-semibold text-foreground">{metric}</p>
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                          Indicador esencial para entender si el equipo comercial avanza, donde se frena y donde conviene intervenir.
+                          Indicador esencial para entender si el equipo comercial avanza, dónde se frena y dónde conviene intervenir.
                         </p>
                       </div>
                     </div>
@@ -178,7 +178,7 @@ export function DashboardDeVentas() {
                       <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 11, fill: "#9ca3af" }} axisLine={false} tickLine={false} tickFormatter={(value) => `${value}%`} />
                       <Tooltip contentStyle={{ borderRadius: 8, border: "1px solid #e5e7eb", fontSize: 12 }} />
                       <Bar yAxisId="left" dataKey="cantidad" fill="#8B5CF6" radius={[6, 6, 0, 0]} name="Cantidad" />
-                      <Line yAxisId="right" type="monotone" dataKey="conversion" stroke="#d1d5db" strokeWidth={2} strokeDasharray="5 5" dot={{ r: 3 }} name="Conversion %" />
+                      <Line yAxisId="right" type="monotone" dataKey="conversion" stroke="#d1d5db" strokeWidth={2} strokeDasharray="5 5" dot={{ r: 3 }} name="Conversión %" />
                     </ComposedChart>
                   </ResponsiveContainer>
                 </div>
@@ -201,12 +201,12 @@ export function DashboardDeVentas() {
               </section>
 
               <section id="frecuencia">
-                <h2>Con que frecuencia revisar un dashboard de ventas?</h2>
+                <h2>¿Con qué frecuencia revisar un dashboard de ventas?</h2>
                 <div className="grid md:grid-cols-3 gap-4">
                   {[
                     { freq: "Diario", use: "Revenue, actividad y alertas prioritarias." },
                     { freq: "Semanal", use: "Pipeline, avance vs. meta y oportunidades calientes." },
-                    { freq: "Mensual", use: "Cierre de periodo, margen, mix y comparacion historica." },
+                    { freq: "Mensual", use: "Cierre de periodo, margen, mix y comparación histórica." },
                   ].map((item) => (
                     <div key={item.freq} className="p-5 rounded-xl border border-border/50 bg-white space-y-3">
                       <h3 className="text-sm font-semibold text-foreground">Revision {item.freq}</h3>
@@ -217,7 +217,7 @@ export function DashboardDeVentas() {
               </section>
 
               <section id="estructura">
-                <h2>Como estructurar las vistas</h2>
+                <h2>Cómo estructurar las vistas</h2>
                 <div className="p-6 rounded-2xl border border-border/50 bg-white shadow-sm mb-6">
                   <div className="mb-5">
                     <h3 className="text-base font-semibold text-foreground">
@@ -240,7 +240,7 @@ export function DashboardDeVentas() {
                   {[
                     "Vista ejecutiva: KPIs criticos y lectura inmediata.",
                     "Vista operativa: pipeline, alertas y seguimiento por vendedor.",
-                    "Vista de analisis: filtros, segmentos, regiones y mix.",
+                    "Vista de análisis: filtros, segmentos, regiones y mix.",
                   ].map((text) => (
                     <div key={text} className="flex gap-4 p-4 rounded-xl border border-border/40 bg-white">
                       <div className="w-1 rounded-full bg-accent/40 flex-shrink-0" />
@@ -256,14 +256,14 @@ export function DashboardDeVentas() {
                   {[
                     "Mostrar demasiados indicadores.",
                     "No conectar bien las fuentes de datos.",
-                    "Disenar para el analista en lugar de para quien decide.",
-                    "Depender de actualizacion manual.",
+                    "Diseñar para el analista en lugar de para quien decide.",
+                    "Depender de actualización manual.",
                     "No tener una vista inicial clara.",
                   ].map((error) => (
                     <div key={error} className="p-5 rounded-xl border border-border/40 bg-white space-y-2">
                       <p className="text-sm font-semibold text-red-500/80">✗ {error}</p>
                       <p className="text-sm text-muted-foreground leading-relaxed">
-                        Cada uno de estos errores reduce adopcion y hace que el tablero pierda valor operativo.
+                        Cada uno de estos errores reduce adopción y hace que el tablero pierda valor operativo.
                       </p>
                     </div>
                   ))}
@@ -271,27 +271,27 @@ export function DashboardDeVentas() {
               </section>
 
               <div className="p-6 rounded-2xl bg-muted/30 border border-border/40 space-y-4 mb-12">
-                <p className="text-sm font-semibold text-foreground">Articulos relacionados</p>
+                <p className="text-sm font-semibold text-foreground">Artículos relacionados</p>
                 <div className="space-y-2">
                   <Link to="/recursos/que-es-un-dashboard" className="flex items-center gap-2 text-sm text-accent hover:underline">
                     <ArrowRight className="w-3.5 h-3.5 flex-shrink-0" />
-                    Que es un dashboard? Definicion, tipos y para que sirve
+                    ¿Qué es un dashboard? Definición, tipos y para qué sirve
                   </Link>
                   <Link to="/recursos/kpis-comerciales" className="flex items-center gap-2 text-sm text-accent hover:underline">
                     <ArrowRight className="w-3.5 h-3.5 flex-shrink-0" />
-                    KPIs comerciales: la guia definitiva
+                    KPIs comerciales: la guía definitiva
                   </Link>
                   <Link to="/recursos/tablero-de-ventas" className="flex items-center gap-2 text-sm text-accent hover:underline">
                     <ArrowRight className="w-3.5 h-3.5 flex-shrink-0" />
-                    Tablero de ventas: como construirlo
+                    Tablero de ventas: cómo construirlo
                   </Link>
                 </div>
               </div>
 
               <div className="p-8 rounded-2xl bg-foreground text-background space-y-4">
-                <h3 className="text-xl font-semibold">Necesitas un dashboard de ventas para tu empresa?</h3>
+                <h3 className="text-xl font-semibold">¿Necesitás un dashboard de ventas para tu empresa?</h3>
                 <p className="text-background/70 leading-relaxed text-sm">
-                  Diseno dashboards comerciales que se integran a tus datos actuales y permiten tomar decisiones sin esperar el reporte de fin de mes.
+                  Diseño dashboards comerciales que se integran a tus datos actuales y permiten tomar decisiones sin esperar el reporte de fin de mes.
                 </p>
                 <a
                   href="mailto:alanlperez1996@gmail.com?subject=Dashboard de ventas"
@@ -306,7 +306,7 @@ export function DashboardDeVentas() {
             <aside className="hidden lg:block">
               <div className="sticky top-24 space-y-2">
                 <p className="text-[11px] font-semibold text-muted-foreground/50 uppercase tracking-widest mb-4">
-                  En este articulo
+                  En este artículo
                 </p>
                 {toc.map((item) => (
                   <a key={item.id} href={`#${item.id}`} className="block text-sm text-muted-foreground hover:text-accent transition-colors py-1 border-l-2 border-transparent hover:border-accent/40 pl-3">

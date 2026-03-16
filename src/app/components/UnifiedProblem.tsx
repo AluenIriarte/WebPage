@@ -79,18 +79,18 @@ function MetricRow({
 const signals = [
   {
     icon: Users,
-    title: "Base que se enfria",
-    body: "Clientes que dejan de comprar o reducen frecuencia sin que nadie lo priorice a tiempo.",
+    title: "Clientes que se enfrían",
+    body: "Clientes que dejan de comprar o reducen frecuencia sin que nadie los active a tiempo.",
   },
   {
     icon: TrendingDown,
     title: "Margen que se erosiona",
-    body: "Las ventas siguen, pero cada operacion empieza a dejar menos valor.",
+    body: "Las ventas siguen, pero cada operación empieza a dejar menos valor.",
   },
   {
     icon: Layers,
     title: "Segmentos con potencial frenado",
-    body: "Hay cuentas, categorias o productos con espacio para crecer que hoy no estan siendo activados.",
+    body: "Hay cuentas, categorías o productos con espacio para crecer que hoy no están siendo activados.",
   },
 ];
 
@@ -122,12 +122,14 @@ export function UnifiedProblem() {
 
             <div className="space-y-5">
               <h2 className="text-[2rem] md:text-[2.4rem] lg:text-[2.6rem] font-semibold leading-[1.13] tracking-tight text-foreground">
-                Podes sostener las ventas y aun asi perder valor
+                Podés seguir vendiendo mientras perdés clientes, margen y foco comercial
               </h2>
               <p className="text-[1.05rem] text-muted-foreground leading-[1.75] max-w-md">
-                Cuando ciertas senales no estan visibles, el negocio puede seguir vendiendo mientras se
-                enfria la base de clientes, se erosiona el margen y se frenan oportunidades de crecimiento.
+                El problema no siempre es la facturación. Muchas veces el deterioro ya empezó, pero
+                todavía no está visible: la cartera se enfría, la rentabilidad cede y el equipo pierde
+                claridad sobre dónde intervenir primero.
               </p>
+              <p className="text-sm font-medium text-foreground/60">Eso no suele explotar de golpe. Se acumula.</p>
             </div>
 
             <div className="space-y-6 pt-2">
@@ -160,7 +162,7 @@ export function UnifiedProblem() {
                 href="#oportunidades"
                 className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent/75 transition-colors duration-200 group"
               >
-                Ver que oportunidades conviene volver visibles
+                Ver qué oportunidades conviene volver visibles
                 <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
               </a>
             </motion.div>
@@ -180,7 +182,7 @@ export function UnifiedProblem() {
             <div className="bg-white rounded-2xl border border-border/60 shadow-xl shadow-black/[0.05] overflow-hidden">
               <div className="px-6 pt-6 pb-5 border-b border-border/40">
                 <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest">
-                  Panorama actual · ultimos 6 meses
+                  Panorama actual · últimos 6 meses
                 </p>
               </div>
 
@@ -233,9 +235,9 @@ export function UnifiedProblem() {
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-500" />
                 </span>
                 <div>
-                  <p className="text-[11px] font-semibold text-amber-800 leading-tight">Senal detectada</p>
+                  <p className="text-[11px] font-semibold text-amber-800 leading-tight">Señal detectada</p>
                   <p className="text-[11px] text-amber-700/80 mt-0.5 leading-snug">
-                    Vendes mas, pero con menos clientes activos y margen en caida.
+                    La facturación sube, pero la base activa cae y el margen se achica.
                   </p>
                 </div>
               </motion.div>

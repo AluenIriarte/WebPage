@@ -174,9 +174,9 @@ function InteractiveDashboard() {
           <div className="flex items-center justify-between mb-4">
             <div>
               <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest mb-0.5">
-                Sistema de decision
+                Sistema de decisión
               </p>
-              <h3 className="text-sm font-semibold text-foreground">Diagnostico comercial activo</h3>
+              <h3 className="text-sm font-semibold text-foreground">Diagnóstico comercial activo</h3>
             </div>
             <div className="flex items-center gap-2">
               <motion.div
@@ -326,7 +326,7 @@ function InteractiveDashboard() {
             </span>
           </div>
           <p className="text-xl font-bold text-foreground">12 cuentas</p>
-          <p className="text-[10px] text-muted-foreground mt-0.5">sin actividad en +90 dias</p>
+          <p className="text-[10px] text-muted-foreground mt-0.5">sin actividad en +90 días</p>
           <div className="mt-2.5 flex gap-1">
             {[1, 1, 1, 1, 1, 0, 0].map((filled, index) => (
               <motion.div
@@ -369,7 +369,7 @@ export function Hero() {
             >
               <BarChart3 className="w-3.5 h-3.5 text-accent" />
               <span className="text-xs font-semibold text-accent tracking-wide">
-                Business Intelligence · Decision Comercial
+                Business Intelligence · Decisión Comercial
               </span>
             </motion.div>
 
@@ -380,12 +380,11 @@ export function Hero() {
               className="space-y-5"
             >
               <h1 className="text-4xl md:text-5xl lg:text-[3.25rem] font-semibold leading-[1.1] tracking-tight text-foreground">
-                Converti tus datos de ventas <span className="text-accent">en ingresos</span>
+                Convertí tus datos de ventas <span className="text-accent">en ingresos</span>
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-xl">
-                Diseno sistemas de decision comercial y dashboards ejecutivos para detectar clientes
-                perdidos, oportunidades de cross-sell, potencial de up-sell y focos de margen que hoy
-                estan quedando ocultos en tus datos.
+                Diseño sistemas de decisión comercial para que veas qué clientes se enfrían, dónde
+                cede el margen y dónde hay expansión real por capturar.
               </p>
             </motion.div>
 
@@ -399,14 +398,14 @@ export function Hero() {
                 href="#contacto"
                 className="inline-flex items-center justify-center px-8 py-4 bg-accent text-accent-foreground rounded-full font-medium text-base hover:bg-accent/90 transition-all duration-300 hover:shadow-xl hover:shadow-accent/25 hover:scale-[1.02] group"
               >
-                Solicitar diagnostico
+                Solicitar diagnóstico
                 <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
               </a>
               <a
                 href="#problema"
                 className="inline-flex items-center justify-center px-8 py-4 bg-white border border-border rounded-full font-medium text-base hover:border-accent/40 hover:bg-accent/5 transition-all duration-300"
               >
-                Ver como trabajo
+                Ver el problema real
               </a>
             </motion.div>
 
@@ -417,9 +416,9 @@ export function Hero() {
               className="flex flex-wrap gap-5 pt-6 border-t border-border/50"
             >
               {[
-                { icon: Users, text: "Primera conversacion sin costo" },
-                { icon: BarChart3, text: "Resultados en semanas" },
-                { icon: TrendingUp, text: "Informacion tratada con confidencialidad" },
+                { icon: Users, text: "Diagnóstico inicial de 15 minutos" },
+                { icon: BarChart3, text: "Prioridades visibles en semanas" },
+                { icon: TrendingUp, text: "Trabajo confidencial y aplicado al negocio" },
               ].map((item) => (
                 <div key={item.text} className="flex items-center space-x-2">
                   <item.icon className="w-4 h-4 text-accent/60" />

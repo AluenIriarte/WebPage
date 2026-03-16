@@ -18,54 +18,54 @@ const coreService = {
   icon: BarChart3,
   title: "BI Comercial & Dashboards Ejecutivos",
   description:
-    "Diseno sistemas de decision comercial que convierten datos de ventas en acciones concretas. El trabajo central: visibilidad real sobre donde esta el dinero que hoy no se ve.",
+    "Diseño sistemas de decisión comercial que convierten datos de ventas en acciones concretas. El trabajo central: visibilidad real sobre dónde está el dinero que hoy no se ve.",
   bullets: [
-    "Analisis de cartera: clientes activos, en riesgo y perdidos",
-    "Deteccion de margen erosionado y oportunidades de mix",
-    "Segmentacion por rentabilidad, volumen y frecuencia de compra",
+    "Análisis de cartera: clientes activos, en riesgo y perdidos",
+    "Detección de margen erosionado y oportunidades de mix",
+    "Segmentación por rentabilidad, volumen y frecuencia de compra",
     "Dashboards ejecutivos con drill-down operativo",
     "Indicadores de alerta para equipos comerciales",
-    "Reporteria automatizada para revisiones de negocio",
+    "Reportería automatizada para revisiones de negocio",
   ],
-  cta: "Este es el diagnostico",
+  cta: "Este es el diagnóstico",
   ctaHref: "/#contacto",
 };
 
 const otherServices = [
   {
     icon: Monitor,
-    title: "Dashboards para otras areas",
+    title: "Dashboards para otras áreas",
     description:
-      "La misma logica de decision aplicada a finanzas, operaciones, marketing o RRHH. Un sistema de reporteria claro para cada area que lo necesite.",
+      "La misma lógica de decisión aplicada a finanzas, operaciones, marketing o RRHH. Un sistema de reportería claro para cada área que lo necesite.",
     bullets: [
       "Finanzas: P&L visual, flujo de caja, presupuesto vs real",
-      "Operaciones: KPIs de produccion, logistica y eficiencia",
-      "Marketing: performance por canal, CAC, ROI de campanas",
+      "Operaciones: KPIs de producción, logística y eficiencia",
+      "Marketing: performance por canal, CAC, ROI de campañas",
       "RRHH: headcount, rotacion, ausentismo",
     ],
   },
   {
     icon: Zap,
-    title: "RPA & Automatizacion de reportes",
+    title: "RPA & Automatización de reportes",
     description:
-      "Elimino el trabajo manual que consume tiempo sin agregar valor: consolidacion de archivos, generacion de reportes periodicos e integracion entre sistemas.",
+      "Elimino el trabajo manual que consume tiempo sin agregar valor: consolidación de archivos, generación de reportes periódicos e integración entre sistemas.",
     bullets: [
-      "Automatizacion de reportes Excel/PowerPoint recurrentes",
-      "Consolidacion de datos desde multiples fuentes",
-      "Flujos de actualizacion y distribucion automatica",
-      "Integracion entre ERP, CRM y bases de datos internas",
+      "Automatización de reportes Excel/PowerPoint recurrentes",
+      "Consolidación de datos desde múltiples fuentes",
+      "Flujos de actualización y distribución automática",
+      "Integración entre ERP, CRM y bases de datos internas",
     ],
   },
   {
     icon: Sparkles,
     title: "IA Aplicada a decisiones comerciales",
     description:
-      "Modelos aplicados a problemas concretos de negocio. No tecnologia por si sola, sino inteligencia incorporada al proceso de decision.",
+      "Modelos aplicados a problemas concretos de negocio. No tecnología por sí sola, sino inteligencia incorporada al proceso de decisión.",
     bullets: [
-      "Scoring de clientes y propension de compra",
-      "Deteccion de anomalias y alertas automaticas",
-      "Prediccion de demanda y riesgo de churn",
-      "Segmentacion avanzada para campanas comerciales",
+      "Scoring de clientes y propensión de compra",
+      "Detección de anomalías y alertas automáticas",
+      "Predicción de demanda y riesgo de churn",
+      "Segmentación avanzada para campañas comerciales",
     ],
   },
 ];
@@ -102,11 +102,11 @@ export function Servicios() {
 
               <h1 className="text-4xl md:text-5xl lg:text-[3rem] font-semibold leading-[1.1] tracking-tight text-foreground">
                 Lo que puedo construir
-                <br className="hidden sm:block" /> para tu operacion
+                <br className="hidden sm:block" /> para tu operación
               </h1>
 
               <p className="text-lg text-muted-foreground leading-relaxed max-w-xl">
-                Business Intelligence como punto de partida. Automatizacion e IA donde tiene sentido
+                Business Intelligence como punto de partida. Automatización e IA donde tiene sentido
                 aplicarlos. Todo orientado a que el negocio tome mejores decisiones con los datos que ya
                 tiene.
               </p>
@@ -186,7 +186,7 @@ export function Servicios() {
               className="mb-10"
             >
               <p className="text-xs font-semibold text-muted-foreground/50 uppercase tracking-[0.14em]">
-                Tambien trabajo en
+                 También trabajo en
               </p>
             </motion.div>
 
@@ -244,14 +244,14 @@ export function Servicios() {
               <div className="relative z-10 px-8 py-14 lg:px-16 lg:py-20 grid lg:grid-cols-2 gap-10 items-center">
                 <div className="space-y-5">
                   <p className="text-xs font-semibold text-white/40 uppercase tracking-widest">
-                    Automatizacion y mejora de procesos
+                    Automatización y mejora de procesos
                   </p>
                   <h2 className="text-3xl md:text-[2.25rem] font-semibold text-white leading-[1.15] tracking-tight">
-                    Buscas algo mas especifico?
+                    ¿Buscás algo más específico?
                   </h2>
                   <p className="text-base text-white/60 leading-relaxed max-w-md">
-                    Si tenes un proceso manual, una integracion rota, un reporte que consume horas o una
-                    pregunta de negocio que hoy no podes responder con datos, probablemente hay algo concreto
+                    Si tenés un proceso manual, una integración rota, un reporte que consume horas o una
+                    pregunta de negocio que hoy no podés responder con datos, probablemente hay algo concreto
                     que se puede hacer.
                   </p>
                 </div>
@@ -259,14 +259,14 @@ export function Servicios() {
                 <div className="flex flex-col gap-8">
                   <div className="flex flex-wrap gap-2">
                     {[
-                      "Automatizacion de procesos",
-                      "Integracion de sistemas",
-                      "Reporteria periodica",
+                      "Automatización de procesos",
+                      "Integración de sistemas",
+                      "Reportería periódica",
                       "ETL y pipelines de datos",
-                      "Alertas automaticas",
+                      "Alertas automáticas",
                       "Modelos predictivos",
                       "Agentes con IA",
-                      "Consolidacion de informacion",
+                      "Consolidación de información",
                     ].map((tag) => (
                       <span
                         key={tag}

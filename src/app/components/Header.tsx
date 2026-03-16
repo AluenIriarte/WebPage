@@ -14,33 +14,33 @@ import { AnimatePresence, motion } from "motion/react";
 
 const recursos = [
   {
-    label: "Todas las guias",
-    desc: "Hub de recursos y articulos",
+    label: "Todas las guías",
+    desc: "Hub de recursos y artículos",
     href: "/recursos",
     icon: BookOpen,
     isHub: true,
   },
   {
-    label: "Que es un dashboard?",
-    desc: "Definicion, tipos y para que sirve",
+    label: "¿Qué es un dashboard?",
+    desc: "Definición, tipos y para qué sirve",
     href: "/recursos/que-es-un-dashboard",
     icon: LayoutDashboard,
   },
   {
     label: "Dashboard de ventas",
-    desc: "Que medir y como estructurarlo",
+    desc: "Qué medir y cómo estructurarlo",
     href: "/recursos/dashboard-de-ventas",
     icon: TrendingUp,
   },
   {
     label: "KPIs comerciales",
-    desc: "La guia definitiva",
+    desc: "La guía definitiva",
     href: "/recursos/kpis-comerciales",
     icon: Target,
   },
   {
     label: "Tablero de ventas",
-    desc: "Como construirlo e implementarlo",
+    desc: "Cómo construirlo e implementarlo",
     href: "/recursos/tablero-de-ventas",
     icon: BarChart2,
   },
@@ -93,8 +93,8 @@ export function Header() {
 
   const navItems = [
     { label: "Inicio", href: homeHref("#home") },
-    { label: "Que resuelvo", href: homeHref("#problema") },
-    { label: "Como trabajo", href: homeHref("#proceso") },
+    { label: "Qué resuelvo", href: homeHref("#problema") },
+    { label: "Cómo trabajo", href: homeHref("#proceso") },
     { label: "Oportunidades", href: homeHref("#oportunidades") },
   ];
 
@@ -180,10 +180,10 @@ export function Header() {
                         </div>
                         <div>
                           <p className="text-sm font-semibold text-foreground group-hover/item:text-accent transition-colors leading-tight">
-                            Todas las guias
+                            Todas las guías
                           </p>
                           <p className="text-[11px] text-muted-foreground/70 leading-tight mt-0.5">
-                            Hub de recursos y articulos
+                            Hub de recursos y artículos
                           </p>
                         </div>
                       </Link>
@@ -227,7 +227,7 @@ export function Header() {
               href={homeHref("#contacto")}
               className="inline-flex items-center justify-center px-6 py-2.5 bg-accent text-accent-foreground rounded-full font-medium text-sm hover:bg-accent/90 transition-all duration-300 hover:shadow-lg hover:shadow-accent/25"
             >
-              Solicitar diagnostico
+              Solicitar diagnóstico
             </a>
           </div>
 
@@ -328,7 +328,7 @@ export function Header() {
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="block w-full text-center px-6 py-3 bg-accent text-accent-foreground rounded-full font-medium text-sm hover:bg-accent/90 transition-colors"
                 >
-                  Solicitar diagnostico
+                  Solicitar diagnóstico
                 </a>
               </div>
             </div>

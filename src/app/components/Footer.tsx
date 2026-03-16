@@ -8,8 +8,8 @@ export function Footer() {
   const navigation = {
     main: [
       { name: "Inicio", href: homeHref("#home"), internal: false },
-      { name: "Que resuelvo", href: homeHref("#problema"), internal: false },
-      { name: "Como trabajo", href: homeHref("#proceso"), internal: false },
+      { name: "Qué resuelvo", href: homeHref("#problema"), internal: false },
+      { name: "Cómo trabajo", href: homeHref("#proceso"), internal: false },
       { name: "Oportunidades", href: homeHref("#oportunidades"), internal: false },
       { name: "Servicios", href: "/servicios", internal: true },
       { name: "Recursos", href: "/recursos", internal: true },
@@ -40,13 +40,13 @@ export function Footer() {
               <span className="text-xl font-semibold text-foreground">Alan L. Perez</span>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
-              Transformo datos comerciales en sistemas de decision claros, accionables y orientados a
+              Transformo datos comerciales en sistemas de decisión claros, accionables y orientados a
               detectar oportunidades.
             </p>
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-foreground mb-4">Navegacion</h3>
+            <h3 className="text-sm font-semibold text-foreground mb-4">Navegación</h3>
             <ul className="space-y-3">
               {navigation.main.map((item) => (
                 <li key={item.name}>
@@ -93,7 +93,7 @@ export function Footer() {
 
         <div className="pt-8 border-t border-border/50">
           <p className="text-center text-sm text-muted-foreground/40 italic mb-6">
-            Los datos no son el problema. Saber donde mirar, si.
+            Los datos no son el problema. Saber dónde mirar, sí.
           </p>
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-muted-foreground">

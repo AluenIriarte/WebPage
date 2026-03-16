@@ -4,18 +4,21 @@ import { Lock, Lightbulb } from "lucide-react";
 const steps = [
   {
     n: "1",
-    title: "Detectamos",
-    body: "Revisamos tus datos comerciales para encontrar que clientes, margenes o segmentos tienen senal oculta y definimos que conviene atacar primero segun impacto real.",
+    title: "Definimos el foco",
+    body: "Alineamos qué decisiones comerciales tienen más impacto: cartera en riesgo, margen, expansión o mix.",
+    outcome: "Salida: prioridades claras",
   },
   {
     n: "2",
-    title: "Implementamos",
-    body: "Construimos la capa de visibilidad: dashboards ejecutivos, reportes automaticos y alertas que convierten datos dispersos en focos de accion concretos para tu equipo.",
+    title: "Construimos la visibilidad",
+    body: "Diseño dashboards, alertas y vistas ejecutivas orientadas a esas decisiones, no a acumular gráficos.",
+    outcome: "Salida: sistema visible y accionable",
   },
   {
     n: "3",
-    title: "Activamos",
-    body: "Acompanamos la adopcion hasta que el sistema entre en las reuniones, oriente prioridades y cambie como decide el equipo.",
+    title: "Lo llevamos a la operación",
+    body: "Dejo la herramienta integrada a reuniones, seguimiento y priorización comercial.",
+    outcome: "Salida: uso real, no reporte decorativo",
   },
 ];
 
@@ -33,15 +36,15 @@ export function ValueProposition() {
           <div className="flex items-center gap-3 mb-6">
             <div className="h-px w-8 bg-accent/40 rounded-full" />
             <span className="text-[11px] font-semibold text-accent/70 uppercase tracking-[0.14em]">
-              Como funciona
+              Cómo funciona
             </span>
           </div>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground mb-5 leading-tight">
-            Foco primero. <span className="text-accent">Visibilidad despues.</span> Uso real siempre.
+            No empiezo por dashboards. <span className="text-accent">Empiezo por decisiones.</span>
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
-            No se trata de sumar mas reportes. Se trata de identificar donde conviene mirar,
-            implementar visibilidad util y lograr que el equipo la use para decidir mejor.
+            Primero definimos qué conviene ver. Después construimos la capa de visibilidad. Por
+            último, la integramos a la rutina comercial.
           </p>
         </motion.div>
 
@@ -66,6 +69,9 @@ export function ValueProposition() {
               <div className="space-y-3">
                 <h3 className="text-xl font-semibold text-foreground">{step.title}</h3>
                 <p className="text-base text-muted-foreground leading-relaxed">{step.body}</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.12em] text-accent/70">
+                  {step.outcome}
+                </p>
               </div>
             </motion.div>
           ))}
@@ -81,12 +87,12 @@ export function ValueProposition() {
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-muted/50 border border-border/50">
               <Lock className="w-3 h-3 text-muted-foreground flex-shrink-0" />
-              <span className="text-xs text-muted-foreground">Manejo confidencial de la informacion</span>
+              <span className="text-xs text-muted-foreground">Manejo confidencial de la información</span>
             </div>
             <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-muted/50 border border-border/50">
               <Lightbulb className="w-3 h-3 text-muted-foreground flex-shrink-0" />
               <span className="text-xs text-muted-foreground">
-                Implementacion pensada para facilitar adopcion
+                Implementación pensada para facilitar adopción
               </span>
             </div>
           </div>
@@ -95,7 +101,7 @@ export function ValueProposition() {
             href="#contacto"
             className="inline-flex items-center gap-2 text-sm font-semibold text-accent hover:text-accent/75 transition-colors duration-200 group flex-shrink-0"
           >
-            Solicitar diagnostico
+            Revisar mi caso
             <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
           </a>
         </motion.div>

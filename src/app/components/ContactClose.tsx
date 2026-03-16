@@ -71,11 +71,11 @@ export function ContactClose() {
             >
               <div className="space-y-4">
                 <h2 className="text-[2rem] md:text-[2.5rem] font-semibold tracking-tight text-foreground leading-[1.12]">
-                  Tiene sentido hablar?
+                  ¿Tiene sentido hablar?
                 </h2>
                 <p className="text-base text-muted-foreground leading-relaxed">
-                  Si algo de lo que leiste resono, el siguiente paso es simple. Deja tus datos y te
-                  escribo para agendar una primera conversacion.
+                  Si algo de lo que leíste resonó, el siguiente paso es simple. Dejá tus datos y te
+                  escribo para agendar una primera conversación.
                 </p>
               </div>
 
@@ -136,7 +136,7 @@ export function ContactClose() {
               </p>
 
               <div className="w-full pt-2 border-t border-border/40 flex items-center justify-between gap-4">
-                <p className="text-xs text-muted-foreground/50">Buscas otros servicios?</p>
+                <p className="text-xs text-muted-foreground/50">¿Buscás otros servicios?</p>
                 <Link
                   to="/servicios"
                   className="group inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground/60 hover:text-accent transition-colors duration-200"

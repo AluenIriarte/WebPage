@@ -25,7 +25,7 @@ export function StatInterstitial() {
           </span>
 
           <p className="text-xl md:text-2xl lg:text-[2rem] font-medium text-foreground leading-[1.35] tracking-tight">
-            Una mejora del <span className="text-accent">5% en retencion</span> puede aumentar las
+            Una mejora del <span className="text-accent">5% en retención</span> puede aumentar las
             ganancias <span className="text-accent">entre 25% y 95%.</span>
           </p>
 

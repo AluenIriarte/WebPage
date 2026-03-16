@@ -4,34 +4,34 @@ import { Plus, ArrowRight } from "lucide-react";
 
 const faqs = [
   {
-    question: "Esto aplica solo a grandes empresas?",
+    question: "Ya tenemos reportes. ¿Esto agrega algo?",
     answer:
-      "No. Cualquier negocio con datos de ventas recurrentes puede beneficiarse. El sistema se adapta al tamano y complejidad de cada organizacion.",
+      "Sí, si hoy tus reportes muestran datos pero no priorizan decisiones. El objetivo no es tener más tableros, sino ver antes dónde intervenir.",
   },
   {
-    question: "Necesito tener todo ordenado de antemano?",
+    question: "No tenemos los datos perfectos. ¿Igual sirve?",
     answer:
-      "No es necesario. Parte del trabajo es precisamente estructurar y conectar la informacion existente.",
+      "Sí. Muchas veces el primer valor aparece ordenando lo que ya existe y definiendo qué conviene mirar.",
   },
   {
-    question: "Trabajas solo dashboards o tambien automatizacion?",
+    question: "¿Esto es para cualquier negocio?",
     answer:
-      "Ambos. Los dashboards son la capa de visibilidad, pero tambien implemento automatizacion de reportes, integracion de fuentes y alertas.",
+      "Tiene sentido cuando hay volumen comercial, recurrencia o cartera para analizar. El tamaño importa menos que la complejidad del negocio.",
   },
   {
-    question: "Como se que oportunidad atacar primero?",
+    question: "¿Cuándo no tiene sentido trabajar juntos?",
     answer:
-      "Es una de las primeras preguntas que resolvemos en el diagnostico. Priorizo oportunidades segun impacto potencial, esfuerzo requerido y alineacion con los objetivos comerciales actuales.",
+      "Cuando no hay intención de usar datos para decidir, cuando el problema todavía no duele o cuando no existe un caso comercial claro para priorizar.",
   },
   {
-    question: "Sirve si ya tenemos reportes o un equipo de BI interno?",
+    question: "¿Qué sale de la reunión inicial?",
     answer:
-      "Si. Muchos clientes llegan con reportes existentes que muestran datos pero no orientan decisiones.",
+      "Una lectura inicial del caso, la primera señal que conviene mirar y una recomendación honesta sobre si vale la pena avanzar.",
   },
   {
-    question: "Cual es el siguiente paso concreto para empezar?",
+    question: "¿Trabajás solo dashboards?",
     answer:
-      "El punto de entrada es una conversacion de diagnostico donde entiendo tu contexto comercial y los datos disponibles.",
+      "No. El dashboard suele ser una parte. También puedo ordenar datos, automatizar reporting y dejar alertas o vistas de seguimiento.",
   },
 ];
 
@@ -120,7 +120,10 @@ export function FAQSection() {
     <section id="faq" className="py-24 lg:py-32 bg-white relative overflow-hidden">
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.025]"
-        style={{ backgroundImage: "radial-gradient(circle, rgba(139,92,246,1) 1px, transparent 1px)", backgroundSize: "32px 32px" }}
+        style={{
+          backgroundImage: "radial-gradient(circle, rgba(139,92,246,1) 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
+        }}
       />
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
 
@@ -140,8 +143,8 @@ export function FAQSection() {
             <div className="h-px w-8 bg-accent/40 rounded-full" />
           </div>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground mb-4">
-            Las dudas de siempre
-            <br className="hidden md:block" /> antes del primer paso
+            Las objeciones que aparecen
+            <br className="hidden md:block" /> antes de avanzar
           </h2>
           <p className="text-base text-muted-foreground leading-relaxed">
             Sin tecnicismos. Sin compromisos. Solo respuestas directas.
@@ -168,7 +171,7 @@ export function FAQSection() {
           className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t border-border/40"
         >
           <p className="text-sm text-muted-foreground/60 text-center sm:text-left">
-            Quedo alguna duda sin responder?
+            ¿Quedó alguna duda sin responder?
           </p>
           <a
             href="#contacto"

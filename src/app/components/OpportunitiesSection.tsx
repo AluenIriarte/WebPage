@@ -5,7 +5,7 @@ const opportunities = [
   {
     icon: Users,
     title: "Clientes inactivos",
-    example: "12 cuentas de alto valor sin compras en los ultimos 90 dias",
+    example: "12 cuentas de alto valor sin compras en los últimos 90 días",
     metric: "12 cuentas",
     metricLabel: "recuperables",
     metricColor: "text-violet-600",
@@ -13,7 +13,7 @@ const opportunities = [
   {
     icon: BarChart2,
     title: "Mix volumen / margen",
-    example: "Productos con margen superior al 40% sin priorizacion activa",
+    example: "Productos con margen superior al 40% sin priorización activa",
     metric: "40%+",
     metricLabel: "margen potencial",
     metricColor: "text-emerald-600",
@@ -21,7 +21,7 @@ const opportunities = [
   {
     icon: TrendingUp,
     title: "Up-sell y cross-sell",
-    example: "Clientes comprando categoria A sin exposicion a categoria B",
+    example: "Clientes comprando categoría A sin exposición a categoría B",
     metric: "+34%",
     metricLabel: "en margen",
     metricColor: "text-blue-600",
@@ -29,22 +29,22 @@ const opportunities = [
   {
     icon: ShoppingCart,
     title: "Productos subpenetrados",
-    example: "Linea nueva con solo 15% de penetracion en clientes top",
+    example: "Línea nueva con solo 15% de penetración en clientes top",
     metric: "15%",
-    metricLabel: "penetracion actual",
+    metricLabel: "penetración actual",
     metricColor: "text-amber-600",
   },
   {
     icon: Layers,
-    title: "Afinidad por categoria",
-    example: "Segmento X tiene 3x mas afinidad con categoria premium",
+    title: "Afinidad por categoría",
+    example: "Segmento X tiene 3x más afinidad con categoría premium",
     metric: "3x",
     metricLabel: "mayor afinidad",
     metricColor: "text-fuchsia-600",
   },
   {
     icon: Clock,
-    title: "Automatizacion operativa",
+    title: "Automatización operativa",
     example: "8 horas semanales de reporting manual que pueden eliminarse",
     metric: "-8h",
     metricLabel: "por semana",
@@ -64,7 +64,7 @@ export function OpportunitiesSection() {
           className="max-w-3xl mx-auto text-center mb-12"
         >
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground mb-4">
-            Que <span className="text-accent">oportunidades reales</span> puede detectar el analisis
+            Qué <span className="text-accent">señales conviene</span> volver visibles primero
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
             Cada negocio tiene patrones con valor sin explotar. El sistema los vuelve visibles y los
@@ -119,14 +119,14 @@ export function OpportunitiesSection() {
           className="mt-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-8 border-t border-border/40"
         >
           <p className="text-sm text-muted-foreground max-w-sm leading-relaxed">
-            Cada una de estas senales puede estar activa en tu negocio hoy, sin que sea visible en los
+            Cada una de estas señales puede estar activa en tu negocio hoy, sin que sea visible en los
             reportes habituales.
           </p>
           <a
             href="#proceso"
             className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent/75 transition-colors duration-200 group flex-shrink-0"
           >
-            Ver como se trabaja
+            Ver cómo se trabaja
             <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
           </a>
         </motion.div>

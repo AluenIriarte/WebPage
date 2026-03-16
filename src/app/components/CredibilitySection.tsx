@@ -3,17 +3,17 @@ import profilePhoto from "../../../assets/images/profile2.png";
 
 const chips = [
   "BI operativo",
-  "Reporting de gestion",
+  "Reporting de gestión",
   "Dashboards ejecutivos",
-  "Automatizacion",
+  "Automatización",
   "Visibilidad comercial",
-  "Adopcion de herramientas",
+  "Adopción de herramientas",
 ];
 
 const profileStats = [
-  { value: "3+", label: "anos" },
+  { value: "3+", label: "años" },
   { value: "30+", label: "proyectos" },
-  { value: "4+", label: "paises" },
+  { value: "4+", label: "países" },
 ];
 
 export function CredibilitySection() {
@@ -38,7 +38,7 @@ export function CredibilitySection() {
             <div className="text-center lg:text-left">
               <p className="text-base font-semibold text-foreground">Alan L. Perez</p>
               <p className="text-sm text-muted-foreground mt-0.5">
-                Consultor en BI y sistemas de decision comercial
+                Consultor en BI y sistemas de decisión comercial
               </p>
             </div>
 
@@ -75,18 +75,18 @@ export function CredibilitySection() {
             <div className="flex items-center gap-3">
               <div className="h-px w-8 bg-accent/40 rounded-full" />
               <span className="text-[11px] font-semibold text-accent/70 uppercase tracking-[0.14em]">
-                Quien hay detras
+                Quién hay detrás
               </span>
             </div>
 
             <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground leading-tight">
-              Experiencia aplicada para convertir <span className="text-accent">datos en decisiones utiles</span>
+              Experiencia aplicada para convertir <span className="text-accent">datos en decisiones útiles</span>
             </h2>
 
             <p className="text-base text-muted-foreground leading-relaxed">
-              Hace mas de 3 anos acompano a empresas en entornos globales, disenando herramientas de
-              BI, automatizacion y reporting para que la informacion se convierta en foco, claridad y
-              accion.
+              Hace más de 3 años acompaño a empresas en entornos globales, diseñando herramientas de
+              BI, automatización y reporting para que la información se convierta en foco, claridad y
+              acción.
             </p>
 
             <div className="flex flex-wrap gap-2">

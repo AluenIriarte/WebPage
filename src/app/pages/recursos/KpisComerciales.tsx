@@ -20,7 +20,7 @@ import { ResourceLayout } from "./ResourceLayout";
 
 const kpiRadarData = [
   { kpi: "Tasa cierre", value: 72 },
-  { kpi: "Retencion", value: 85 },
+  { kpi: "Retención", value: 85 },
   { kpi: "Ticket prom.", value: 60 },
   { kpi: "Cobertura", value: 90 },
   { kpi: "Velocidad", value: 55 },
@@ -46,13 +46,13 @@ const costoData = [
 ];
 
 const toc = [
-  { id: "que-es-un-kpi", label: "Que es un KPI comercial?" },
-  { id: "diferencia-metricas", label: "KPIs vs. metricas" },
-  { id: "categorias", label: "Categorias principales" },
+  { id: "que-es-un-kpi", label: "¿Qué es un KPI comercial?" },
+  { id: "diferencia-metricas", label: "KPIs vs. métricas" },
+  { id: "categorias", label: "Categorías principales" },
   { id: "kpis-de-ventas", label: "KPIs de ventas esenciales" },
   { id: "kpis-de-clientes", label: "KPIs de clientes" },
   { id: "kpis-de-eficiencia", label: "KPIs de eficiencia comercial" },
-  { id: "como-elegir", label: "Como elegir tus KPIs" },
+  { id: "como-elegir", label: "Cómo elegir tus KPIs" },
   { id: "error-de-medicion", label: "El error de medir todo" },
 ];
 
@@ -81,10 +81,10 @@ export function KpisComerciales() {
               </span>
             </div>
             <h1 className="text-[2.2rem] md:text-[2.8rem] font-semibold tracking-tight text-foreground leading-[1.12]">
-              KPIs comerciales: la guia definitiva para medir lo que realmente importa
+              KPIs comerciales: la guía definitiva para medir lo que realmente importa
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              No todos los indicadores son KPIs. Y no todos los KPIs son utiles. Esta guia explica cuales son los mas relevantes y como elegirlos.
+              No todos los indicadores son KPIs. Y no todos los KPIs son útiles. Esta guía explica cuáles son los más relevantes y cómo elegirlos.
             </p>
           </motion.div>
         </div>
@@ -103,16 +103,16 @@ export function KpisComerciales() {
               </div>
 
               <section id="que-es-un-kpi">
-                <h2>Que es un KPI comercial?</h2>
+                <h2>¿Qué es un KPI comercial?</h2>
                 <p>
-                  Un KPI comercial es un indicador clave de rendimiento que mide si una actividad comercial esta yendo en la direccion correcta segun un objetivo definido.
+                  Un KPI comercial es un indicador clave de rendimiento que mide si una actividad comercial está yendo en la dirección correcta según un objetivo definido.
                 </p>
                 <ul>
                   {[
                     "Tiene un objetivo claro asociado",
                     "Se mide con una frecuencia definida",
                     "Tiene un responsable",
-                    "Permite actuar si hay desvio",
+                    "Permite actuar si hay desvío",
                   ].map((item) => (
                     <li key={item}>{item}</li>
                   ))}
@@ -120,23 +120,23 @@ export function KpisComerciales() {
               </section>
 
               <section id="diferencia-metricas">
-                <h2>KPIs vs. metricas</h2>
+                <h2>KPIs vs. métricas</h2>
                 <div className="rounded-xl border border-border/50 overflow-hidden">
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="bg-muted/50 border-b border-border/50">
                         <th className="text-left px-4 py-3 font-semibold text-foreground w-1/3">Criterio</th>
                         <th className="text-left px-4 py-3 font-semibold text-accent">KPI</th>
-                        <th className="text-left px-4 py-3 font-semibold text-foreground/60">Metrica</th>
+                        <th className="text-left px-4 py-3 font-semibold text-foreground/60">Métrica</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-border/40">
                       {[
                         ["Importancia", "Critico para el objetivo", "Informativo"],
                         ["Objetivo", "Siempre tiene uno asociado", "No necesariamente"],
-                        ["Responsable", "Si", "Puede o no tenerlo"],
+                        ["Responsable", "Sí", "Puede o no tenerlo"],
                         ["Accion derivada", "Obliga a actuar", "Aporta contexto"],
-                        ["Cantidad ideal", "5 a 10 por area", "Sin limite"],
+                        ["Cantidad ideal", "5 a 10 por área", "Sin límite"],
                       ].map(([c, k, m]) => (
                         <tr key={c} className="hover:bg-muted/20">
                           <td className="px-4 py-3 text-foreground/70 font-medium">{c}</td>
@@ -150,12 +150,12 @@ export function KpisComerciales() {
               </section>
 
               <section id="categorias">
-                <h2>Las tres categorias de KPIs comerciales</h2>
+                <h2>Las tres categorías de KPIs comerciales</h2>
                 <div className="grid md:grid-cols-3 gap-4">
                   {[
                     { cat: "KPIs de resultado", desc: "Miden lo que ya paso: revenue, unidades y cierres." },
-                    { cat: "KPIs de proceso", desc: "Miden como funciona el proceso: conversion, ciclo y actividad." },
-                    { cat: "KPIs de prediccion", desc: "Anticipan lo que puede ocurrir: pipeline, propuestas, demos." },
+                    { cat: "KPIs de proceso", desc: "Miden cómo funciona el proceso: conversión, ciclo y actividad." },
+                    { cat: "KPIs de predicción", desc: "Anticipan lo que puede ocurrir: pipeline, propuestas, demos." },
                   ].map((item) => (
                     <div key={item.cat} className="p-5 rounded-xl border border-border/50 bg-white space-y-3">
                       <h3 className="text-sm font-semibold text-foreground">{item.cat}</h3>
@@ -178,7 +178,7 @@ export function KpisComerciales() {
                     <RadarChart data={kpiRadarData}>
                       <PolarGrid stroke="#e5e7eb" />
                       <PolarAngleAxis dataKey="kpi" tick={{ fontSize: 11, fill: "#6b7280" }} />
-                      <Radar name="Desempeno" dataKey="value" stroke="#8B5CF6" fill="#8B5CF6" fillOpacity={0.25} strokeWidth={2} />
+                      <Radar name="Desempeño" dataKey="value" stroke="#8B5CF6" fill="#8B5CF6" fillOpacity={0.25} strokeWidth={2} />
                     </RadarChart>
                   </ResponsiveContainer>
                 </div>
@@ -186,7 +186,7 @@ export function KpisComerciales() {
                 <div className="space-y-3">
                   {[
                     "Revenue total",
-                    "Tasa de conversion",
+                    "Tasa de conversión",
                     "Ticket promedio",
                     "Ciclo de venta",
                     "Costo de adquisicion (CAC)",
@@ -206,13 +206,13 @@ export function KpisComerciales() {
               <section id="kpis-de-clientes">
                 <h2>KPIs de clientes</h2>
                 <div className="p-6 rounded-2xl border border-border/50 bg-white shadow-sm mb-8">
-                  <h3 className="text-base font-semibold text-foreground mb-5">Tasa de retencion mensual</h3>
+                  <h3 className="text-base font-semibold text-foreground mb-5">Tasa de retención mensual</h3>
                   <ResponsiveContainer width="100%" height={200}>
                     <LineChart data={retentionData} margin={{ top: 5, right: 10, left: -20, bottom: 5 }}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                       <XAxis dataKey="mes" tick={{ fontSize: 11, fill: "#9ca3af" }} axisLine={false} tickLine={false} />
                       <YAxis tick={{ fontSize: 11, fill: "#9ca3af" }} axisLine={false} tickLine={false} domain={[70, 100]} tickFormatter={(value) => `${value}%`} />
-                      <Tooltip contentStyle={{ borderRadius: 8, border: "1px solid #e5e7eb", fontSize: 12 }} formatter={(val: number) => [`${val}%`, "Retencion"]} />
+                      <Tooltip contentStyle={{ borderRadius: 8, border: "1px solid #e5e7eb", fontSize: 12 }} formatter={(val: number) => [`${val}%`, "Retención"]} />
                       <Line type="monotone" dataKey="retencion" stroke="#8B5CF6" strokeWidth={2.5} dot={{ r: 3, fill: "#8B5CF6" }} />
                     </LineChart>
                   </ResponsiveContainer>
@@ -237,7 +237,7 @@ export function KpisComerciales() {
               </section>
 
               <section id="como-elegir">
-                <h2>Como elegir los KPIs correctos</h2>
+                <h2>Cómo elegir los KPIs correctos</h2>
                 <div className="space-y-4">
                   {[
                     "Tu modelo de negocio",
@@ -249,7 +249,7 @@ export function KpisComerciales() {
                       <div>
                         <p className="text-sm font-semibold text-foreground mb-1">{item}</p>
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                          La seleccion correcta depende del contexto y de las decisiones que la organizacion necesita tomar con mas frecuencia.
+                          La selección correcta depende del contexto y de las decisiones que la organización necesita tomar con más frecuencia.
                         </p>
                       </div>
                     </div>
@@ -261,7 +261,7 @@ export function KpisComerciales() {
                 <h2>El error de medir todo</h2>
                 <div className="p-6 rounded-xl bg-accent/5 border border-accent/15 space-y-4">
                   <p className="text-base font-semibold text-foreground">
-                    Si en un dashboard hay mas de 10 KPIs en la vista principal, hay demasiados.
+                    Si en un dashboard hay más de 10 KPIs en la vista principal, hay demasiados.
                   </p>
                   <p className="text-[1rem] text-foreground/75 leading-relaxed">
                     Un indicador que no cambia el comportamiento de nadie no es un KPI: es ruido.
@@ -270,27 +270,27 @@ export function KpisComerciales() {
               </section>
 
               <div className="p-6 rounded-2xl bg-muted/30 border border-border/40 space-y-4 mb-12">
-                <p className="text-sm font-semibold text-foreground">Articulos relacionados</p>
+                <p className="text-sm font-semibold text-foreground">Artículos relacionados</p>
                 <div className="space-y-2">
                   <Link to="/recursos/que-es-un-dashboard" className="flex items-center gap-2 text-sm text-accent hover:underline">
                     <ArrowRight className="w-3.5 h-3.5 flex-shrink-0" />
-                    Que es un dashboard? Definicion, tipos y para que sirve
+                    ¿Qué es un dashboard? Definición, tipos y para qué sirve
                   </Link>
                   <Link to="/recursos/dashboard-de-ventas" className="flex items-center gap-2 text-sm text-accent hover:underline">
                     <ArrowRight className="w-3.5 h-3.5 flex-shrink-0" />
-                    Dashboard de ventas: que medir y como estructurarlo
+                    Dashboard de ventas: qué medir y cómo estructurarlo
                   </Link>
                   <Link to="/recursos/tablero-de-ventas" className="flex items-center gap-2 text-sm text-accent hover:underline">
                     <ArrowRight className="w-3.5 h-3.5 flex-shrink-0" />
-                    Tablero de ventas: como construirlo
+                    Tablero de ventas: cómo construirlo
                   </Link>
                 </div>
               </div>
 
               <div className="p-8 rounded-2xl bg-foreground text-background space-y-4">
-                <h3 className="text-xl font-semibold">Que KPIs deberia medir tu empresa?</h3>
+                <h3 className="text-xl font-semibold">¿Qué KPIs debería medir tu empresa?</h3>
                 <p className="text-background/70 leading-relaxed text-sm">
-                  En una charla breve revisamos tu contexto comercial actual y definimos cuales son los indicadores que mas sentido tiene monitorear.
+                  En una charla breve revisamos tu contexto comercial actual y definimos cuáles son los indicadores que más sentido tiene monitorear.
                 </p>
                 <a
                   href="mailto:alanlperez1996@gmail.com?subject=KPIs comerciales"
@@ -305,7 +305,7 @@ export function KpisComerciales() {
             <aside className="hidden lg:block">
               <div className="sticky top-24 space-y-2">
                 <p className="text-[11px] font-semibold text-muted-foreground/50 uppercase tracking-widest mb-4">
-                  En este articulo
+                  En este artículo
                 </p>
                 {toc.map((item) => (
                   <a key={item.id} href={`#${item.id}`} className="block text-sm text-muted-foreground hover:text-accent transition-colors py-1 border-l-2 border-transparent hover:border-accent/40 pl-3">

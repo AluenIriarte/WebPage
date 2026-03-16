@@ -5,15 +5,15 @@ import { Check, ArrowRight, Send, TrendingUp, BarChart2, Zap } from "lucide-reac
 const signals = [
   { ok: true, text: "Los reportes muestran tendencias, no solo totales" },
   { ok: true, text: "El equipo identifica clientes en riesgo antes de perderlos" },
-  { ok: false, text: "Hay visibilidad sobre margen por producto o categoria" },
-  { ok: false, text: "Los datos guian reuniones comerciales semanales" },
-  { ok: false, text: "Se puede medir el impacto de cada accion tomada" },
+  { ok: false, text: "Hay visibilidad sobre margen por producto o categoría" },
+  { ok: false, text: "Los datos guían reuniones comerciales semanales" },
+  { ok: false, text: "Se puede medir el impacto de cada acción tomada" },
 ];
 
 const benefits = [
-  { icon: BarChart2, title: "Las 5 senales de visibilidad ciega", sub: "Como reconocerlas en tu operacion" },
-  { icon: TrendingUp, title: "El test datos vs. decisiones reales", sub: "Una pregunta que lo revela todo" },
-  { icon: Zap, title: "Plan de 30 dias para cerrar la brecha", sub: "Sin cambiar toda la infraestructura" },
+  { icon: BarChart2, title: "Las 5 señales que más valor destruyen", sub: "Cómo detectarlas con los datos que ya tenés" },
+  { icon: TrendingUp, title: "La pregunta que separa datos de decisiones", sub: "Para saber si hoy estás viendo o suponiendo" },
+  { icon: Zap, title: "Qué revisar en los próximos 30 días", sub: "Para empezar sin rehacer todo" },
 ];
 
 const ACCENT = "#8B5CF6";
@@ -92,7 +92,7 @@ function PremiumGuideMockup() {
                 <div className="grid grid-cols-3 gap-2 mt-4">
                   {[
                     { label: "Crecimiento", value: "+34%", color: "#34D399" },
-                    { label: "Senales", value: "2 / 5", color: "#FBBF24" },
+                      { label: "Señales", value: "2 / 5", color: "#FBBF24" },
                     { label: "Tiempo", value: "10 min", color: ACCENT },
                   ].map((kpi) => (
                     <div key={kpi.label} className="rounded-xl border border-white/8 bg-white/5 px-2 py-3 text-center">
@@ -113,8 +113,8 @@ function PremiumGuideMockup() {
             <div className="bg-[#fcfcfa] p-6 md:p-8">
               <div className="flex items-start justify-between mb-5">
                 <div>
-                  <p className="text-[10.5px] font-bold uppercase tracking-[0.14em] text-black/35">Diagnostico</p>
-                  <p className="text-[9px] text-black/40 mt-1 leading-relaxed">Tenes datos o<br />visibilidad real?</p>
+                  <p className="text-[10.5px] font-bold uppercase tracking-[0.14em] text-black/35">Diagnóstico</p>
+                  <p className="text-[9px] text-black/40 mt-1 leading-relaxed">¿Tenés datos o<br />visibilidad real?</p>
                 </div>
                 <div className="w-12 h-12 rounded-full border-[6px] border-accent/20 border-t-accent flex items-center justify-center text-accent text-xs font-bold">
                   3/5
@@ -145,7 +145,7 @@ function PremiumGuideMockup() {
                   <span className="text-[28px] leading-none font-bold text-accent">3/5</span>
                   <div className="w-px h-8 bg-accent/20" />
                   <div>
-                    <p className="text-[9.5px] font-semibold text-black/55">Senales sin activar</p>
+                    <p className="text-[9.5px] font-semibold text-black/55">Señales sin activar</p>
                     <p className="text-[8px] text-black/35">en tu equipo hoy</p>
                   </div>
                 </div>
@@ -207,11 +207,11 @@ function FormBlock() {
             className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl font-semibold text-[14px] text-white group transition-all"
             style={{ background: ACCENT, boxShadow: "0 4px 20px rgba(139,92,246,0.45)" }}
           >
-            Descargar guia gratuita
+            Quiero la guía
             <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
           </button>
           <a href="#contacto" className="text-[13px] font-medium transition-colors pl-1 text-foreground/40 hover:text-foreground/70">
-            Prefiero hablar directamente →
+            Prefiero revisar mi caso →
           </a>
           <p className="text-[11px] pl-1 text-foreground/30">
             Sin spam. Solo contenido de valor para equipos comerciales.
@@ -228,7 +228,7 @@ function FormBlock() {
           transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
           className="flex flex-col gap-2.5 max-w-[340px]"
         >
-          <p className="text-[15px] font-semibold text-foreground">A donde te la enviamos?</p>
+          <p className="text-[15px] font-semibold text-foreground">¿A dónde te la enviamos?</p>
           <form onSubmit={onSubmit} className="flex flex-col gap-2">
             {[
               { id: "nombre", label: "Nombre", type: "text", ph: "Tu nombre" },
@@ -266,7 +266,7 @@ function FormBlock() {
               ) : (
                 <>
                   <Send className="w-3.5 h-3.5" />
-                  Enviarme la guia
+                  Enviarme la guía
                 </>
               )}
             </button>
@@ -285,11 +285,11 @@ function FormBlock() {
           <div>
             <p className="text-[17px] font-semibold text-foreground">En camino</p>
             <p className="text-sm mt-1 leading-relaxed text-foreground/50">
-              Revisa <strong className="text-foreground/80">{fields.email}</strong> en los proximos minutos.
+              Revisa <strong className="text-foreground/80">{fields.email}</strong> en los próximos minutos.
             </p>
           </div>
           <a href="#cierre" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white w-fit" style={{ background: ACCENT }}>
-            Coordinemos una conversacion →
+            Coordinemos una conversación →
           </a>
         </motion.div>
       )}
@@ -318,7 +318,7 @@ export function LeadMagnetSection() {
             >
               <div className="w-1.5 h-1.5 rounded-full bg-[#8B5CF6] animate-pulse" />
               <span className="text-[13px] text-[#8B5CF6] font-medium">
-                El 80% de los equipos comerciales decide con datos incompletos.
+                Para equipos comerciales que todavía deciden con visibilidad incompleta.
               </span>
             </motion.div>
 
@@ -327,7 +327,7 @@ export function LeadMagnetSection() {
               <div className="h-px flex-1 bg-[#8B5CF6]/20 max-w-[60px]" />
             </div>
             <h2 className="text-[44px] lg:text-[68px] font-semibold text-foreground leading-[1.02] tracking-tight max-w-[900px]">
-              Guia practica de senales
+              Guía ejecutiva: 5 señales de visibilidad ciega
               <br />
               <span className="text-[#8B5CF6]">de alto impacto.</span>
             </h2>
@@ -354,8 +354,8 @@ export function LeadMagnetSection() {
             className="flex flex-col gap-6"
           >
             <p className="text-[15px] text-foreground/55 leading-relaxed max-w-[380px]">
-              Una guia ejecutiva para saber si tu equipo esta mirando los datos correctos o solo los disponibles.
-              En 10 minutos sabes exactamente donde esta tu brecha.
+              Una lectura de 10 minutos para detectar si hoy se te está enfriando la cartera, se te
+              erosiona el margen o estás perdiendo expansión sin verlo.
             </p>
 
             <div className="flex flex-col gap-2.5">
