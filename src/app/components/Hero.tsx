@@ -371,7 +371,7 @@ export function Hero() {
             >
               <BarChart3 className="h-3.5 w-3.5 text-accent" />
               <span className="text-xs font-semibold tracking-wide text-accent">
-                Business Intelligence · Decisión Comercial
+                Dashboards comerciales a medida
               </span>
             </motion.div>
 
@@ -417,13 +417,6 @@ export function Hero() {
               </div>
 
               <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
-                <a
-                  href="#problema"
-                  className="inline-flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-accent"
-                >
-                  Ver el problema real
-                  <span className="text-accent/60">→</span>
-                </a>
                 <Link
                   to={QUOTE_PAGE_HREF}
                   className="inline-flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-accent"
@@ -438,7 +431,7 @@ export function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.55 }}
-              className="space-y-4 border-t border-border/50 pt-6"
+              className="border-t border-border/50 pt-6"
             >
               <div className="flex flex-wrap gap-5">
                 {[
@@ -450,23 +443,6 @@ export function Hero() {
                     <item.icon className="h-4 w-4 text-accent/60" />
                     <span className="text-sm text-muted-foreground">{item.text}</span>
                   </div>
-                ))}
-              </div>
-
-              <div className="flex flex-wrap gap-2.5">
-                {[
-                  "Dashboard de ventas a medida",
-                  "Tableros comerciales",
-                  "BI comercial",
-                  "Automatización de reportes",
-                ].map((label) => (
-                  <Link
-                    key={label}
-                    to={SERVICES_PAGE_HREF}
-                    className="inline-flex items-center rounded-full border border-border/60 bg-white px-3 py-1.5 text-xs font-medium text-foreground/70 transition-colors hover:border-accent/30 hover:text-accent"
-                  >
-                    {label}
-                  </Link>
                 ))}
               </div>
             </motion.div>
