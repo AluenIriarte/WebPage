@@ -140,7 +140,7 @@ export function Hero() {
               ))}
             </div>
 
-            <InteractiveDashboard />
+            <InteractiveDashboard variant="mini" />
           </motion.div>
         </div>
       </div>

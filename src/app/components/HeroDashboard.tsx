@@ -1,7 +1,9 @@
 import { useCallback, useId, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "motion/react";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, ArrowRight } from "lucide-react";
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { DEMO_PAGE_HREF } from "../lib/contact";
 
 type Period = "weekly" | "monthly" | "quarterly";
 
@@ -97,11 +99,16 @@ const CustomTooltip = ({
   );
 };
 
-export function InteractiveDashboard() {
+interface InteractiveDashboardProps {
+  variant?: "mini" | "full";
+}
+
+export function InteractiveDashboard({ variant = "full" }: InteractiveDashboardProps) {
   const [period, setPeriod] = useState<Period>("monthly");
   const data = dashboardData[period];
   const uid = useId().replace(/:/g, "");
   const containerRef = useRef<HTMLDivElement>(null);
+  const isMini = variant === "mini";
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -163,10 +170,22 @@ export function InteractiveDashboard() {
         <div className="border-b border-border/40 px-5 pb-4 pt-5">
           <div className="mb-4 flex items-center justify-between">
             <div>
-              <p className="mb-0.5 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
-                Sistema de decisión
-              </p>
-              <h3 className="text-sm font-semibold text-foreground">Diagnóstico comercial activo</h3>
+              {isMini ? (
+                <>
+                  <p className="mb-0.5 text-[10px] font-semibold uppercase tracking-widest text-accent/70">
+                    Dashboard interactivo
+                  </p>
+                  <h3 className="text-xl font-semibold tracking-tight text-foreground">Mini-Demo</h3>
+                  <p className="mt-1 text-[11px] text-muted-foreground">Diagnóstico comercial activo</p>
+                </>
+              ) : (
+                <>
+                  <p className="mb-0.5 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+                    Sistema de decisión
+                  </p>
+                  <h3 className="text-sm font-semibold text-foreground">Diagnóstico comercial activo</h3>
+                </>
+              )}
             </div>
             <div className="flex items-center gap-2">
               <motion.div
@@ -177,6 +196,18 @@ export function InteractiveDashboard() {
               <span className="text-[10px] font-medium text-muted-foreground">En vivo</span>
             </div>
           </div>
+
+          {isMini && (
+            <div className="mb-4">
+              <Link
+                to={DEMO_PAGE_HREF}
+                className="group inline-flex items-center gap-2 rounded-full border border-accent/15 bg-accent/6 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-accent transition-colors hover:bg-accent hover:text-white"
+              >
+                Ver Demo completa
+                <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+              </Link>
+            </div>
+          )}
 
           <div className="flex gap-1 rounded-lg bg-muted/70 p-1">
             {periods.map((currentPeriod) => (
@@ -291,46 +322,85 @@ export function InteractiveDashboard() {
             </motion.div>
           ))}
         </div>
+
+        {isMini && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.28, duration: 0.35, ease: "easeOut" }}
+            className="px-4 pb-5"
+          >
+            <div className="rounded-2xl border border-amber-100 bg-white p-4 shadow-sm">
+              <div className="mb-2 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-amber-50">
+                    <AlertTriangle className="h-4 w-4 text-amber-500" />
+                  </div>
+                  <span className="text-xs font-semibold text-amber-700">Riesgo detectado</span>
+                </div>
+                <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-bold text-amber-500">
+                  Urgente
+                </span>
+              </div>
+              <p className="text-3xl font-semibold tracking-tight text-foreground">12 cuentas</p>
+              <p className="mt-1 text-[11px] text-muted-foreground">sin actividad en +90 días</p>
+              <div className="mt-3 flex gap-1">
+                {[1, 1, 1, 1, 1, 0, 0].map((filled, index) => (
+                  <motion.div
+                    key={index}
+                    className={`h-1.5 flex-1 rounded-full ${filled ? "bg-amber-400" : "bg-muted"}`}
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ delay: 0.35 + index * 0.06, duration: 0.2 }}
+                    style={{ transformOrigin: "left" }}
+                  />
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
       </motion.div>
 
-      <motion.div
-        initial={{ opacity: 0, x: 20, y: -10 }}
-        animate={{ opacity: 1, x: 0, y: 0 }}
-        transition={{ delay: 1.1, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute -bottom-6 -right-8 hidden lg:block"
-      >
+      {!isMini && (
         <motion.div
-          animate={{ y: [0, 4, 0] }}
-          transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-          className="w-52 rounded-2xl border border-amber-100 bg-white p-3.5 shadow-xl"
+          initial={{ opacity: 0, x: 20, y: -10 }}
+          animate={{ opacity: 1, x: 0, y: 0 }}
+          transition={{ delay: 1.1, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute -bottom-6 -right-8 hidden lg:block"
         >
-          <div className="mb-2 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-50">
-                <AlertTriangle className="h-3.5 w-3.5 text-amber-500" />
+          <motion.div
+            animate={{ y: [0, 4, 0] }}
+            transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+            className="w-52 rounded-2xl border border-amber-100 bg-white p-3.5 shadow-xl"
+          >
+            <div className="mb-2 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-50">
+                  <AlertTriangle className="h-3.5 w-3.5 text-amber-500" />
+                </div>
+                <span className="text-[11px] font-semibold text-amber-700">Riesgo detectado</span>
               </div>
-              <span className="text-[11px] font-semibold text-amber-700">Riesgo detectado</span>
+              <span className="rounded-full bg-amber-50 px-1.5 py-0.5 text-[9px] font-bold text-amber-500">
+                Urgente
+              </span>
             </div>
-            <span className="rounded-full bg-amber-50 px-1.5 py-0.5 text-[9px] font-bold text-amber-500">
-              Urgente
-            </span>
-          </div>
-          <p className="text-xl font-bold text-foreground">12 cuentas</p>
-          <p className="mt-0.5 text-[10px] text-muted-foreground">sin actividad en +90 días</p>
-          <div className="mt-2.5 flex gap-1">
-            {[1, 1, 1, 1, 1, 0, 0].map((filled, index) => (
-              <motion.div
-                key={index}
-                className={`h-1 flex-1 rounded-full ${filled ? "bg-amber-400" : "bg-muted"}`}
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{ delay: 1.3 + index * 0.08, duration: 0.25 }}
-                style={{ transformOrigin: "left" }}
-              />
-            ))}
-          </div>
+            <p className="text-xl font-bold text-foreground">12 cuentas</p>
+            <p className="mt-0.5 text-[10px] text-muted-foreground">sin actividad en +90 días</p>
+            <div className="mt-2.5 flex gap-1">
+              {[1, 1, 1, 1, 1, 0, 0].map((filled, index) => (
+                <motion.div
+                  key={index}
+                  className={`h-1 flex-1 rounded-full ${filled ? "bg-amber-400" : "bg-muted"}`}
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ delay: 1.3 + index * 0.08, duration: 0.25 }}
+                  style={{ transformOrigin: "left" }}
+                />
+              ))}
+            </div>
+          </motion.div>
         </motion.div>
-      </motion.div>
+      )}
     </div>
   );
 }
