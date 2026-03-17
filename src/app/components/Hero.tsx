@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import { ArrowRight, BarChart3, TrendingUp, Users } from "lucide-react";
 import {
-  DEMO_PAGE_HREF,
   QUOTE_PAGE_HREF,
   SERVICES_PAGE_HREF,
 } from "../lib/contact";
@@ -83,13 +82,6 @@ export function Hero() {
                   className="inline-flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-accent"
                 >
                   Pedir presupuesto
-                  <span className="text-accent/60">→</span>
-                </Link>
-                <Link
-                  to={DEMO_PAGE_HREF}
-                  className="inline-flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-accent"
-                >
-                  Ver demo completa
                   <span className="text-accent/60">→</span>
                 </Link>
               </div>
