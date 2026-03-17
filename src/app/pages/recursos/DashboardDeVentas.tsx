@@ -14,8 +14,8 @@ import {
   ComposedChart,
   Line,
 } from "recharts";
+import { CommercialCta } from "../../components/CommercialCta";
 import { ResourceLayout } from "./ResourceLayout";
-import { ROOT_DIAGNOSTIC_SECTION_HREF } from "../../lib/contact";
 
 const pipelineData = [
   { etapa: "Prospectos", cantidad: 240, conversion: 100 },
@@ -288,20 +288,11 @@ export function DashboardDeVentas() {
                   </Link>
                 </div>
               </div>
-
-              <div className="p-8 rounded-2xl bg-foreground text-background space-y-4">
-                <h3 className="text-xl font-semibold">¿Necesitás un dashboard de ventas para tu empresa?</h3>
-                <p className="text-background/70 leading-relaxed text-sm">
-                  Diseño dashboards comerciales que se integran a tus datos actuales y permiten tomar decisiones sin esperar el reporte de fin de mes.
-                </p>
-                <a
-                  href={ROOT_DIAGNOSTIC_SECTION_HREF}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-white rounded-full text-sm font-medium hover:bg-accent/90 transition-colors"
-                >
-                  Hablar sobre mi dashboard
-                  <ArrowRight className="w-4 h-4" />
-                </a>
-              </div>
+              <CommercialCta
+                title={"¿Necesitás un dashboard de ventas para tu empresa?"}
+                description={"Diseño dashboards comerciales que se integran a tus datos actuales y permiten tomar decisiones sin esperar el reporte de fin de mes."}
+                primaryLabel={"Ver servicio de dashboards"}
+              />
             </motion.article>
 
             <aside className="hidden lg:block">

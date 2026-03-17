@@ -1,8 +1,8 @@
 import { motion } from "motion/react";
 import { Clock, ArrowRight, BarChart2, TrendingUp, Target, LayoutDashboard } from "lucide-react";
 import { Link } from "react-router-dom";
+import { CommercialCta } from "../../components/CommercialCta";
 import { ResourceLayout } from "./ResourceLayout";
-import { ROOT_DIAGNOSTIC_SECTION_HREF } from "../../lib/contact";
 
 const articles = [
   {
@@ -58,8 +58,8 @@ const articles = [
 export function RecursosHub() {
   return (
     <ResourceLayout>
-      <section className="py-20 lg:py-28 border-b border-border/40 bg-white">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8">
+      <section className="border-b border-border/40 bg-white py-20 lg:py-28">
+        <div className="mx-auto max-w-4xl px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -67,26 +67,26 @@ export function RecursosHub() {
             className="space-y-6"
           >
             <div className="flex items-center gap-3">
-              <div className="h-px w-8 bg-accent/40 rounded-full" />
-              <span className="text-[11px] font-semibold text-accent/70 uppercase tracking-[0.14em]">
+              <div className="h-px w-8 rounded-full bg-accent/40" />
+              <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent/70">
                 Recursos & Guías
               </span>
             </div>
-            <h1 className="text-[2.4rem] md:text-[3rem] lg:text-[3.4rem] font-semibold tracking-tight text-foreground leading-[1.1]">
+            <h1 className="text-[2.4rem] leading-[1.1] tracking-tight text-foreground md:text-[3rem] lg:text-[3.4rem]">
               Guías para pasar
               <br />
               <span className="text-accent/80">de reportes a decisiones</span>
             </h1>
-            <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl">
-              Contenido pensado para equipos que quieren entender dashboards, KPIs y visibilidad comercial
-              con criterio de negocio.
+            <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground">
+              Contenido pensado para equipos que quieren entender dashboards, KPIs y visibilidad
+              comercial con criterio de negocio.
             </p>
           </motion.div>
         </div>
       </section>
 
       <section className="py-16 lg:py-24">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8">
+        <div className="mx-auto max-w-4xl px-6 lg:px-8">
           <div className="space-y-6">
             {articles.map((article, index) => {
               const Icon = article.icon;
@@ -98,43 +98,48 @@ export function RecursosHub() {
                   transition={{ duration: 0.5, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
                 >
                   <Link to={`/recursos/${article.slug}`} className="group block">
-                    <div className="flex flex-col md:flex-row gap-6 p-6 lg:p-8 rounded-2xl border border-border/50 bg-white hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5 transition-all duration-300">
-                      <div className="w-full md:w-52 h-36 md:h-auto flex-shrink-0 rounded-xl overflow-hidden bg-muted">
+                    <div className="flex flex-col gap-6 rounded-2xl border border-border/50 bg-white p-6 transition-all duration-300 hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5 md:flex-row lg:p-8">
+                      <div className="h-36 w-full flex-shrink-0 overflow-hidden rounded-xl bg-muted md:h-auto md:w-52">
                         <img
                           src={article.image}
                           alt={article.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                         />
                       </div>
 
                       <div className="flex-1 space-y-3">
                         <div className="flex items-center gap-3">
-                          <div className="flex items-center gap-1.5 px-2.5 py-1 bg-accent/8 rounded-full border border-accent/12">
-                            <Icon className="w-3 h-3 text-accent" />
-                            <span className="text-[11px] font-semibold text-accent">{article.category}</span>
+                          <div className="flex items-center gap-1.5 rounded-full border border-accent/12 bg-accent/8 px-2.5 py-1">
+                            <Icon className="h-3 w-3 text-accent" />
+                            <span className="text-[11px] font-semibold text-accent">
+                              {article.category}
+                            </span>
                           </div>
                           <div className="flex items-center gap-1 text-[11px] text-muted-foreground/60">
-                            <Clock className="w-3 h-3" />
+                            <Clock className="h-3 w-3" />
                             <span>{article.readTime} de lectura</span>
                           </div>
                         </div>
 
-                        <h2 className="text-[1.1rem] md:text-[1.2rem] font-semibold text-foreground leading-snug group-hover:text-accent transition-colors">
+                        <h2 className="text-[1.1rem] font-semibold leading-snug text-foreground transition-colors group-hover:text-accent md:text-[1.2rem]">
                           {article.title}
                         </h2>
 
-                        <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">
+                        <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">
                           {article.description}
                         </p>
 
-                        <div className="flex items-center gap-1.5 text-sm font-medium text-accent pt-1">
+                        <div className="flex items-center gap-1.5 pt-1 text-sm font-medium text-accent">
                           Leer artículo
-                          <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                          <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
                         </div>
 
-                        <div className="flex gap-2 flex-wrap pt-1">
+                        <div className="flex flex-wrap gap-2 pt-1">
                           {article.tags.map((tag) => (
-                            <span key={tag} className="text-[10px] px-2 py-0.5 bg-muted rounded-full text-muted-foreground/70">
+                            <span
+                              key={tag}
+                              className="rounded-full bg-muted px-2 py-0.5 text-[10px] text-muted-foreground/70"
+                            >
                               {tag}
                             </span>
                           ))}
@@ -149,22 +154,13 @@ export function RecursosHub() {
         </div>
       </section>
 
-      <section className="py-16 border-t border-border/40 bg-muted/30">
-        <div className="max-w-2xl mx-auto px-6 text-center space-y-6">
-          <h2 className="text-2xl font-semibold text-foreground">
-            Si querés llevar esto a tu operación, revisamos si hay un caso real
-          </h2>
-          <p className="text-muted-foreground leading-relaxed">
-            En 15 minutos vemos si hoy hay una oportunidad concreta en cartera, margen o expansión que
-            valga la pena trabajar.
-          </p>
-          <a
-            href={ROOT_DIAGNOSTIC_SECTION_HREF}
-            className="inline-flex items-center gap-2 px-8 py-3.5 bg-accent text-white rounded-full font-medium text-sm hover:bg-accent/90 transition-all duration-300 hover:shadow-lg hover:shadow-accent/20"
-          >
-            Revisar mi caso
-            <ArrowRight className="w-4 h-4" />
-          </a>
+      <section className="border-t border-border/40 bg-muted/30 py-16">
+        <div className="mx-auto max-w-3xl px-6">
+          <CommercialCta
+            title="Si querés llevar esto a tu operación, no hace falta saltar directo a agenda."
+            description="Podés revisar el servicio de dashboards, pedir presupuesto si ya tenés claro el alcance o arrancar por diagnóstico si todavía estás ordenando el caso."
+            primaryLabel="Ver servicio de dashboards"
+          />
         </div>
       </section>
     </ResourceLayout>

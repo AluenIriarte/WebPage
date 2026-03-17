@@ -48,6 +48,22 @@
       ]
     },
     {
+      "path": "/presupuesto-dashboard",
+      "title": "Pedir cotización para dashboard de ventas a medida | Alan L. Perez",
+      "description": "Pedí cotización para un dashboard de ventas, tablero comercial o sistema de BI a medida. Alcance, contexto y presupuesto por email.",
+      "canonical": "https://alanlperez.com/presupuesto-dashboard",
+      "ogType": "website",
+      "schema": [
+        {
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+          "name": "Cotización para dashboard de ventas a medida",
+          "url": "https://alanlperez.com/presupuesto-dashboard",
+          "inLanguage": "es"
+        }
+      ]
+    },
+    {
       "path": "/recursos",
       "title": "Guías de dashboard de ventas, tablero comercial y KPIs | Alan L. Perez",
       "description": "Guías para entender dashboards, tableros de ventas y KPIs comerciales con foco en decisiones, visibilidad y rendimiento comercial.",

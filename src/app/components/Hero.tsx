@@ -1,4 +1,5 @@
 import { useCallback, useId, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   motion,
   useMotionValue,
@@ -8,6 +9,7 @@ import {
 } from "motion/react";
 import { ArrowRight, BarChart3, TrendingUp, Users, AlertTriangle } from "lucide-react";
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer, Tooltip } from "recharts";
+import { QUOTE_PAGE_HREF, SERVICES_PAGE_HREF } from "../lib/contact";
 
 type Period = "weekly" | "monthly" | "quarterly";
 
@@ -22,7 +24,7 @@ const dashboardData: Record<
   weekly: {
     label: "Esta semana",
     metrics: [
-      { label: "Expansion", value: "$127K", change: "potencial cross-sell", up: true },
+      { label: "Expansión", value: "$127K", change: "potencial cross-sell", up: true },
       { label: "Rentabilidad", value: "+18%", change: "mejora de margen", up: true },
     ],
     chart: [
@@ -38,7 +40,7 @@ const dashboardData: Record<
   monthly: {
     label: "Este mes",
     metrics: [
-      { label: "Expansion", value: "$348K", change: "potencial cross-sell", up: true },
+      { label: "Expansión", value: "$348K", change: "potencial cross-sell", up: true },
       { label: "Rentabilidad", value: "+22%", change: "mejora de margen", up: true },
     ],
     chart: [
@@ -51,7 +53,7 @@ const dashboardData: Record<
   quarterly: {
     label: "Q1 2026",
     metrics: [
-      { label: "Expansion", value: "$890K", change: "potencial cross-sell", up: true },
+      { label: "Expansión", value: "$890K", change: "potencial cross-sell", up: true },
       { label: "Rentabilidad", value: "+31%", change: "mejora de margen", up: true },
     ],
     chart: [
@@ -89,13 +91,13 @@ const CustomTooltip = ({
 }) => {
   if (active && payload?.length) {
     return (
-      <div className="bg-white border border-border shadow-xl rounded-xl p-3 text-xs min-w-[120px]">
-        <p className="font-semibold text-foreground mb-2">{label}</p>
+      <div className="min-w-[120px] rounded-xl border border-border bg-white p-3 text-xs shadow-xl">
+        <p className="mb-2 font-semibold text-foreground">{label}</p>
         {payload.map((entry, index) => (
           <div key={index} className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-1.5">
-              <div className="w-2 h-2 rounded-full" style={{ background: entry.color }} />
-              <span className="text-muted-foreground capitalize">{entry.name}</span>
+              <div className="h-2 w-2 rounded-full" style={{ background: entry.color }} />
+              <span className="capitalize text-muted-foreground">{entry.name}</span>
             </div>
             <span className="font-semibold text-foreground">{entry.value}</span>
           </div>
@@ -168,32 +170,32 @@ function InteractiveDashboard() {
 
       <motion.div
         style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-        className="bg-white rounded-2xl shadow-2xl border border-border/60 overflow-hidden"
+        className="overflow-hidden rounded-2xl border border-border/60 bg-white shadow-2xl"
       >
-        <div className="px-5 pt-5 pb-4 border-b border-border/40">
-          <div className="flex items-center justify-between mb-4">
+        <div className="border-b border-border/40 px-5 pb-4 pt-5">
+          <div className="mb-4 flex items-center justify-between">
             <div>
-              <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest mb-0.5">
+              <p className="mb-0.5 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
                 Sistema de decisión
               </p>
               <h3 className="text-sm font-semibold text-foreground">Diagnóstico comercial activo</h3>
             </div>
             <div className="flex items-center gap-2">
               <motion.div
-                className="w-2 h-2 bg-emerald-500 rounded-full"
+                className="h-2 w-2 rounded-full bg-emerald-500"
                 animate={{ scale: [1, 1.4, 1], opacity: [1, 0.6, 1] }}
                 transition={{ repeat: Infinity, duration: 2.2, ease: "easeInOut" }}
               />
-              <span className="text-[10px] text-muted-foreground font-medium">En vivo</span>
+              <span className="text-[10px] font-medium text-muted-foreground">En vivo</span>
             </div>
           </div>
 
-          <div className="flex gap-1 bg-muted/70 rounded-lg p-1">
+          <div className="flex gap-1 rounded-lg bg-muted/70 p-1">
             {periods.map((currentPeriod) => (
               <button
                 key={currentPeriod}
                 onClick={() => setPeriod(currentPeriod)}
-                className={`relative flex-1 text-[11px] py-1.5 px-2 rounded-md font-medium transition-colors duration-150 ${
+                className={`relative flex-1 rounded-md px-2 py-1.5 text-[11px] font-medium transition-colors duration-150 ${
                   period === currentPeriod
                     ? "text-foreground"
                     : "text-muted-foreground hover:text-foreground/80"
@@ -202,7 +204,7 @@ function InteractiveDashboard() {
                 {period === currentPeriod && (
                   <motion.div
                     layoutId="period-pill"
-                    className="absolute inset-0 bg-white rounded-md shadow-sm"
+                    className="absolute inset-0 rounded-md bg-white shadow-sm"
                     transition={{ type: "spring", bounce: 0.25, duration: 0.4 }}
                   />
                 )}
@@ -212,7 +214,7 @@ function InteractiveDashboard() {
           </div>
         </div>
 
-        <div className="px-2 pt-4 pb-1">
+        <div className="px-2 pb-1 pt-4">
           <div className="h-[120px]">
             <ResponsiveContainer width="100%" height={120}>
               <AreaChart data={data.chart} margin={{ top: 4, right: 8, left: -28, bottom: 0 }}>
@@ -272,29 +274,29 @@ function InteractiveDashboard() {
 
           <div className="flex gap-4 px-3 pb-2">
             <div className="flex items-center gap-1.5">
-              <div className="w-4 h-0.5 bg-[#8B5CF6] rounded-full" />
+              <div className="h-0.5 w-4 rounded-full bg-[#8B5CF6]" />
               <span className="text-[9px] font-medium text-muted-foreground">Ventas</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-4 h-0.5 bg-cyan-500 rounded-full" />
+              <div className="h-0.5 w-4 rounded-full bg-cyan-500" />
               <span className="text-[9px] font-medium text-muted-foreground">Margen</span>
             </div>
           </div>
         </div>
 
-        <div className="px-4 pb-5 grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-3 px-4 pb-5">
           {data.metrics.map((metric, index) => (
             <motion.div
               key={`${period}-kpi-${index}`}
               initial={{ opacity: 0, scale: 0.92 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: index * 0.06, duration: 0.3, ease: "easeOut" }}
-              className="bg-muted/50 rounded-xl p-3.5 border border-border/30"
+              className="rounded-xl border border-border/30 bg-muted/50 p-3.5"
             >
-              <p className="text-[9px] font-medium text-muted-foreground mb-1.5 leading-tight uppercase tracking-wide">
+              <p className="mb-1.5 text-[9px] font-medium uppercase tracking-wide text-muted-foreground">
                 {metric.label}
               </p>
-              <div className="text-base font-bold text-foreground mb-0.5">
+              <div className="mb-0.5 text-base font-bold text-foreground">
                 <AnimatedValue value={metric.value} />
               </div>
               <span className="text-[9px] font-semibold text-emerald-600">{metric.change}</span>
@@ -312,21 +314,21 @@ function InteractiveDashboard() {
         <motion.div
           animate={{ y: [0, 4, 0] }}
           transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-          className="bg-white rounded-2xl shadow-xl border border-amber-100 p-3.5 w-52"
+          className="w-52 rounded-2xl border border-amber-100 bg-white p-3.5 shadow-xl"
         >
-          <div className="flex items-center justify-between mb-2">
+          <div className="mb-2 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 bg-amber-50 rounded-lg flex items-center justify-center">
-                <AlertTriangle className="w-3.5 h-3.5 text-amber-500" />
+              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-50">
+                <AlertTriangle className="h-3.5 w-3.5 text-amber-500" />
               </div>
               <span className="text-[11px] font-semibold text-amber-700">Riesgo detectado</span>
             </div>
-            <span className="text-[9px] font-bold text-amber-500 bg-amber-50 px-1.5 py-0.5 rounded-full">
+            <span className="rounded-full bg-amber-50 px-1.5 py-0.5 text-[9px] font-bold text-amber-500">
               Urgente
             </span>
           </div>
           <p className="text-xl font-bold text-foreground">12 cuentas</p>
-          <p className="text-[10px] text-muted-foreground mt-0.5">sin actividad en +90 días</p>
+          <p className="mt-0.5 text-[10px] text-muted-foreground">sin actividad en +90 días</p>
           <div className="mt-2.5 flex gap-1">
             {[1, 1, 1, 1, 1, 0, 0].map((filled, index) => (
               <motion.div
@@ -347,14 +349,14 @@ function InteractiveDashboard() {
 
 export function Hero() {
   return (
-    <section id="home" className="relative pt-32 pb-24 lg:pt-40 lg:pb-36 overflow-hidden">
+    <section id="home" className="relative overflow-hidden pb-24 pt-32 lg:pb-36 lg:pt-40">
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 left-0 right-0 h-[600px] bg-gradient-to-b from-accent/[0.03] via-transparent to-transparent" />
-        <div className="absolute top-20 right-0 w-[600px] h-[600px] bg-gradient-to-l from-accent/[0.04] to-transparent rounded-full blur-3xl" />
+        <div className="absolute left-0 right-0 top-0 h-[600px] bg-gradient-to-b from-accent/[0.03] via-transparent to-transparent" />
+        <div className="absolute right-0 top-20 h-[600px] w-[600px] rounded-full bg-gradient-to-l from-accent/[0.04] to-transparent blur-3xl" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -365,10 +367,10 @@ export function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.15 }}
-              className="inline-flex items-center space-x-2 px-4 py-2 bg-accent/8 rounded-full border border-accent/15"
+              className="inline-flex items-center space-x-2 rounded-full border border-accent/15 bg-accent/8 px-4 py-2"
             >
-              <BarChart3 className="w-3.5 h-3.5 text-accent" />
-              <span className="text-xs font-semibold text-accent tracking-wide">
+              <BarChart3 className="h-3.5 w-3.5 text-accent" />
+              <span className="text-xs font-semibold tracking-wide text-accent">
                 Business Intelligence · Decisión Comercial
               </span>
             </motion.div>
@@ -379,12 +381,16 @@ export function Hero() {
               transition={{ duration: 0.8, delay: 0.25 }}
               className="space-y-5"
             >
-              <h1 className="text-4xl md:text-5xl lg:text-[3.25rem] font-semibold leading-[1.1] tracking-tight text-foreground">
+              <h1 className="text-4xl font-semibold leading-[1.1] tracking-tight text-foreground md:text-5xl lg:text-[3.25rem]">
                 Convertí tus datos de ventas <span className="text-accent">en ingresos</span>
               </h1>
-              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-xl">
+              <p className="max-w-xl text-lg leading-relaxed text-muted-foreground md:text-xl">
                 Diseño sistemas de decisión comercial para que veas qué clientes se enfrían, dónde
                 cede el margen y dónde hay expansión real por capturar.
+              </p>
+              <p className="max-w-2xl text-sm leading-relaxed text-foreground/75 md:text-base">
+                Dashboards de ventas y BI comercial a medida para equipos que necesitan visibilidad
+                sobre cartera, margen y expansión.
               </p>
             </motion.div>
 
@@ -392,39 +398,77 @@ export function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="flex flex-col sm:flex-row gap-4"
+              className="space-y-4"
             >
-              <a
-                href="#contacto"
-                className="inline-flex items-center justify-center px-8 py-4 bg-accent text-accent-foreground rounded-full font-medium text-base hover:bg-accent/90 transition-all duration-300 hover:shadow-xl hover:shadow-accent/25 hover:scale-[1.02] group"
-              >
-                Solicitar diagnóstico
-                <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
-              </a>
-              <a
-                href="#problema"
-                className="inline-flex items-center justify-center px-8 py-4 bg-white border border-border rounded-full font-medium text-base hover:border-accent/40 hover:bg-accent/5 transition-all duration-300"
-              >
-                Ver el problema real
-              </a>
+              <div className="flex flex-col gap-4 sm:flex-row">
+                <a
+                  href="#contacto"
+                  className="group inline-flex items-center justify-center rounded-full bg-accent px-8 py-4 text-base font-medium text-accent-foreground transition-all duration-300 hover:scale-[1.02] hover:bg-accent/90 hover:shadow-xl hover:shadow-accent/25"
+                >
+                  Solicitar diagnóstico
+                  <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                </a>
+                <Link
+                  to={SERVICES_PAGE_HREF}
+                  className="inline-flex items-center justify-center rounded-full border border-border bg-white px-8 py-4 text-base font-medium transition-all duration-300 hover:border-accent/40 hover:bg-accent/5"
+                >
+                  Ver servicios
+                </Link>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
+                <a
+                  href="#problema"
+                  className="inline-flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-accent"
+                >
+                  Ver el problema real
+                  <span className="text-accent/60">→</span>
+                </a>
+                <Link
+                  to={QUOTE_PAGE_HREF}
+                  className="inline-flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-accent"
+                >
+                  Pedir presupuesto
+                  <span className="text-accent/60">→</span>
+                </Link>
+              </div>
             </motion.div>
 
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.55 }}
-              className="flex flex-wrap gap-5 pt-6 border-t border-border/50"
+              className="space-y-4 border-t border-border/50 pt-6"
             >
-              {[
-                { icon: Users, text: "Diagnóstico inicial de 15 minutos" },
-                { icon: BarChart3, text: "Prioridades visibles en semanas" },
-                { icon: TrendingUp, text: "Trabajo confidencial y aplicado al negocio" },
-              ].map((item) => (
-                <div key={item.text} className="flex items-center space-x-2">
-                  <item.icon className="w-4 h-4 text-accent/60" />
-                  <span className="text-sm text-muted-foreground">{item.text}</span>
-                </div>
-              ))}
+              <div className="flex flex-wrap gap-5">
+                {[
+                  { icon: Users, text: "Diagnóstico inicial de 15 minutos" },
+                  { icon: BarChart3, text: "Prioridades visibles en semanas" },
+                  { icon: TrendingUp, text: "Trabajo confidencial y aplicado al negocio" },
+                ].map((item) => (
+                  <div key={item.text} className="flex items-center space-x-2">
+                    <item.icon className="h-4 w-4 text-accent/60" />
+                    <span className="text-sm text-muted-foreground">{item.text}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex flex-wrap gap-2.5">
+                {[
+                  "Dashboard de ventas a medida",
+                  "Tableros comerciales",
+                  "BI comercial",
+                  "Automatización de reportes",
+                ].map((label) => (
+                  <Link
+                    key={label}
+                    to={SERVICES_PAGE_HREF}
+                    className="inline-flex items-center rounded-full border border-border/60 bg-white px-3 py-1.5 text-xs font-medium text-foreground/70 transition-colors hover:border-accent/30 hover:text-accent"
+                  >
+                    {label}
+                  </Link>
+                ))}
+              </div>
             </motion.div>
           </motion.div>
 
@@ -432,9 +476,9 @@ export function Hero() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="relative px-4 lg:px-0 mt-4 lg:mt-0"
+            className="relative mt-4 px-4 lg:mt-0 lg:px-0"
           >
-            <div className="flex gap-2 flex-wrap mb-5 lg:hidden">
+            <div className="mb-5 flex flex-wrap gap-2 lg:hidden">
               {[
                 { color: "bg-violet-50 border-violet-100 text-violet-700", text: "12 clientes inactivos +90d" },
                 { color: "bg-emerald-50 border-emerald-100 text-emerald-700", text: "+34% potencial cross-sell" },
@@ -445,7 +489,7 @@ export function Hero() {
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 + index * 0.1, duration: 0.4 }}
-                  className={`inline-flex items-center px-3 py-1.5 rounded-full border text-[11px] font-semibold ${pill.color}`}
+                  className={`inline-flex items-center rounded-full border px-3 py-1.5 text-[11px] font-semibold ${pill.color}`}
                 >
                   {pill.text}
                 </motion.span>

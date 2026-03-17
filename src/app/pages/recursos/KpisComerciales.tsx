@@ -16,8 +16,8 @@ import {
   LineChart,
   Line,
 } from "recharts";
+import { CommercialCta } from "../../components/CommercialCta";
 import { ResourceLayout } from "./ResourceLayout";
-import { ROOT_DIAGNOSTIC_SECTION_HREF } from "../../lib/contact";
 
 const kpiRadarData = [
   { kpi: "Tasa cierre", value: 72 },
@@ -287,20 +287,11 @@ export function KpisComerciales() {
                   </Link>
                 </div>
               </div>
-
-              <div className="p-8 rounded-2xl bg-foreground text-background space-y-4">
-                <h3 className="text-xl font-semibold">¿Qué KPIs debería medir tu empresa?</h3>
-                <p className="text-background/70 leading-relaxed text-sm">
-                  En una charla breve revisamos tu contexto comercial actual y definimos cuáles son los indicadores que más sentido tiene monitorear.
-                </p>
-                <a
-                  href={ROOT_DIAGNOSTIC_SECTION_HREF}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-white rounded-full text-sm font-medium hover:bg-accent/90 transition-colors"
-                >
-                  Consultar sobre KPIs
-                  <ArrowRight className="w-4 h-4" />
-                </a>
-              </div>
+              <CommercialCta
+                title={"¿Qué KPIs debería medir tu empresa?"}
+                description={"Podés bajar esto a un servicio de dashboards, pedir presupuesto si ya conocés el alcance o empezar por diagnóstico si todavía estás definiendo prioridades."}
+                primaryLabel={"Ver servicio de dashboards"}
+              />
             </motion.article>
 
             <aside className="hidden lg:block">

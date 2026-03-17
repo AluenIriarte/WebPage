@@ -1,6 +1,10 @@
 import { Linkedin, Mail, BarChart3 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import { CONTACT_EMAIL } from "../lib/contact";
+import {
+  CONTACT_EMAIL,
+  QUOTE_PAGE_HREF,
+  SERVICES_PAGE_HREF,
+} from "../lib/contact";
 
 export function Footer() {
   const location = useLocation();
@@ -11,8 +15,8 @@ export function Footer() {
       { name: "Inicio", href: homeHref("#home"), internal: false },
       { name: "Qué resuelvo", href: homeHref("#problema"), internal: false },
       { name: "Cómo trabajo", href: homeHref("#proceso"), internal: false },
-      { name: "Oportunidades", href: homeHref("#oportunidades"), internal: false },
-      { name: "Servicios", href: "/servicios", internal: true },
+      { name: "Servicios", href: SERVICES_PAGE_HREF, internal: true },
+      { name: "Pedir presupuesto", href: QUOTE_PAGE_HREF, internal: true },
       { name: "Recursos", href: "/recursos", internal: true },
     ],
     social: [
@@ -30,33 +34,33 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-white border-t border-border/50">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12 lg:py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12 mb-12">
+    <footer className="border-t border-border/50 bg-white">
+      <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-16">
+        <div className="mb-12 grid gap-12 md:grid-cols-2 lg:grid-cols-3">
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center">
-                <BarChart3 className="w-5 h-5 text-white" />
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent">
+                <BarChart3 className="h-5 w-5 text-white" />
               </div>
               <span className="text-xl font-semibold text-foreground">Alan L. Perez</span>
             </div>
-            <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
-              Transformo datos comerciales en sistemas de decisión claros, accionables y orientados a
-              detectar oportunidades.
+            <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">
+              Dashboards de ventas, tableros comerciales y sistemas de BI para volver visible dónde
+              se pierde o se gana dinero.
             </p>
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-foreground mb-4">Navegación</h3>
+            <h3 className="mb-4 text-sm font-semibold text-foreground">Navegación</h3>
             <ul className="space-y-3">
               {navigation.main.map((item) => (
                 <li key={item.name}>
                   {item.internal ? (
-                    <Link to={item.href} className="text-sm text-muted-foreground hover:text-accent transition-colors">
+                    <Link to={item.href} className="text-sm text-muted-foreground transition-colors hover:text-accent">
                       {item.name}
                     </Link>
                   ) : (
-                    <a href={item.href} className="text-sm text-muted-foreground hover:text-accent transition-colors">
+                    <a href={item.href} className="text-sm text-muted-foreground transition-colors hover:text-accent">
                       {item.name}
                     </a>
                   )}
@@ -66,11 +70,17 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-foreground mb-4">Contacto</h3>
+            <h3 className="mb-4 text-sm font-semibold text-foreground">Contacto</h3>
             <div className="space-y-3">
+              <Link
+                to={QUOTE_PAGE_HREF}
+                className="block text-sm font-medium text-foreground transition-colors hover:text-accent"
+              >
+                Pedir presupuesto
+              </Link>
               <a
                 href={`mailto:${CONTACT_EMAIL}`}
-                className="block text-sm text-muted-foreground hover:text-accent transition-colors"
+                className="block text-sm text-muted-foreground transition-colors hover:text-accent"
               >
                 {CONTACT_EMAIL}
               </a>
@@ -81,10 +91,10 @@ export function Footer() {
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-full bg-muted/50 flex items-center justify-center text-muted-foreground hover:bg-accent/10 hover:text-accent transition-all duration-300"
+                    className="flex h-10 w-10 items-center justify-center rounded-full bg-muted/50 text-muted-foreground transition-all duration-300 hover:bg-accent/10 hover:text-accent"
                     aria-label={item.name}
                   >
-                    <item.icon className="w-5 h-5" />
+                    <item.icon className="h-5 w-5" />
                   </a>
                 ))}
               </div>
@@ -92,17 +102,17 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="pt-8 border-t border-border/50">
-          <p className="text-center text-sm text-muted-foreground/40 italic mb-6">
+        <div className="border-t border-border/50 pt-8">
+          <p className="mb-6 text-center text-sm italic text-muted-foreground/40">
             Los datos no son el problema. Saber dónde mirar, sí.
           </p>
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <p className="text-sm text-muted-foreground">
               © {new Date().getFullYear()} Alan L. Perez. Todos los derechos reservados.
             </p>
             <a
               href="https://alanlperez.com"
-              className="text-sm text-muted-foreground hover:text-accent transition-colors"
+              className="text-sm text-muted-foreground transition-colors hover:text-accent"
             >
               alanlperez.com
             </a>
