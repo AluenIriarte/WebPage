@@ -90,6 +90,7 @@ async function writeRouteHtml(route) {
 
 function buildSitemap(routes) {
   const urls = routes
+    .filter((route) => !(route.robots || "").toLowerCase().includes("noindex"))
     .map((route) => {
       const location = route.canonical ?? `${seoConfig.siteUrl}${route.path === "/" ? "/" : route.path}`;
       return `  <url>\n    <loc>${escapeHtml(location)}</loc>\n  </url>`;

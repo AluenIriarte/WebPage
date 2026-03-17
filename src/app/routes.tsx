@@ -21,6 +21,27 @@ export const router = createBrowserRouter([
         },
       },
       {
+        path: "demo-dashboard",
+        lazy: async () => {
+          const { DemoDashboard } = await import("./pages/DemoDashboard");
+          return { Component: DemoDashboard };
+        },
+      },
+      {
+        path: "auto-diagnostico",
+        lazy: async () => {
+          const { AutoDiagnostico } = await import("./pages/AutoDiagnostico");
+          return { Component: AutoDiagnostico };
+        },
+      },
+      {
+        path: "gracias/auto-diagnostico",
+        lazy: async () => {
+          const { GraciasAutoDiagnostico } = await import("./pages/GraciasAutoDiagnostico");
+          return { Component: GraciasAutoDiagnostico };
+        },
+      },
+      {
         path: "presupuesto-dashboard",
         lazy: async () => {
           const { PresupuestoDashboard } = await import("./pages/PresupuestoDashboard");

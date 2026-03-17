@@ -1,379 +1,157 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
-import { Check, ArrowRight, Send, TrendingUp, BarChart2, Zap } from "lucide-react";
+import { motion } from "motion/react";
+import { ArrowRight, CheckCircle2, ClipboardList, Radar } from "lucide-react";
+import { Link } from "react-router-dom";
+import {
+  AUTO_DIAGNOSTIC_PAGE_HREF,
+  SERVICES_PAGE_HREF,
+} from "../lib/contact";
 
-const signals = [
-  { ok: true, text: "Los reportes muestran tendencias, no solo totales" },
-  { ok: true, text: "El equipo identifica clientes en riesgo antes de perderlos" },
-  { ok: false, text: "Hay visibilidad sobre margen por producto o categoría" },
-  { ok: false, text: "Los datos guían reuniones comerciales semanales" },
-  { ok: false, text: "Se puede medir el impacto de cada acción tomada" },
+const questionsPreview = [
+  "¿Podés detectar clientes en riesgo antes de perderlos?",
+  "¿Ves margen por producto, categoría o canal?",
+  "¿Las reuniones comerciales trabajan con datos útiles y actuales?",
+  "¿Tenés claro dónde hay expansión real por capturar?",
 ];
 
-const benefits = [
-  { icon: BarChart2, title: "Las 5 señales que más valor destruyen", sub: "Cómo detectarlas con los datos que ya tenés" },
-  { icon: TrendingUp, title: "La pregunta que separa datos de decisiones", sub: "Para saber si hoy estás viendo o suponiendo" },
-  { icon: Zap, title: "Qué revisar en los próximos 30 días", sub: "Para empezar sin rehacer todo" },
+const outcomes = [
+  {
+    icon: ClipboardList,
+    title: "Te ordena la lectura",
+    description: "En lugar de bajar por intuición, te marca qué conviene revisar primero.",
+  },
+  {
+    icon: Radar,
+    title: "Te muestra brechas",
+    description: "Separa rápido si hoy el problema es de visibilidad, de foco o de operación.",
+  },
+  {
+    icon: CheckCircle2,
+    title: "Te deja un siguiente paso",
+    description: "No termina en un score vacío: te deriva a demo, servicios o diagnóstico.",
+  },
 ];
-
-const ACCENT = "#8B5CF6";
-
-function PremiumGuideMockup() {
-  return (
-    <div className="relative select-none w-full max-w-[580px] mx-auto" style={{ perspective: "1800px" }}>
-      <div
-        className="absolute inset-0 -z-10 blur-[120px] opacity-[0.08] scale-90"
-        style={{ background: `radial-gradient(ellipse at 50% 60%, ${ACCENT}, transparent 70%)` }}
-      />
-
-      <motion.div
-        initial={{ rotateX: 8, rotateY: -12, y: 30, opacity: 0 }}
-        whileInView={{ rotateX: 2, rotateY: -5, y: 0, opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
-        style={{ transformStyle: "preserve-3d" }}
-        className="relative"
-      >
-        <div
-          className="absolute inset-0 rounded-2xl"
-          style={{ background: "#D4D4D2", transform: "rotate(2deg) translateY(16px) translateX(14px)", opacity: 0.4 }}
-        />
-        <div
-          className="absolute inset-0 rounded-2xl"
-          style={{ background: "#E2E2E0", transform: "rotate(0.8deg) translateY(8px) translateX(6px)", opacity: 0.6 }}
-        />
-
-        <div
-          className="relative rounded-2xl overflow-hidden border border-black/[0.06] bg-white"
-          style={{ boxShadow: "0 50px 100px -20px rgba(0,0,0,0.25), 0 25px 50px -12px rgba(0,0,0,0.1)" }}
-        >
-          <div className="grid md:grid-cols-[1fr_10px_1fr]">
-            <div className="bg-[#101d31] text-white p-6 md:p-8">
-              <div className="flex items-center justify-between mb-5">
-                <div className="flex items-center gap-2.5">
-                  <div
-                    className="flex items-center justify-center rounded-lg w-[26px] h-[26px] text-[9px] font-extrabold tracking-[0.04em]"
-                    style={{ background: "linear-gradient(135deg, #8B5CF6, rgba(139,92,246,0.8))" }}
-                  >
-                    BI
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-white/55">Alan L. Perez</span>
-                    <span className="text-[8px] tracking-[0.06em] text-white/20">Business Intelligence</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/5 border border-white/10">
-                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="text-[7px] uppercase tracking-[0.08em] text-white/35">Live</span>
-                </div>
-              </div>
-
-              <div className="mb-4">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="h-px flex-1 bg-white/10" />
-                  <span className="text-[7.5px] font-semibold uppercase tracking-[0.15em] text-accent/80">
-                    Dashboard ejecutivo
-                  </span>
-                  <div className="h-px flex-1 bg-white/10" />
-                </div>
-                <p className="text-[10px] text-white/35">Visibilidad comercial · Q1 2026</p>
-              </div>
-
-              <div className="rounded-xl border border-white/6 bg-white/4 p-3">
-                <div className="grid grid-cols-8 gap-2 h-28 items-end">
-                  {[28, 42, 35, 55, 48, 72, 65, 85].map((value, index) => (
-                    <div
-                      key={index}
-                      className={`rounded-t-md ${index >= 6 ? "bg-accent/80" : "bg-white/10"}`}
-                      style={{ height: `${value}%` }}
-                    />
-                  ))}
-                </div>
-                <div className="grid grid-cols-3 gap-2 mt-4">
-                  {[
-                    { label: "Crecimiento", value: "+34%", color: "#34D399" },
-                      { label: "Señales", value: "2 / 5", color: "#FBBF24" },
-                    { label: "Tiempo", value: "10 min", color: ACCENT },
-                  ].map((kpi) => (
-                    <div key={kpi.label} className="rounded-xl border border-white/8 bg-white/5 px-2 py-3 text-center">
-                      <span className="block text-sm font-bold" style={{ color: kpi.color }}>
-                        {kpi.value}
-                      </span>
-                      <span className="block text-[7.5px] uppercase tracking-[0.08em] text-white/30 mt-1">
-                        {kpi.label}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="hidden md:block bg-gradient-to-r from-black/25 via-white/10 to-black/10" />
-
-            <div className="bg-[#fcfcfa] p-6 md:p-8">
-              <div className="flex items-start justify-between mb-5">
-                <div>
-                  <p className="text-[10.5px] font-bold uppercase tracking-[0.14em] text-black/35">Diagnóstico</p>
-                  <p className="text-[9px] text-black/40 mt-1 leading-relaxed">¿Tenés datos o<br />visibilidad real?</p>
-                </div>
-                <div className="w-12 h-12 rounded-full border-[6px] border-accent/20 border-t-accent flex items-center justify-center text-accent text-xs font-bold">
-                  3/5
-                </div>
-              </div>
-
-              <div className="h-px mb-4 bg-black/8" />
-
-              <div className="space-y-3">
-                {signals.map((signal) => (
-                  <div key={signal.text} className="flex items-start gap-2.5">
-                    <div
-                      className={`w-4 h-4 mt-0.5 rounded-full flex items-center justify-center ${signal.ok ? "bg-accent text-white" : "border border-black/10 text-black/20"}`}
-                    >
-                      {signal.ok ? <Check className="w-2.5 h-2.5" strokeWidth={3} /> : <span className="w-2 h-[2px] rounded bg-black/20" />}
-                    </div>
-                    <p
-                      className={`text-[9.5px] leading-[1.35] ${signal.ok ? "text-black/65 font-semibold" : "text-black/25 line-through"}`}
-                    >
-                      {signal.text}
-                    </p>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-5 rounded-xl p-4 border border-accent/15 bg-accent/5">
-                <div className="flex items-center gap-3">
-                  <span className="text-[28px] leading-none font-bold text-accent">3/5</span>
-                  <div className="w-px h-8 bg-accent/20" />
-                  <div>
-                    <p className="text-[9.5px] font-semibold text-black/55">Señales sin activar</p>
-                    <p className="text-[8px] text-black/35">en tu equipo hoy</p>
-                  </div>
-                </div>
-                <div className="mt-3 flex gap-1.5">
-                  {[1, 2, 3, 4, 5].map((index) => (
-                    <div key={index} className={`flex-1 h-2 rounded-full ${index <= 2 ? "bg-accent" : "bg-accent/10"}`} />
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.6, rotate: -8 }}
-            whileInView={{ opacity: 1, scale: 1, rotate: 5 }}
-            viewport={{ once: true }}
-            transition={{ delay: 1.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute -top-4 -right-4 z-20 rounded-xl text-center px-4 py-3 text-white"
-            style={{ background: "linear-gradient(135deg, #8B5CF6, #7C3AED)", boxShadow: "0 12px 32px rgba(139,92,246,0.45)" }}
-          >
-            <p className="text-[10px] font-extrabold tracking-[0.1em] leading-[1.25]">RECURSO<br />GRATUITO</p>
-            <div className="flex items-center justify-center gap-1.5 mt-1.5">
-              <div className="w-1.5 h-1.5 rounded-full bg-white/70 animate-pulse" />
-              <span className="text-[9px] font-semibold text-white/85">$0</span>
-            </div>
-          </motion.div>
-        </div>
-      </motion.div>
-    </div>
-  );
-}
-
-type FormState = "idle" | "form" | "success";
-
-function FormBlock() {
-  const [state, setState] = useState<FormState>("idle");
-  const [fields, setFields] = useState({ nombre: "", email: "", empresa: "" });
-  const [loading, setLoading] = useState(false);
-
-  const onSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setState("success");
-    }, 1200);
-  };
-
-  const inputClassName =
-    "w-full px-4 py-2.5 rounded-xl border border-black/[0.1] bg-white text-sm text-foreground placeholder:text-foreground/30 focus:outline-none focus:ring-2 focus:border-transparent transition-all";
-  const labelClassName = "text-[11px] font-medium mb-1 block text-foreground/45";
-
-  return (
-    <AnimatePresence mode="wait">
-      {state === "idle" && (
-        <motion.div key="idle" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex flex-col gap-2 items-start">
-          <button
-            onClick={() => setState("form")}
-            className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl font-semibold text-[14px] text-white group transition-all"
-            style={{ background: ACCENT, boxShadow: "0 4px 20px rgba(139,92,246,0.45)" }}
-          >
-            Quiero la guía
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-          </button>
-          <a href="#contacto" className="text-[13px] font-medium transition-colors pl-1 text-foreground/40 hover:text-foreground/70">
-            Prefiero revisar mi caso →
-          </a>
-          <p className="text-[11px] pl-1 text-foreground/30">
-            Sin spam. Solo contenido de valor para equipos comerciales.
-          </p>
-        </motion.div>
-      )}
-
-      {state === "form" && (
-        <motion.div
-          key="form"
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          className="flex flex-col gap-2.5 max-w-[340px]"
-        >
-          <p className="text-[15px] font-semibold text-foreground">¿A dónde te la enviamos?</p>
-          <form onSubmit={onSubmit} className="flex flex-col gap-2">
-            {[
-              { id: "nombre", label: "Nombre", type: "text", ph: "Tu nombre" },
-              { id: "email", label: "Email de trabajo", type: "email", ph: "tu@empresa.com" },
-              { id: "empresa", label: "Empresa", type: "text", ph: "Nombre de tu empresa" },
-            ].map((field) => (
-              <div key={field.id}>
-                <span className={labelClassName}>{field.label}</span>
-                <input
-                  type={field.type}
-                  required
-                  placeholder={field.ph}
-                  value={fields[field.id as keyof typeof fields]}
-                  onChange={(event) =>
-                    setFields((previous) => ({ ...previous, [field.id]: event.target.value }))
-                  }
-                  className={inputClassName}
-                />
-              </div>
-            ))}
-            <button
-              type="submit"
-              disabled={loading}
-              className="inline-flex items-center justify-center w-full gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white disabled:opacity-60 mt-1 transition-all"
-              style={{ background: ACCENT }}
-            >
-              {loading ? (
-                <>
-                  <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
-                  </svg>
-                  Enviando...
-                </>
-              ) : (
-                <>
-                  <Send className="w-3.5 h-3.5" />
-                  Enviarme la guía
-                </>
-              )}
-            </button>
-            <button type="button" onClick={() => setState("idle")} className="text-xs py-1 transition-colors text-foreground/35 hover:text-foreground/65">
-              ← Volver
-            </button>
-          </form>
-        </motion.div>
-      )}
-
-      {state === "success" && (
-        <motion.div key="success" initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.4 }} className="flex flex-col gap-4 max-w-[300px]">
-          <div className="w-11 h-11 rounded-full flex items-center justify-center" style={{ background: `${ACCENT}15` }}>
-            <Check className="w-5 h-5" style={{ color: ACCENT }} />
-          </div>
-          <div>
-            <p className="text-[17px] font-semibold text-foreground">En camino</p>
-            <p className="text-sm mt-1 leading-relaxed text-foreground/50">
-              Revisa <strong className="text-foreground/80">{fields.email}</strong> en los próximos minutos.
-            </p>
-          </div>
-          <a href="#contacto" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white w-fit" style={{ background: ACCENT }}>
-            Ver diagnóstico →
-          </a>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-}
 
 export function LeadMagnetSection() {
   return (
-    <section id="recurso" className="bg-[#F8F8F6]">
-      <div className="border-b border-black/[0.08]">
-        <div className="max-w-6xl mx-auto px-6 lg:px-12 py-14 lg:py-20">
+    <section id="recurso" className="bg-[#F8F8F6] py-20 lg:py-28">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 22 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.7 }}
-            className="flex flex-col gap-5"
+            className="relative"
           >
-            <motion.div
-              initial={{ opacity: 0, x: -12 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="inline-flex items-center gap-3 px-4 py-2.5 rounded-xl bg-[#8B5CF6]/[0.06] border border-[#8B5CF6]/15 w-fit"
-            >
-              <div className="w-1.5 h-1.5 rounded-full bg-[#8B5CF6] animate-pulse" />
-              <span className="text-[13px] text-[#8B5CF6] font-medium">
-                Para equipos comerciales que todavía deciden con visibilidad incompleta.
-              </span>
-            </motion.div>
+            <div
+              className="absolute inset-0 -z-10 rounded-[2rem] opacity-60 blur-3xl"
+              style={{ background: "radial-gradient(circle at 30% 30%, rgba(139,92,246,0.18), transparent 65%)" }}
+            />
 
-            <div className="flex items-center gap-3">
-              <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#8B5CF6]">Recurso gratuito</span>
-              <div className="h-px flex-1 bg-[#8B5CF6]/20 max-w-[60px]" />
+            <div className="overflow-hidden rounded-[2rem] border border-border/60 bg-white shadow-2xl shadow-black/[0.04]">
+              <div className="border-b border-border/40 px-7 py-6">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent/60">
+                  Auto-diagnóstico guiado
+                </p>
+                <h3 className="mt-2 text-2xl font-semibold tracking-tight text-foreground">
+                  En 3 minutos podés saber si hoy estás viendo o suponiendo.
+                </h3>
+              </div>
+
+              <div className="space-y-4 px-7 py-7">
+                {questionsPreview.map((question, index) => (
+                  <div key={question} className="rounded-2xl border border-border/50 bg-muted/25 p-4">
+                    <div className="mb-3 flex items-center justify-between gap-3">
+                      <p className="text-sm font-medium leading-relaxed text-foreground/80">{question}</p>
+                      <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/45">
+                        0{index + 1}
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-3 gap-2">
+                      {["Sí", "A medias", "No"].map((option) => (
+                        <div
+                          key={option}
+                          className={`rounded-full px-3 py-2 text-center text-[11px] font-medium ${
+                            option === "A medias"
+                              ? "border border-accent/25 bg-accent/7 text-accent"
+                              : "border border-border/50 text-muted-foreground"
+                          }`}
+                        >
+                          {option}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+
+                <div className="rounded-2xl border border-accent/15 bg-accent/6 p-5">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-accent/70">
+                    Resultado
+                  </p>
+                  <p className="mt-2 text-base font-semibold text-foreground">
+                    Lectura inicial para saber si hoy conviene demo, servicios o diagnóstico.
+                  </p>
+                </div>
+              </div>
             </div>
-            <h2 className="text-[44px] lg:text-[68px] font-semibold text-foreground leading-[1.02] tracking-tight max-w-[900px]">
-              Guía ejecutiva: 5 señales de visibilidad ciega
-              <br />
-              <span className="text-[#8B5CF6]">de alto impacto.</span>
-            </h2>
-          </motion.div>
-        </div>
-      </div>
-
-      <div className="max-w-6xl mx-auto px-6 lg:px-12 py-14 lg:py-20">
-        <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-14 lg:gap-20 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <PremiumGuideMockup />
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.75, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="flex flex-col gap-6"
+            initial={{ opacity: 0, y: 22 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.7, delay: 0.08 }}
+            className="space-y-7"
           >
-            <p className="text-[15px] text-foreground/55 leading-relaxed max-w-[380px]">
-              Una lectura de 10 minutos para detectar si hoy se te está enfriando la cartera, se te
-              erosiona el margen o estás perdiendo expansión sin verlo.
-            </p>
+            <div className="space-y-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent/60">
+                Recurso autoguiado
+              </p>
+              <h2 className="text-3xl font-semibold leading-[1.06] tracking-tight text-foreground md:text-4xl lg:text-5xl">
+                Si todavía no querés hablar, podés empezar por un{" "}
+                <span className="text-accent">auto-diagnóstico ejecutivo</span>
+              </h2>
+              <p className="max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
+                Este bloque reemplaza al lead magnet genérico por una experiencia más útil: te deja
+                recorrer las señales clave, entender qué te falta ver y elegir el siguiente paso con
+                más criterio.
+              </p>
+            </div>
 
-            <div className="flex flex-col gap-2.5">
-              {benefits.map((benefit) => (
-                <div key={benefit.title} className="flex items-start gap-3">
-                  <div className="flex-shrink-0 w-7 h-7 rounded-lg bg-[#8B5CF6]/10 flex items-center justify-center mt-0.5">
-                    <benefit.icon className="w-3.5 h-3.5 text-[#8B5CF6]" />
+            <div className="space-y-4">
+              {outcomes.map((item) => (
+                <div key={item.title} className="flex gap-4 rounded-2xl border border-border/50 bg-white p-5">
+                  <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl bg-accent/10">
+                    <item.icon className="h-4.5 w-4.5 text-accent" />
                   </div>
                   <div>
-                    <p className="text-[13px] font-semibold text-foreground/85">{benefit.title}</p>
-                    <p className="text-[11.5px] text-foreground/45">{benefit.sub}</p>
+                    <p className="text-sm font-semibold text-foreground">{item.title}</p>
+                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{item.description}</p>
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="h-px bg-black/[0.06]" />
-            <FormBlock />
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Link
+                to={AUTO_DIAGNOSTIC_PAGE_HREF}
+                className="group inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-accent/90"
+              >
+                Hacer auto-diagnóstico
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+              <Link
+                to={SERVICES_PAGE_HREF}
+                className="inline-flex items-center justify-center rounded-full border border-border bg-white px-7 py-3.5 text-sm font-medium text-foreground transition-colors hover:border-accent/35 hover:text-accent"
+              >
+                Prefiero ver servicios
+              </Link>
+            </div>
+
+            <p className="text-xs leading-relaxed text-muted-foreground/75">
+              Después lo podemos convertir en un activo descargable y conectarlo a email. Por ahora,
+              queda como ruta real de auto-guía dentro de la web.
+            </p>
           </motion.div>
         </div>
       </div>

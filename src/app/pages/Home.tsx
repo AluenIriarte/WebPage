@@ -7,6 +7,7 @@ import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { Hero } from "../components/Hero";
 import { LeadMagnetSection } from "../components/LeadMagnetSection";
+import { MiniCasesSection } from "../components/MiniCasesSection";
 import { OpportunitiesSection } from "../components/OpportunitiesSection";
 import { StatInterstitial } from "../components/StatInterstitial";
 import { UnifiedProblem } from "../components/UnifiedProblem";
@@ -22,6 +23,7 @@ export function Home() {
         <UnifiedProblem />
         <StatInterstitial />
         <OpportunitiesSection />
+        <MiniCasesSection />
         <ValueProposition />
         <CredibilitySection />
         <EntryOffer />

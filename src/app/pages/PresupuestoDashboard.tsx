@@ -1,40 +1,72 @@
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
 import { motion } from "motion/react";
-import { ArrowRight, Clock3, Mail, ShieldCheck } from "lucide-react";
+import { ArrowRight, Copy, Mail, ShieldCheck } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import {
-  QUOTE_EMAIL_HREF,
+  CONTACT_EMAIL,
   ROOT_DIAGNOSTIC_SECTION_HREF,
   SERVICES_PAGE_HREF,
+  buildQuoteEmailBody,
+  buildQuoteEmailHref,
+  type QuoteBriefFields,
 } from "../lib/contact";
 
-const budgetInputs = [
-  "Qué querés ver en el dashboard o tablero",
-  "Qué herramientas o fuentes usás hoy",
-  "Quién lo va a mirar y con qué frecuencia",
-  "Qué plazo tenés en mente",
+const fieldConfig: { id: keyof QuoteBriefFields; label: string; placeholder: string; multiline?: boolean }[] = [
+  { id: "empresa", label: "Empresa", placeholder: "Nombre de tu empresa" },
+  { id: "rol", label: "Rol", placeholder: "Tu rol o área" },
+  { id: "objetivo", label: "Qué necesitás ver", placeholder: "Qué tipo de tablero o lectura querés tener", multiline: true },
+  { id: "fuentes", label: "Fuentes o herramientas actuales", placeholder: "Excel, CRM, ERP, SQL, Power BI, etc." },
+  { id: "destinatarios", label: "Quiénes lo van a usar", placeholder: "Dirección, gerencia comercial, vendedores, etc." },
+  { id: "plazo", label: "Plazo estimado", placeholder: "Este mes, próximo trimestre, sin fecha cerrada..." },
+  { id: "desafio", label: "Contexto o desafío principal", placeholder: "Qué duele hoy o qué querés resolver primero", multiline: true },
 ];
 
 const projectTypes = [
   "Dashboard de ventas a medida para dirección o gerencia comercial",
   "Tablero comercial operativo con pipeline, cartera y seguimiento por vendedor",
-  "Dashboard en Power BI u otra herramienta conectado a tus datos reales",
+  "Dashboard conectado a datos reales desde Excel, CRM, ERP o BI existente",
   "Sistema de reporting automatizado para revisiones semanales o mensuales",
 ];
 
 const priceDrivers = [
-  "Cantidad de fuentes de datos y necesidad de consolidación",
-  "Limpieza y modelado previo que haga falta resolver",
-  "Cantidad de vistas, filtros y usuarios",
+  "Cantidad de fuentes de datos y nivel de consolidación requerido",
+  "Limpieza, modelado o criterios de negocio que haya que ordenar",
+  "Cantidad de vistas, filtros, usuarios y necesidades de actualización",
   "Automatizaciones, alertas o integraciones adicionales",
 ];
 
+const emptyFields: QuoteBriefFields = {
+  empresa: "",
+  rol: "",
+  objetivo: "",
+  fuentes: "",
+  destinatarios: "",
+  plazo: "",
+  desafio: "",
+};
+
 export function PresupuestoDashboard() {
+  const [fields, setFields] = useState<QuoteBriefFields>(emptyFields);
+  const [copied, setCopied] = useState(false);
+
   useEffect(() => {
     window.scrollTo({ top: 0 });
   }, []);
+
+  const emailHref = useMemo(() => buildQuoteEmailHref(fields), [fields]);
+  const emailBody = useMemo(() => buildQuoteEmailBody(fields), [fields]);
+
+  const handleOpenMail = () => {
+    window.location.href = emailHref;
+  };
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(emailBody);
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 1800);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -46,7 +78,7 @@ export function PresupuestoDashboard() {
           </div>
 
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+            <div className="grid gap-12 lg:grid-cols-[1fr_1.02fr] lg:items-start">
               <motion.div
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -66,28 +98,47 @@ export function PresupuestoDashboard() {
                   </h1>
                   <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground">
                     Si ya tenés relativamente claro lo que necesitás, este es el camino más directo:
-                    me mandás el contexto, reviso alcance y te respondo por email.
+                    completás el brief y te abre un email estructurado para no arrancar desde cero.
                   </p>
                   <p className="max-w-3xl text-base leading-relaxed text-foreground/70">
-                    Si todavía no sabés bien qué conviene construir, qué fuentes usar o por dónde
-                    empezar, te conviene más arrancar por diagnóstico.
+                    Si todavía estás explorando qué conviene construir, qué fuentes usar o por dónde
+                    empezar, te conviene más pasar primero por servicios o diagnóstico.
                   </p>
                 </div>
 
-                <div className="flex flex-col gap-4 sm:flex-row">
-                  <a
-                    href={QUOTE_EMAIL_HREF}
-                    className="group inline-flex items-center justify-center rounded-full bg-accent px-7 py-3.5 text-sm font-medium text-white transition-all duration-300 hover:scale-[1.02] hover:bg-accent/90 hover:shadow-xl hover:shadow-accent/25"
-                  >
-                    Escribir para cotizar
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </a>
-                  <a
-                    href={ROOT_DIAGNOSTIC_SECTION_HREF}
-                    className="inline-flex items-center justify-center rounded-full border border-border bg-white px-7 py-3.5 text-sm font-medium text-foreground transition-colors hover:border-accent/35 hover:text-accent"
-                  >
-                    Prefiero empezar por diagnóstico
-                  </a>
+                <div className="grid gap-5 sm:grid-cols-2">
+                  {projectTypes.map((item) => (
+                    <div key={item} className="rounded-2xl border border-border/50 bg-white p-5">
+                      <p className="text-sm leading-relaxed text-foreground/78">{item}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="rounded-3xl bg-foreground p-7 text-background">
+                  <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-white/40">
+                    Si todavía estás comparando
+                  </p>
+                  <h2 className="text-2xl font-semibold tracking-tight text-white">
+                    Primero podés ordenar el panorama y volver con mejor criterio.
+                  </h2>
+                  <p className="mt-4 text-sm leading-relaxed text-white/70">
+                    Servicios y diagnóstico te ayudan cuando todavía no tenés claro alcance, fuentes
+                    o tipo de tablero.
+                  </p>
+                  <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                    <Link
+                      to={SERVICES_PAGE_HREF}
+                      className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-accent hover:text-white"
+                    >
+                      Ver servicios
+                    </Link>
+                    <a
+                      href={ROOT_DIAGNOSTIC_SECTION_HREF}
+                      className="inline-flex items-center justify-center rounded-full border border-white/15 px-6 py-3 text-sm font-medium text-white/80 transition-colors hover:border-white/30 hover:text-white"
+                    >
+                      Prefiero diagnóstico
+                    </a>
+                  </div>
                 </div>
               </motion.div>
 
@@ -99,35 +150,78 @@ export function PresupuestoDashboard() {
               >
                 <div className="mb-6 flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-accent/10">
-                    <Clock3 className="h-4.5 w-4.5 text-accent" />
+                    <Mail className="h-4.5 w-4.5 text-accent" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-foreground">Qué incluir en el email</p>
+                    <p className="text-sm font-semibold text-foreground">Brief rápido para cotizar</p>
                     <p className="text-xs text-muted-foreground">
-                      Cuanto más claro sea el contexto, más precisa puede ser la respuesta.
+                      Cuanto más claro el contexto, más útil y precisa puede ser la respuesta.
                     </p>
                   </div>
                 </div>
 
-                <div className="space-y-3">
-                  {budgetInputs.map((item, index) => (
-                    <div key={item} className="flex gap-4 rounded-2xl border border-border/40 bg-muted/20 p-4">
-                      <div className="w-5 flex-shrink-0 pt-0.5 text-[11px] font-bold tabular-nums text-accent/40">
-                        0{index + 1}
-                      </div>
-                      <p className="text-sm leading-relaxed text-foreground/75">{item}</p>
-                    </div>
+                <div className="grid gap-4">
+                  {fieldConfig.map((field) => (
+                    <label key={field.id} className="space-y-1.5">
+                      <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground/55">
+                        {field.label}
+                      </span>
+                      {field.multiline ? (
+                        <textarea
+                          value={fields[field.id]}
+                          onChange={(event) =>
+                            setFields((previous) => ({ ...previous, [field.id]: event.target.value }))
+                          }
+                          rows={4}
+                          placeholder={field.placeholder}
+                          className="min-h-[104px] w-full rounded-2xl border border-border/60 bg-white px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-accent/35"
+                        />
+                      ) : (
+                        <input
+                          value={fields[field.id]}
+                          onChange={(event) =>
+                            setFields((previous) => ({ ...previous, [field.id]: event.target.value }))
+                          }
+                          placeholder={field.placeholder}
+                          className="w-full rounded-2xl border border-border/60 bg-white px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-accent/35"
+                        />
+                      )}
+                    </label>
                   ))}
                 </div>
 
-                <div className="mt-8 rounded-2xl border border-accent/15 bg-accent/5 p-5">
+                <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                  <button
+                    onClick={handleOpenMail}
+                    className="group inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-medium text-white transition-colors hover:bg-accent/90"
+                  >
+                    Abrir email prearmado
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </button>
+                  <button
+                    onClick={handleCopy}
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-border px-6 py-3.5 text-sm font-medium text-foreground transition-colors hover:border-accent/35 hover:text-accent"
+                  >
+                    <Copy className="h-4 w-4" />
+                    {copied ? "Brief copiado" : "Copiar brief"}
+                  </button>
+                </div>
+
+                <div className="mt-6 rounded-2xl border border-accent/15 bg-accent/5 p-5">
                   <div className="mb-2 flex items-center gap-2">
                     <ShieldCheck className="h-4 w-4 text-accent" />
-                    <p className="text-sm font-semibold text-foreground">Atajo útil</p>
+                    <p className="text-sm font-semibold text-foreground">Cómo usarlo</p>
                   </div>
                   <p className="text-sm leading-relaxed text-muted-foreground">
-                    El botón ya abre tu mail con asunto y estructura prearmada para que no tengas que
-                    pensar desde cero qué escribir.
+                    El botón abre tu cliente de correo con el brief ya armado. Si no se abre o
+                    preferís mandarlo manualmente, copiá el texto y envialo a{" "}
+                    <a
+                      href={`mailto:${CONTACT_EMAIL}`}
+                      className="font-medium text-foreground underline underline-offset-2"
+                    >
+                      {CONTACT_EMAIL}
+                    </a>
+                    .
                   </p>
                 </div>
               </motion.div>
@@ -135,41 +229,7 @@ export function PresupuestoDashboard() {
           </div>
         </section>
 
-        <section className="py-16 lg:py-20">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.6 }}
-              className="mb-10 max-w-2xl"
-            >
-              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground/50">
-                Casos típicos
-              </p>
-              <h2 className="text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
-                Este camino sirve mejor cuando ya estás buscando un proveedor o una cotización.
-              </h2>
-            </motion.div>
-
-            <div className="grid gap-6 md:grid-cols-2">
-              {projectTypes.map((item, index) => (
-                <motion.div
-                  key={item}
-                  initial={{ opacity: 0, y: 18 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-40px" }}
-                  transition={{ duration: 0.5, delay: index * 0.08 }}
-                  className="rounded-3xl border border-border/50 bg-white p-8"
-                >
-                  <p className="text-base leading-relaxed text-foreground/80">{item}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="py-16 lg:py-20">
+        <section className="pb-20 lg:pb-28">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="grid gap-10 lg:grid-cols-[1fr_1fr]">
               <motion.div
@@ -200,31 +260,19 @@ export function PresupuestoDashboard() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.6, delay: 0.08 }}
-                className="rounded-3xl bg-foreground p-8 text-background lg:p-10"
+                className="rounded-3xl border border-border/50 bg-white p-8 lg:p-10"
               >
-                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-white/40">
-                  Si todavía estás comparando opciones
+                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground/50">
+                  Antes de escribir
                 </p>
-                <h2 className="mb-5 text-3xl font-semibold tracking-tight text-white">
-                  Primero podés revisar servicios y después volver con más claridad.
+                <h2 className="mb-6 text-3xl font-semibold tracking-tight text-foreground">
+                  Qué conviene tener claro para pedir presupuesto
                 </h2>
-                <p className="mb-8 text-sm leading-relaxed text-white/65">
-                  Si querés entender mejor qué hago, qué tipo de dashboards desarrollo y cuándo
-                  conviene cada cosa, la página de servicios te va a ordenar el panorama.
-                </p>
-                <div className="flex flex-col gap-3 sm:flex-row">
-                  <Link
-                    to={SERVICES_PAGE_HREF}
-                    className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-accent hover:text-white"
-                  >
-                    Ver servicios
-                  </Link>
-                  <a
-                    href={ROOT_DIAGNOSTIC_SECTION_HREF}
-                    className="inline-flex items-center justify-center rounded-full border border-white/15 px-6 py-3 text-sm font-medium text-white/80 transition-colors hover:border-white/30 hover:text-white"
-                  >
-                    Ir al diagnóstico
-                  </a>
+                <div className="space-y-3 text-sm leading-relaxed text-foreground/75">
+                  <p>Qué decisión querés habilitar con el dashboard.</p>
+                  <p>Qué fuentes o herramientas existen hoy y cuánto están ordenadas.</p>
+                  <p>Quiénes lo van a mirar y con qué frecuencia.</p>
+                  <p>Si necesitás algo puntual o una capa de visibilidad más amplia.</p>
                 </div>
               </motion.div>
             </div>

@@ -123,10 +123,10 @@ export function OpportunitiesSection() {
             reportes habituales.
           </p>
           <a
-            href="#proceso"
+            href="#mini-casos"
             className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent/75 transition-colors duration-200 group flex-shrink-0"
           >
-            Ver cómo se trabaja
+            Ver mini-casos
             <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
           </a>
         </motion.div>

@@ -48,6 +48,56 @@
       ]
     },
     {
+      "path": "/demo-dashboard",
+      "title": "Demo de dashboard de ventas y BI comercial | Alan L. Perez",
+      "description": "Demo interactiva de dashboard de ventas con vistas de dirección comercial, riesgo de clientes y margen para entender cómo se traduce en decisiones.",
+      "canonical": "https://alanlperez.com/demo-dashboard",
+      "ogType": "website",
+      "schema": [
+        {
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": "Demo de dashboard de ventas y BI comercial",
+          "url": "https://alanlperez.com/demo-dashboard",
+          "inLanguage": "es"
+        }
+      ]
+    },
+    {
+      "path": "/auto-diagnostico",
+      "title": "Auto-diagnóstico comercial | Alan L. Perez",
+      "description": "Auto-diagnóstico guiado para evaluar si hoy tu equipo comercial decide con visibilidad real sobre cartera, margen y expansión.",
+      "canonical": "https://alanlperez.com/auto-diagnostico",
+      "robots": "noindex,follow",
+      "ogType": "website",
+      "schema": [
+        {
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": "Auto-diagnóstico comercial",
+          "url": "https://alanlperez.com/auto-diagnostico",
+          "inLanguage": "es"
+        }
+      ]
+    },
+    {
+      "path": "/gracias/auto-diagnostico",
+      "title": "Próximos pasos | Alan L. Perez",
+      "description": "Elegí el siguiente paso después del auto-diagnóstico: demo, servicios, diagnóstico o presupuesto.",
+      "canonical": "https://alanlperez.com/gracias/auto-diagnostico",
+      "robots": "noindex,follow",
+      "ogType": "website",
+      "schema": [
+        {
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": "Próximos pasos después del auto-diagnóstico",
+          "url": "https://alanlperez.com/gracias/auto-diagnostico",
+          "inLanguage": "es"
+        }
+      ]
+    },
+    {
       "path": "/presupuesto-dashboard",
       "title": "Pedir cotización para dashboard de ventas a medida | Alan L. Perez",
       "description": "Pedí cotización para un dashboard de ventas, tablero comercial o sistema de BI a medida. Alcance, contexto y presupuesto por email.",
