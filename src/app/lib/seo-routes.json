@@ -1,0 +1,263 @@
+{
+  "siteUrl": "https://alanlperez.com",
+  "defaults": {
+    "title": "Alan L. Perez | Business Intelligence Comercial",
+    "description": "Sistemas de decisión comercial, dashboards ejecutivos y Business Intelligence aplicado a ventas.",
+    "robots": "index,follow",
+    "ogType": "website",
+    "twitterCard": "summary"
+  },
+  "routes": [
+    {
+      "path": "/",
+      "title": "Dashboard de ventas y BI comercial a medida | Alan L. Perez",
+      "description": "Desarrollo dashboards de ventas, tableros comerciales y sistemas de BI a medida para detectar clientes en riesgo, margen erosionado y oportunidades de crecimiento.",
+      "canonical": "https://alanlperez.com/",
+      "ogType": "website",
+      "schema": [
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "Alan L. Perez",
+          "url": "https://alanlperez.com/",
+          "inLanguage": "es"
+        }
+      ]
+    },
+    {
+      "path": "/servicios",
+      "title": "Servicios de dashboards a medida, BI comercial y automatización | Alan L. Perez",
+      "description": "Servicios de dashboard de ventas a medida, tableros comerciales, BI para equipos de ventas, automatización de reportes e IA aplicada al negocio.",
+      "canonical": "https://alanlperez.com/servicios",
+      "ogType": "website",
+      "schema": [
+        {
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "name": "Dashboards de ventas y BI comercial a medida",
+          "serviceType": "Desarrollo de dashboards de ventas, tableros comerciales y sistemas de Business Intelligence",
+          "provider": {
+            "@type": "Person",
+            "name": "Alan L. Perez",
+            "url": "https://alanlperez.com/"
+          },
+          "url": "https://alanlperez.com/servicios",
+          "areaServed": "AR",
+          "inLanguage": "es"
+        }
+      ]
+    },
+    {
+      "path": "/recursos",
+      "title": "Guías de dashboard de ventas, tablero comercial y KPIs | Alan L. Perez",
+      "description": "Guías para entender dashboards, tableros de ventas y KPIs comerciales con foco en decisiones, visibilidad y rendimiento comercial.",
+      "canonical": "https://alanlperez.com/recursos",
+      "ogType": "website",
+      "schema": [
+        {
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          "name": "Recursos y guías de dashboards y KPIs comerciales",
+          "url": "https://alanlperez.com/recursos",
+          "inLanguage": "es"
+        }
+      ]
+    },
+    {
+      "path": "/recursos/que-es-un-dashboard",
+      "title": "¿Qué es un dashboard? Definición, tipos y para qué sirve | Alan L. Perez",
+      "description": "Qué es un dashboard, para qué sirve en una empresa y cómo se diferencia de un reporte. Guía práctica para entender dashboards comerciales.",
+      "canonical": "https://alanlperez.com/recursos/que-es-un-dashboard",
+      "ogType": "article",
+      "schema": [
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "¿Qué es un dashboard? Definición, tipos y para qué sirve",
+          "description": "Qué es un dashboard, para qué sirve en una empresa y cómo se diferencia de un reporte. Guía práctica para entender dashboards comerciales.",
+          "author": {
+            "@type": "Person",
+            "name": "Alan L. Perez"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Alan L. Perez"
+          },
+          "mainEntityOfPage": "https://alanlperez.com/recursos/que-es-un-dashboard",
+          "inLanguage": "es"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Inicio",
+              "item": "https://alanlperez.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Recursos",
+              "item": "https://alanlperez.com/recursos"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Qué es un dashboard",
+              "item": "https://alanlperez.com/recursos/que-es-un-dashboard"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/recursos/dashboard-de-ventas",
+      "title": "Dashboard de ventas: qué medir, cómo estructurarlo y por qué importa | Alan L. Perez",
+      "description": "Aprendé qué medir en un dashboard de ventas, cómo estructurarlo y qué indicadores priorizar para tomar mejores decisiones comerciales.",
+      "canonical": "https://alanlperez.com/recursos/dashboard-de-ventas",
+      "ogType": "article",
+      "schema": [
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "Dashboard de ventas: qué medir, cómo estructurarlo y por qué importa",
+          "description": "Aprendé qué medir en un dashboard de ventas, cómo estructurarlo y qué indicadores priorizar para tomar mejores decisiones comerciales.",
+          "author": {
+            "@type": "Person",
+            "name": "Alan L. Perez"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Alan L. Perez"
+          },
+          "mainEntityOfPage": "https://alanlperez.com/recursos/dashboard-de-ventas",
+          "inLanguage": "es"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Inicio",
+              "item": "https://alanlperez.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Recursos",
+              "item": "https://alanlperez.com/recursos"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Dashboard de ventas",
+              "item": "https://alanlperez.com/recursos/dashboard-de-ventas"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/recursos/kpis-comerciales",
+      "title": "KPIs comerciales: la guía definitiva para medir lo que importa | Alan L. Perez",
+      "description": "Guía de KPIs comerciales para definir qué indicadores seguir, cómo elegirlos y cómo usarlos para tomar mejores decisiones de ventas.",
+      "canonical": "https://alanlperez.com/recursos/kpis-comerciales",
+      "ogType": "article",
+      "schema": [
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "KPIs comerciales: la guía definitiva para medir lo que realmente importa",
+          "description": "Guía de KPIs comerciales para definir qué indicadores seguir, cómo elegirlos y cómo usarlos para tomar mejores decisiones de ventas.",
+          "author": {
+            "@type": "Person",
+            "name": "Alan L. Perez"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Alan L. Perez"
+          },
+          "mainEntityOfPage": "https://alanlperez.com/recursos/kpis-comerciales",
+          "inLanguage": "es"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Inicio",
+              "item": "https://alanlperez.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Recursos",
+              "item": "https://alanlperez.com/recursos"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "KPIs comerciales",
+              "item": "https://alanlperez.com/recursos/kpis-comerciales"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/recursos/tablero-de-ventas",
+      "title": "Tablero de ventas: cómo construirlo y qué indicadores incluir | Alan L. Perez",
+      "description": "Guía para construir un tablero de ventas, elegir indicadores y organizar vistas ejecutivas, comerciales y de cartera.",
+      "canonical": "https://alanlperez.com/recursos/tablero-de-ventas",
+      "ogType": "article",
+      "schema": [
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "Tablero de ventas: cómo construirlo y qué indicadores incluir",
+          "description": "Guía para construir un tablero de ventas, elegir indicadores y organizar vistas ejecutivas, comerciales y de cartera.",
+          "author": {
+            "@type": "Person",
+            "name": "Alan L. Perez"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Alan L. Perez"
+          },
+          "mainEntityOfPage": "https://alanlperez.com/recursos/tablero-de-ventas",
+          "inLanguage": "es"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Inicio",
+              "item": "https://alanlperez.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Recursos",
+              "item": "https://alanlperez.com/recursos"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Tablero de ventas",
+              "item": "https://alanlperez.com/recursos/tablero-de-ventas"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

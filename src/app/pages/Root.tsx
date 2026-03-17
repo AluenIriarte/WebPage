@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
+import { SeoHead } from "../components/SeoHead";
 
 export function Root() {
   const location = useLocation();
@@ -16,5 +17,10 @@ export function Root() {
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }, [location.pathname, location.hash]);
 
-  return <Outlet />;
+  return (
+    <>
+      <SeoHead />
+      <Outlet />
+    </>
+  );
 }
