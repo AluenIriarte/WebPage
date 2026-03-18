@@ -48,6 +48,29 @@
       ]
     },
     {
+      "path": "/dashboard-de-ventas-power-bi",
+      "title": "Dashboard de ventas y Power BI para dirección comercial | Alan L. Perez",
+      "description": "Servicio específico de dashboard de ventas y Power BI para dirección comercial, cartera, margen, metas y foco de lectura ejecutiva.",
+      "canonical": "https://alanlperez.com/dashboard-de-ventas-power-bi",
+      "ogType": "website",
+      "schema": [
+        {
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "name": "Dashboard de ventas y Power BI para dirección comercial",
+          "serviceType": "Diseño de dashboard de ventas y BI comercial a medida",
+          "provider": {
+            "@type": "Person",
+            "name": "Alan L. Perez",
+            "url": "https://alanlperez.com/"
+          },
+          "url": "https://alanlperez.com/dashboard-de-ventas-power-bi",
+          "areaServed": "AR",
+          "inLanguage": "es"
+        }
+      ]
+    },
+    {
       "path": "/demo-dashboard",
       "title": "Demo de dashboard de ventas y BI comercial | Alan L. Perez",
       "description": "Demo interactiva de dashboard de ventas con vistas de dirección comercial, riesgo de clientes y margen para entender cómo se traduce en decisiones.",

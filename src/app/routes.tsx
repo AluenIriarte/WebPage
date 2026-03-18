@@ -21,6 +21,13 @@ export const router = createBrowserRouter([
         },
       },
       {
+        path: "dashboard-de-ventas-power-bi",
+        lazy: async () => {
+          const { DashboardVentasPowerBi } = await import("./pages/DashboardVentasPowerBi");
+          return { Component: DashboardVentasPowerBi };
+        },
+      },
+      {
         path: "demo-dashboard",
         lazy: async () => {
           const { DemoDashboard } = await import("./pages/DemoDashboard");

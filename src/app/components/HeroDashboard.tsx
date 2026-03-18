@@ -4,6 +4,7 @@ import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from
 import { AlertTriangle, ArrowRight } from "lucide-react";
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { DEMO_PAGE_HREF } from "../lib/contact";
+import { trackEvent } from "../lib/analytics";
 
 type Period = "weekly" | "monthly" | "quarterly";
 
@@ -201,6 +202,7 @@ export function InteractiveDashboard({ variant = "full" }: InteractiveDashboardP
             <div className="mb-4">
               <Link
                 to={DEMO_PAGE_HREF}
+                onClick={() => trackEvent("demo_click", { source: isMini ? "hero_mini_demo" : "dashboard_component" })}
                 className="group inline-flex items-center gap-2 rounded-full border border-accent/15 bg-accent/6 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-accent transition-colors hover:bg-accent hover:text-white"
               >
                 Ver Demo completa

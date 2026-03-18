@@ -1,19 +1,22 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "motion/react";
 import { ArrowRight, Copy, Mail, ShieldCheck } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import {
   CONTACT_EMAIL,
+  PRODUCT_OPTIONS,
   ROOT_DIAGNOSTIC_SECTION_HREF,
   SERVICES_PAGE_HREF,
   buildQuoteEmailBody,
   buildQuoteEmailHref,
   type QuoteBriefFields,
 } from "../lib/contact";
+import { trackDiagnosisClick, trackFormSubmit, trackQuoteClick } from "../lib/analytics";
 
 const fieldConfig: { id: keyof QuoteBriefFields; label: string; placeholder: string; multiline?: boolean }[] = [
+  { id: "producto", label: "Producto / servicio", placeholder: "Seleccioná una opción" },
   { id: "empresa", label: "Empresa", placeholder: "Nombre de tu empresa" },
   { id: "rol", label: "Rol", placeholder: "Tu rol o área" },
   { id: "objetivo", label: "Qué necesitás ver", placeholder: "Qué tipo de tablero o lectura querés tener", multiline: true },
@@ -38,6 +41,7 @@ const priceDrivers = [
 ];
 
 const emptyFields: QuoteBriefFields = {
+  producto: "Dashboard de ventas / BI comercial a medida",
   empresa: "",
   rol: "",
   objetivo: "",
@@ -48,6 +52,7 @@ const emptyFields: QuoteBriefFields = {
 };
 
 export function PresupuestoDashboard() {
+  const [searchParams] = useSearchParams();
   const [fields, setFields] = useState<QuoteBriefFields>(emptyFields);
   const [copied, setCopied] = useState(false);
 
@@ -55,10 +60,21 @@ export function PresupuestoDashboard() {
     window.scrollTo({ top: 0 });
   }, []);
 
+  useEffect(() => {
+    const product = searchParams.get("producto");
+    if (!product) {
+      return;
+    }
+
+    setFields((previous) => ({ ...previous, producto: product }));
+  }, [searchParams]);
+
   const emailHref = useMemo(() => buildQuoteEmailHref(fields), [fields]);
   const emailBody = useMemo(() => buildQuoteEmailBody(fields), [fields]);
 
   const handleOpenMail = () => {
+    trackFormSubmit("quote_mailto", fields.producto);
+    trackQuoteClick("quote_page_form", fields.producto);
     window.location.href = emailHref;
   };
 
@@ -134,6 +150,7 @@ export function PresupuestoDashboard() {
                     </Link>
                     <a
                       href={ROOT_DIAGNOSTIC_SECTION_HREF}
+                      onClick={() => trackDiagnosisClick("quote_page_compare")}
                       className="inline-flex items-center justify-center rounded-full border border-white/15 px-6 py-3 text-sm font-medium text-white/80 transition-colors hover:border-white/30 hover:text-white"
                     >
                       Prefiero diagnóstico
@@ -166,7 +183,21 @@ export function PresupuestoDashboard() {
                       <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground/55">
                         {field.label}
                       </span>
-                      {field.multiline ? (
+                      {field.id === "producto" ? (
+                        <select
+                          value={fields.producto}
+                          onChange={(event) =>
+                            setFields((previous) => ({ ...previous, producto: event.target.value }))
+                          }
+                          className="w-full rounded-2xl border border-border/60 bg-white px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-accent/35"
+                        >
+                          {PRODUCT_OPTIONS.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                      ) : field.multiline ? (
                         <textarea
                           value={fields[field.id]}
                           onChange={(event) =>
@@ -195,7 +226,7 @@ export function PresupuestoDashboard() {
                     onClick={handleOpenMail}
                     className="group inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-medium text-white transition-colors hover:bg-accent/90"
                   >
-                    Abrir email prearmado
+                    Preparar solicitud
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </button>
                   <button

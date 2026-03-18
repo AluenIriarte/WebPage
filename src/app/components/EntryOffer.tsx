@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { Clock, ArrowRight, FileText } from "lucide-react";
 import { CALENDLY_URL } from "../lib/contact";
+import { trackCalendlyClick, trackDiagnosisClick, trackGuideClick } from "../lib/analytics";
 
 const items = [
   "Dónde puede estar yéndose dinero hoy sin que esté visible",
@@ -122,6 +123,10 @@ export function EntryOffer() {
                 <div className="space-y-3 pt-1">
                   <a
                     href={CALENDLY_URL}
+                    onClick={() => {
+                      trackDiagnosisClick("entry_offer");
+                      trackCalendlyClick("entry_offer");
+                    }}
                     className="group inline-flex items-center justify-center w-full gap-2 px-8 py-4 bg-foreground text-background rounded-full font-medium text-base hover:bg-foreground/90 transition-all duration-300 hover:shadow-xl"
                   >
                     Agendar diagnóstico
@@ -130,10 +135,11 @@ export function EntryOffer() {
 
                   <a
                     href="#recurso"
+                    onClick={() => trackGuideClick("entry_offer", "lead_magnet_section")}
                     className="inline-flex items-center justify-center w-full gap-1.5 px-8 py-3 text-sm text-muted-foreground hover:text-accent border border-transparent hover:border-accent/15 rounded-full transition-all duration-200"
                   >
                     <FileText className="w-3.5 h-3.5 flex-shrink-0" />
-                    Preferís revisar primero por tu cuenta? Descargá la guía →
+                    Preferís revisar primero por tu cuenta? Revisá el recurso →
                   </a>
                 </div>
               </div>

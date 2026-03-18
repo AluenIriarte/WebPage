@@ -7,6 +7,9 @@ import {
   BarChart3,
   BriefcaseBusiness,
   Database,
+  FileBadge2,
+  GraduationCap,
+  Globe,
   LayoutDashboard,
   Layers3,
   Settings2,
@@ -17,10 +20,13 @@ import {
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import {
+  PRIMARY_SERVICE_PAGE_HREF,
   QUOTE_PAGE_HREF,
   ROOT_DIAGNOSTIC_SECTION_HREF,
   SERVICES_PAGE_HREF,
+  buildQuotePageHref,
 } from "../lib/contact";
+import { trackDiagnosisClick, trackQuoteClick } from "../lib/analytics";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 18 },
@@ -112,18 +118,42 @@ const complementaryServices = [
     title: "Automatización de reportes",
     description:
       "Cuando un equipo pierde horas consolidando archivos o armando reportes periódicos que podrían salir solos.",
+    product: "Automatización / RPA",
   },
   {
     icon: Sparkles,
     title: "IA aplicada a decisiones comerciales",
     description:
       "Scoring, predicción, alertas y modelos solo cuando agregan claridad real al proceso comercial.",
+    product: "IA aplicada al negocio",
   },
   {
     icon: BriefcaseBusiness,
     title: "Dashboards para otras áreas",
     description:
       "La misma lógica aplicada a finanzas, operaciones o marketing si el caso lo necesita.",
+    product: "Dashboard para otra área",
+  },
+  {
+    icon: GraduationCap,
+    title: "Acompañamiento y capacitación",
+    description:
+      "Soporte para equipos que necesitan leer mejor la herramienta, adoptar el sistema y profesionalizar reuniones.",
+    product: "Acompañamiento y capacitación",
+  },
+  {
+    icon: Globe,
+    title: "Páginas web y landings",
+    description:
+      "Sitios y landings como esta, pensados para convertir, mostrar oferta y ordenar servicios o productos.",
+    product: "Página web / landing page",
+  },
+  {
+    icon: FileBadge2,
+    title: "Activos comerciales y de marca",
+    description:
+      "PDFs, kits, presentaciones, assets visuales y sistemas editoriales para ventas, marketing o marca.",
+    product: "Activos comerciales y de marca",
   },
 ];
 
@@ -177,6 +207,7 @@ export function Servicios() {
               <div className="flex flex-col gap-4 sm:flex-row">
                 <a
                   href={ROOT_DIAGNOSTIC_SECTION_HREF}
+                  onClick={() => trackDiagnosisClick("services_hero")}
                   className="group inline-flex items-center justify-center rounded-full bg-accent px-7 py-3.5 text-sm font-medium text-white transition-all duration-300 hover:scale-[1.02] hover:bg-accent/90 hover:shadow-xl hover:shadow-accent/25"
                 >
                   Solicitar diagnóstico
@@ -184,9 +215,16 @@ export function Servicios() {
                 </a>
                 <Link
                   to={QUOTE_PAGE_HREF}
+                  onClick={() => trackQuoteClick("services_hero")}
                   className="inline-flex items-center justify-center rounded-full border border-border bg-white px-7 py-3.5 text-sm font-medium text-foreground transition-all duration-300 hover:border-accent/35 hover:bg-accent/5 hover:text-accent"
                 >
                   Pedir presupuesto
+                </Link>
+                <Link
+                  to={PRIMARY_SERVICE_PAGE_HREF}
+                  className="inline-flex items-center justify-center rounded-full border border-border bg-white px-7 py-3.5 text-sm font-medium text-foreground transition-all duration-300 hover:border-accent/35 hover:bg-accent/5 hover:text-accent"
+                >
+                  Ver página específica
                 </Link>
               </div>
 
@@ -412,11 +450,11 @@ export function Servicios() {
               className="mb-10"
             >
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground/50">
-                Complementos cuando el caso lo pide
+                Otros servicios / productos
               </p>
             </motion.div>
 
-            <div className="grid gap-px overflow-hidden rounded-3xl bg-border/40 md:grid-cols-3">
+            <div className="grid gap-px overflow-hidden rounded-3xl bg-border/40 md:grid-cols-2 xl:grid-cols-3">
               {complementaryServices.map((service, index) => (
                 <motion.div
                   key={service.title}
@@ -432,6 +470,14 @@ export function Servicios() {
                   </div>
                   <h3 className="mb-3 text-lg font-semibold text-foreground">{service.title}</h3>
                   <p className="text-sm leading-relaxed text-muted-foreground">{service.description}</p>
+                  <Link
+                    to={buildQuotePageHref(service.product)}
+                    onClick={() => trackQuoteClick("services_other_product", service.product)}
+                    className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-accent transition-colors hover:text-accent/75"
+                  >
+                    Consultar este servicio
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
                 </motion.div>
               ))}
             </div>

@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import { ArrowRight, BarChart3, TrendingUp, Users } from "lucide-react";
 import {
-  QUOTE_PAGE_HREF,
   SERVICES_PAGE_HREF,
 } from "../lib/contact";
+import { trackDiagnosisClick } from "../lib/analytics";
 import { InteractiveDashboard } from "./HeroDashboard";
 
 export function Hero() {
@@ -63,6 +63,7 @@ export function Hero() {
               <div className="flex flex-col gap-4 sm:flex-row">
                 <a
                   href="#contacto"
+                  onClick={() => trackDiagnosisClick("hero")}
                   className="group inline-flex items-center justify-center rounded-full bg-accent px-8 py-4 text-base font-medium text-accent-foreground transition-all duration-300 hover:scale-[1.02] hover:bg-accent/90 hover:shadow-xl hover:shadow-accent/25"
                 >
                   Solicitar diagnóstico
@@ -72,17 +73,7 @@ export function Hero() {
                   to={SERVICES_PAGE_HREF}
                   className="inline-flex items-center justify-center rounded-full border border-border bg-white px-8 py-4 text-base font-medium transition-all duration-300 hover:border-accent/40 hover:bg-accent/5"
                 >
-                  Ver servicios
-                </Link>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
-                <Link
-                  to={QUOTE_PAGE_HREF}
-                  className="inline-flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-accent"
-                >
-                  Pedir presupuesto
-                  <span className="text-accent/60">→</span>
+                  Ver servicios / Pedir cotización
                 </Link>
               </div>
             </motion.div>
