@@ -20,7 +20,6 @@ import {
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import {
-  PRIMARY_SERVICE_PAGE_HREF,
   QUOTE_PAGE_HREF,
   ROOT_DIAGNOSTIC_SECTION_HREF,
   SERVICES_PAGE_HREF,
@@ -219,12 +218,6 @@ export function Servicios() {
                   className="inline-flex items-center justify-center rounded-full border border-border bg-white px-7 py-3.5 text-sm font-medium text-foreground transition-all duration-300 hover:border-accent/35 hover:bg-accent/5 hover:text-accent"
                 >
                   Pedir presupuesto
-                </Link>
-                <Link
-                  to={PRIMARY_SERVICE_PAGE_HREF}
-                  className="inline-flex items-center justify-center rounded-full border border-border bg-white px-7 py-3.5 text-sm font-medium text-foreground transition-all duration-300 hover:border-accent/35 hover:bg-accent/5 hover:text-accent"
-                >
-                  Ver página específica
                 </Link>
               </div>
 

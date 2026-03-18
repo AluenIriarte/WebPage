@@ -194,16 +194,22 @@ export function DemoDashboard() {
                   </p>
                 </div>
 
-                <div className="grid gap-3 sm:grid-cols-3">
-                  {[
-                    "Dirección comercial",
-                    "Clientes y riesgo",
-                    "Margen y mix",
-                  ].map((item) => (
-                    <div key={item} className="rounded-2xl border border-border/50 bg-white px-4 py-3 text-sm font-medium text-foreground/80">
-                      {item}
-                    </div>
-                  ))}
+                <div className="space-y-3">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">
+                    Qué vas a ver en esta demo
+                  </p>
+                  <div className="flex flex-wrap gap-x-5 gap-y-2">
+                    {[
+                      "Dirección comercial",
+                      "Clientes y riesgo",
+                      "Margen y mix",
+                    ].map((item) => (
+                      <div key={item} className="inline-flex items-center gap-2 text-sm font-medium text-foreground/78">
+                        <span className="h-1.5 w-1.5 rounded-full bg-accent/65" />
+                        {item}
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
                 <div className="flex flex-col gap-3 sm:flex-row">

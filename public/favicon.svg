@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Alan Perez">
+  <defs>
+    <linearGradient id="accent" x1="10%" y1="10%" x2="90%" y2="90%">
+      <stop offset="0%" stop-color="#8B5CF6" />
+      <stop offset="100%" stop-color="#5B4EE8" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="18" fill="#0F172A" />
+  <path d="M18 45 29.5 17h5L46 45h-6l-2.6-6.8H26.6L24 45h-6Zm10.5-11.7h7L32 24.4l-3.5 8.9Z" fill="url(#accent)" />
+  <path d="M40.8 18.5c4.1 2.6 6.2 7 6.2 12.6 0 5.8-2.2 10.3-6.5 12.9" fill="none" stroke="#22D3EE" stroke-linecap="round" stroke-width="3.2" />
+</svg>
