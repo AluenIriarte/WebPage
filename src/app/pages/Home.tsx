@@ -19,13 +19,13 @@ export function Home() {
       <main>
         <Hero />
         <CredibilityBand />
-        <LeadMagnetSection />
         <UnifiedProblem />
         <StatInterstitial />
         <MiniCasesSection />
         <ValueProposition />
         <CredibilitySection />
         <EntryOffer />
+        <LeadMagnetSection />
         <FAQSection />
         <ContactClose />
       </main>

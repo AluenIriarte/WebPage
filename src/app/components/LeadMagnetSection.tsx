@@ -121,32 +121,17 @@ export function LeadMagnetSection() {
                             </div>
 
                             <p className="mt-4 max-w-2xl text-lg font-medium leading-snug text-foreground sm:text-[1.45rem]">
-                              Una guía breve para detectar señales comerciales que hoy podrían estar ocultas en tus datos.
+                              Framework de Diagnóstico Comercial
                             </p>
 
                             <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-[0.98rem]">
-                              Un primer filtro ejecutivo para entender si el problema está en clientes, mix, margen o foco comercial antes de pedir un tablero.
+                              Cómo detectar oportunidades ocultas en tu base de clientes, priorizar cartera y decidir con criterio comercial.
                             </p>
-
-                            <ul className="mt-5 grid gap-3 text-sm text-foreground/82 sm:grid-cols-2 sm:text-[0.95rem]">
-                              <li className="flex items-start gap-3">
-                                <span className="mt-2 h-2 w-2 rounded-full bg-accent" />
-                                Clientes perdidos o inactivos
-                              </li>
-                              <li className="flex items-start gap-3">
-                                <span className="mt-2 h-2 w-2 rounded-full bg-accent" />
-                                Mix de productos desaprovechado
-                              </li>
-                              <li className="flex items-start gap-3 sm:col-span-2">
-                                <span className="mt-2 h-2 w-2 rounded-full bg-accent" />
-                                Foco comercial mal distribuido
-                              </li>
-                            </ul>
 
                             <button
                               type="button"
                               onClick={() => setSelectedResourceId(resource.id)}
-                              className="group mt-7 inline-flex h-[50px] items-center justify-center gap-2 rounded-full bg-accent px-7 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent/92 hover:shadow-[0_20px_35px_rgba(122,92,255,0.28)] sm:h-[52px] sm:px-8"
+                              className="group mt-6 inline-flex h-[50px] items-center justify-center gap-2 rounded-full bg-accent px-7 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent/92 hover:shadow-[0_20px_35px_rgba(122,92,255,0.28)] sm:h-[52px] sm:px-8"
                             >
                               Solicitar recurso
                               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
