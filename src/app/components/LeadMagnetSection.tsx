@@ -1,16 +1,10 @@
 import { FormEvent, useMemo, useState } from "react";
 import { motion } from "motion/react";
-import { ArrowRight, Check, Mail } from "lucide-react";
+import { ArrowRight, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { AUTO_DIAGNOSTIC_THANKYOU_HREF } from "../lib/contact";
 import { trackFormSubmit } from "../lib/analytics";
 import { freeResources } from "../lib/free-resources";
-
-const benefitPoints = [
-  "Clientes perdidos o inactivos",
-  "Mix de productos desaprovechado",
-  "Foco comercial mal distribuido",
-];
 
 const initialForm = {
   nombre: "",
@@ -96,82 +90,51 @@ export function LeadMagnetSection() {
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.56, delay: 0.08 }}
           className="mx-auto mt-14 max-w-5xl"
-          style={{ perspective: "1200px" }}
         >
           {freeResources.map((resource) => {
             const isSelected = selectedResourceId === resource.id;
 
             return (
-              <motion.div
-                key={resource.id}
-                animate={{ rotateY: isSelected ? 180 : 0 }}
-                transition={{ duration: 0.48, ease: [0.22, 1, 0.36, 1] }}
-                style={{ transformStyle: "preserve-3d" }}
-                className="relative min-h-[700px] sm:min-h-[560px] lg:min-h-[430px]"
-              >
-                <div
-                  className="absolute inset-0 rounded-[2.25rem] border border-border/55 bg-white shadow-[0_28px_80px_rgba(15,23,42,0.08)]"
-                  style={{ backfaceVisibility: "hidden" }}
+              <div key={resource.id} className="mx-auto max-w-2xl">
+                <motion.div
+                  layout
+                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                  className="flex flex-col items-center"
                 >
-                  <div className="grid gap-10 px-6 py-8 lg:grid-cols-[0.28fr_0.72fr] lg:gap-10 lg:px-8 lg:py-8">
-                    <div className="flex justify-center lg:justify-start">
-                      <div className="lg:-translate-y-3">
-                        <ResourceCover title={resource.title} type={resource.type} coverSrc={resource.coverSrc} />
-                      </div>
-                    </div>
+                  <motion.div
+                    layout
+                    transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                    className={isSelected ? "scale-[0.96]" : ""}
+                  >
+                    <ResourceCover title={resource.title} type={resource.type} coverSrc={resource.coverSrc} />
+                  </motion.div>
 
-                    <div className="flex flex-col justify-center">
-                      <div className="inline-flex w-fit items-center gap-2 rounded-full border border-accent/12 bg-accent/[0.06] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-accent/80">
-                        <Mail className="h-3.5 w-3.5" />
-                        Se envía por email
-                      </div>
+                  {!isSelected ? (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.35 }}
+                      className="mt-6"
+                    >
+                      <button
+                        type="button"
+                        onClick={() => setSelectedResourceId(resource.id)}
+                        className="group inline-flex h-[50px] items-center justify-center gap-2 rounded-full bg-accent px-8 text-sm font-medium text-white transition-all duration-300 hover:scale-[1.01] hover:bg-accent/90 hover:shadow-lg hover:shadow-accent/20"
+                      >
+                        Solicitar recurso
+                        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      </button>
+                    </motion.div>
+                  ) : null}
 
-                      <h3 className="mt-5 max-w-2xl text-[1.9rem] font-semibold leading-[1.06] tracking-tight text-foreground lg:text-[2.2rem]">
-                        Una autoevaluación breve para detectar señales comerciales que hoy podrían estar ocultas en tus datos.
-                      </h3>
-
-                      <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base">
-                        Un recurso pensado para revisar por tu cuenta si hoy hay clientes, margen u oportunidades que tu operación todavía no está viendo con claridad.
-                      </p>
-
-                      <div className="mt-6 grid gap-3 sm:grid-cols-3">
-                        {benefitPoints.map((point) => (
-                          <div
-                            key={point}
-                            className="flex items-start gap-3 rounded-[1.2rem] border border-border/50 bg-[#FAFAF8] px-4 py-3 text-sm leading-relaxed text-foreground/78"
-                          >
-                            <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-accent" />
-                            <span>{point}</span>
-                          </div>
-                        ))}
-                      </div>
-
-                      <div className="mt-8">
-                        <button
-                          type="button"
-                          onClick={() => setSelectedResourceId(resource.id)}
-                          className="group inline-flex h-[50px] items-center justify-center gap-2 rounded-full bg-accent px-8 text-sm font-medium text-white transition-all duration-300 hover:scale-[1.01] hover:bg-accent/90 hover:shadow-lg hover:shadow-accent/20"
-                        >
-                          Solicitar recurso
-                          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  className="absolute inset-0 rounded-[2.25rem] border border-border/55 bg-white shadow-[0_28px_80px_rgba(15,23,42,0.08)]"
-                  style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
-                >
-                  <div className="grid gap-10 px-6 py-8 lg:grid-cols-[0.28fr_0.72fr] lg:gap-10 lg:px-8 lg:py-8">
-                    <div className="flex justify-center lg:justify-start">
-                      <div className="lg:-translate-y-3">
-                        <ResourceCover title={resource.title} type={resource.type} coverSrc={resource.coverSrc} />
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col justify-center">
+                  {isSelected ? (
+                    <motion.div
+                      initial={{ opacity: 0, y: 18 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.35 }}
+                      className="mt-8 w-full rounded-[2rem] border border-border/55 bg-white p-6 shadow-[0_28px_80px_rgba(15,23,42,0.08)] lg:p-7"
+                    >
                       <div className="inline-flex w-fit items-center gap-2 rounded-full border border-accent/12 bg-accent/[0.06] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-accent/80">
                         <Mail className="h-3.5 w-3.5" />
                         Completar datos
@@ -238,10 +201,10 @@ export function LeadMagnetSection() {
                           </button>
                         </div>
                       </form>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
+                    </motion.div>
+                  ) : null}
+                </motion.div>
+              </div>
             );
           })}
         </motion.div>
