@@ -1,9 +1,9 @@
 import { FormEvent, useMemo, useState } from "react";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { AUTO_DIAGNOSTIC_THANKYOU_HREF } from "../lib/contact";
 import { trackFormSubmit } from "../lib/analytics";
+import { AUTO_DIAGNOSTIC_THANKYOU_HREF } from "../lib/contact";
 import { freeResources } from "../lib/free-resources";
 
 const initialForm = {
@@ -22,7 +22,7 @@ function ResourceCover({
   coverSrc: string;
 }) {
   return (
-    <div className="relative mx-auto w-full max-w-[240px] overflow-hidden rounded-[1.75rem] border border-[#D9DCE8] bg-white shadow-[0_26px_65px_rgba(15,23,42,0.20)]">
+    <div className="relative mx-auto w-full max-w-[198px] overflow-hidden rounded-none border border-[#D9DCE8] bg-white shadow-[0_28px_60px_rgba(15,23,42,0.16)]">
       <img src={coverSrc} alt={title} className="h-auto w-full object-cover" />
 
       <div className="pointer-events-none absolute left-3 top-3 inline-flex items-center rounded-full bg-[#12192D]/88 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-white shadow-sm backdrop-blur-sm">
@@ -95,115 +95,144 @@ export function LeadMagnetSection() {
             const isSelected = selectedResourceId === resource.id;
 
             return (
-              <div key={resource.id} className="mx-auto max-w-2xl">
-                <motion.div
-                  layout
-                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                  className="flex flex-col items-center"
-                >
-                  <motion.div
-                    layout
-                    transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                    className={isSelected ? "scale-[0.96]" : ""}
-                  >
-                    <ResourceCover title={resource.title} type={resource.type} coverSrc={resource.coverSrc} />
-                  </motion.div>
-
-                  {!isSelected ? (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.35 }}
-                      className="mt-6"
-                    >
-                      <button
-                        type="button"
-                        onClick={() => setSelectedResourceId(resource.id)}
-                        className="group inline-flex h-[50px] items-center justify-center gap-2 rounded-full bg-accent px-8 text-sm font-medium text-white transition-all duration-300 hover:scale-[1.01] hover:bg-accent/90 hover:shadow-lg hover:shadow-accent/20"
+              <div key={resource.id} className="mx-auto max-w-4xl">
+                <div className="mx-auto [perspective:1600px]">
+                  <AnimatePresence mode="wait" initial={false}>
+                    {!isSelected ? (
+                      <motion.div
+                        key={`${resource.id}-front`}
+                        initial={{ opacity: 0, rotateY: 8, y: 18 }}
+                        animate={{ opacity: 1, rotateY: 0, y: 0 }}
+                        exit={{ opacity: 0, rotateY: -8, y: -12 }}
+                        transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
+                        className="rounded-[2rem] border border-border/60 bg-white px-6 py-7 shadow-[0_30px_90px_rgba(15,23,42,0.08)] sm:px-7 lg:px-8 lg:py-8"
                       >
-                        Solicitar recurso
-                        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                      </button>
-                    </motion.div>
-                  ) : null}
+                        <div className="flex flex-col gap-8 lg:grid lg:grid-cols-[minmax(0,210px)_minmax(0,1fr)] lg:items-center lg:gap-10">
+                          <div className="flex justify-center lg:justify-start">
+                            <div className="translate-y-1 lg:-translate-y-3">
+                              <ResourceCover title={resource.title} type={resource.type} coverSrc={resource.coverSrc} />
+                            </div>
+                          </div>
 
-                  {isSelected ? (
-                    <motion.div
-                      initial={{ opacity: 0, y: 18 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.35 }}
-                      className="mt-8 w-full rounded-[2rem] border border-border/55 bg-white p-6 shadow-[0_28px_80px_rgba(15,23,42,0.08)] lg:p-7"
-                    >
-                      <div className="inline-flex w-fit items-center gap-2 rounded-full border border-accent/12 bg-accent/[0.06] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-accent/80">
-                        <Mail className="h-3.5 w-3.5" />
-                        Completar datos
-                      </div>
+                          <div className="flex flex-col items-start">
+                            <div className="inline-flex items-center gap-2 rounded-full border border-accent/12 bg-accent/[0.06] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-accent/80">
+                              <Mail className="h-3.5 w-3.5" />
+                              Se envía por email
+                            </div>
 
-                      <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base">
-                        Completá tus datos y te enviamos el recurso para que lo revises con calma.
-                      </p>
+                            <p className="mt-4 max-w-2xl text-lg font-medium leading-snug text-foreground sm:text-[1.45rem]">
+                              Una guía breve para detectar señales comerciales que hoy podrían estar ocultas en tus datos.
+                            </p>
 
-                      <form onSubmit={handleSubmit} className="mt-6 grid gap-4">
-                        <div className="grid gap-4 lg:grid-cols-2">
+                            <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-[0.98rem]">
+                              Un primer filtro ejecutivo para entender si el problema está en clientes, mix, margen o foco comercial antes de pedir un tablero.
+                            </p>
+
+                            <ul className="mt-5 grid gap-3 text-sm text-foreground/82 sm:grid-cols-2 sm:text-[0.95rem]">
+                              <li className="flex items-start gap-3">
+                                <span className="mt-2 h-2 w-2 rounded-full bg-accent" />
+                                Clientes perdidos o inactivos
+                              </li>
+                              <li className="flex items-start gap-3">
+                                <span className="mt-2 h-2 w-2 rounded-full bg-accent" />
+                                Mix de productos desaprovechado
+                              </li>
+                              <li className="flex items-start gap-3 sm:col-span-2">
+                                <span className="mt-2 h-2 w-2 rounded-full bg-accent" />
+                                Foco comercial mal distribuido
+                              </li>
+                            </ul>
+
+                            <button
+                              type="button"
+                              onClick={() => setSelectedResourceId(resource.id)}
+                              className="group mt-7 inline-flex h-[50px] items-center justify-center gap-2 rounded-full bg-accent px-7 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent/92 hover:shadow-[0_20px_35px_rgba(122,92,255,0.28)] sm:h-[52px] sm:px-8"
+                            >
+                              Solicitar recurso
+                              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                            </button>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key={`${resource.id}-back`}
+                        initial={{ opacity: 0, rotateY: 8, y: 18 }}
+                        animate={{ opacity: 1, rotateY: 0, y: 0 }}
+                        exit={{ opacity: 0, rotateY: -8, y: -12 }}
+                        transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
+                        className="rounded-[2rem] border border-border/60 bg-white px-6 py-7 shadow-[0_30px_90px_rgba(15,23,42,0.08)] sm:px-7 lg:px-8 lg:py-8"
+                      >
+                        <div className="inline-flex w-fit items-center gap-2 rounded-full border border-accent/12 bg-accent/[0.06] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-accent/80">
+                          <Mail className="h-3.5 w-3.5" />
+                          Completar datos
+                        </div>
+
+                        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-[0.98rem]">
+                          Completá tus datos y te enviamos el recurso para que lo revises con calma.
+                        </p>
+
+                        <form onSubmit={handleSubmit} className="mt-6 grid gap-4">
+                          <div className="grid gap-4 lg:grid-cols-2">
+                            <label className="grid gap-2">
+                              <span className="text-sm font-medium text-foreground">Nombre</span>
+                              <input
+                                type="text"
+                                required
+                                value={form.nombre}
+                                onChange={(event) => setForm((current) => ({ ...current, nombre: event.target.value }))}
+                                className="rounded-[1.15rem] border border-border bg-[#FAFAF8] px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-accent/35"
+                                placeholder="Alan"
+                              />
+                            </label>
+
+                            <label className="grid gap-2">
+                              <span className="text-sm font-medium text-foreground">Email</span>
+                              <input
+                                type="email"
+                                required
+                                value={form.email}
+                                onChange={(event) => setForm((current) => ({ ...current, email: event.target.value }))}
+                                className="rounded-[1.15rem] border border-border bg-[#FAFAF8] px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-accent/35"
+                                placeholder="nombre@empresa.com"
+                              />
+                            </label>
+                          </div>
+
                           <label className="grid gap-2">
-                            <span className="text-sm font-medium text-foreground">Nombre</span>
+                            <span className="text-sm font-medium text-foreground">Empresa</span>
                             <input
                               type="text"
-                              required
-                              value={form.nombre}
-                              onChange={(event) => setForm((current) => ({ ...current, nombre: event.target.value }))}
+                              value={form.empresa}
+                              onChange={(event) => setForm((current) => ({ ...current, empresa: event.target.value }))}
                               className="rounded-[1.15rem] border border-border bg-[#FAFAF8] px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-accent/35"
-                              placeholder="Alan"
+                              placeholder="Opcional"
                             />
                           </label>
 
-                          <label className="grid gap-2">
-                            <span className="text-sm font-medium text-foreground">Email</span>
-                            <input
-                              type="email"
-                              required
-                              value={form.email}
-                              onChange={(event) => setForm((current) => ({ ...current, email: event.target.value }))}
-                              className="rounded-[1.15rem] border border-border bg-[#FAFAF8] px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-accent/35"
-                              placeholder="nombre@empresa.com"
-                            />
-                          </label>
-                        </div>
+                          <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center">
+                            <button
+                              type="submit"
+                              className="group inline-flex h-[50px] items-center justify-center gap-2 rounded-full bg-accent px-7 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent/92 hover:shadow-[0_20px_35px_rgba(122,92,255,0.28)] sm:h-[52px] sm:px-8"
+                            >
+                              Recibir guía por email
+                              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                            </button>
 
-                        <label className="grid gap-2">
-                          <span className="text-sm font-medium text-foreground">Empresa</span>
-                          <input
-                            type="text"
-                            value={form.empresa}
-                            onChange={(event) => setForm((current) => ({ ...current, empresa: event.target.value }))}
-                            className="rounded-[1.15rem] border border-border bg-[#FAFAF8] px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-accent/35"
-                            placeholder="Opcional"
-                          />
-                        </label>
-
-                        <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center">
-                          <button
-                            type="submit"
-                            className="group inline-flex h-[50px] items-center justify-center gap-2 rounded-full bg-accent px-8 text-sm font-medium text-white transition-all duration-300 hover:scale-[1.01] hover:bg-accent/90 hover:shadow-lg hover:shadow-accent/20"
-                          >
-                            Recibir guía por email
-                            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                          </button>
-
-                          <button
-                            type="button"
-                            onClick={() => setSelectedResourceId(null)}
-                            className="inline-flex items-center gap-2 text-sm font-medium text-foreground/68 transition-colors hover:text-accent"
-                          >
-                            Volver
-                            <ArrowRight className="h-4 w-4 rotate-180" />
-                          </button>
-                        </div>
-                      </form>
-                    </motion.div>
-                  ) : null}
-                </motion.div>
+                            <button
+                              type="button"
+                              onClick={() => setSelectedResourceId(null)}
+                              className="inline-flex items-center gap-2 text-sm font-medium text-foreground/68 transition-colors hover:text-accent"
+                            >
+                              Volver
+                              <ArrowRight className="h-4 w-4 rotate-180" />
+                            </button>
+                          </div>
+                        </form>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
               </div>
             );
           })}
