@@ -1,17 +1,13 @@
 import { useEffect } from "react";
 import { motion } from "motion/react";
-import { ArrowRight, BarChart3, ClipboardCheck, FileText, MessageSquareMore } from "lucide-react";
+import { ArrowRight, BarChart3, ClipboardCheck, Home, MessageSquareMore } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import publishingKitPdf from "../../../assets/docs/Publishing Kit - PDF (17).pdf";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import {
   DEMO_PAGE_HREF,
   ROOT_DIAGNOSTIC_SECTION_HREF,
-  ROOT_MINI_CASES_SECTION_HREF,
 } from "../lib/contact";
-import { getFreeResource } from "../lib/free-resources";
-import { trackGuideClick } from "../lib/analytics";
 
 const nextSteps = [
   {
@@ -29,11 +25,11 @@ const nextSteps = [
     internal: false,
   },
   {
-    icon: FileText,
-    title: "Ver caso aplicado",
-    description: "Si preferís seguir entendiendo cómo aterriza esto en negocio, acá tenés un caso corto para verlo más claro.",
-    href: ROOT_MINI_CASES_SECTION_HREF,
-    internal: false,
+    icon: Home,
+    title: "Volver a Home",
+    description: "Si querés seguir recorriendo la web con la historia completa, desde acá volvés al inicio.",
+    href: "/",
+    internal: true,
   },
 ];
 
@@ -66,8 +62,6 @@ export function GraciasAutoDiagnostico() {
   const nombre = request?.nombre?.trim();
   const email = request?.email?.trim();
   const recurso = request?.recurso?.trim();
-  const selectedResource = getFreeResource(request?.recursoId);
-  const resourceHref = request?.recursoHref?.trim() || selectedResource?.pageHref || "";
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
@@ -97,40 +91,18 @@ export function GraciasAutoDiagnostico() {
                   </span>
                 </div>
                 <h1 className="text-4xl font-semibold leading-[1.08] tracking-tight text-foreground md:text-5xl">
-                  {nombre ? `${nombre}, ya tenés el siguiente paso listo.` : "Ya tenés el siguiente paso listo."}
+                  {nombre ? `¡Gracias, ${nombre}! Ya enviamos el recurso a tu email.` : "¡Gracias! Ya enviamos el recurso a tu email."}
                 </h1>
                 <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">
                   {email
-                    ? `Tomé tu pedido con ${email}. Mientras cerramos la entrega automática por email, podés abrir el recurso ahora y seguir por uno de estos caminos.`
-                    : "Ya quedó pedido tu recurso. Mientras cerramos la entrega automática por email, podés abrirlo ahora y seguir por uno de estos caminos."}
+                    ? `Tomamos tu pedido con ${email}. Mientras tanto, podés seguir por uno de estos caminos según tu momento actual.`
+                    : "Mientras tanto, podés seguir por uno de estos caminos según tu momento actual."}
                 </p>
                 {recurso ? (
                   <p className="mt-3 text-sm font-medium text-foreground/70">
                     Recurso solicitado: {recurso}
                   </p>
                 ) : null}
-              </div>
-
-              <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-                {resourceHref ? (
-                  <Link
-                    to={resourceHref}
-                    onClick={() => trackGuideClick("thank_you_page", request?.recursoId || "resource_page")}
-                    className="inline-flex items-center justify-center rounded-full bg-accent px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-accent/90"
-                  >
-                    Abrir el recurso ahora
-                  </Link>
-                ) : (
-                  <a
-                    href={publishingKitPdf}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => trackGuideClick("thank_you_page", "publishing_kit_pdf")}
-                    className="inline-flex items-center justify-center rounded-full bg-accent px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-accent/90"
-                  >
-                    Abrir el recurso ahora
-                  </a>
-                )}
               </div>
             </motion.div>
 

@@ -18,6 +18,7 @@ export function Home() {
       <Header />
       <main>
         <Hero />
+        <LeadMagnetSection />
         <CredibilityBand />
         <UnifiedProblem />
         <StatInterstitial />
@@ -25,7 +26,6 @@ export function Home() {
         <ValueProposition />
         <CredibilitySection />
         <EntryOffer />
-        <LeadMagnetSection />
         <FAQSection />
         <ContactClose />
       </main>

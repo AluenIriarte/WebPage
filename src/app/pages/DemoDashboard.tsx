@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { InteractiveDashboard } from "../components/HeroDashboard";
+import { OpportunitiesSection } from "../components/OpportunitiesSection";
 import {
   QUOTE_PAGE_HREF,
   ROOT_DIAGNOSTIC_SECTION_HREF,
@@ -259,6 +260,8 @@ export function DemoDashboard() {
             </motion.div>
           </div>
         </section>
+
+        <OpportunitiesSection />
 
         <section className="pb-24">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
