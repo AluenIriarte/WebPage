@@ -7,15 +7,7 @@ import {
   ROOT_DIAGNOSTIC_SECTION_HREF,
 } from "../lib/contact";
 import { trackFormSubmit } from "../lib/analytics";
-
-const resources = [
-  {
-    id: "autoevaluacion-ejecutiva",
-    type: "PDF",
-    title: "Autoevaluación ejecutiva",
-    description: "Señales clave para detectar oportunidades ocultas en tus ventas.",
-  },
-] as const;
+import { freeResources } from "../lib/free-resources";
 
 const initialForm = {
   nombre: "",
@@ -27,9 +19,9 @@ export function LeadMagnetSection() {
   const navigate = useNavigate();
   const formRef = useRef<HTMLDivElement | null>(null);
   const [form, setForm] = useState(initialForm);
-  const [selectedResourceId, setSelectedResourceId] = useState<(typeof resources)[number]["id"] | null>(null);
+  const [selectedResourceId, setSelectedResourceId] = useState<string | null>(null);
 
-  const selectedResource = resources.find((resource) => resource.id === selectedResourceId) ?? null;
+  const selectedResource = freeResources.find((resource) => resource.id === selectedResourceId) ?? null;
 
   useEffect(() => {
     if (!selectedResourceId || !formRef.current) {
@@ -44,7 +36,9 @@ export function LeadMagnetSection() {
 
     const payload = {
       ...form,
+      recursoId: selectedResource?.id ?? "",
       recurso: selectedResource?.title ?? "",
+      recursoHref: selectedResource?.pageHref ?? "",
     };
 
     if (typeof window !== "undefined") {
@@ -89,7 +83,7 @@ export function LeadMagnetSection() {
           transition={{ duration: 0.65, delay: 0.08 }}
           className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-3"
         >
-          {resources.map((resource) => {
+          {freeResources.map((resource) => {
             const isSelected = resource.id === selectedResourceId;
 
             return (

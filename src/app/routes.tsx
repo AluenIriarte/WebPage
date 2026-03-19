@@ -77,6 +77,13 @@ export const router = createBrowserRouter([
         },
       },
       {
+        path: "recursos/autoevaluacion-ejecutiva",
+        lazy: async () => {
+          const { AutoevaluacionEjecutiva } = await import("./pages/recursos/AutoevaluacionEjecutiva");
+          return { Component: AutoevaluacionEjecutiva };
+        },
+      },
+      {
         path: "recursos/kpis-comerciales",
         lazy: async () => {
           const { KpisComerciales } = await import("./pages/recursos/KpisComerciales");

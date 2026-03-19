@@ -10,6 +10,7 @@ import {
   ROOT_DIAGNOSTIC_SECTION_HREF,
   ROOT_MINI_CASES_SECTION_HREF,
 } from "../lib/contact";
+import { getFreeResource } from "../lib/free-resources";
 import { trackGuideClick } from "../lib/analytics";
 
 const nextSteps = [
@@ -40,7 +41,9 @@ type RequestState = {
   nombre?: string;
   email?: string;
   empresa?: string;
+  recursoId?: string;
   recurso?: string;
+  recursoHref?: string;
 };
 
 export function GraciasAutoDiagnostico() {
@@ -63,6 +66,8 @@ export function GraciasAutoDiagnostico() {
   const nombre = request?.nombre?.trim();
   const email = request?.email?.trim();
   const recurso = request?.recurso?.trim();
+  const selectedResource = getFreeResource(request?.recursoId);
+  const resourceHref = request?.recursoHref?.trim() || selectedResource?.pageHref || "";
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
@@ -107,15 +112,25 @@ export function GraciasAutoDiagnostico() {
               </div>
 
               <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-                <a
-                  href={publishingKitPdf}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => trackGuideClick("thank_you_page", "publishing_kit_pdf")}
-                  className="inline-flex items-center justify-center rounded-full bg-accent px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-accent/90"
-                >
-                  Abrir el recurso ahora
-                </a>
+                {resourceHref ? (
+                  <Link
+                    to={resourceHref}
+                    onClick={() => trackGuideClick("thank_you_page", request?.recursoId || "resource_page")}
+                    className="inline-flex items-center justify-center rounded-full bg-accent px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-accent/90"
+                  >
+                    Abrir el recurso ahora
+                  </Link>
+                ) : (
+                  <a
+                    href={publishingKitPdf}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackGuideClick("thank_you_page", "publishing_kit_pdf")}
+                    className="inline-flex items-center justify-center rounded-full bg-accent px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-accent/90"
+                  >
+                    Abrir el recurso ahora
+                  </a>
+                )}
               </div>
             </motion.div>
 

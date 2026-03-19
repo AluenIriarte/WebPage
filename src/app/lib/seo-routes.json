@@ -251,6 +251,56 @@
       ]
     },
     {
+      "path": "/recursos/autoevaluacion-ejecutiva",
+      "title": "Autoevaluación ejecutiva de visibilidad comercial | Alan L. Perez",
+      "description": "Recurso gratuito para detectar si hoy te faltan señales críticas sobre clientes, margen, mix y foco comercial antes de invertir en un dashboard.",
+      "canonical": "https://alanlperez.com/recursos/autoevaluacion-ejecutiva",
+      "robots": "noindex,follow",
+      "ogType": "article",
+      "schema": [
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "Autoevaluación ejecutiva de visibilidad comercial",
+          "description": "Recurso gratuito para detectar si hoy te faltan señales críticas sobre clientes, margen, mix y foco comercial antes de invertir en un dashboard.",
+          "author": {
+            "@type": "Person",
+            "name": "Alan L. Perez"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Alan L. Perez"
+          },
+          "mainEntityOfPage": "https://alanlperez.com/recursos/autoevaluacion-ejecutiva",
+          "inLanguage": "es"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Inicio",
+              "item": "https://alanlperez.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Recursos",
+              "item": "https://alanlperez.com/recursos"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Autoevaluación ejecutiva",
+              "item": "https://alanlperez.com/recursos/autoevaluacion-ejecutiva"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "path": "/recursos/kpis-comerciales",
       "title": "KPIs comerciales: la guía definitiva para medir lo que importa | Alan L. Perez",
       "description": "Guía de KPIs comerciales para definir qué indicadores seguir, cómo elegirlos y cómo usarlos para tomar mejores decisiones de ventas.",
