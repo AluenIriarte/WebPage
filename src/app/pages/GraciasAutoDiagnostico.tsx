@@ -1,41 +1,68 @@
 import { useEffect } from "react";
 import { motion } from "motion/react";
-import { ArrowRight, BarChart3, ClipboardCheck, FileSearch, MessageSquareMore } from "lucide-react";
-import { Link } from "react-router-dom";
+import { ArrowRight, BarChart3, ClipboardCheck, FileText, MessageSquareMore } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import publishingKitPdf from "../../../assets/docs/Publishing Kit - PDF (17).pdf";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import {
   DEMO_PAGE_HREF,
-  QUOTE_PAGE_HREF,
   ROOT_DIAGNOSTIC_SECTION_HREF,
-  SERVICES_PAGE_HREF,
+  ROOT_MINI_CASES_SECTION_HREF,
 } from "../lib/contact";
+import { trackGuideClick } from "../lib/analytics";
 
 const nextSteps = [
   {
-    icon: FileSearch,
-    title: "Ver servicios",
-    description: "Si todavía estás comparando opciones, esta es la mejor forma de ordenar qué hago y cuándo conviene cada cosa.",
-    href: SERVICES_PAGE_HREF,
-    internal: true,
-  },
-  {
     icon: BarChart3,
-    title: "Ver demo completa",
-    description: "Si querés algo tangible antes de hablar, la demo te muestra cómo se traduce esto en vistas y señales concretas.",
+    title: "Ver demo real",
+    description: "Si querés algo tangible antes de hablar, esta es la mejor forma de ver cómo se traduce en vistas y señales concretas.",
     href: DEMO_PAGE_HREF,
     internal: true,
   },
   {
     icon: MessageSquareMore,
-    title: "Ir al diagnóstico",
-    description: "Si ya sabés que querés revisar tu caso, esta es la salida más directa para el lead tibio o avanzado.",
+    title: "Agendar diagnóstico",
+    description: "Si ya querés revisar tu caso, esta es la salida más directa para avanzar con contexto real.",
     href: ROOT_DIAGNOSTIC_SECTION_HREF,
+    internal: false,
+  },
+  {
+    icon: FileText,
+    title: "Ver caso aplicado",
+    description: "Si preferís seguir entendiendo cómo aterriza esto en negocio, acá tenés un caso corto para verlo más claro.",
+    href: ROOT_MINI_CASES_SECTION_HREF,
     internal: false,
   },
 ];
 
+type RequestState = {
+  nombre?: string;
+  email?: string;
+  empresa?: string;
+  desafio?: string;
+};
+
 export function GraciasAutoDiagnostico() {
+  const location = useLocation();
+  const routeState = (location.state as RequestState | null) ?? null;
+
+  let sessionState: RequestState | null = null;
+  if (typeof window !== "undefined") {
+    const stored = window.sessionStorage.getItem("leadmagnet_request");
+    if (stored) {
+      try {
+        sessionState = JSON.parse(stored) as RequestState;
+      } catch {
+        sessionState = null;
+      }
+    }
+  }
+
+  const request = routeState ?? sessionState;
+  const nombre = request?.nombre?.trim();
+  const email = request?.email?.trim();
+
   useEffect(() => {
     window.scrollTo({ top: 0 });
   }, []);
@@ -60,16 +87,29 @@ export function GraciasAutoDiagnostico() {
                 <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-accent/15 bg-accent/8 px-4 py-2">
                   <ClipboardCheck className="h-3.5 w-3.5 text-accent" />
                   <span className="text-xs font-semibold tracking-wide text-accent">
-                    Siguiente paso sugerido
+                    Recurso solicitado
                   </span>
                 </div>
                 <h1 className="text-4xl font-semibold leading-[1.08] tracking-tight text-foreground md:text-5xl">
-                  Listo. Ya tenés una primera lectura.
+                  {nombre ? `${nombre}, ya tenés el siguiente paso listo.` : "Ya tenés el siguiente paso listo."}
                 </h1>
                 <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-                  Ahora la pregunta ya no es si mirar esto o no, sino cuál de estos caminos te sirve
-                  más según tu temperatura actual.
+                  {email
+                    ? `Tomé tu pedido con ${email}. Mientras cerramos la entrega automática por email, podés abrir el recurso ahora y seguir por uno de estos caminos.`
+                    : "Ya quedó pedido tu recurso. Mientras cerramos la entrega automática por email, podés abrirlo ahora y seguir por uno de estos caminos."}
                 </p>
+              </div>
+
+              <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+                <a
+                  href={publishingKitPdf}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackGuideClick("thank_you_page", "publishing_kit_pdf")}
+                  className="inline-flex items-center justify-center rounded-full bg-accent px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-accent/90"
+                >
+                  Abrir el recurso ahora
+                </a>
               </div>
             </motion.div>
 
@@ -109,30 +149,6 @@ export function GraciasAutoDiagnostico() {
                 </motion.article>
               ))}
             </div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.5 }}
-              className="mt-10 flex flex-col gap-4 rounded-3xl bg-foreground p-8 text-background lg:flex-row lg:items-center lg:justify-between"
-            >
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/40">
-                  Intención alta
-                </p>
-                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/72">
-                  Si ya sabés que querés avanzar con un dashboard a medida y no necesitás tanta
-                  exploración previa, podés ir directo al flujo de presupuesto.
-                </p>
-              </div>
-              <Link
-                to={QUOTE_PAGE_HREF}
-                className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-accent hover:text-white"
-              >
-                Pedir presupuesto
-              </Link>
-            </motion.div>
           </div>
         </section>
       </main>

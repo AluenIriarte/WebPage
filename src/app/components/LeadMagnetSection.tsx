@@ -1,31 +1,58 @@
+import { FormEvent, useState } from "react";
 import { motion } from "motion/react";
-import { ArrowRight, Download, Mail, Sparkles } from "lucide-react";
-import publishingKitPdf from "../../../assets/docs/Publishing Kit - PDF (17).pdf";
-import { ROOT_DIAGNOSTIC_SECTION_HREF } from "../lib/contact";
-import { trackGuideClick } from "../lib/analytics";
+import { ArrowRight, Mail, Sparkles } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import {
+  AUTO_DIAGNOSTIC_THANKYOU_HREF,
+  ROOT_DIAGNOSTIC_SECTION_HREF,
+} from "../lib/contact";
+import { trackFormSubmit } from "../lib/analytics";
 
 const previewBlocks = [
   {
     label: "Cartera y riesgo",
-    note: "Qué mirar primero para detectar cuentas en enfriamiento antes de perderlas.",
+    note: "Detectá si hoy hay cuentas que se están enfriando antes de que eso aparezca en facturación.",
   },
   {
     label: "Margen y mix",
-    note: "Dónde se erosiona rentabilidad y qué combinaciones conviene revisar con más criterio.",
+    note: "Entendé dónde se erosiona rentabilidad aunque el volumen todavía siga sosteniéndose.",
   },
   {
-    label: "Expansión y foco",
-    note: "Qué señales priorizar antes de sumar más reportes o más reuniones vacías.",
+    label: "Foco comercial",
+    note: "Identificá si hoy el problema es falta de señales, exceso de reportes o mala priorización.",
   },
 ];
 
 const highlights = [
-  "Mantiene la presencia visual del auto-diagnóstico original",
-  "Sirve para testear interés mientras definimos el asset final",
-  "Después lo conectamos a envío automático por email y CRM",
+  "Te ayuda a entender qué te falta ver antes de pedir un dashboard",
+  "Ordena si el problema hoy es cartera, margen, mix o foco comercial",
+  "Te deja mejor parado para avanzar a demo, caso aplicado o diagnóstico",
 ];
 
+const initialForm = {
+  nombre: "",
+  email: "",
+  empresa: "",
+  desafio: "",
+};
+
 export function LeadMagnetSection() {
+  const navigate = useNavigate();
+  const [form, setForm] = useState(initialForm);
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (typeof window !== "undefined") {
+      window.sessionStorage.setItem("leadmagnet_request", JSON.stringify(form));
+    }
+
+    trackFormSubmit("lead_magnet_request");
+    navigate(AUTO_DIAGNOSTIC_THANKYOU_HREF, {
+      state: form,
+    });
+  }
+
   return (
     <section id="recurso" className="bg-[#F8F8F6] py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -47,15 +74,15 @@ export function LeadMagnetSection() {
                 <div className="inline-flex items-center gap-2 rounded-full border border-accent/15 bg-accent/8 px-3 py-1.5">
                   <Sparkles className="h-3.5 w-3.5 text-accent" />
                   <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-accent">
-                    Auto-diagnóstico ejecutivo
+                    Autoevaluación ejecutiva
                   </span>
                 </div>
                 <h3 className="mt-4 text-2xl font-semibold tracking-tight text-foreground">
-                  Un preview claro de qué conviene mirar primero en tu lectura comercial.
+                  Una guía corta para detectar si hoy te faltan señales críticas para decidir mejor.
                 </h3>
                 <p className="mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground">
-                  Recupera la presencia visual del auto-diagnóstico, pero esta sección queda enfocada
-                  en el activo que después vas a poder enviar por email.
+                  Resuelve el problema previo al dashboard: entender qué no estás viendo hoy en
+                  cartera, margen, mix y foco comercial.
                 </p>
               </div>
 
@@ -77,7 +104,7 @@ export function LeadMagnetSection() {
                     Resultado
                   </p>
                   <p className="mt-2 text-base font-semibold text-foreground">
-                    Un activo visual para entender rápido por dónde conviene empezar.
+                    Claridad inicial para saber si hoy necesitás foco, lectura o un sistema de visibilidad real.
                   </p>
                 </div>
               </div>
@@ -99,12 +126,12 @@ export function LeadMagnetSection() {
                 </span>
               </div>
               <h2 className="text-3xl font-semibold leading-[1.06] tracking-tight text-foreground md:text-4xl lg:text-5xl">
-                Si todavía no querés hablar, podés llevarte un{" "}
-                <span className="text-accent">activo de muestra</span>
+                Si todavía no querés hablar, empezá por una{" "}
+                <span className="text-accent">autoevaluación ejecutiva</span>
               </h2>
               <p className="max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
-                Por ahora dejo un PDF de prueba para validar interés y sostener la lógica de regalo.
-                El siguiente paso es conectarlo al envío automático por email con el asset final.
+                Dejame tus datos y te llevo al siguiente paso con una guía breve para entender si hoy
+                tu operación comercial está trabajando con visibilidad incompleta.
               </p>
             </div>
 
@@ -117,29 +144,71 @@ export function LeadMagnetSection() {
               ))}
             </div>
 
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <a
-                href={publishingKitPdf}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => trackGuideClick("home_lead_magnet", "publishing_kit_pdf")}
-                className="group inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-accent/90"
-              >
-                Abrir asset de prueba
-                <Download className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
-              </a>
-              <a
-                href={ROOT_DIAGNOSTIC_SECTION_HREF}
-                className="inline-flex items-center justify-center rounded-full border border-border bg-white px-7 py-3.5 text-sm font-medium text-foreground transition-colors hover:border-accent/35 hover:text-accent"
-              >
-                Prefiero diagnóstico
-              </a>
-            </div>
+            <form onSubmit={handleSubmit} className="rounded-[2rem] border border-border/60 bg-white p-6 shadow-xl shadow-black/[0.04]">
+              <div className="grid gap-4">
+                <label className="grid gap-2">
+                  <span className="text-sm font-medium text-foreground">Nombre</span>
+                  <input
+                    type="text"
+                    required
+                    value={form.nombre}
+                    onChange={(event) => setForm((current) => ({ ...current, nombre: event.target.value }))}
+                    className="rounded-2xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-accent/35"
+                    placeholder="Tu nombre"
+                  />
+                </label>
 
-            <p className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground">
-              <ArrowRight className="h-4 w-4 text-accent" />
-              Cuando definamos el asset final, este bloque pasa a entrega automática por email.
-            </p>
+                <label className="grid gap-2">
+                  <span className="text-sm font-medium text-foreground">Email</span>
+                  <input
+                    type="email"
+                    required
+                    value={form.email}
+                    onChange={(event) => setForm((current) => ({ ...current, email: event.target.value }))}
+                    className="rounded-2xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-accent/35"
+                    placeholder="nombre@empresa.com"
+                  />
+                </label>
+
+                <label className="grid gap-2">
+                  <span className="text-sm font-medium text-foreground">Empresa</span>
+                  <input
+                    type="text"
+                    value={form.empresa}
+                    onChange={(event) => setForm((current) => ({ ...current, empresa: event.target.value }))}
+                    className="rounded-2xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-accent/35"
+                    placeholder="Opcional"
+                  />
+                </label>
+
+                <label className="grid gap-2">
+                  <span className="text-sm font-medium text-foreground">Qué te preocupa hoy</span>
+                  <textarea
+                    rows={3}
+                    value={form.desafio}
+                    onChange={(event) => setForm((current) => ({ ...current, desafio: event.target.value }))}
+                    className="resize-none rounded-2xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-accent/35"
+                    placeholder="Clientes, margen, mix, foco comercial..."
+                  />
+                </label>
+
+                <button
+                  type="submit"
+                  className="group inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-accent/90"
+                >
+                  Quiero la autoevaluación
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </button>
+              </div>
+            </form>
+
+            <a
+              href={ROOT_DIAGNOSTIC_SECTION_HREF}
+              className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-accent"
+            >
+              Prefiero ir directo a diagnóstico
+              <ArrowRight className="h-4 w-4" />
+            </a>
           </motion.div>
         </div>
       </div>
