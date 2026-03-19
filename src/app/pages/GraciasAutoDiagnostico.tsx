@@ -40,7 +40,7 @@ type RequestState = {
   nombre?: string;
   email?: string;
   empresa?: string;
-  desafio?: string;
+  recurso?: string;
 };
 
 export function GraciasAutoDiagnostico() {
@@ -62,6 +62,7 @@ export function GraciasAutoDiagnostico() {
   const request = routeState ?? sessionState;
   const nombre = request?.nombre?.trim();
   const email = request?.email?.trim();
+  const recurso = request?.recurso?.trim();
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
@@ -98,6 +99,11 @@ export function GraciasAutoDiagnostico() {
                     ? `Tomé tu pedido con ${email}. Mientras cerramos la entrega automática por email, podés abrir el recurso ahora y seguir por uno de estos caminos.`
                     : "Ya quedó pedido tu recurso. Mientras cerramos la entrega automática por email, podés abrirlo ahora y seguir por uno de estos caminos."}
                 </p>
+                {recurso ? (
+                  <p className="mt-3 text-sm font-medium text-foreground/70">
+                    Recurso solicitado: {recurso}
+                  </p>
+                ) : null}
               </div>
 
               <div className="mt-8 flex flex-col gap-4 sm:flex-row">
