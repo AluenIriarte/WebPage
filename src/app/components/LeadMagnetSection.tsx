@@ -1,6 +1,6 @@
 import { FormEvent, useMemo, useState } from "react";
 import { motion } from "motion/react";
-import { ArrowRight, Check, FileText, Mail } from "lucide-react";
+import { ArrowRight, Check, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { AUTO_DIAGNOSTIC_THANKYOU_HREF } from "../lib/contact";
 import { trackFormSubmit } from "../lib/analytics";
@@ -18,26 +18,21 @@ const initialForm = {
   empresa: "",
 };
 
-function ResourceCover({ title, type }: { title: string; type: string }) {
+function ResourceCover({
+  title,
+  type,
+  coverSrc,
+}: {
+  title: string;
+  type: string;
+  coverSrc: string;
+}) {
   return (
-    <div className="relative mx-auto w-full max-w-[240px] overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#12192D] px-5 py-5 text-white shadow-[0_26px_65px_rgba(15,23,42,0.28)]">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(139,92,246,0.34),transparent_42%),radial-gradient(circle_at_bottom_left,rgba(34,211,238,0.10),transparent_28%)]" />
-      <div className="absolute right-4 top-4 h-10 w-10 rounded-full border border-white/10" />
+    <div className="relative mx-auto w-full max-w-[240px] overflow-hidden rounded-[1.75rem] border border-[#D9DCE8] bg-white shadow-[0_26px_65px_rgba(15,23,42,0.20)]">
+      <img src={coverSrc} alt={title} className="h-auto w-full object-cover" />
 
-      <div className="relative flex min-h-[260px] flex-col justify-between">
-        <div className="inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/6 px-3 py-1.5">
-          <FileText className="h-3.5 w-3.5 text-cyan-300" />
-          <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/72">
-            {type}
-          </span>
-        </div>
-
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan-300/78">
-            Recurso
-          </p>
-          <h3 className="mt-3 text-[1.68rem] font-semibold leading-[1.02] tracking-tight">{title}</h3>
-        </div>
+      <div className="pointer-events-none absolute left-3 top-3 inline-flex items-center rounded-full bg-[#12192D]/88 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-white shadow-sm backdrop-blur-sm">
+        {type}
       </div>
     </div>
   );
@@ -121,7 +116,7 @@ export function LeadMagnetSection() {
                   <div className="grid gap-10 px-6 py-8 lg:grid-cols-[0.28fr_0.72fr] lg:gap-10 lg:px-8 lg:py-8">
                     <div className="flex justify-center lg:justify-start">
                       <div className="lg:-translate-y-3">
-                        <ResourceCover title={resource.title} type={resource.type} />
+                        <ResourceCover title={resource.title} type={resource.type} coverSrc={resource.coverSrc} />
                       </div>
                     </div>
 
@@ -172,7 +167,7 @@ export function LeadMagnetSection() {
                   <div className="grid gap-10 px-6 py-8 lg:grid-cols-[0.28fr_0.72fr] lg:gap-10 lg:px-8 lg:py-8">
                     <div className="flex justify-center lg:justify-start">
                       <div className="lg:-translate-y-3">
-                        <ResourceCover title={resource.title} type={resource.type} />
+                        <ResourceCover title={resource.title} type={resource.type} coverSrc={resource.coverSrc} />
                       </div>
                     </div>
 

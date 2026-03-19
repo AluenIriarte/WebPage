@@ -2,42 +2,47 @@ import { useEffect } from "react";
 import { motion } from "motion/react";
 import { ArrowRight, Download, FileText, LineChart, Radar, Users } from "lucide-react";
 import { Link } from "react-router-dom";
+import leadmagnet5PalancasCover from "../../../../assets/leadmagnets/5 palancas/Page01Cover.png";
+import leadmagnet5PalancasPage02 from "../../../../assets/leadmagnets/5 palancas/Page02Thesis.png";
+import leadmagnet5PalancasPage04 from "../../../../assets/leadmagnets/5 palancas/Page04ClientesPerdidos.png";
+import leadmagnet5PalancasPage10 from "../../../../assets/leadmagnets/5 palancas/Page10Checklist.png";
+import leadmagnet5PalancasPdf from "../../../../assets/leadmagnets/5 palancas/5 palancas comerciales.pdf";
 import { ResourceLayout } from "./ResourceLayout";
 import { DEMO_PAGE_HREF, ROOT_DIAGNOSTIC_SECTION_HREF } from "../../lib/contact";
 
 const signals = [
   {
     icon: Users,
-    title: "Clientes en riesgo",
+    title: "Clientes perdidos o inactivos",
     description:
-      "Señales para detectar cuentas que se enfrían antes de que la pérdida quede consolidada en la facturación.",
+      "Cómo detectar cuentas que se enfrían antes de que la caída ya impacte en la facturación.",
   },
   {
     icon: LineChart,
-    title: "Margen y mix",
+    title: "Mix y margen",
     description:
-      "Qué mirar para entender si el volumen se sostiene, pero la rentabilidad ya empezó a deteriorarse.",
+      "Qué mirar para no confundir volumen con rentabilidad y empezar a priorizar mejor.",
   },
   {
     icon: Radar,
     title: "Foco comercial",
     description:
-      "Cómo distinguir si hoy faltan señales útiles, criterio de lectura o una capa real de visibilidad comercial.",
+      "Qué señales ayudan a ordenar mejor el esfuerzo del equipo y a detectar oportunidades reales.",
   },
 ];
 
-const levels = [
+const previewPages = [
   {
-    title: "Visibilidad baja",
-    description: "Todavía decidís más por intuición que por una lectura consistente del negocio.",
+    title: "Marco inicial",
+    image: leadmagnet5PalancasPage02,
   },
   {
-    title: "Visibilidad parcial",
-    description: "Hay datos y reportes, pero todavía no están traducidos a prioridades claras.",
+    title: "Clientes perdidos",
+    image: leadmagnet5PalancasPage04,
   },
   {
-    title: "Visibilidad sólida",
-    description: "Ya existe una base útil y el siguiente salto es refinar foco, alertas y decisiones.",
+    title: "Checklist final",
+    image: leadmagnet5PalancasPage10,
   },
 ];
 
@@ -49,43 +54,48 @@ export function AutoevaluacionEjecutiva() {
   return (
     <ResourceLayout>
       <section className="bg-[#F8F8F6] pb-20 pt-20 lg:pb-28 lg:pt-24">
-        <div className="mx-auto max-w-5xl px-6 lg:px-8">
+        <div className="mx-auto max-w-6xl px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 22 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="rounded-[2rem] border border-border/60 bg-white p-8 shadow-2xl shadow-black/[0.04] lg:p-10"
+            className="grid gap-8 rounded-[2rem] border border-border/60 bg-white p-8 shadow-2xl shadow-black/[0.04] lg:grid-cols-[0.34fr_0.66fr] lg:p-10"
           >
-            <div className="inline-flex items-center gap-2 rounded-full border border-accent/15 bg-accent/8 px-4 py-2">
-              <FileText className="h-3.5 w-3.5 text-accent" />
-              <span className="text-xs font-semibold tracking-wide text-accent">
-                Recurso gratuito
-              </span>
+            <div className="flex justify-center lg:justify-start">
+              <div className="w-full max-w-[260px] overflow-hidden rounded-[1.8rem] border border-border/50 bg-white shadow-[0_22px_60px_rgba(15,23,42,0.16)]">
+                <img src={leadmagnet5PalancasCover} alt="5 palancas comerciales" className="h-auto w-full object-cover" />
+              </div>
             </div>
 
-            <h1 className="mt-6 text-4xl font-semibold leading-[1.05] tracking-tight text-foreground md:text-5xl">
-              Autoevaluación ejecutiva para detectar si hoy te faltan señales críticas para decidir mejor.
-            </h1>
-            <p className="mt-5 max-w-3xl text-lg leading-relaxed text-muted-foreground">
-              Esta lectura corta resuelve el problema previo al dashboard: entender si hoy te falta
-              claridad sobre clientes, margen, mix y foco comercial.
-            </p>
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-accent/15 bg-accent/8 px-4 py-2">
+                <FileText className="h-3.5 w-3.5 text-accent" />
+                <span className="text-xs font-semibold tracking-wide text-accent">Recurso gratuito</span>
+              </div>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <button
-                type="button"
-                onClick={() => window.print()}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-accent/90"
-              >
-                Descargar como PDF
-                <Download className="h-4 w-4" />
-              </button>
-              <Link
-                to={DEMO_PAGE_HREF}
-                className="inline-flex items-center justify-center rounded-full border border-border bg-white px-7 py-3.5 text-sm font-medium text-foreground transition-colors hover:border-accent/35 hover:text-accent"
-              >
-                Ver demo completa
-              </Link>
+              <h1 className="mt-6 text-4xl font-semibold leading-[1.05] tracking-tight text-foreground md:text-5xl">
+                5 palancas comerciales para detectar oportunidades ocultas en tus ventas.
+              </h1>
+              <p className="mt-5 max-w-3xl text-lg leading-relaxed text-muted-foreground">
+                Una guía ejecutiva para revisar dónde se están perdiendo clientes, margen o foco comercial antes de pedir un dashboard o una capa nueva de visibilidad.
+              </p>
+
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <a
+                  href={leadmagnet5PalancasPdf}
+                  download="5-palancas-comerciales.pdf"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-accent/90"
+                >
+                  Descargar PDF
+                  <Download className="h-4 w-4" />
+                </a>
+                <Link
+                  to={DEMO_PAGE_HREF}
+                  className="inline-flex items-center justify-center rounded-full border border-border bg-white px-7 py-3.5 text-sm font-medium text-foreground transition-colors hover:border-accent/35 hover:text-accent"
+                >
+                  Ver demo completa
+                </Link>
+              </div>
             </div>
           </motion.div>
 
@@ -117,15 +127,30 @@ export function AutoevaluacionEjecutiva() {
             transition={{ duration: 0.5 }}
             className="mt-10 rounded-[2rem] border border-border/60 bg-white p-8 shadow-2xl shadow-black/[0.03] lg:p-10"
           >
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-accent/70">
-              Cómo leer el resultado
-            </p>
-            <div className="mt-6 grid gap-4 md:grid-cols-3">
-              {levels.map((level) => (
-                <div key={level.title} className="rounded-[1.6rem] border border-border/50 bg-[#F8F8F6] p-5">
-                  <h3 className="text-lg font-semibold tracking-tight text-foreground">{level.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{level.description}</p>
-                </div>
+            <div className="flex flex-col gap-2">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-accent/70">
+                Vista previa del recurso
+              </p>
+              <h2 className="text-3xl font-semibold tracking-tight text-foreground">
+                Algunas páginas que vas a encontrar adentro
+              </h2>
+            </div>
+
+            <div className="mt-8 grid gap-5 lg:grid-cols-3">
+              {previewPages.map((page, index) => (
+                <motion.article
+                  key={page.title}
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-30px" }}
+                  transition={{ duration: 0.45, delay: index * 0.08 }}
+                  className="overflow-hidden rounded-[1.8rem] border border-border/55 bg-[#FAFAF8]"
+                >
+                  <img src={page.image} alt={page.title} className="h-auto w-full object-cover" />
+                  <div className="border-t border-border/50 px-5 py-4">
+                    <p className="text-sm font-medium text-foreground/74">{page.title}</p>
+                  </div>
+                </motion.article>
               ))}
             </div>
           </motion.section>
@@ -146,8 +171,7 @@ export function AutoevaluacionEjecutiva() {
                   Si esto te resonó, el paso siguiente no es mirar más datos.
                 </h2>
                 <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/70">
-                  El paso siguiente es construir una capa de visibilidad útil para decidir mejor:
-                  demo si querés ver algo tangible, o diagnóstico si querés revisar tu caso real.
+                  El siguiente paso es construir una capa de visibilidad útil para decidir mejor: demo si querés ver algo tangible, o diagnóstico si querés revisar tu caso real.
                 </p>
               </div>
 
