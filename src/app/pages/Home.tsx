@@ -18,8 +18,8 @@ export function Home() {
       <Header />
       <main>
         <Hero />
-        <LeadMagnetSection />
         <CredibilityBand />
+        <LeadMagnetSection />
         <UnifiedProblem />
         <StatInterstitial />
         <MiniCasesSection />
