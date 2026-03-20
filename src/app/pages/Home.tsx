@@ -8,7 +8,6 @@ import { Header } from "../components/Header";
 import { Hero } from "../components/Hero";
 import { LeadMagnetSection } from "../components/LeadMagnetSection";
 import { MiniCasesSection } from "../components/MiniCasesSection";
-import { ServicesShowcase } from "../components/services/ServicesShowcase";
 import { StatInterstitial } from "../components/StatInterstitial";
 import { UnifiedProblem } from "../components/UnifiedProblem";
 import { ValueProposition } from "../components/ValueProposition";
@@ -24,12 +23,6 @@ export function Home() {
         <StatInterstitial />
         <MiniCasesSection />
         <ValueProposition />
-        <ServicesShowcase
-          eyebrow="Servicios"
-          title="Cuatro líneas claras para resolver visibilidad, eficiencia y activos comerciales."
-          description="Si el problema ya está claro, desde acá podés entrar por el servicio correcto y arrancar el mismo flujo de diagnóstico con el caso ya contextualizado."
-          compact
-        />
         <CredibilitySection />
         <EntryOffer />
         <LeadMagnetSection />

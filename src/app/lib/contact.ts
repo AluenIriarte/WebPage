@@ -8,9 +8,20 @@ export const DEMO_PAGE_HREF = "/demo-dashboard";
 export const AUTO_DIAGNOSTIC_PAGE_HREF = "/auto-diagnostico";
 export const AUTO_DIAGNOSTIC_THANKYOU_HREF = "/gracias/auto-diagnostico";
 export const ROOT_MINI_CASES_SECTION_HREF = "/#mini-casos";
-export const PRIMARY_SERVICE_PAGE_HREF = "/servicios/dashboard-a-medida";
+export const PRIMARY_SERVICE_PAGE_HREF = "/dashboard-de-ventas-power-bi";
 
-const quoteSubject = "Consulta por servicio a medida";
+const quoteSubject = "Consulta por dashboard de ventas a medida";
+
+export const PRODUCT_OPTIONS = [
+  "Dashboard de ventas / BI comercial a medida",
+  "Dashboard para otra área",
+  "Automatización / RPA",
+  "IA aplicada al negocio",
+  "Acompañamiento y capacitación",
+  "Página web / landing page",
+  "Activos comerciales y de marca",
+  "Sistema de contenido / calendario editorial",
+] as const;
 
 export function buildQuotePageHref(product?: string) {
   if (!product) {
@@ -48,26 +59,23 @@ export function buildQuoteEmailBody(fields: Partial<QuoteBriefFields> = {}) {
   return [
     "Hola Alan,",
     "",
-    "Quiero consultar por uno de tus servicios.",
+    "Quiero pedir una cotización para un dashboard a medida.",
     "",
     `Producto o servicio: ${producto}`,
     `Empresa: ${empresa}`,
     `Rol: ${rol}`,
-    `Que necesito ver: ${objetivo}`,
+    `Qué necesito ver: ${objetivo}`,
     `Fuentes o herramientas actuales: ${fuentes}`,
-    `Quienes lo van a usar: ${destinatarios}`,
+    `Quiénes lo van a usar: ${destinatarios}`,
     `Plazo estimado: ${plazo}`,
-    `Contexto o desafio principal: ${desafio}`,
+    `Contexto o desafío principal: ${desafio}`,
     "",
     "Gracias.",
   ].join("\n");
 }
 
 export function buildQuoteEmailHref(fields: Partial<QuoteBriefFields> = {}) {
-  const subjectLine = normalizeField(fields.producto)
-    ? `Consulta por ${normalizeField(fields.producto)}`
-    : quoteSubject;
-  const subject = encodeURIComponent(subjectLine);
+  const subject = encodeURIComponent(quoteSubject);
   const body = encodeURIComponent(buildQuoteEmailBody(fields));
   return `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
 }

@@ -21,34 +21,6 @@ export const router = createBrowserRouter([
         },
       },
       {
-        path: "servicios/dashboard-a-medida",
-        lazy: async () => {
-          const { DashboardAMedida } = await import("./pages/services/DashboardAMedida");
-          return { Component: DashboardAMedida };
-        },
-      },
-      {
-        path: "servicios/automatizacion-de-procesos",
-        lazy: async () => {
-          const { AutomatizacionDeProcesos } = await import("./pages/services/AutomatizacionDeProcesos");
-          return { Component: AutomatizacionDeProcesos };
-        },
-      },
-      {
-        path: "servicios/paginas-web-y-landings",
-        lazy: async () => {
-          const { PaginasWebYLandings } = await import("./pages/services/PaginasWebYLandings");
-          return { Component: PaginasWebYLandings };
-        },
-      },
-      {
-        path: "servicios/branding-kits",
-        lazy: async () => {
-          const { BrandingKits } = await import("./pages/services/BrandingKits");
-          return { Component: BrandingKits };
-        },
-      },
-      {
         path: "dashboard-de-ventas-power-bi",
         lazy: async () => {
           const { DashboardVentasPowerBi } = await import("./pages/DashboardVentasPowerBi");
