@@ -1,6 +1,13 @@
 import { motion } from "motion/react";
 import { Users, TrendingUp, ShoppingCart, BarChart2, Layers, Clock, ArrowRight } from "lucide-react";
 
+interface OpportunitiesSectionProps {
+  footerText?: string;
+  footerHref?: string;
+  footerLabel?: string;
+  sectionId?: string;
+}
+
 const opportunities = [
   {
     icon: Users,
@@ -52,9 +59,14 @@ const opportunities = [
   },
 ];
 
-export function OpportunitiesSection() {
+export function OpportunitiesSection({
+  footerText = "Cada una de estas señales puede estar activa en tu negocio hoy, sin que sea visible en los reportes habituales.",
+  footerHref = "#mini-casos",
+  footerLabel = "Ver mini-casos",
+  sectionId = "oportunidades",
+}: OpportunitiesSectionProps) {
   return (
-    <section id="oportunidades" className="py-20 lg:py-28 bg-white">
+    <section id={sectionId} className="py-20 lg:py-28 bg-white">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -118,15 +130,12 @@ export function OpportunitiesSection() {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="mt-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-8 border-t border-border/40"
         >
-          <p className="text-sm text-muted-foreground max-w-sm leading-relaxed">
-            Cada una de estas señales puede estar activa en tu negocio hoy, sin que sea visible en los
-            reportes habituales.
-          </p>
+          <p className="text-sm text-muted-foreground max-w-sm leading-relaxed">{footerText}</p>
           <a
-            href="#mini-casos"
+            href={footerHref}
             className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent/75 transition-colors duration-200 group flex-shrink-0"
           >
-            Ver mini-casos
+            {footerLabel}
             <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
           </a>
         </motion.div>
