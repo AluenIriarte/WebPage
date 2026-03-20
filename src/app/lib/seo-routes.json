@@ -2,7 +2,7 @@
   "siteUrl": "https://alanlperez.com",
   "defaults": {
     "title": "Alan L. Perez | Business Intelligence Comercial",
-    "description": "Sistemas de decisión comercial, dashboards ejecutivos y Business Intelligence aplicado a ventas.",
+    "description": "Sistemas de decision comercial, dashboards ejecutivos y Business Intelligence aplicado a ventas.",
     "robots": "index,follow",
     "ogType": "website",
     "twitterCard": "summary"
@@ -26,16 +26,16 @@
     },
     {
       "path": "/servicios",
-      "title": "Servicios de dashboards a medida, BI comercial y automatización | Alan L. Perez",
-      "description": "Servicios de dashboard de ventas a medida, tableros comerciales, BI para equipos de ventas, automatización de reportes e IA aplicada al negocio.",
+      "title": "Servicios B2B: dashboards, automatizacion, landings y branding kits | Alan L. Perez",
+      "description": "Cuatro lineas de servicio B2B: dashboard a medida, automatizacion de procesos, paginas web y landings, y branding kits para ordenar decision, eficiencia y activos comerciales.",
       "canonical": "https://alanlperez.com/servicios",
       "ogType": "website",
       "schema": [
         {
           "@context": "https://schema.org",
           "@type": "Service",
-          "name": "Dashboards de ventas y BI comercial a medida",
-          "serviceType": "Desarrollo de dashboards de ventas, tableros comerciales y sistemas de Business Intelligence",
+          "name": "Servicios B2B de Alan L. Perez",
+          "serviceType": "Dashboard a medida, automatizacion de procesos, paginas web y landings, branding kits",
           "provider": {
             "@type": "Person",
             "name": "Alan L. Perez",
@@ -48,16 +48,108 @@
       ]
     },
     {
+      "path": "/servicios/dashboard-a-medida",
+      "title": "Dashboard a medida para ventas, operaciones y direccion | Alan L. Perez",
+      "description": "Servicio de dashboard a medida para integrar ventas, proveedores, presupuesto, performance y operaciones con una capa de visibilidad real para decidir mejor.",
+      "canonical": "https://alanlperez.com/servicios/dashboard-a-medida",
+      "ogType": "website",
+      "schema": [
+        {
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "name": "Dashboard a medida",
+          "serviceType": "Diseño de dashboards a medida para ventas, operaciones, proveedores y direccion",
+          "provider": {
+            "@type": "Person",
+            "name": "Alan L. Perez",
+            "url": "https://alanlperez.com/"
+          },
+          "url": "https://alanlperez.com/servicios/dashboard-a-medida",
+          "areaServed": "AR",
+          "inLanguage": "es"
+        }
+      ]
+    },
+    {
+      "path": "/servicios/automatizacion-de-procesos",
+      "title": "Automatizacion de procesos administrativos y operativos | Alan L. Perez",
+      "description": "Servicio de automatizacion de procesos para reducir tareas manuales, errores y tiempos operativos en circuitos administrativos, comerciales y repetitivos.",
+      "canonical": "https://alanlperez.com/servicios/automatizacion-de-procesos",
+      "ogType": "website",
+      "schema": [
+        {
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "name": "Automatizacion de procesos",
+          "serviceType": "Automatizacion de tareas administrativas, operativas y repetitivas",
+          "provider": {
+            "@type": "Person",
+            "name": "Alan L. Perez",
+            "url": "https://alanlperez.com/"
+          },
+          "url": "https://alanlperez.com/servicios/automatizacion-de-procesos",
+          "areaServed": "AR",
+          "inLanguage": "es"
+        }
+      ]
+    },
+    {
+      "path": "/servicios/paginas-web-y-landings",
+      "title": "Paginas web y landings B2B orientadas a conversion | Alan L. Perez",
+      "description": "Servicio de paginas web y landings B2B para ordenar oferta, mejorar claridad comercial y convertir trafico de outreach, contenido o campañas en conversaciones.",
+      "canonical": "https://alanlperez.com/servicios/paginas-web-y-landings",
+      "ogType": "website",
+      "schema": [
+        {
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "name": "Paginas web y landings",
+          "serviceType": "Diseño y desarrollo de paginas web y landings orientadas a conversion",
+          "provider": {
+            "@type": "Person",
+            "name": "Alan L. Perez",
+            "url": "https://alanlperez.com/"
+          },
+          "url": "https://alanlperez.com/servicios/paginas-web-y-landings",
+          "areaServed": "AR",
+          "inLanguage": "es"
+        }
+      ]
+    },
+    {
+      "path": "/servicios/branding-kits",
+      "title": "Branding kits para publishing, delivery y brand system | Alan L. Perez",
+      "description": "Servicio de branding kits para construir publishing kit, delivery kit y brand kit como sistema de activos comerciales y visuales coherentes.",
+      "canonical": "https://alanlperez.com/servicios/branding-kits",
+      "ogType": "website",
+      "schema": [
+        {
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "name": "Branding kits",
+          "serviceType": "Publishing kit, delivery kit y brand kit como sistema de activos comerciales y visuales",
+          "provider": {
+            "@type": "Person",
+            "name": "Alan L. Perez",
+            "url": "https://alanlperez.com/"
+          },
+          "url": "https://alanlperez.com/servicios/branding-kits",
+          "areaServed": "AR",
+          "inLanguage": "es"
+        }
+      ]
+    },
+    {
       "path": "/dashboard-de-ventas-power-bi",
-      "title": "Dashboard de ventas y Power BI para dirección comercial | Alan L. Perez",
-      "description": "Servicio específico de dashboard de ventas y Power BI para dirección comercial, cartera, margen, metas y foco de lectura ejecutiva.",
+      "title": "Dashboard de ventas y Power BI para direccion comercial | Alan L. Perez",
+      "description": "Servicio especifico de dashboard de ventas y Power BI para direccion comercial, cartera, margen, metas y foco de lectura ejecutiva.",
       "canonical": "https://alanlperez.com/dashboard-de-ventas-power-bi",
       "ogType": "website",
       "schema": [
         {
           "@context": "https://schema.org",
           "@type": "Service",
-          "name": "Dashboard de ventas y Power BI para dirección comercial",
+          "name": "Dashboard de ventas y Power BI para direccion comercial",
           "serviceType": "Diseño de dashboard de ventas y BI comercial a medida",
           "provider": {
             "@type": "Person",
@@ -73,7 +165,7 @@
     {
       "path": "/demo-dashboard",
       "title": "Demo de dashboard de ventas y BI comercial | Alan L. Perez",
-      "description": "Demo interactiva de dashboard de ventas con vistas de dirección comercial, riesgo de clientes y margen para entender cómo se traduce en decisiones.",
+      "description": "Demo interactiva de dashboard de ventas con vistas de direccion comercial, ranking comercial, mix de productos y señales clave para entender como se traduce en decisiones.",
       "canonical": "https://alanlperez.com/demo-dashboard",
       "ogType": "website",
       "schema": [
@@ -88,8 +180,8 @@
     },
     {
       "path": "/auto-diagnostico",
-      "title": "Auto-diagnóstico comercial | Alan L. Perez",
-      "description": "Auto-diagnóstico guiado para evaluar si hoy tu equipo comercial decide con visibilidad real sobre cartera, margen y expansión.",
+      "title": "Auto-diagnostico comercial | Alan L. Perez",
+      "description": "Auto-diagnostico guiado para evaluar si hoy tu equipo comercial decide con visibilidad real sobre cartera, margen y expansion.",
       "canonical": "https://alanlperez.com/auto-diagnostico",
       "robots": "noindex,follow",
       "ogType": "website",
@@ -97,7 +189,7 @@
         {
           "@context": "https://schema.org",
           "@type": "WebPage",
-          "name": "Auto-diagnóstico comercial",
+          "name": "Auto-diagnostico comercial",
           "url": "https://alanlperez.com/auto-diagnostico",
           "inLanguage": "es"
         }
@@ -105,8 +197,8 @@
     },
     {
       "path": "/gracias/auto-diagnostico",
-      "title": "Próximos pasos | Alan L. Perez",
-      "description": "Elegí el siguiente paso después del auto-diagnóstico: demo, servicios, diagnóstico o presupuesto.",
+      "title": "Proximos pasos | Alan L. Perez",
+      "description": "Elegi el siguiente paso despues del recurso: ver demo, agendar diagnostico o volver al inicio.",
       "canonical": "https://alanlperez.com/gracias/auto-diagnostico",
       "robots": "noindex,follow",
       "ogType": "website",
@@ -114,7 +206,7 @@
         {
           "@context": "https://schema.org",
           "@type": "WebPage",
-          "name": "Próximos pasos después del auto-diagnóstico",
+          "name": "Proximos pasos despues del auto-diagnostico",
           "url": "https://alanlperez.com/gracias/auto-diagnostico",
           "inLanguage": "es"
         }
@@ -122,15 +214,15 @@
     },
     {
       "path": "/presupuesto-dashboard",
-      "title": "Pedir cotización para dashboard de ventas a medida | Alan L. Perez",
-      "description": "Pedí cotización para un dashboard de ventas, tablero comercial o sistema de BI a medida. Alcance, contexto y presupuesto por email.",
+      "title": "Diagnostico o cotizacion guiada para servicios B2B | Alan L. Perez",
+      "description": "Completa un brief guiado para dashboard a medida, automatizacion de procesos, paginas web y landings o branding kits. El servicio llega preseleccionado por defecto.",
       "canonical": "https://alanlperez.com/presupuesto-dashboard",
       "ogType": "website",
       "schema": [
         {
           "@context": "https://schema.org",
           "@type": "ContactPage",
-          "name": "Cotización para dashboard de ventas a medida",
+          "name": "Diagnostico o cotizacion guiada de servicios B2B",
           "url": "https://alanlperez.com/presupuesto-dashboard",
           "inLanguage": "es"
         }
@@ -138,15 +230,15 @@
     },
     {
       "path": "/recursos",
-      "title": "Guías de dashboard de ventas, tablero comercial y KPIs | Alan L. Perez",
-      "description": "Guías para entender dashboards, tableros de ventas y KPIs comerciales con foco en decisiones, visibilidad y rendimiento comercial.",
+      "title": "Guias de dashboard de ventas, tablero comercial y KPIs | Alan L. Perez",
+      "description": "Guias para entender dashboards, tableros de ventas y KPIs comerciales con foco en decisiones, visibilidad y rendimiento comercial.",
       "canonical": "https://alanlperez.com/recursos",
       "ogType": "website",
       "schema": [
         {
           "@context": "https://schema.org",
           "@type": "CollectionPage",
-          "name": "Recursos y guías de dashboards y KPIs comerciales",
+          "name": "Recursos y guias de dashboards y KPIs comerciales",
           "url": "https://alanlperez.com/recursos",
           "inLanguage": "es"
         }
@@ -154,16 +246,16 @@
     },
     {
       "path": "/recursos/que-es-un-dashboard",
-      "title": "¿Qué es un dashboard? Definición, tipos y para qué sirve | Alan L. Perez",
-      "description": "Qué es un dashboard, para qué sirve en una empresa y cómo se diferencia de un reporte. Guía práctica para entender dashboards comerciales.",
+      "title": "¿Que es un dashboard? Definicion, tipos y para que sirve | Alan L. Perez",
+      "description": "Que es un dashboard, para que sirve en una empresa y como se diferencia de un reporte. Guia practica para entender dashboards comerciales.",
       "canonical": "https://alanlperez.com/recursos/que-es-un-dashboard",
       "ogType": "article",
       "schema": [
         {
           "@context": "https://schema.org",
           "@type": "Article",
-          "headline": "¿Qué es un dashboard? Definición, tipos y para qué sirve",
-          "description": "Qué es un dashboard, para qué sirve en una empresa y cómo se diferencia de un reporte. Guía práctica para entender dashboards comerciales.",
+          "headline": "¿Que es un dashboard? Definicion, tipos y para que sirve",
+          "description": "Que es un dashboard, para que sirve en una empresa y como se diferencia de un reporte. Guia practica para entender dashboards comerciales.",
           "author": {
             "@type": "Person",
             "name": "Alan L. Perez"
@@ -194,7 +286,7 @@
             {
               "@type": "ListItem",
               "position": 3,
-              "name": "Qué es un dashboard",
+              "name": "Que es un dashboard",
               "item": "https://alanlperez.com/recursos/que-es-un-dashboard"
             }
           ]
@@ -203,16 +295,16 @@
     },
     {
       "path": "/recursos/dashboard-de-ventas",
-      "title": "Dashboard de ventas: qué medir, cómo estructurarlo y por qué importa | Alan L. Perez",
-      "description": "Aprendé qué medir en un dashboard de ventas, cómo estructurarlo y qué indicadores priorizar para tomar mejores decisiones comerciales.",
+      "title": "Dashboard de ventas: que medir, como estructurarlo y por que importa | Alan L. Perez",
+      "description": "Aprende que medir en un dashboard de ventas, como estructurarlo y que indicadores priorizar para tomar mejores decisiones comerciales.",
       "canonical": "https://alanlperez.com/recursos/dashboard-de-ventas",
       "ogType": "article",
       "schema": [
         {
           "@context": "https://schema.org",
           "@type": "Article",
-          "headline": "Dashboard de ventas: qué medir, cómo estructurarlo y por qué importa",
-          "description": "Aprendé qué medir en un dashboard de ventas, cómo estructurarlo y qué indicadores priorizar para tomar mejores decisiones comerciales.",
+          "headline": "Dashboard de ventas: que medir, como estructurarlo y por que importa",
+          "description": "Aprende que medir en un dashboard de ventas, como estructurarlo y que indicadores priorizar para tomar mejores decisiones comerciales.",
           "author": {
             "@type": "Person",
             "name": "Alan L. Perez"
@@ -252,8 +344,8 @@
     },
     {
       "path": "/recursos/autoevaluacion-ejecutiva",
-      "title": "Autoevaluación ejecutiva de visibilidad comercial | Alan L. Perez",
-      "description": "Recurso gratuito para detectar si hoy te faltan señales críticas sobre clientes, margen, mix y foco comercial antes de invertir en un dashboard.",
+      "title": "Autoevaluacion ejecutiva de visibilidad comercial | Alan L. Perez",
+      "description": "Recurso gratuito para detectar si hoy te faltan señales criticas sobre clientes, margen, mix y foco comercial antes de invertir en un dashboard.",
       "canonical": "https://alanlperez.com/recursos/autoevaluacion-ejecutiva",
       "robots": "noindex,follow",
       "ogType": "article",
@@ -261,8 +353,8 @@
         {
           "@context": "https://schema.org",
           "@type": "Article",
-          "headline": "Autoevaluación ejecutiva de visibilidad comercial",
-          "description": "Recurso gratuito para detectar si hoy te faltan señales críticas sobre clientes, margen, mix y foco comercial antes de invertir en un dashboard.",
+          "headline": "Autoevaluacion ejecutiva de visibilidad comercial",
+          "description": "Recurso gratuito para detectar si hoy te faltan señales criticas sobre clientes, margen, mix y foco comercial antes de invertir en un dashboard.",
           "author": {
             "@type": "Person",
             "name": "Alan L. Perez"
@@ -293,7 +385,7 @@
             {
               "@type": "ListItem",
               "position": 3,
-              "name": "Autoevaluación ejecutiva",
+              "name": "Autoevaluacion ejecutiva",
               "item": "https://alanlperez.com/recursos/autoevaluacion-ejecutiva"
             }
           ]
@@ -302,16 +394,16 @@
     },
     {
       "path": "/recursos/kpis-comerciales",
-      "title": "KPIs comerciales: la guía definitiva para medir lo que importa | Alan L. Perez",
-      "description": "Guía de KPIs comerciales para definir qué indicadores seguir, cómo elegirlos y cómo usarlos para tomar mejores decisiones de ventas.",
+      "title": "KPIs comerciales: la guia definitiva para medir lo que importa | Alan L. Perez",
+      "description": "Guia de KPIs comerciales para definir que indicadores seguir, como elegirlos y como usarlos para tomar mejores decisiones de ventas.",
       "canonical": "https://alanlperez.com/recursos/kpis-comerciales",
       "ogType": "article",
       "schema": [
         {
           "@context": "https://schema.org",
           "@type": "Article",
-          "headline": "KPIs comerciales: la guía definitiva para medir lo que realmente importa",
-          "description": "Guía de KPIs comerciales para definir qué indicadores seguir, cómo elegirlos y cómo usarlos para tomar mejores decisiones de ventas.",
+          "headline": "KPIs comerciales: la guia definitiva para medir lo que realmente importa",
+          "description": "Guia de KPIs comerciales para definir que indicadores seguir, como elegirlos y como usarlos para tomar mejores decisiones de ventas.",
           "author": {
             "@type": "Person",
             "name": "Alan L. Perez"
@@ -351,16 +443,16 @@
     },
     {
       "path": "/recursos/tablero-de-ventas",
-      "title": "Tablero de ventas: cómo construirlo y qué indicadores incluir | Alan L. Perez",
-      "description": "Guía para construir un tablero de ventas, elegir indicadores y organizar vistas ejecutivas, comerciales y de cartera.",
+      "title": "Tablero de ventas: como construirlo y que indicadores incluir | Alan L. Perez",
+      "description": "Guia para construir un tablero de ventas, elegir indicadores y organizar vistas ejecutivas, comerciales y de cartera.",
       "canonical": "https://alanlperez.com/recursos/tablero-de-ventas",
       "ogType": "article",
       "schema": [
         {
           "@context": "https://schema.org",
           "@type": "Article",
-          "headline": "Tablero de ventas: cómo construirlo y qué indicadores incluir",
-          "description": "Guía para construir un tablero de ventas, elegir indicadores y organizar vistas ejecutivas, comerciales y de cartera.",
+          "headline": "Tablero de ventas: como construirlo y que indicadores incluir",
+          "description": "Guia para construir un tablero de ventas, elegir indicadores y organizar vistas ejecutivas, comerciales y de cartera.",
           "author": {
             "@type": "Person",
             "name": "Alan L. Perez"

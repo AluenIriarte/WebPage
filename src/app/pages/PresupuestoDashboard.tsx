@@ -5,43 +5,61 @@ import { Link, useSearchParams } from "react-router-dom";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import {
+  trackDiagnosisClick,
+  trackFormSubmit,
+  trackQuoteClick,
+} from "../lib/analytics";
+import {
   CONTACT_EMAIL,
-  PRODUCT_OPTIONS,
   ROOT_DIAGNOSTIC_SECTION_HREF,
   SERVICES_PAGE_HREF,
   buildQuoteEmailBody,
   buildQuoteEmailHref,
   type QuoteBriefFields,
 } from "../lib/contact";
-import { trackDiagnosisClick, trackFormSubmit, trackQuoteClick } from "../lib/analytics";
+import {
+  SERVICE_PRODUCT_OPTIONS,
+  getServiceByQuoteLabel,
+  getServiceBySlug,
+  services,
+} from "../lib/services";
 
-const fieldConfig: { id: keyof QuoteBriefFields; label: string; placeholder: string; multiline?: boolean }[] = [
-  { id: "producto", label: "Producto / servicio", placeholder: "Seleccioná una opción" },
+const fieldConfig: {
+  id: keyof QuoteBriefFields;
+  label: string;
+  placeholder: string;
+  multiline?: boolean;
+}[] = [
+  { id: "producto", label: "Servicio", placeholder: "Selecciona una opcion" },
   { id: "empresa", label: "Empresa", placeholder: "Nombre de tu empresa" },
-  { id: "rol", label: "Rol", placeholder: "Tu rol o área" },
-  { id: "objetivo", label: "Qué necesitás ver", placeholder: "Qué tipo de tablero o lectura querés tener", multiline: true },
-  { id: "fuentes", label: "Fuentes o herramientas actuales", placeholder: "Excel, CRM, ERP, SQL, Power BI, etc." },
-  { id: "destinatarios", label: "Quiénes lo van a usar", placeholder: "Dirección, gerencia comercial, vendedores, etc." },
-  { id: "plazo", label: "Plazo estimado", placeholder: "Este mes, próximo trimestre, sin fecha cerrada..." },
-  { id: "desafio", label: "Contexto o desafío principal", placeholder: "Qué duele hoy o qué querés resolver primero", multiline: true },
-];
-
-const projectTypes = [
-  "Dashboard de ventas a medida para dirección o gerencia comercial",
-  "Tablero comercial operativo con pipeline, cartera y seguimiento por vendedor",
-  "Dashboard conectado a datos reales desde Excel, CRM, ERP o BI existente",
-  "Sistema de reporting automatizado para revisiones semanales o mensuales",
-];
-
-const priceDrivers = [
-  "Cantidad de fuentes de datos y nivel de consolidación requerido",
-  "Limpieza, modelado o criterios de negocio que haya que ordenar",
-  "Cantidad de vistas, filtros, usuarios y necesidades de actualización",
-  "Automatizaciones, alertas o integraciones adicionales",
+  { id: "rol", label: "Rol", placeholder: "Tu rol o area" },
+  {
+    id: "objetivo",
+    label: "Que necesitas resolver",
+    placeholder: "Que queres volver visible, automatizar o construir",
+    multiline: true,
+  },
+  {
+    id: "fuentes",
+    label: "Herramientas o fuentes actuales",
+    placeholder: "Excel, CRM, ERP, SQL, manual, etc.",
+  },
+  {
+    id: "destinatarios",
+    label: "Quienes lo van a usar",
+    placeholder: "Direccion, comercial, operaciones, equipo interno...",
+  },
+  { id: "plazo", label: "Plazo estimado", placeholder: "Urgente, este mes, proximo trimestre..." },
+  {
+    id: "desafio",
+    label: "Contexto o desafio principal",
+    placeholder: "Que esta trabando hoy la decision o la operacion",
+    multiline: true,
+  },
 ];
 
 const emptyFields: QuoteBriefFields = {
-  producto: "Dashboard de ventas / BI comercial a medida",
+  producto: services[0].quoteLabel,
   empresa: "",
   rol: "",
   objetivo: "",
@@ -53,28 +71,63 @@ const emptyFields: QuoteBriefFields = {
 
 export function PresupuestoDashboard() {
   const [searchParams] = useSearchParams();
-  const [fields, setFields] = useState<QuoteBriefFields>(emptyFields);
   const [copied, setCopied] = useState(false);
+
+  const selectedIntent =
+    searchParams.get("intent") === "cotizacion" ? "cotizacion" : "diagnostico";
+  const requestedService =
+    getServiceBySlug(searchParams.get("service")) ??
+    getServiceByQuoteLabel(searchParams.get("producto")) ??
+    services[0];
+
+  const [fields, setFields] = useState<QuoteBriefFields>(() => ({
+    ...emptyFields,
+    producto: requestedService.quoteLabel,
+  }));
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
   }, []);
 
   useEffect(() => {
-    const product = searchParams.get("producto");
-    if (!product) {
-      return;
-    }
+    setFields((previous) => ({
+      ...previous,
+      producto: requestedService.quoteLabel,
+    }));
+  }, [requestedService]);
 
-    setFields((previous) => ({ ...previous, producto: product }));
-  }, [searchParams]);
+  const activeService = useMemo(
+    () => getServiceByQuoteLabel(fields.producto) ?? requestedService,
+    [fields.producto, requestedService],
+  );
 
   const emailHref = useMemo(() => buildQuoteEmailHref(fields), [fields]);
   const emailBody = useMemo(() => buildQuoteEmailBody(fields), [fields]);
 
+  const heroBadge =
+    selectedIntent === "cotizacion" ? "Cotizacion guiada" : "Diagnostico guiado";
+  const heroTitle =
+    selectedIntent === "cotizacion"
+      ? `Pedi alcance y cotizacion para ${activeService.title.toLowerCase()}`
+      : `Aterriza tu caso para ${activeService.title.toLowerCase()} sin empezar desde cero`;
+  const heroDescription =
+    selectedIntent === "cotizacion"
+      ? "Este flujo ya trae el servicio preseleccionado. Completas un brief corto y dejas armado el contexto para revisar alcance, complejidad y una primera lectura de presupuesto."
+      : "Este flujo baja tu caso con el servicio correcto ya cargado. Asi podes explicar contexto, objetivo y restricciones sin volver a elegir manualmente la linea de trabajo.";
+  const submitLabel =
+    selectedIntent === "cotizacion"
+      ? "Preparar cotizacion"
+      : "Preparar diagnostico";
+
   const handleOpenMail = () => {
-    trackFormSubmit("quote_mailto", fields.producto);
-    trackQuoteClick("quote_page_form", fields.producto);
+    trackFormSubmit("service_flow_mailto", fields.producto);
+
+    if (selectedIntent === "cotizacion") {
+      trackQuoteClick(`service_flow_${selectedIntent}`, fields.producto);
+    } else {
+      trackDiagnosisClick(`service_flow_${selectedIntent}`);
+    }
+
     window.location.href = emailHref;
   };
 
@@ -104,42 +157,46 @@ export function PresupuestoDashboard() {
                 <div className="inline-flex items-center gap-2 rounded-full border border-accent/15 bg-accent/8 px-4 py-2">
                   <Mail className="h-3.5 w-3.5 text-accent" />
                   <span className="text-xs font-semibold tracking-wide text-accent">
-                    Presupuesto y alcance
+                    {heroBadge}
                   </span>
                 </div>
 
                 <div className="space-y-5">
                   <h1 className="text-4xl font-semibold leading-[1.08] tracking-tight text-foreground md:text-5xl lg:text-[3.2rem]">
-                    Pedí cotización para tu dashboard de ventas a medida
+                    {heroTitle}
                   </h1>
                   <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground">
-                    Si ya tenés relativamente claro lo que necesitás, este es el camino más directo:
-                    completás el brief y te abre un email estructurado para no arrancar desde cero.
+                    {heroDescription}
                   </p>
-                  <p className="max-w-3xl text-base leading-relaxed text-foreground/70">
-                    Si todavía estás explorando qué conviene construir, qué fuentes usar o por dónde
-                    empezar, te conviene más pasar primero por servicios o diagnóstico.
+                  <p className="max-w-3xl text-base leading-relaxed text-foreground/72">
+                    Servicio preseleccionado:{" "}
+                    <span className="font-semibold text-foreground">
+                      {activeService.title}
+                    </span>
+                    . Podes ajustar el brief o cambiar el servicio si detectas que otra linea encaja mejor.
                   </p>
                 </div>
 
-                <div className="grid gap-5 sm:grid-cols-2">
-                  {projectTypes.map((item) => (
-                    <div key={item} className="rounded-2xl border border-border/50 bg-white p-5">
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {activeService.homeHighlights.map((item) => (
+                    <div
+                      key={item}
+                      className="rounded-[1.5rem] border border-border/50 bg-white p-5"
+                    >
                       <p className="text-sm leading-relaxed text-foreground/78">{item}</p>
                     </div>
                   ))}
                 </div>
 
-                <div className="rounded-3xl bg-foreground p-7 text-background">
+                <div className="rounded-[2rem] bg-foreground p-7 text-background">
                   <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-white/40">
-                    Si todavía estás comparando
+                    Si todavia estas comparando
                   </p>
                   <h2 className="text-2xl font-semibold tracking-tight text-white">
-                    Primero podés ordenar el panorama y volver con mejor criterio.
+                    Primero podes revisar el overview de servicios y volver con mas criterio.
                   </h2>
                   <p className="mt-4 text-sm leading-relaxed text-white/70">
-                    Servicios y diagnóstico te ayudan cuando todavía no tenés claro alcance, fuentes
-                    o tipo de tablero.
+                    Si aun no estas seguro de la linea correcta, conviene volver al overview o pasar por el diagnostico general del sitio.
                   </p>
                   <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                     <Link
@@ -150,10 +207,10 @@ export function PresupuestoDashboard() {
                     </Link>
                     <a
                       href={ROOT_DIAGNOSTIC_SECTION_HREF}
-                      onClick={() => trackDiagnosisClick("quote_page_compare")}
+                      onClick={() => trackDiagnosisClick("service_flow_compare")}
                       className="inline-flex items-center justify-center rounded-full border border-white/15 px-6 py-3 text-sm font-medium text-white/80 transition-colors hover:border-white/30 hover:text-white"
                     >
-                      Prefiero diagnóstico
+                      Diagnostico general
                     </a>
                   </div>
                 </div>
@@ -163,16 +220,18 @@ export function PresupuestoDashboard() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.75, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-                className="rounded-3xl border border-border/50 bg-white p-8 shadow-2xl shadow-black/[0.05] lg:p-10"
+                className="rounded-[2rem] border border-border/50 bg-white p-8 shadow-2xl shadow-black/[0.05] lg:p-10"
               >
                 <div className="mb-6 flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-accent/10">
-                    <Mail className="h-4.5 w-4.5 text-accent" />
+                    <activeService.icon className="h-4.5 w-4.5 text-accent" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-foreground">Brief rápido para cotizar</p>
+                    <p className="text-sm font-semibold text-foreground">
+                      Brief rapido del servicio
+                    </p>
                     <p className="text-xs text-muted-foreground">
-                      Cuanto más claro el contexto, más útil y precisa puede ser la respuesta.
+                      El servicio ya esta preseleccionado. Solo completas contexto y objetivo.
                     </p>
                   </div>
                 </div>
@@ -187,11 +246,14 @@ export function PresupuestoDashboard() {
                         <select
                           value={fields.producto}
                           onChange={(event) =>
-                            setFields((previous) => ({ ...previous, producto: event.target.value }))
+                            setFields((previous) => ({
+                              ...previous,
+                              producto: event.target.value,
+                            }))
                           }
                           className="w-full rounded-2xl border border-border/60 bg-white px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-accent/35"
                         >
-                          {PRODUCT_OPTIONS.map((option) => (
+                          {SERVICE_PRODUCT_OPTIONS.map((option) => (
                             <option key={option} value={option}>
                               {option}
                             </option>
@@ -201,7 +263,10 @@ export function PresupuestoDashboard() {
                         <textarea
                           value={fields[field.id]}
                           onChange={(event) =>
-                            setFields((previous) => ({ ...previous, [field.id]: event.target.value }))
+                            setFields((previous) => ({
+                              ...previous,
+                              [field.id]: event.target.value,
+                            }))
                           }
                           rows={4}
                           placeholder={field.placeholder}
@@ -211,7 +276,10 @@ export function PresupuestoDashboard() {
                         <input
                           value={fields[field.id]}
                           onChange={(event) =>
-                            setFields((previous) => ({ ...previous, [field.id]: event.target.value }))
+                            setFields((previous) => ({
+                              ...previous,
+                              [field.id]: event.target.value,
+                            }))
                           }
                           placeholder={field.placeholder}
                           className="w-full rounded-2xl border border-border/60 bg-white px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-accent/35"
@@ -226,7 +294,7 @@ export function PresupuestoDashboard() {
                     onClick={handleOpenMail}
                     className="group inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-medium text-white transition-colors hover:bg-accent/90"
                   >
-                    Preparar solicitud
+                    {submitLabel}
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </button>
                   <button
@@ -241,11 +309,12 @@ export function PresupuestoDashboard() {
                 <div className="mt-6 rounded-2xl border border-accent/15 bg-accent/5 p-5">
                   <div className="mb-2 flex items-center gap-2">
                     <ShieldCheck className="h-4 w-4 text-accent" />
-                    <p className="text-sm font-semibold text-foreground">Cómo usarlo</p>
+                    <p className="text-sm font-semibold text-foreground">
+                      Como funciona hoy
+                    </p>
                   </div>
                   <p className="text-sm leading-relaxed text-muted-foreground">
-                    El botón abre tu cliente de correo con el brief ya armado. Si no se abre o
-                    preferís mandarlo manualmente, copiá el texto y envialo a{" "}
+                    El boton abre tu cliente de correo con el brief armado. Si no se abre o preferis mandarlo manualmente, copia el texto y envialo a{" "}
                     <a
                       href={`mailto:${CONTACT_EMAIL}`}
                       className="font-medium text-foreground underline underline-offset-2"
@@ -254,56 +323,6 @@ export function PresupuestoDashboard() {
                     </a>
                     .
                   </p>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </section>
-
-        <section className="pb-20 lg:pb-28">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="grid gap-10 lg:grid-cols-[1fr_1fr]">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.6 }}
-                className="rounded-3xl border border-border/50 bg-white p-8 lg:p-10"
-              >
-                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground/50">
-                  Qué mueve el precio
-                </p>
-                <h2 className="mb-6 text-3xl font-semibold tracking-tight text-foreground">
-                  No cotizo por “pantalla”. Cotizo por alcance real.
-                </h2>
-                <div className="space-y-3">
-                  {priceDrivers.map((item) => (
-                    <div key={item} className="flex gap-3">
-                      <div className="mt-[7px] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent/50" />
-                      <p className="text-sm leading-relaxed text-foreground/75">{item}</p>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.6, delay: 0.08 }}
-                className="rounded-3xl border border-border/50 bg-white p-8 lg:p-10"
-              >
-                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground/50">
-                  Antes de escribir
-                </p>
-                <h2 className="mb-6 text-3xl font-semibold tracking-tight text-foreground">
-                  Qué conviene tener claro para pedir presupuesto
-                </h2>
-                <div className="space-y-3 text-sm leading-relaxed text-foreground/75">
-                  <p>Qué decisión querés habilitar con el dashboard.</p>
-                  <p>Qué fuentes o herramientas existen hoy y cuánto están ordenadas.</p>
-                  <p>Quiénes lo van a mirar y con qué frecuencia.</p>
-                  <p>Si necesitás algo puntual o una capa de visibilidad más amplia.</p>
                 </div>
               </motion.div>
             </div>
