@@ -22,7 +22,7 @@ export function Footer() {
     social: [
       {
         name: "LinkedIn",
-        href: "https://www.linkedin.com/in/alanlperez",
+        href: "https://www.linkedin.com/in/alan-leonel-perez-argentina/?skipRedirect=true",
         icon: Linkedin,
       },
       {

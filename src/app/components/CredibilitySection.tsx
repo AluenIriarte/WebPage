@@ -52,7 +52,7 @@ export function CredibilitySection() {
             </div>
 
             <a
-              href="https://www.linkedin.com/in/alanlperez"
+              href="https://www.linkedin.com/in/alan-leonel-perez-argentina/?skipRedirect=true"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-xs font-medium text-muted-foreground/60 hover:text-accent transition-colors duration-200 group"
