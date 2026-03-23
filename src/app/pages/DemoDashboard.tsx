@@ -98,11 +98,17 @@ const rankingTeamViews = {
     title: "Ranking de vendedores vs objetivo",
     subtitle: "Compara desempeno, brecha y foco de seguimiento dentro del equipo clave.",
     summary: [
-      { label: "Cumplimiento promedio", value: "101%" },
+      { label: "Cumplimiento promedio", value: "100%" },
       { label: "Sobre meta", value: "1 ejecutivo" },
-      { label: "Brecha activa", value: "$18K" },
+      { label: "Brecha recuperable", value: "$28K" },
     ],
-    note: "La prioridad es acompanar a quienes estan cerca del objetivo antes de que el desvio se vuelva estructural.",
+    note: {
+      title: "Martin y Lucia concentran la brecha recuperable del equipo.",
+      detail:
+        "Sofia ya sostiene la meta del frente principal. La intervencion inmediata esta en dos cuentas estrategicas que, combinadas, devuelven $28K sin ampliar cobertura.",
+      metric: "$28K",
+      metricLabel: "para volver a meta",
+    },
     sellers: [
       {
         seller: "Sofia Gomez",
@@ -142,11 +148,17 @@ const rankingTeamViews = {
     title: "Ranking de vendedores vs objetivo",
     subtitle: "Lee rapido que parte del canal sostiene volumen y cual necesita coaching comercial.",
     summary: [
-      { label: "Cumplimiento promedio", value: "94%" },
+      { label: "Cumplimiento promedio", value: "95%" },
       { label: "Sobre meta", value: "0 equipos" },
-      { label: "Brecha activa", value: "$42K" },
+      { label: "Brecha recuperable", value: "$46K" },
     ],
-    note: "El canal no esta caido, pero si desalineado: conviene corregir foco antes de empujar mas volumen.",
+    note: {
+      title: "El primer ajuste esta en Diego, que explica mas de la mitad del desvio del canal.",
+      detail:
+        "Aca no falta demanda nueva. Falta corregir seguimiento y prioridad sobre distribuidores norte antes de empujar mas volumen al resto del equipo.",
+      metric: "$26K",
+      metricLabel: "desvio principal",
+    },
     sellers: [
       {
         seller: "Diego Ferraro",
@@ -186,11 +198,17 @@ const rankingTeamViews = {
     title: "Ranking de vendedores vs objetivo",
     subtitle: "Aisla quien esta abriendo cartera nueva y quien necesita respaldo para convertir mejor.",
     summary: [
-      { label: "Cumplimiento promedio", value: "103%" },
+      { label: "Cumplimiento promedio", value: "102%" },
       { label: "Sobre meta", value: "2 ejecutivos" },
-      { label: "Brecha activa", value: "$12K" },
+      { label: "Brecha puntual", value: "$6K" },
     ],
-    note: "El equipo de expansion ya encuentra demanda; ahora la mejora esta en priorizar mejor a quien seguir.",
+    note: {
+      title: "Expansion ya tracciona; el riesgo es que Julia corte el ritmo del equipo.",
+      detail:
+        "Con un apoyo puntual en partners y referidos, el frente sigue sobre meta sin abrir mas prospeccion ni dispersar esfuerzo comercial.",
+      metric: "$6K",
+      metricLabel: "brecha a corregir",
+    },
     sellers: [
       {
         seller: "Ines Duarte",
@@ -491,7 +509,7 @@ function DemoViewSelector({
 
   return (
     <div
-      className={`rounded-[1.45rem] border border-[#DED6EC] bg-[linear-gradient(180deg,#FBFAFE_0%,#F4F0FA_100%)] ${
+      className={`rounded-[1.45rem] border border-[#E6E0EE] bg-white ${
         isCompact ? "p-1" : "p-1.5"
       }`}
     >
@@ -511,7 +529,7 @@ function DemoViewSelector({
               {isActive && (
                 <motion.span
                   layoutId={layoutId}
-                  className="absolute inset-0 rounded-full bg-[linear-gradient(135deg,#7E4CF4,#7111DF)] shadow-[0_14px_30px_rgba(113,17,223,0.18)]"
+                  className="absolute inset-0 rounded-full bg-[linear-gradient(135deg,#7E4CF4,#7111DF)] shadow-[0_12px_24px_rgba(113,17,223,0.16)]"
                   transition={{ type: "spring", bounce: 0.2, duration: 0.38 }}
                 />
               )}
@@ -553,7 +571,7 @@ function SellerRankingBoard({ presentation = "detail" }: { presentation?: BoardP
           <Users className="mt-1 h-5 w-5 text-accent" />
         </div>
 
-        <div className="rounded-full border border-border/60 bg-[#F7F4FB] p-1">
+        <div className="rounded-full border border-[#E6E0EE] bg-[#FCFBFE] p-1">
           <div className="grid grid-cols-3 gap-1">
             {(Object.entries(rankingTeamViews) as [RankingTeamId, (typeof rankingTeamViews)[RankingTeamId]][]).map(
               ([teamId, team]) => {
@@ -595,7 +613,7 @@ function SellerRankingBoard({ presentation = "detail" }: { presentation?: BoardP
         >
           <div className={`grid gap-3 md:grid-cols-3 ${isPreview ? "mb-4" : "mb-5"}`}>
             {currentTeam.summary.map((stat) => (
-              <div key={stat.label} className="rounded-2xl border border-border/50 bg-muted/15 px-4 py-3.5">
+              <div key={stat.label} className="rounded-2xl border border-[#ECE6F2] bg-[#FCFBFE] px-4 py-3.5">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
                   {stat.label}
                 </p>
@@ -606,7 +624,7 @@ function SellerRankingBoard({ presentation = "detail" }: { presentation?: BoardP
 
           <div className={`space-y-3 ${isPreview ? "" : "flex-1"}`}>
             {visibleSellers.map((seller, index) => (
-              <div key={seller.seller} className="rounded-2xl border border-border/50 bg-muted/15 p-4">
+              <div key={seller.seller} className="rounded-2xl border border-[#ECE6F2] bg-[#FCFBFE] p-4">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex items-start gap-3">
                     <SellerAvatar rank={index + 1} avatar={seller.avatar} />
@@ -641,9 +659,19 @@ function SellerRankingBoard({ presentation = "detail" }: { presentation?: BoardP
           </div>
 
           {!isPreview && (
-            <div className="mt-4 rounded-2xl border border-accent/12 bg-accent/[0.04] px-4 py-3">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent/65">Lectura ejecutiva</p>
-              <p className="mt-2 text-sm leading-relaxed text-foreground/80">{currentTeam.note}</p>
+            <div className="mt-4 grid gap-4 rounded-[1.6rem] border border-[#E4DDF0] bg-[#FAF8FD] px-4 py-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-start">
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent/65">Lectura ejecutiva</p>
+                <p className="mt-2 text-base font-medium tracking-tight text-foreground">{currentTeam.note.title}</p>
+                <p className="mt-2 text-sm leading-relaxed text-foreground/76">{currentTeam.note.detail}</p>
+              </div>
+              <div className="rounded-2xl border border-accent/12 bg-white px-4 py-3 md:min-w-[10rem]">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
+                  Prioridad ahora
+                </p>
+                <p className="mt-2 text-2xl font-semibold tracking-tight text-accent">{currentTeam.note.metric}</p>
+                <p className="mt-1 text-[11px] text-muted-foreground">{currentTeam.note.metricLabel}</p>
+              </div>
             </div>
           )}
         </motion.div>
@@ -735,7 +763,7 @@ function ProductSignalBoard({ presentation = "detail" }: { presentation?: BoardP
         </div>
 
         <div className="space-y-3">
-          <div className="rounded-full border border-border/60 bg-[#F7F4FB] p-1">
+          <div className="rounded-full border border-[#E6E0EE] bg-[#FCFBFE] p-1">
             <div className="grid grid-cols-2 gap-1">
               {(["producto", "categoria"] as MixMode[]).map((currentMode) => {
                 const isActive = mode === currentMode;
@@ -774,8 +802,8 @@ function ProductSignalBoard({ presentation = "detail" }: { presentation?: BoardP
                   onClick={() => setSelectedClient(client.id)}
                   className={`rounded-full border px-3.5 py-2 text-xs font-medium transition-colors ${
                     isActive
-                      ? "border-accent/20 bg-accent/[0.08] text-accent"
-                      : "border-border/55 bg-white text-muted-foreground hover:text-foreground"
+                      ? "border-accent/20 bg-accent/[0.06] text-accent"
+                      : "border-[#E8E2EE] bg-white text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   {client.label}
@@ -797,7 +825,7 @@ function ProductSignalBoard({ presentation = "detail" }: { presentation?: BoardP
         >
           <div className={`grid gap-3 md:grid-cols-3 ${isPreview ? "mb-4" : "mb-5"}`}>
             {currentInsight.stats.map((stat) => (
-              <div key={stat.label} className="rounded-2xl border border-border/50 bg-muted/15 px-4 py-3.5">
+              <div key={stat.label} className="rounded-2xl border border-[#ECE6F2] bg-[#FCFBFE] px-4 py-3.5">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
                   {stat.label}
                 </p>
@@ -808,13 +836,13 @@ function ProductSignalBoard({ presentation = "detail" }: { presentation?: BoardP
           </div>
 
           {!isPreview && (
-            <div className="mb-4 rounded-2xl border border-accent/12 bg-accent/[0.04] px-4 py-3">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent/65">Senal principal</p>
+            <div className="mb-4 rounded-[1.6rem] border border-[#E4DDF0] bg-[#FAF8FD] px-4 py-4">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent/65">Decision sugerida</p>
               <p className="mt-2 text-sm leading-relaxed text-foreground/80">{currentInsight.note}</p>
             </div>
           )}
 
-          <div className="flex-1 overflow-hidden rounded-[1.5rem] border border-border/55 bg-[#FCFBFE]">
+          <div className="flex-1 overflow-hidden rounded-[1.5rem] border border-[#E8E2EE] bg-white">
             <div className="grid grid-cols-[1.6fr_repeat(5,0.7fr)] gap-2 border-b border-border/45 px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
               <span>Cliente</span>
               {columns.map((column) => (
@@ -912,18 +940,18 @@ export function DemoDashboard() {
       <main>
         <section
           id="demo-dashboard"
-          className="relative overflow-hidden border-b border-border/35 bg-[#F3F1EE] pb-20 pt-32 lg:pb-24 lg:pt-36"
+          className="relative overflow-hidden border-b border-border/30 bg-white pb-20 pt-32 lg:pb-24 lg:pt-36"
         >
           <div
             className="pointer-events-none absolute inset-0 -z-10"
             style={{
-              background: "linear-gradient(180deg, rgba(243,241,238,1) 0%, rgba(255,255,255,0.98) 68%, rgba(255,255,255,1) 100%)",
+              background: "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 100%)",
             }}
           />
           <div
             className="pointer-events-none absolute left-0 right-0 top-0 -z-10 h-[540px] opacity-60"
             style={{
-              background: "radial-gradient(ellipse at top right, rgba(113,17,223,0.14) 0%, transparent 60%)",
+              background: "radial-gradient(ellipse at top right, rgba(113,17,223,0.08) 0%, transparent 60%)",
             }}
           />
 
@@ -951,9 +979,9 @@ export function DemoDashboard() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.72, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-10 rounded-[2.4rem] border border-[#E3DCEB] bg-[linear-gradient(180deg,rgba(255,255,255,0.94)_0%,rgba(248,245,252,0.98)_100%)] p-5 shadow-[0_28px_70px_rgba(20,19,26,0.06)] lg:mt-12 lg:p-8"
+              className="mt-12"
             >
-              <div className="grid gap-8 border-b border-border/45 pb-8 lg:grid-cols-[minmax(0,0.62fr)_minmax(0,0.38fr)] lg:items-end">
+              <div className="grid gap-8 lg:grid-cols-[minmax(0,0.62fr)_minmax(0,0.38fr)] lg:items-end">
                 <div className="max-w-3xl">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">
                     {activeView.eyebrow}
@@ -975,7 +1003,7 @@ export function DemoDashboard() {
                 </div>
               </div>
 
-              <div className="pt-8">
+              <div className="mt-8">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={`detail-${heroPreview}`}
@@ -989,7 +1017,7 @@ export function DemoDashboard() {
                 </AnimatePresence>
               </div>
 
-              <div className="mt-8 flex flex-col gap-5 border-t border-border/45 pt-6 lg:flex-row lg:items-center lg:justify-between">
+              <div className="mt-8 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                   <a
                     href={ROOT_DIAGNOSTIC_SECTION_HREF}
@@ -1022,7 +1050,7 @@ export function DemoDashboard() {
           </div>
         </section>
 
-        <section id="oportunidades" className="scroll-mt-32 border-b border-border/35 bg-white py-16 lg:scroll-mt-36 lg:py-24">
+        <section id="oportunidades" className="scroll-mt-32 border-b border-border/30 bg-[#FFFEFC] py-16 lg:scroll-mt-36 lg:py-24">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 18 }}
@@ -1051,7 +1079,7 @@ export function DemoDashboard() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-40px" }}
                   transition={{ duration: 0.45, delay: index * 0.05 }}
-                  className="flex h-full flex-col rounded-[1.8rem] border border-border/50 bg-[linear-gradient(180deg,rgba(255,255,255,1)_0%,rgba(249,247,252,0.9)_100%)] p-6 shadow-[0_12px_30px_rgba(20,19,26,0.04)]"
+                  className="flex h-full flex-col rounded-[1.8rem] border border-border/45 bg-white p-6 shadow-[0_10px_24px_rgba(20,19,26,0.03)]"
                 >
                   <div className="flex items-start gap-4">
                     <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-accent/[0.08] text-accent">
@@ -1083,7 +1111,7 @@ export function DemoDashboard() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.5, delay: 0.15 }}
-              className="mt-10 flex flex-col gap-5 rounded-[2rem] border border-[#E3DCEB] bg-[linear-gradient(180deg,rgba(248,245,252,0.92)_0%,rgba(255,255,255,1)_100%)] p-6 lg:flex-row lg:items-center lg:justify-between lg:p-8"
+              className="mt-10 flex flex-col gap-5 rounded-[2rem] border border-[#E6E0EE] bg-[#FBFAFD] p-6 lg:flex-row lg:items-center lg:justify-between lg:p-8"
             >
               <div className="max-w-2xl">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">
@@ -1106,14 +1134,14 @@ export function DemoDashboard() {
           </div>
         </section>
 
-        <section className="bg-[#F7F4EF] py-16 lg:py-20">
+        <section className="bg-white py-16 lg:py-20">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.55 }}
-              className="rounded-[2.25rem] border border-[#E3DDD4] bg-[linear-gradient(135deg,rgba(255,255,255,0.92)_0%,rgba(243,241,238,0.98)_100%)] p-8 shadow-[0_18px_44px_rgba(20,19,26,0.05)] lg:p-10"
+              className="rounded-[2.25rem] border border-[#E8E2D9] bg-[#FCFBF8] p-8 shadow-[0_14px_32px_rgba(20,19,26,0.04)] lg:p-10"
             >
               <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
                 <div className="max-w-2xl">
@@ -1154,7 +1182,7 @@ export function DemoDashboard() {
         </section>
       </main>
 
-      <section className="border-t border-border/40 bg-[#F3F1EE]">
+      <section className="border-t border-border/30 bg-white">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-6 text-sm lg:flex-row lg:items-center lg:justify-between lg:px-8">
           <a href="/#home" className="font-medium text-foreground transition-colors hover:text-accent">
             Alan L. Perez

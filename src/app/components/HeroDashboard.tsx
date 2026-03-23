@@ -245,7 +245,7 @@ export function InteractiveDashboard({ variant = "full", fillHeight = false }: I
             </div>
           </div>
 
-          <div className={`flex gap-1 rounded-xl bg-muted/70 p-1 ${isMini ? "" : "max-w-xl"}`}>
+          <div className={`flex gap-1 rounded-xl ${isMini ? "bg-muted/70" : "bg-[#F7F4FB]"} p-1 ${isMini ? "" : "max-w-xl"}`}>
             {periods.map((currentPeriod) => (
               <button
                 key={currentPeriod}
@@ -351,7 +351,9 @@ export function InteractiveDashboard({ variant = "full", fillHeight = false }: I
               initial={{ opacity: 0, scale: 0.92 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: index * 0.06, duration: 0.3, ease: "easeOut" }}
-              className="rounded-xl border border-border/30 bg-muted/50 p-3.5"
+              className={`rounded-xl p-3.5 ${
+                isMini ? "border border-border/30 bg-muted/50" : "border border-[#ECE6F2] bg-[#FCFBFE]"
+              }`}
             >
               <p className="mb-1.5 text-[9px] font-medium uppercase tracking-wide text-muted-foreground">
                 {metric.label}
