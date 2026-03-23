@@ -6,7 +6,7 @@ import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { InteractiveDashboard } from "../components/HeroDashboard";
 import { OpportunitiesSection } from "../components/OpportunitiesSection";
-import { StatInterstitial } from "../components/StatInterstitial";
+import { trackDiagnosisClick, trackQuoteClick } from "../lib/analytics";
 import { QUOTE_PAGE_HREF, ROOT_DIAGNOSTIC_SECTION_HREF } from "../lib/contact";
 
 const demoAnchors = [
@@ -14,6 +14,24 @@ const demoAnchors = [
   { label: "Ranking comercial", href: "#ranking-vendedores" },
   { label: "Mix de producto", href: "#mix-producto" },
   { label: "Señales clave", href: "#oportunidades" },
+] as const;
+
+const readingGuides = [
+  {
+    step: "01",
+    title: "Cuentas en riesgo",
+    body: "Mirá primero si la base activa se está enfriando antes de que eso ya pegue en facturación.",
+  },
+  {
+    step: "02",
+    title: "Brecha comercial",
+    body: "Después bajá al ranking para ver qué equipo o segmento necesita intervención concreta.",
+  },
+  {
+    step: "03",
+    title: "Mix y margen",
+    body: "Por último, revisá producto para detectar dónde crecer y dónde se está erosionando valor.",
+  },
 ] as const;
 
 const sellerRanking = [
@@ -116,6 +134,7 @@ function SellerRankingBoard() {
                   <p className="mt-1 text-xs text-muted-foreground">{seller.focus}</p>
                 </div>
               </div>
+
               <div className="text-right">
                 <p className={`text-sm font-semibold ${seller.tone}`}>{seller.attainment}%</p>
                 <p className="text-[11px] text-muted-foreground">{seller.gap}</p>
@@ -211,9 +230,12 @@ export function DemoDashboard() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <Header variant="conversion" />
       <main>
-        <section id="vista-ejecutiva" className="relative overflow-hidden pb-16 pt-32 lg:pb-20 lg:pt-40 scroll-mt-28">
+        <section
+          id="vista-ejecutiva"
+          className="relative overflow-hidden pb-16 pt-32 lg:pb-20 lg:pt-40 scroll-mt-28"
+        >
           <div className="pointer-events-none absolute inset-0 -z-10">
             <div className="absolute left-0 right-0 top-0 h-[520px] bg-gradient-to-b from-accent/[0.05] via-transparent to-transparent" />
           </div>
@@ -238,20 +260,39 @@ export function DemoDashboard() {
                     Así se ve un sistema comercial cuando deja de ser un reporte
                   </h1>
                   <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground">
-                    El tablero principal te muestra la lectura ejecutiva. Más abajo vas a ver cómo se
-                    complementa con ranking comercial, foco de producto y señales concretas para priorizar.
+                    La demo no está para mostrar una interfaz linda. Está para que veas cómo se vuelve
+                    visible lo que hoy suele quedar disperso entre reportes, intuición y seguimiento manual.
                   </p>
+                </div>
+
+                <div className="space-y-3">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">
+                    Qué mirar primero
+                  </p>
+                  <div className="grid gap-3 sm:grid-cols-3">
+                    {readingGuides.map((item) => (
+                      <div key={item.step} className="rounded-2xl border border-border/50 bg-white p-4">
+                        <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-accent/55">
+                          {item.step}
+                        </p>
+                        <p className="mt-2 text-sm font-semibold text-foreground">{item.title}</p>
+                        <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{item.body}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
                 <div className="flex flex-col gap-3 sm:flex-row">
                   <a
                     href={ROOT_DIAGNOSTIC_SECTION_HREF}
+                    onClick={() => trackDiagnosisClick("demo_hero")}
                     className="inline-flex items-center justify-center rounded-full bg-accent px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-accent/90"
                   >
                     Agendar diagnóstico
                   </a>
                   <Link
                     to={QUOTE_PAGE_HREF}
+                    onClick={() => trackQuoteClick("demo_hero")}
                     className="inline-flex items-center justify-center rounded-full border border-border bg-white px-7 py-3.5 text-sm font-medium text-foreground transition-colors hover:border-accent/35 hover:text-accent"
                   >
                     Pedir cotización
@@ -260,7 +301,7 @@ export function DemoDashboard() {
 
                 <div className="space-y-3">
                   <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">
-                    Recorrer demo
+                    Saltos dentro de la demo
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {demoAnchors.map((item) => (
@@ -288,8 +329,6 @@ export function DemoDashboard() {
           </div>
         </section>
 
-        <StatInterstitial />
-
         <section className="pb-20 lg:pb-28">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <motion.div
@@ -306,7 +345,7 @@ export function DemoDashboard() {
                 No alcanza con una sola pantalla: hace falta bajar a ejecución y a producto.
               </h2>
               <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-                Estas dos vistas muestran cómo se traduce la capa ejecutiva en foco comercial:
+                Estas dos vistas muestran cómo la lectura ejecutiva se traduce en foco comercial:
                 quién está llegando a objetivo y qué productos merecen más prioridad.
               </p>
             </motion.div>
@@ -336,11 +375,7 @@ export function DemoDashboard() {
           </div>
         </section>
 
-        <OpportunitiesSection
-          footerHref={ROOT_DIAGNOSTIC_SECTION_HREF}
-          footerLabel="Agendar diagnóstico"
-          footerText="Si estas señales ya se parecen a tu negocio, la demo alcanza para validar el enfoque. El siguiente paso lógico es revisar tu caso real."
-        />
+        <OpportunitiesSection hideFooter />
 
         <section className="pb-24">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -358,23 +393,25 @@ export function DemoDashboard() {
                     Siguiente paso
                   </div>
                   <h2 className="text-3xl font-semibold tracking-tight text-white">
-                    Si esta lectura te resulta familiar, ya tenés suficiente contexto para avanzar.
+                    Si esta lectura se parece a tu negocio, ya tenés suficiente contexto para avanzar.
                   </h2>
                   <p className="mt-4 text-sm leading-relaxed text-white/70">
-                    La demo ya cumple su función: mostrar cómo se ve el enfoque. Desde acá, el siguiente
-                    paso es revisar tu caso o pedir cotización si ya tenés claro el alcance.
+                    La demo ya hizo su trabajo: mostrar qué tipo de visibilidad podés tener. Desde acá,
+                    el siguiente paso es revisar tu caso o pedir cotización si ya tenés claro el alcance.
                   </p>
                 </div>
 
                 <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
                   <a
                     href={ROOT_DIAGNOSTIC_SECTION_HREF}
+                    onClick={() => trackDiagnosisClick("demo_final")}
                     className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-accent hover:text-white"
                   >
                     Agendar diagnóstico
                   </a>
                   <Link
                     to={QUOTE_PAGE_HREF}
+                    onClick={() => trackQuoteClick("demo_final")}
                     className="inline-flex items-center justify-center rounded-full border border-white/15 px-6 py-3 text-sm font-medium text-white/80 transition-colors hover:border-white/30 hover:text-white"
                   >
                     Pedir cotización

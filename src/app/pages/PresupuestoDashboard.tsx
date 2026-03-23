@@ -1,46 +1,75 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { ArrowRight, Copy, Mail, ShieldCheck } from "lucide-react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import {
   CONTACT_EMAIL,
   PRODUCT_OPTIONS,
-  ROOT_DIAGNOSTIC_SECTION_HREF,
-  SERVICES_PAGE_HREF,
   buildQuoteEmailBody,
-  buildQuoteEmailHref,
   type QuoteBriefFields,
 } from "../lib/contact";
-import { trackDiagnosisClick, trackFormSubmit, trackQuoteClick } from "../lib/analytics";
+import { trackFormSubmit, trackQuoteClick } from "../lib/analytics";
+import { submitQuoteRequest } from "../lib/forms-api";
 
-const fieldConfig: { id: keyof QuoteBriefFields; label: string; placeholder: string; multiline?: boolean }[] = [
-  { id: "producto", label: "Producto / servicio", placeholder: "Seleccioná una opción" },
+const fieldConfig: {
+  id: keyof QuoteBriefFields;
+  label: string;
+  placeholder: string;
+  multiline?: boolean;
+}[] = [
+  { id: "nombre", label: "Nombre", placeholder: "Tu nombre" },
+  { id: "email", label: "Email", placeholder: "nombre@empresa.com" },
+  { id: "producto", label: "Producto / servicio", placeholder: "Selecciona una opcion" },
   { id: "empresa", label: "Empresa", placeholder: "Nombre de tu empresa" },
-  { id: "rol", label: "Rol", placeholder: "Tu rol o área" },
-  { id: "objetivo", label: "Qué necesitás ver", placeholder: "Qué tipo de tablero o lectura querés tener", multiline: true },
-  { id: "fuentes", label: "Fuentes o herramientas actuales", placeholder: "Excel, CRM, ERP, SQL, Power BI, etc." },
-  { id: "destinatarios", label: "Quiénes lo van a usar", placeholder: "Dirección, gerencia comercial, vendedores, etc." },
-  { id: "plazo", label: "Plazo estimado", placeholder: "Este mes, próximo trimestre, sin fecha cerrada..." },
-  { id: "desafio", label: "Contexto o desafío principal", placeholder: "Qué duele hoy o qué querés resolver primero", multiline: true },
+  { id: "rol", label: "Rol", placeholder: "Tu rol o area" },
+  {
+    id: "objetivo",
+    label: "Que necesitas ver",
+    placeholder: "Que tipo de solucion, tablero o activo queres tener",
+    multiline: true,
+  },
+  {
+    id: "fuentes",
+    label: "Fuentes o herramientas actuales",
+    placeholder: "Excel, CRM, ERP, SQL, Power BI, etc.",
+  },
+  {
+    id: "destinatarios",
+    label: "Quienes lo van a usar",
+    placeholder: "Direccion, gerencia comercial, vendedores, etc.",
+  },
+  {
+    id: "plazo",
+    label: "Plazo estimado",
+    placeholder: "Este mes, proximo trimestre, sin fecha cerrada...",
+  },
+  {
+    id: "desafio",
+    label: "Contexto o desafio principal",
+    placeholder: "Que duele hoy o que queres resolver primero",
+    multiline: true,
+  },
 ];
 
 const projectTypes = [
-  "Dashboard de ventas a medida para dirección o gerencia comercial",
+  "Dashboard de ventas a medida para direccion o gerencia comercial",
   "Tablero comercial operativo con pipeline, cartera y seguimiento por vendedor",
-  "Dashboard conectado a datos reales desde Excel, CRM, ERP o BI existente",
-  "Sistema de reporting automatizado para revisiones semanales o mensuales",
+  "Landing o pagina para ordenar oferta, conversion y contacto",
+  "Activos de marca, publishing o delivery kit para comunicar mejor",
 ];
 
 const priceDrivers = [
-  "Cantidad de fuentes de datos y nivel de consolidación requerido",
+  "Cantidad de fuentes de datos y nivel de consolidacion requerido",
   "Limpieza, modelado o criterios de negocio que haya que ordenar",
-  "Cantidad de vistas, filtros, usuarios y necesidades de actualización",
-  "Automatizaciones, alertas o integraciones adicionales",
+  "Cantidad de vistas, entregables, activos o piezas necesarias",
+  "Integraciones, automatizaciones o entregables adicionales",
 ];
 
 const emptyFields: QuoteBriefFields = {
+  nombre: "",
+  email: "",
   producto: "Dashboard de ventas / BI comercial a medida",
   empresa: "",
   rol: "",
@@ -55,6 +84,9 @@ export function PresupuestoDashboard() {
   const [searchParams] = useSearchParams();
   const [fields, setFields] = useState<QuoteBriefFields>(emptyFields);
   const [copied, setCopied] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
@@ -69,20 +101,38 @@ export function PresupuestoDashboard() {
     setFields((previous) => ({ ...previous, producto: product }));
   }, [searchParams]);
 
-  const emailHref = useMemo(() => buildQuoteEmailHref(fields), [fields]);
-  const emailBody = useMemo(() => buildQuoteEmailBody(fields), [fields]);
+  const emailBody = buildQuoteEmailBody(fields);
 
-  const handleOpenMail = () => {
-    trackFormSubmit("quote_mailto", fields.producto);
-    trackQuoteClick("quote_page_form", fields.producto);
-    window.location.href = emailHref;
-  };
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
 
-  const handleCopy = async () => {
+    setSubmitError(null);
+    setSubmitSuccess(null);
+    setIsSubmitting(true);
+
+    try {
+      await submitQuoteRequest(fields);
+      trackFormSubmit("quote_request", fields.producto);
+      trackQuoteClick("quote_page_form", fields.producto);
+      setSubmitSuccess(
+        "Solicitud enviada. Te confirmamos por email y revisamos el caso dentro de las proximas 24 horas.",
+      );
+    } catch (error) {
+      setSubmitError(
+        error instanceof Error
+          ? error.message
+          : "No pudimos enviar la solicitud. Proba de nuevo en unos segundos.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  async function handleCopy() {
     await navigator.clipboard.writeText(emailBody);
     setCopied(true);
     window.setTimeout(() => setCopied(false), 1800);
-  };
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -110,15 +160,14 @@ export function PresupuestoDashboard() {
 
                 <div className="space-y-5">
                   <h1 className="text-4xl font-semibold leading-[1.08] tracking-tight text-foreground md:text-5xl lg:text-[3.2rem]">
-                    Pedí cotización para tu dashboard de ventas a medida
+                    Pedi cotizacion para tu servicio o producto digital
                   </h1>
                   <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground">
-                    Si ya tenés relativamente claro lo que necesitás, este es el camino más directo:
-                    completás el brief y te abre un email estructurado para no arrancar desde cero.
+                    Si ya tenes relativamente claro lo que necesitas, este es el camino mas directo:
+                    completas el brief y te respondemos por email con una primera lectura de alcance.
                   </p>
                   <p className="max-w-3xl text-base leading-relaxed text-foreground/70">
-                    Si todavía estás explorando qué conviene construir, qué fuentes usar o por dónde
-                    empezar, te conviene más pasar primero por servicios o diagnóstico.
+                    Si todavia estas explorando que conviene construir o por donde empezar, te conviene pasar primero por servicios o diagnostico.
                   </p>
                 </div>
 
@@ -128,34 +177,6 @@ export function PresupuestoDashboard() {
                       <p className="text-sm leading-relaxed text-foreground/78">{item}</p>
                     </div>
                   ))}
-                </div>
-
-                <div className="rounded-3xl bg-foreground p-7 text-background">
-                  <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-white/40">
-                    Si todavía estás comparando
-                  </p>
-                  <h2 className="text-2xl font-semibold tracking-tight text-white">
-                    Primero podés ordenar el panorama y volver con mejor criterio.
-                  </h2>
-                  <p className="mt-4 text-sm leading-relaxed text-white/70">
-                    Servicios y diagnóstico te ayudan cuando todavía no tenés claro alcance, fuentes
-                    o tipo de tablero.
-                  </p>
-                  <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                    <Link
-                      to={SERVICES_PAGE_HREF}
-                      className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-accent hover:text-white"
-                    >
-                      Ver servicios
-                    </Link>
-                    <a
-                      href={ROOT_DIAGNOSTIC_SECTION_HREF}
-                      onClick={() => trackDiagnosisClick("quote_page_compare")}
-                      className="inline-flex items-center justify-center rounded-full border border-white/15 px-6 py-3 text-sm font-medium text-white/80 transition-colors hover:border-white/30 hover:text-white"
-                    >
-                      Prefiero diagnóstico
-                    </a>
-                  </div>
                 </div>
               </motion.div>
 
@@ -170,15 +191,38 @@ export function PresupuestoDashboard() {
                     <Mail className="h-4.5 w-4.5 text-accent" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-foreground">Brief rápido para cotizar</p>
+                    <p className="text-sm font-semibold text-foreground">Brief rapido para cotizar</p>
                     <p className="text-xs text-muted-foreground">
-                      Cuanto más claro el contexto, más útil y precisa puede ser la respuesta.
+                      Cuanto mas claro el contexto, mas util y precisa puede ser la respuesta.
                     </p>
                   </div>
                 </div>
 
-                <div className="grid gap-4">
-                  {fieldConfig.map((field) => (
+                <form onSubmit={handleSubmit} className="grid gap-4">
+                  <div className="grid gap-4 lg:grid-cols-2">
+                    {fieldConfig.slice(0, 2).map((field) => (
+                      <label key={field.id} className="space-y-1.5">
+                        <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground/55">
+                          {field.label}
+                        </span>
+                        <input
+                          type={field.id === "email" ? "email" : "text"}
+                          required
+                          value={fields[field.id]}
+                          onChange={(event) =>
+                            setFields((previous) => ({
+                              ...previous,
+                              [field.id]: event.target.value,
+                            }))
+                          }
+                          placeholder={field.placeholder}
+                          className="w-full rounded-2xl border border-border/60 bg-white px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-accent/35"
+                        />
+                      </label>
+                    ))}
+                  </div>
+
+                  {fieldConfig.slice(2).map((field) => (
                     <label key={field.id} className="space-y-1.5">
                       <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground/55">
                         {field.label}
@@ -201,7 +245,10 @@ export function PresupuestoDashboard() {
                         <textarea
                           value={fields[field.id]}
                           onChange={(event) =>
-                            setFields((previous) => ({ ...previous, [field.id]: event.target.value }))
+                            setFields((previous) => ({
+                              ...previous,
+                              [field.id]: event.target.value,
+                            }))
                           }
                           rows={4}
                           placeholder={field.placeholder}
@@ -211,7 +258,10 @@ export function PresupuestoDashboard() {
                         <input
                           value={fields[field.id]}
                           onChange={(event) =>
-                            setFields((previous) => ({ ...previous, [field.id]: event.target.value }))
+                            setFields((previous) => ({
+                              ...previous,
+                              [field.id]: event.target.value,
+                            }))
                           }
                           placeholder={field.placeholder}
                           className="w-full rounded-2xl border border-border/60 bg-white px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-accent/35"
@@ -219,33 +269,46 @@ export function PresupuestoDashboard() {
                       )}
                     </label>
                   ))}
-                </div>
 
-                <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                  <button
-                    onClick={handleOpenMail}
-                    className="group inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-medium text-white transition-colors hover:bg-accent/90"
-                  >
-                    Preparar solicitud
-                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </button>
-                  <button
-                    onClick={handleCopy}
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-border px-6 py-3.5 text-sm font-medium text-foreground transition-colors hover:border-accent/35 hover:text-accent"
-                  >
-                    <Copy className="h-4 w-4" />
-                    {copied ? "Brief copiado" : "Copiar brief"}
-                  </button>
-                </div>
+                  {submitSuccess ? (
+                    <p className="rounded-[1rem] border border-[#CBE9D7] bg-[#F2FFF7] px-4 py-3 text-sm text-[#1F6B3C]">
+                      {submitSuccess}
+                    </p>
+                  ) : null}
+
+                  {submitError ? (
+                    <p className="rounded-[1rem] border border-[#F1C5C5] bg-[#FFF6F6] px-4 py-3 text-sm text-[#9B2C2C]">
+                      {submitError}
+                    </p>
+                  ) : null}
+
+                  <div className="mt-2 flex flex-col gap-3 sm:flex-row">
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="group inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-medium text-white transition-colors hover:bg-accent/90 disabled:cursor-not-allowed disabled:opacity-70"
+                    >
+                      {isSubmitting ? "Enviando..." : "Enviar solicitud"}
+                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleCopy}
+                      className="inline-flex items-center justify-center gap-2 rounded-full border border-border px-6 py-3.5 text-sm font-medium text-foreground transition-colors hover:border-accent/35 hover:text-accent"
+                    >
+                      <Copy className="h-4 w-4" />
+                      {copied ? "Brief copiado" : "Copiar brief"}
+                    </button>
+                  </div>
+                </form>
 
                 <div className="mt-6 rounded-2xl border border-accent/15 bg-accent/5 p-5">
                   <div className="mb-2 flex items-center gap-2">
                     <ShieldCheck className="h-4 w-4 text-accent" />
-                    <p className="text-sm font-semibold text-foreground">Cómo usarlo</p>
+                    <p className="text-sm font-semibold text-foreground">Como funciona</p>
                   </div>
                   <p className="text-sm leading-relaxed text-muted-foreground">
-                    El botón abre tu cliente de correo con el brief ya armado. Si no se abre o
-                    preferís mandarlo manualmente, copiá el texto y envialo a{" "}
+                    Enviamos confirmacion al email cargado y tambien una notificacion interna. Si algo falla, siempre podes copiar el brief y enviarlo manualmente a{" "}
                     <a
                       href={`mailto:${CONTACT_EMAIL}`}
                       className="font-medium text-foreground underline underline-offset-2"
@@ -271,10 +334,10 @@ export function PresupuestoDashboard() {
                 className="rounded-3xl border border-border/50 bg-white p-8 lg:p-10"
               >
                 <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground/50">
-                  Qué mueve el precio
+                  Que mueve el precio
                 </p>
                 <h2 className="mb-6 text-3xl font-semibold tracking-tight text-foreground">
-                  No cotizo por “pantalla”. Cotizo por alcance real.
+                  No cotizo por pantalla. Cotizo por alcance real.
                 </h2>
                 <div className="space-y-3">
                   {priceDrivers.map((item) => (
@@ -297,13 +360,13 @@ export function PresupuestoDashboard() {
                   Antes de escribir
                 </p>
                 <h2 className="mb-6 text-3xl font-semibold tracking-tight text-foreground">
-                  Qué conviene tener claro para pedir presupuesto
+                  Que conviene tener claro para pedir presupuesto
                 </h2>
                 <div className="space-y-3 text-sm leading-relaxed text-foreground/75">
-                  <p>Qué decisión querés habilitar con el dashboard.</p>
-                  <p>Qué fuentes o herramientas existen hoy y cuánto están ordenadas.</p>
-                  <p>Quiénes lo van a mirar y con qué frecuencia.</p>
-                  <p>Si necesitás algo puntual o una capa de visibilidad más amplia.</p>
+                  <p>Que decision o resultado queres habilitar con el proyecto.</p>
+                  <p>Que fuentes, procesos o materiales existen hoy y cuanto estan ordenados.</p>
+                  <p>Quienes lo van a mirar, usar o ejecutar.</p>
+                  <p>Si necesitas algo puntual o una solucion mas amplia.</p>
                 </div>
               </motion.div>
             </div>

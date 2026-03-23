@@ -6,13 +6,14 @@ interface OpportunitiesSectionProps {
   footerHref?: string;
   footerLabel?: string;
   sectionId?: string;
+  hideFooter?: boolean;
 }
 
 const opportunities = [
   {
     icon: Users,
     title: "Clientes inactivos",
-    example: "12 cuentas de alto valor sin compras en los últimos 90 días",
+    example: "12 cuentas de alto valor sin compras en los \u00faltimos 90 d\u00edas",
     metric: "12 cuentas",
     metricLabel: "recuperables",
     metricColor: "text-violet-600",
@@ -20,7 +21,7 @@ const opportunities = [
   {
     icon: BarChart2,
     title: "Mix volumen / margen",
-    example: "Productos con margen superior al 40% sin priorización activa",
+    example: "Productos con margen superior al 40% sin priorizaci\u00f3n activa",
     metric: "40%+",
     metricLabel: "margen potencial",
     metricColor: "text-emerald-600",
@@ -28,7 +29,7 @@ const opportunities = [
   {
     icon: TrendingUp,
     title: "Up-sell y cross-sell",
-    example: "Clientes comprando categoría A sin exposición a categoría B",
+    example: "Clientes comprando categor\u00eda A sin exposici\u00f3n a categor\u00eda B",
     metric: "+34%",
     metricLabel: "en margen",
     metricColor: "text-blue-600",
@@ -36,22 +37,22 @@ const opportunities = [
   {
     icon: ShoppingCart,
     title: "Productos subpenetrados",
-    example: "Línea nueva con solo 15% de penetración en clientes top",
+    example: "L\u00ednea nueva con solo 15% de penetraci\u00f3n en clientes top",
     metric: "15%",
-    metricLabel: "penetración actual",
+    metricLabel: "penetraci\u00f3n actual",
     metricColor: "text-amber-600",
   },
   {
     icon: Layers,
-    title: "Afinidad por categoría",
-    example: "Segmento X tiene 3x más afinidad con categoría premium",
+    title: "Afinidad por categor\u00eda",
+    example: "Segmento X tiene 3x m\u00e1s afinidad con categor\u00eda premium",
     metric: "3x",
     metricLabel: "mayor afinidad",
     metricColor: "text-fuchsia-600",
   },
   {
     icon: Clock,
-    title: "Automatización operativa",
+    title: "Automatizaci\u00f3n operativa",
     example: "8 horas semanales de reporting manual que pueden eliminarse",
     metric: "-8h",
     metricLabel: "por semana",
@@ -60,10 +61,11 @@ const opportunities = [
 ];
 
 export function OpportunitiesSection({
-  footerText = "Cada una de estas señales puede estar activa en tu negocio hoy, sin que sea visible en los reportes habituales.",
+  footerText = "Cada una de estas se\u00f1ales puede estar activa en tu negocio hoy, sin que sea visible en los reportes habituales.",
   footerHref = "#mini-casos",
   footerLabel = "Ver mini-casos",
   sectionId = "oportunidades",
+  hideFooter = false,
 }: OpportunitiesSectionProps) {
   return (
     <section id={sectionId} className="py-20 lg:py-28 bg-white">
@@ -76,11 +78,14 @@ export function OpportunitiesSection({
           className="max-w-3xl mx-auto text-center mb-12"
         >
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground mb-4">
-            Qué <span className="text-accent">señales conviene</span> volver visibles primero
+            {"Qu\u00e9 "}
+            <span className="text-accent">{"se\u00f1ales conviene"}</span>
+            {" volver visibles primero"}
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
-            Cada negocio tiene patrones con valor sin explotar. El sistema los vuelve visibles y los
-            convierte en prioridades accionables para el equipo comercial.
+            {
+              "Cada negocio tiene patrones con valor sin explotar. El sistema los vuelve visibles y los convierte en prioridades accionables para el equipo comercial."
+            }
           </p>
         </motion.div>
 
@@ -123,22 +128,24 @@ export function OpportunitiesSection({
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-8 border-t border-border/40"
-        >
-          <p className="text-sm text-muted-foreground max-w-sm leading-relaxed">{footerText}</p>
-          <a
-            href={footerHref}
-            className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent/75 transition-colors duration-200 group flex-shrink-0"
+        {!hideFooter && (
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="mt-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-8 border-t border-border/40"
           >
-            {footerLabel}
-            <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
-          </a>
-        </motion.div>
+            <p className="text-sm text-muted-foreground max-w-sm leading-relaxed">{footerText}</p>
+            <a
+              href={footerHref}
+              className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent/75 transition-colors duration-200 group flex-shrink-0"
+            >
+              {footerLabel}
+              <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
+            </a>
+          </motion.div>
+        )}
       </div>
     </section>
   );

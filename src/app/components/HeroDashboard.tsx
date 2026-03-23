@@ -14,7 +14,7 @@ const dashboardData: Record<
 > = {
   weekly: {
     metrics: [
-      { label: "Expansión", value: "$127K", change: "potencial cross-sell" },
+      { label: "Expansi\u00f3n", value: "$127K", change: "potencial cross-sell" },
       { label: "Rentabilidad", value: "+18%", change: "mejora de margen" },
     ],
     chart: [
@@ -29,7 +29,7 @@ const dashboardData: Record<
   },
   monthly: {
     metrics: [
-      { label: "Expansión", value: "$348K", change: "potencial cross-sell" },
+      { label: "Expansi\u00f3n", value: "$348K", change: "potencial cross-sell" },
       { label: "Rentabilidad", value: "+22%", change: "mejora de margen" },
     ],
     chart: [
@@ -41,7 +41,7 @@ const dashboardData: Record<
   },
   quarterly: {
     metrics: [
-      { label: "Expansión", value: "$890K", change: "potencial cross-sell" },
+      { label: "Expansi\u00f3n", value: "$890K", change: "potencial cross-sell" },
       { label: "Rentabilidad", value: "+31%", change: "mejora de margen" },
     ],
     chart: [
@@ -123,6 +123,7 @@ export function InteractiveDashboard({ variant = "full" }: InteractiveDashboardP
       if (!rect) {
         return;
       }
+
       mouseX.set((event.clientX - rect.left) / rect.width - 0.5);
       mouseY.set((event.clientY - rect.top) / rect.height - 0.5);
     },
@@ -173,18 +174,19 @@ export function InteractiveDashboard({ variant = "full" }: InteractiveDashboardP
                   <p className="mb-0.5 text-[10px] font-semibold uppercase tracking-widest text-accent/70">
                     Dashboard interactivo
                   </p>
-                  <h3 className="text-xl font-semibold tracking-tight text-foreground">Mini-Demo</h3>
-                  <p className="mt-1 text-[11px] text-muted-foreground">Diagnóstico comercial activo</p>
+                  <h3 className="text-xl font-semibold tracking-tight text-foreground">Mini demo</h3>
+                  <p className="mt-1 text-[11px] text-muted-foreground">Se\u00f1ales comerciales activas</p>
                 </>
               ) : (
                 <>
                   <p className="mb-0.5 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
-                    Sistema de decisión
+                    Demo ejecutiva
                   </p>
-                  <h3 className="text-sm font-semibold text-foreground">Diagnóstico comercial activo</h3>
+                  <h3 className="text-sm font-semibold text-foreground">Visibilidad comercial activa</h3>
                 </>
               )}
             </div>
+
             <div className="flex items-center gap-2">
               <motion.div
                 className="h-2 w-2 rounded-full bg-emerald-500"
@@ -233,6 +235,7 @@ export function InteractiveDashboard({ variant = "full" }: InteractiveDashboardP
                     <stop offset="100%" stopColor="#06b6d4" stopOpacity={0} />
                   </linearGradient>
                 </defs>
+
                 <XAxis
                   dataKey="name"
                   tick={{ fontSize: 9, fill: "#9ca3af", fontWeight: 500 }}
@@ -329,7 +332,7 @@ export function InteractiveDashboard({ variant = "full" }: InteractiveDashboardP
                 </span>
               </div>
               <p className="text-3xl font-semibold tracking-tight text-foreground">12 cuentas</p>
-              <p className="mt-1 text-[11px] text-muted-foreground">sin actividad en +90 días</p>
+              <p className="mt-1 text-[11px] text-muted-foreground">sin actividad en +90 d\u00edas</p>
               <div className="mt-3 flex gap-1">
                 {[1, 1, 1, 1, 1, 0, 0].map((filled, index) => (
                   <motion.div
@@ -371,7 +374,7 @@ export function InteractiveDashboard({ variant = "full" }: InteractiveDashboardP
               </span>
             </div>
             <p className="text-xl font-bold text-foreground">12 cuentas</p>
-            <p className="mt-0.5 text-[10px] text-muted-foreground">sin actividad en +90 días</p>
+            <p className="mt-0.5 text-[10px] text-muted-foreground">sin actividad en +90 d\u00edas</p>
             <div className="mt-2.5 flex gap-1">
               {[1, 1, 1, 1, 1, 0, 0].map((filled, index) => (
                 <motion.div
