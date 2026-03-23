@@ -9,103 +9,334 @@ import { ROOT_DIAGNOSTIC_SECTION_HREF } from "../lib/contact";
 
 const LINKEDIN_URL = "https://www.linkedin.com/in/alan-leonel-perez-argentina/?skipRedirect=true";
 
-const demoSections = [
-  { id: "vista-ejecutiva", label: "Vista ejecutiva" },
-  { id: "ranking-vendedores", label: "Ranking comercial" },
-  { id: "mix-producto", label: "Mix de producto" },
-  { id: "oportunidades", label: "Señales clave" },
-] as const;
-
-type DemoSectionId = (typeof demoSections)[number]["id"];
 const heroPreviewSections = [
   { id: "vista-ejecutiva", label: "Vista ejecutiva" },
   { id: "ranking-vendedores", label: "Ranking comercial" },
   { id: "mix-producto", label: "Mix de producto" },
 ] as const;
+
 type HeroPreviewId = (typeof heroPreviewSections)[number]["id"];
 type SellerAvatarVariant = "wave" | "short" | "bun";
+type RankingTeamId = "grandes-cuentas" | "canal" | "expansion";
+type MixMode = "producto" | "categoria";
+type MixClientId = "distribuidora-norte" | "grupo-solaris" | "comercial-andes";
+type MatrixState = "active" | "gap" | "none";
+
 const heroPreviewCopy: Record<HeroPreviewId, string> = {
-  "vista-ejecutiva": 'Vista general para responder rápido: "¿Flotamos o nos hundimos?"',
-  "ranking-vendedores": "Vista por equipo, para saber quién cumple con el objetivo y quién necesita apoyo.",
-  "mix-producto": "Análisis por producto y categoría.",
+  "vista-ejecutiva": 'Vista general para responder rapido: "Flotamos o nos hundimos?"',
+  "ranking-vendedores": "Vista por equipo, para saber quien cumple con el objetivo y quien necesita apoyo.",
+  "mix-producto": "Analisis por producto y categoria.",
 };
 
-const sellerRanking = [
+const avatarStyles = {
+  violetWave: {
+    background: "#F2EDFF",
+    skin: "#EFC5AE",
+    hair: "#5B416F",
+    jacket: "#7111DF",
+    shirt: "#F8F6FF",
+    variant: "wave" as SellerAvatarVariant,
+  },
+  slateShort: {
+    background: "#ECF3FF",
+    skin: "#DEB18F",
+    hair: "#2B2A31",
+    jacket: "#315FBE",
+    shirt: "#EEF4FF",
+    variant: "short" as SellerAvatarVariant,
+  },
+  clayBun: {
+    background: "#FFF1EA",
+    skin: "#EDBDA2",
+    hair: "#734738",
+    jacket: "#D96D4D",
+    shirt: "#FFF7F2",
+    variant: "bun" as SellerAvatarVariant,
+  },
+  midnightShort: {
+    background: "#EEF1FF",
+    skin: "#D7A887",
+    hair: "#1E2237",
+    jacket: "#5865F2",
+    shirt: "#F7F8FF",
+    variant: "short" as SellerAvatarVariant,
+  },
+  mossWave: {
+    background: "#EEF6EC",
+    skin: "#E6B89A",
+    hair: "#4A5A36",
+    jacket: "#3E8C52",
+    shirt: "#F8FCF8",
+    variant: "wave" as SellerAvatarVariant,
+  },
+  wineBun: {
+    background: "#FFF0F4",
+    skin: "#EDC3AE",
+    hair: "#6C3650",
+    jacket: "#C34D73",
+    shirt: "#FFF8FA",
+    variant: "bun" as SellerAvatarVariant,
+  },
+} as const;
+
+const rankingTeamViews = {
+  "grandes-cuentas": {
+    label: "Grandes cuentas",
+    eyebrow: "Vista comercial",
+    title: "Ranking de vendedores vs objetivo",
+    subtitle: "Compara desempeno, brecha y foco de seguimiento dentro del equipo clave.",
+    summary: [
+      { label: "Cumplimiento promedio", value: "101%" },
+      { label: "Sobre meta", value: "1 ejecutivo" },
+      { label: "Brecha activa", value: "$18K" },
+    ],
+    note: "La prioridad es acompanar a quienes estan cerca del objetivo antes de que el desvio se vuelva estructural.",
+    sellers: [
+      {
+        seller: "Sofia Gomez",
+        focus: "Grandes cuentas",
+        actual: "$448K",
+        target: "$420K",
+        attainment: 107,
+        gap: "+$28K",
+        tone: "text-emerald-600",
+        avatar: avatarStyles.violetWave,
+      },
+      {
+        seller: "Martin Rivas",
+        focus: "Cartera corporativa",
+        actual: "$391K",
+        target: "$405K",
+        attainment: 97,
+        gap: "-$14K",
+        tone: "text-amber-600",
+        avatar: avatarStyles.slateShort,
+      },
+      {
+        seller: "Lucia Perez",
+        focus: "Cuentas estrategicas",
+        actual: "$336K",
+        target: "$350K",
+        attainment: 96,
+        gap: "-$14K",
+        tone: "text-amber-600",
+        avatar: avatarStyles.clayBun,
+      },
+    ],
+  },
+  canal: {
+    label: "Canal",
+    eyebrow: "Vista comercial",
+    title: "Ranking de vendedores vs objetivo",
+    subtitle: "Lee rapido que parte del canal sostiene volumen y cual necesita coaching comercial.",
+    summary: [
+      { label: "Cumplimiento promedio", value: "94%" },
+      { label: "Sobre meta", value: "0 equipos" },
+      { label: "Brecha activa", value: "$42K" },
+    ],
+    note: "El canal no esta caido, pero si desalineado: conviene corregir foco antes de empujar mas volumen.",
+    sellers: [
+      {
+        seller: "Diego Ferraro",
+        focus: "Distribuidores norte",
+        actual: "$284K",
+        target: "$310K",
+        attainment: 92,
+        gap: "-$26K",
+        tone: "text-rose-600",
+        avatar: avatarStyles.midnightShort,
+      },
+      {
+        seller: "Carla Medina",
+        focus: "Mayoristas centro",
+        actual: "$302K",
+        target: "$315K",
+        attainment: 96,
+        gap: "-$13K",
+        tone: "text-amber-600",
+        avatar: avatarStyles.wineBun,
+      },
+      {
+        seller: "Federico Costa",
+        focus: "Reventa interior",
+        actual: "$328K",
+        target: "$335K",
+        attainment: 98,
+        gap: "-$7K",
+        tone: "text-amber-600",
+        avatar: avatarStyles.mossWave,
+      },
+    ],
+  },
+  expansion: {
+    label: "Expansion",
+    eyebrow: "Vista comercial",
+    title: "Ranking de vendedores vs objetivo",
+    subtitle: "Aisla quien esta abriendo cartera nueva y quien necesita respaldo para convertir mejor.",
+    summary: [
+      { label: "Cumplimiento promedio", value: "103%" },
+      { label: "Sobre meta", value: "2 ejecutivos" },
+      { label: "Brecha activa", value: "$12K" },
+    ],
+    note: "El equipo de expansion ya encuentra demanda; ahora la mejora esta en priorizar mejor a quien seguir.",
+    sellers: [
+      {
+        seller: "Ines Duarte",
+        focus: "Nuevos negocios",
+        actual: "$218K",
+        target: "$205K",
+        attainment: 106,
+        gap: "+$13K",
+        tone: "text-emerald-600",
+        avatar: avatarStyles.clayBun,
+      },
+      {
+        seller: "Tomas Pardo",
+        focus: "Prospeccion outbound",
+        actual: "$194K",
+        target: "$188K",
+        attainment: 103,
+        gap: "+$6K",
+        tone: "text-emerald-600",
+        avatar: avatarStyles.midnightShort,
+      },
+      {
+        seller: "Julia Sosa",
+        focus: "Partners y referidos",
+        actual: "$171K",
+        target: "$177K",
+        attainment: 97,
+        gap: "-$6K",
+        tone: "text-amber-600",
+        avatar: avatarStyles.violetWave,
+      },
+    ],
+  },
+} as const;
+
+const mixClientFilters = [
+  { id: "distribuidora-norte", label: "Distribuidora Norte" },
+  { id: "grupo-solaris", label: "Grupo Solaris" },
+  { id: "comercial-andes", label: "Comercial Andes" },
+] as const;
+
+const mixColumns = {
+  producto: ["Linea A", "Linea B", "Linea C", "Linea D", "Linea E"],
+  categoria: ["Base", "Premium", "Accesorios", "Servicio", "Reposicion"],
+} as const;
+
+const mixMatrixRows = [
   {
-    seller: "Sofía Gómez",
-    focus: "Grandes cuentas",
-    actual: "$448K",
-    target: "$420K",
-    attainment: 107,
-    gap: "+$28K",
-    tone: "text-emerald-600",
-    avatar: {
-      background: "#F2EDFF",
-      skin: "#EFC5AE",
-      hair: "#5B416F",
-      jacket: "#7111DF",
-      shirt: "#F8F6FF",
-      variant: "wave" as SellerAvatarVariant,
-    },
+    id: "distribuidora-norte",
+    label: "Distribuidora Norte",
+    producto: ["active", "active", "gap", "active", "none"] as MatrixState[],
+    categoria: ["active", "gap", "active", "none", "gap"] as MatrixState[],
   },
   {
-    seller: "Martín Rivas",
-    focus: "Canal interior",
-    actual: "$391K",
-    target: "$405K",
-    attainment: 97,
-    gap: "-$14K",
-    tone: "text-amber-600",
-    avatar: {
-      background: "#ECF3FF",
-      skin: "#DEB18F",
-      hair: "#2B2A31",
-      jacket: "#315FBE",
-      shirt: "#EEF4FF",
-      variant: "short" as SellerAvatarVariant,
-    },
+    id: "grupo-solaris",
+    label: "Grupo Solaris",
+    producto: ["active", "gap", "active", "gap", "none"] as MatrixState[],
+    categoria: ["active", "none", "active", "gap", "gap"] as MatrixState[],
   },
   {
-    seller: "Lucía Pérez",
-    focus: "Cartera activa",
-    actual: "$336K",
-    target: "$350K",
-    attainment: 96,
-    gap: "-$14K",
-    tone: "text-amber-600",
-    avatar: {
-      background: "#FFF1EA",
-      skin: "#EDBDA2",
-      hair: "#734738",
-      jacket: "#D96D4D",
-      shirt: "#FFF7F2",
-      variant: "bun" as SellerAvatarVariant,
-    },
+    id: "comercial-andes",
+    label: "Comercial Andes",
+    producto: ["active", "active", "active", "gap", "active"] as MatrixState[],
+    categoria: ["gap", "active", "active", "active", "none"] as MatrixState[],
+  },
+  {
+    id: "industrial-mendez",
+    label: "Industrial Mendez",
+    producto: ["none", "active", "none", "gap", "none"] as MatrixState[],
+    categoria: ["active", "gap", "none", "none", "active"] as MatrixState[],
+  },
+  {
+    id: "logistica-central",
+    label: "Logistica Central",
+    producto: ["active", "none", "gap", "active", "active"] as MatrixState[],
+    categoria: ["gap", "active", "none", "active", "gap"] as MatrixState[],
+  },
+  {
+    id: "techparts",
+    label: "TechParts SRL",
+    producto: ["active", "active", "active", "active", "none"] as MatrixState[],
+    categoria: ["none", "active", "gap", "active", "none"] as MatrixState[],
   },
 ] as const;
 
-const rankingStats = [
-  { label: "Cumplimiento promedio", value: "100%" },
-  { label: "Sobre meta", value: "1 equipo" },
-  { label: "Brecha activa", value: "$28K" },
-] as const;
-
-const productViews = {
-  producto: [
-    { item: "Línea Premium", revenue: "$184K", margin: "36%", signal: "Alta rentabilidad, baja penetración" },
-    { item: "Producto A", revenue: "$261K", margin: "18%", signal: "Sostiene volumen, comprime margen" },
-    { item: "Producto B", revenue: "$143K", margin: "29%", signal: "Buena salida, poca prioridad comercial" },
-  ],
-  categoria: [
-    { item: "Categoría Estrategia", revenue: "$212K", margin: "34%", signal: "Se vende menos de lo que podría" },
-    { item: "Categoría Base", revenue: "$307K", margin: "19%", signal: "Alta dependencia, bajo diferencial" },
-    { item: "Categoría Táctica", revenue: "$96K", margin: "12%", signal: "Demasiado descuento para sostenerla" },
-  ],
-  alertas: [
-    { item: "Producto C", revenue: "$88K", margin: "11%", signal: "Creció volumen, cayó margen" },
-    { item: "Kit Logístico", revenue: "$61K", margin: "9%", signal: "Consume foco, aporta poco retorno" },
-    { item: "Addon Premium", revenue: "$45K", margin: "41%", signal: "Alto margen, bajo empuje comercial" },
-  ],
+const mixClientInsights = {
+  "distribuidora-norte": {
+    producto: {
+      eyebrow: "Mix por cliente",
+      title: "Huecos de linea y cross-sell potencial",
+      description: "El cliente compra bien las lineas base, pero todavia deja espacio claro en el catalogo medio.",
+      stats: [
+        { label: "Mix incompleto", value: "68%", detail: "sobre catalogo vigente" },
+        { label: "Huecos detectados", value: "4", detail: "lineas para abrir" },
+        { label: "Mayor potencial", value: "Linea C", detail: "cross-sell inmediato" },
+      ],
+      note: "Aca no falta volumen: falta completar mezcla.",
+    },
+    categoria: {
+      eyebrow: "Mix por cliente",
+      title: "Brechas de categoria relevantes",
+      description: "Se sostiene la base, pero Premium y Reposicion todavia estan subpenetradas para este cliente.",
+      stats: [
+        { label: "Mix incompleto", value: "54%", detail: "por categoria" },
+        { label: "Huecos detectados", value: "3", detail: "categorias activables" },
+        { label: "Mayor potencial", value: "Premium", detail: "subpenetrada" },
+      ],
+      note: "La oportunidad esta en subir valor por cliente, no solo frecuencia.",
+    },
+  },
+  "grupo-solaris": {
+    producto: {
+      eyebrow: "Mix por cliente",
+      title: "Cobertura irregular entre lineas",
+      description: "Grupo Solaris ya compra volumen, pero deja huecos claros donde mas margen podrias capturar.",
+      stats: [
+        { label: "Mix incompleto", value: "61%", detail: "sobre lineas activas" },
+        { label: "Huecos detectados", value: "5", detail: "lineas para priorizar" },
+        { label: "Mayor potencial", value: "Linea D", detail: "entrada natural" },
+      ],
+      note: "Conviene ordenar propuesta antes de seguir empujando descuentos.",
+    },
+    categoria: {
+      eyebrow: "Mix por cliente",
+      title: "Categorias con baja profundidad",
+      description: "Hay adopcion inicial, pero todavia no aparece una logica consistente de crecimiento por categoria.",
+      stats: [
+        { label: "Mix incompleto", value: "58%", detail: "por familia" },
+        { label: "Huecos detectados", value: "4", detail: "categorias abiertas" },
+        { label: "Mayor potencial", value: "Servicio", detail: "anclaje consultivo" },
+      ],
+      note: "La mejora esta en expandir valor, no en sumar mas SKUs aislados.",
+    },
+  },
+  "comercial-andes": {
+    producto: {
+      eyebrow: "Mix por cliente",
+      title: "Cuenta madura con una brecha especifica",
+      description: "Comercial Andes ya compra varias lineas, pero todavia queda una pieza critica con potencial directo.",
+      stats: [
+        { label: "Mix incompleto", value: "42%", detail: "mas completo que el promedio" },
+        { label: "Huecos detectados", value: "2", detail: "faltantes reales" },
+        { label: "Mayor potencial", value: "Linea D", detail: "mayor ticket incremental" },
+      ],
+      note: "Cuando la cuenta ya esta madura, la lectura fina del mix vale mas que la intuicion.",
+    },
+    categoria: {
+      eyebrow: "Mix por cliente",
+      title: "Categorias con espacio de expansion",
+      description: "La cuenta ya tiene base solida; el proximo paso es capturar profundidad en categorias de mayor valor.",
+      stats: [
+        { label: "Mix incompleto", value: "47%", detail: "sobre categorias objetivo" },
+        { label: "Huecos detectados", value: "2", detail: "espacios concretos" },
+        { label: "Mayor potencial", value: "Reposicion", detail: "recurrencia" },
+      ],
+      note: "La senal relevante no es vender mas de lo mismo, sino vender mejor.",
+    },
+  },
 } as const;
 
 function SellerAvatar({
@@ -113,7 +344,7 @@ function SellerAvatar({
   avatar,
 }: {
   rank: number;
-  avatar: (typeof sellerRanking)[number]["avatar"];
+  avatar: (typeof avatarStyles)[keyof typeof avatarStyles];
 }) {
   return (
     <div className="relative shrink-0">
@@ -183,127 +414,322 @@ function SellerAvatar({
 }
 
 function SellerRankingBoard() {
+  const [teamView, setTeamView] = useState<RankingTeamId>("grandes-cuentas");
+  const currentTeam = rankingTeamViews[teamView];
+
   return (
-    <div className="rounded-[2rem] border border-border/60 bg-white p-6 shadow-[0_24px_70px_rgba(20,19,26,0.06)] lg:p-7">
-      <div className="mb-6 flex items-center justify-between gap-4">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/50">
-            Vista comercial
-          </p>
-          <h3 className="mt-2 text-2xl font-semibold tracking-tight text-foreground">
-            Ranking de vendedores vs objetivo
-          </h3>
-        </div>
-        <Users className="h-5 w-5 text-accent" />
-      </div>
-
-      <div className="mb-6 grid gap-3 sm:grid-cols-3">
-        {rankingStats.map((stat) => (
-          <div key={stat.label} className="rounded-2xl border border-border/50 bg-muted/20 px-4 py-3">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-              {stat.label}
+    <div className="flex h-full flex-col overflow-hidden rounded-[1.7rem] border border-border/60 bg-white shadow-[0_24px_70px_rgba(20,19,26,0.06)]">
+      <div className="border-b border-border/45 px-5 pb-4 pt-5">
+        <div className="mb-4 flex items-start justify-between gap-4">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/50">
+              {currentTeam.eyebrow}
             </p>
-            <p className="mt-2 text-lg font-semibold text-foreground">{stat.value}</p>
+            <h3 className="mt-2 text-[1.75rem] font-semibold tracking-tight text-foreground">
+              {currentTeam.title}
+            </h3>
+            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+              {currentTeam.subtitle}
+            </p>
           </div>
-        ))}
+          <Users className="mt-1 h-5 w-5 text-accent" />
+        </div>
+
+        <div className="rounded-full border border-border/60 bg-[#F7F4FB] p-1">
+          <div className="grid grid-cols-3 gap-1">
+            {(Object.entries(rankingTeamViews) as [RankingTeamId, (typeof rankingTeamViews)[RankingTeamId]][]).map(
+              ([teamId, team]) => {
+                const isActive = teamView === teamId;
+
+                return (
+                  <button
+                    key={teamId}
+                    type="button"
+                    onClick={() => setTeamView(teamId)}
+                    className={`relative rounded-full px-3 py-2.5 text-xs font-medium transition-colors ${
+                      isActive ? "text-white" : "text-foreground/72 hover:text-foreground"
+                    }`}
+                  >
+                    {isActive && (
+                      <motion.span
+                        layoutId="ranking-team-pill"
+                        className="absolute inset-0 rounded-full bg-[linear-gradient(135deg,#7E4CF4,#7111DF)] shadow-[0_12px_26px_rgba(113,17,223,0.22)]"
+                        transition={{ type: "spring", bounce: 0.2, duration: 0.35 }}
+                      />
+                    )}
+                    <span className="relative z-10">{team.label}</span>
+                  </button>
+                );
+              },
+            )}
+          </div>
+        </div>
       </div>
 
-      <div className="space-y-3">
-        {sellerRanking.map((seller, index) => (
-          <div key={seller.seller} className="rounded-2xl border border-border/50 bg-muted/20 p-4">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex items-start gap-3">
-                <SellerAvatar rank={index + 1} avatar={seller.avatar} />
-                <div>
-                  <p className="text-sm font-semibold text-foreground">{seller.seller}</p>
-                  <p className="mt-1 text-xs text-muted-foreground">{seller.focus}</p>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={teamView}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
+          className="flex h-full flex-col px-5 pb-5 pt-5"
+        >
+          <div className="mb-5 grid gap-3 md:grid-cols-3">
+            {currentTeam.summary.map((stat) => (
+              <div key={stat.label} className="rounded-2xl border border-border/50 bg-muted/15 px-4 py-3.5">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
+                  {stat.label}
+                </p>
+                <p className="mt-2 text-lg font-semibold text-foreground">{stat.value}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex-1 space-y-3">
+            {currentTeam.sellers.map((seller, index) => (
+              <div key={seller.seller} className="rounded-2xl border border-border/50 bg-muted/15 p-4">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-start gap-3">
+                    <SellerAvatar rank={index + 1} avatar={seller.avatar} />
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">{seller.seller}</p>
+                      <p className="mt-1 text-xs text-muted-foreground">{seller.focus}</p>
+                    </div>
+                  </div>
+
+                  <div className="text-right">
+                    <p className={`text-sm font-semibold ${seller.tone}`}>{seller.attainment}%</p>
+                    <p className="text-[11px] text-muted-foreground">{seller.gap}</p>
+                  </div>
+                </div>
+
+                <div className="mt-4">
+                  <div className="mb-2 flex items-center justify-between text-[11px] text-muted-foreground">
+                    <span>{seller.actual} actual</span>
+                    <span>{seller.target} objetivo</span>
+                  </div>
+                  <div className="h-2 rounded-full bg-muted/70">
+                    <motion.div
+                      className="h-2 rounded-full bg-[linear-gradient(90deg,#8A5CF6,#7111DF)]"
+                      initial={{ width: 0 }}
+                      animate={{ width: `${Math.min(seller.attainment, 100)}%` }}
+                      transition={{ duration: 0.45, ease: "easeOut" }}
+                    />
+                  </div>
                 </div>
               </div>
-
-              <div className="text-right">
-                <p className={`text-sm font-semibold ${seller.tone}`}>{seller.attainment}%</p>
-                <p className="text-[11px] text-muted-foreground">{seller.gap}</p>
-              </div>
-            </div>
-
-            <div className="mt-4">
-              <div className="mb-2 flex items-center justify-between text-[11px] text-muted-foreground">
-                <span>{seller.actual} actual</span>
-                <span>{seller.target} objetivo</span>
-              </div>
-              <div className="h-2 rounded-full bg-muted/70">
-                <motion.div
-                  className="h-2 rounded-full bg-accent"
-                  initial={{ width: 0 }}
-                  whileInView={{ width: `${Math.min(seller.attainment, 100)}%` }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.55, ease: "easeOut" }}
-                />
-              </div>
-            </div>
+            ))}
           </div>
-        ))}
-      </div>
+
+          <div className="mt-4 rounded-2xl border border-accent/12 bg-accent/[0.04] px-4 py-3">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent/65">Lectura ejecutiva</p>
+            <p className="mt-2 text-sm leading-relaxed text-foreground/80">{currentTeam.note}</p>
+          </div>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }
 
-function ProductSignalBoard() {
-  const [view, setView] = useState<keyof typeof productViews>("producto");
+function MixStatusSquare({
+  state,
+  isHighlighted,
+}: {
+  state: MatrixState;
+  isHighlighted: boolean;
+}) {
+  const baseClass = "h-5 w-5 rounded-[6px] border transition-all duration-200";
+
+  if (state === "active") {
+    return (
+      <div
+        className={`${baseClass} ${isHighlighted ? "scale-105 shadow-[0_6px_14px_rgba(113,17,223,0.22)]" : ""}`}
+        style={{
+          background: "linear-gradient(135deg, #8A5CF6 0%, #7111DF 100%)",
+          borderColor: "#7A3FF0",
+        }}
+      />
+    );
+  }
+
+  if (state === "gap") {
+    return (
+      <div
+        className={`${baseClass} ${isHighlighted ? "scale-105" : ""}`}
+        style={{
+          background: "#E8E2F5",
+          borderColor: "#D8CEE9",
+        }}
+      />
+    );
+  }
 
   return (
-    <div className="rounded-[2rem] border border-border/60 bg-white p-6 shadow-[0_24px_70px_rgba(20,19,26,0.06)] lg:p-7">
-      <div className="mb-5 flex items-center justify-between gap-4">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/50">
-            Vista producto
-          </p>
-          <h3 className="mt-2 text-2xl font-semibold tracking-tight text-foreground">
-            Mix, margen y productos a priorizar
-          </h3>
-        </div>
-        <Layers3 className="h-5 w-5 text-accent" />
-      </div>
+    <div
+      className={baseClass}
+      style={{
+        background: "#F2EFEB",
+        borderColor: "#E6DFD7",
+      }}
+    />
+  );
+}
 
-      <div className="mb-6 flex gap-2 rounded-full bg-muted/60 p-1">
-        {[
-          { key: "producto", label: "Producto" },
-          { key: "categoria", label: "Categoría" },
-          { key: "alertas", label: "Alertas" },
-        ].map((tab) => (
-          <button
-            key={tab.key}
-            onClick={() => setView(tab.key as keyof typeof productViews)}
-            className={`flex-1 rounded-full px-3 py-2 text-xs font-medium transition-colors ${
-              view === tab.key ? "bg-white text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
+function ProductSignalBoard() {
+  const [mode, setMode] = useState<MixMode>("producto");
+  const [selectedClient, setSelectedClient] = useState<MixClientId>("distribuidora-norte");
+  const currentInsight = mixClientInsights[selectedClient][mode];
+  const columns = mixColumns[mode];
 
-      <div className="overflow-hidden rounded-2xl border border-border/50">
-        <div className="grid grid-cols-[1.5fr_0.8fr_0.7fr] gap-3 bg-muted/20 px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-          <span>Item</span>
-          <span>Ingresos</span>
-          <span>Margen</span>
-        </div>
-
-        {productViews[view].map((item) => (
-          <div
-            key={item.item}
-            className="grid grid-cols-[1.5fr_0.8fr_0.7fr] gap-3 border-t border-border/50 px-4 py-4"
-          >
-            <div>
-              <p className="text-sm font-semibold text-foreground">{item.item}</p>
-              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{item.signal}</p>
-            </div>
-            <div className="text-sm font-medium text-foreground">{item.revenue}</div>
-            <div className="text-sm font-semibold text-accent">{item.margin}</div>
+  return (
+    <div className="flex h-full flex-col overflow-hidden rounded-[1.7rem] border border-border/60 bg-white shadow-[0_24px_70px_rgba(20,19,26,0.06)]">
+      <div className="border-b border-border/45 px-5 pb-4 pt-5">
+        <div className="mb-4 flex items-start justify-between gap-4">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/50">
+              {currentInsight.eyebrow}
+            </p>
+            <h3 className="mt-2 text-[1.75rem] font-semibold tracking-tight text-foreground">
+              {currentInsight.title}
+            </h3>
+            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+              {currentInsight.description}
+            </p>
           </div>
-        ))}
+          <Layers3 className="mt-1 h-5 w-5 text-accent" />
+        </div>
+
+        <div className="space-y-3">
+          <div className="rounded-full border border-border/60 bg-[#F7F4FB] p-1">
+            <div className="grid grid-cols-2 gap-1">
+              {(["producto", "categoria"] as MixMode[]).map((currentMode) => {
+                const isActive = mode === currentMode;
+
+                return (
+                  <button
+                    key={currentMode}
+                    type="button"
+                    onClick={() => setMode(currentMode)}
+                    className={`relative rounded-full px-3 py-2.5 text-xs font-medium transition-colors ${
+                      isActive ? "text-white" : "text-foreground/72 hover:text-foreground"
+                    }`}
+                  >
+                    {isActive && (
+                      <motion.span
+                        layoutId="mix-mode-pill"
+                        className="absolute inset-0 rounded-full bg-[linear-gradient(135deg,#7E4CF4,#7111DF)] shadow-[0_12px_26px_rgba(113,17,223,0.22)]"
+                        transition={{ type: "spring", bounce: 0.2, duration: 0.35 }}
+                      />
+                    )}
+                    <span className="relative z-10">{currentMode === "producto" ? "Producto" : "Categoria"}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            {mixClientFilters.map((client) => {
+              const isActive = selectedClient === client.id;
+
+              return (
+                <button
+                  key={client.id}
+                  type="button"
+                  onClick={() => setSelectedClient(client.id)}
+                  className={`rounded-full border px-3.5 py-2 text-xs font-medium transition-colors ${
+                    isActive
+                      ? "border-accent/20 bg-accent/[0.08] text-accent"
+                      : "border-border/55 bg-white text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {client.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
       </div>
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={`${mode}-${selectedClient}`}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
+          className="flex h-full flex-col px-5 pb-5 pt-5"
+        >
+          <div className="mb-5 grid gap-3 md:grid-cols-3">
+            {currentInsight.stats.map((stat) => (
+              <div key={stat.label} className="rounded-2xl border border-border/50 bg-muted/15 px-4 py-3.5">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
+                  {stat.label}
+                </p>
+                <p className="mt-2 text-2xl font-semibold tracking-tight text-foreground">{stat.value}</p>
+                <p className="mt-1 text-[11px] text-muted-foreground">{stat.detail}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mb-4 rounded-2xl border border-accent/12 bg-accent/[0.04] px-4 py-3">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent/65">Senal principal</p>
+            <p className="mt-2 text-sm leading-relaxed text-foreground/80">{currentInsight.note}</p>
+          </div>
+
+          <div className="flex-1 overflow-hidden rounded-[1.5rem] border border-border/55 bg-[#FCFBFE]">
+            <div className="grid grid-cols-[1.6fr_repeat(5,0.7fr)] gap-2 border-b border-border/45 px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
+              <span>Cliente</span>
+              {columns.map((column) => (
+                <span key={column} className="text-center">
+                  {column}
+                </span>
+              ))}
+            </div>
+
+            <div className="divide-y divide-border/45">
+              {mixMatrixRows.map((row) => {
+                const cells = row[mode];
+                const isHighlighted = row.id === selectedClient;
+
+                return (
+                  <div
+                    key={row.id}
+                    className={`grid grid-cols-[1.6fr_repeat(5,0.7fr)] items-center gap-2 px-4 py-3 transition-colors ${
+                      isHighlighted ? "bg-accent/[0.05]" : "bg-transparent"
+                    }`}
+                  >
+                    <span className={`text-sm ${isHighlighted ? "font-semibold text-foreground" : "text-foreground/76"}`}>
+                      {row.label}
+                    </span>
+                    {cells.map((cell, index) => (
+                      <div key={`${row.id}-${index}`} className="flex justify-center">
+                        <MixStatusSquare state={cell} isHighlighted={isHighlighted} />
+                      </div>
+                    ))}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[11px] text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <MixStatusSquare state="active" isHighlighted={false} />
+              <span>Compra activa</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <MixStatusSquare state="gap" isHighlighted={false} />
+              <span>Hueco con oportunidad</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <MixStatusSquare state="none" isHighlighted={false} />
+              <span>Sin senal prioritaria</span>
+            </div>
+          </div>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }
@@ -322,7 +748,7 @@ export function DemoDashboard() {
     }
   }, []);
 
-  const handleAnchorClick = (event: MouseEvent<HTMLAnchorElement>, id: DemoSectionId) => {
+  const handleAnchorClick = (event: MouseEvent<HTMLAnchorElement>, id: string) => {
     event.preventDefault();
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
     window.history.replaceState(null, "", `#${id}`);
@@ -334,25 +760,23 @@ export function DemoDashboard() {
       <main>
         <section
           id="vista-ejecutiva"
-          className="scroll-mt-40 relative overflow-hidden border-b border-border/40 bg-[#F3F1EE] pb-16 pt-32 lg:scroll-mt-44 lg:pb-20 lg:pt-36"
+          className="relative overflow-hidden border-b border-border/40 bg-[#F3F1EE] pb-16 pt-32 lg:pb-20 lg:pt-36"
         >
           <div
             className="pointer-events-none absolute inset-0 -z-10"
             style={{
-              background:
-                "linear-gradient(180deg, rgba(243,241,238,1) 0%, rgba(255,255,255,1) 68%)",
+              background: "linear-gradient(180deg, rgba(243,241,238,1) 0%, rgba(255,255,255,1) 72%)",
             }}
           />
           <div
-            className="pointer-events-none absolute left-0 right-0 top-0 -z-10 h-[520px] opacity-60"
+            className="pointer-events-none absolute left-0 right-0 top-0 -z-10 h-[540px] opacity-60"
             style={{
-              background:
-                "radial-gradient(ellipse at top right, rgba(113,17,223,0.14) 0%, transparent 60%)",
+              background: "radial-gradient(ellipse at top right, rgba(113,17,223,0.14) 0%, transparent 60%)",
             }}
           />
 
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="grid gap-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:items-center">
+            <div className="grid gap-10 lg:grid-cols-[minmax(0,0.58fr)_minmax(0,1.42fr)] lg:items-center">
               <motion.div
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -365,12 +789,12 @@ export function DemoDashboard() {
                 </div>
 
                 <div className="space-y-4">
-                  <h1 className="max-w-xl text-4xl font-semibold leading-[1.02] tracking-tight text-foreground md:text-[3.2rem]">
-                    Así se ve un dashboard de ventas para decidir rápido.
+                  <h1 className="max-w-md text-4xl font-semibold leading-[1.01] tracking-tight text-foreground md:text-[3.3rem]">
+                    Explora una demo real de dashboard comercial.
                   </h1>
-                  <p className="max-w-lg text-base leading-relaxed text-muted-foreground">
-                    Primero el panorama general. Después el equipo. Por último, producto y categoría.
-                    La lógica es detectar rápido dónde actuar.
+                  <p className="max-w-md text-base leading-relaxed text-muted-foreground">
+                    Tres vistas para leer resultado general, desempeno del equipo y huecos de mix sin salir
+                    de la misma pantalla.
                   </p>
                 </div>
 
@@ -379,15 +803,15 @@ export function DemoDashboard() {
                     <a
                       href={ROOT_DIAGNOSTIC_SECTION_HREF}
                       onClick={() => trackDiagnosisClick("demo_hero")}
-                      className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-accent/90"
+                      className="inline-flex items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#7E4CF4,#7111DF)] px-7 py-3.5 text-sm font-medium text-white shadow-[0_18px_40px_rgba(113,17,223,0.22)] transition-transform duration-200 hover:-translate-y-0.5"
                     >
-                      Agendar diagnóstico
+                      Agendar diagnostico
                       <ArrowRight className="h-4 w-4" />
                     </a>
                     <a
                       href="#oportunidades"
                       onClick={(event) => handleAnchorClick(event, "oportunidades")}
-                      className="inline-flex items-center justify-center rounded-full border border-border/60 bg-white px-7 py-3.5 text-sm font-medium text-foreground transition-colors hover:border-accent/35 hover:text-accent"
+                      className="inline-flex items-center justify-center rounded-full border border-border/60 bg-white px-7 py-3.5 text-sm font-medium text-foreground shadow-[0_10px_26px_rgba(20,19,26,0.06)] transition-colors hover:border-accent/35 hover:text-accent"
                     >
                       Ver otras oportunidades
                     </a>
@@ -404,8 +828,9 @@ export function DemoDashboard() {
                   </a>
                 </div>
 
-                <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
-                  Recorré las vistas del panel de la derecha y después bajá al detalle completo.
+                <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
+                  Cada vista mantiene el mismo encuadre para que la demo se sienta como un producto y no
+                  como una landing con bloques.
                 </p>
               </motion.div>
 
@@ -415,7 +840,7 @@ export function DemoDashboard() {
                 transition={{ duration: 0.8, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
                 className="relative"
               >
-                <div className="rounded-[2rem] border border-border/60 bg-white/82 p-4 shadow-[0_32px_90px_rgba(20,19,26,0.08)] lg:p-6">
+                <div className="rounded-[2rem] border border-border/60 bg-white/84 p-4 shadow-[0_32px_90px_rgba(20,19,26,0.08)] lg:p-6">
                   <div className="mb-5 border-b border-border/45 pb-5">
                     <div className="mb-4 flex items-start justify-between gap-4">
                       <div>
@@ -423,164 +848,68 @@ export function DemoDashboard() {
                           Recorrer demo
                         </p>
                         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                          Cambiá de vista en pantalla y mirá la lógica completa sin salir del hero.
+                          Cambia de vista y usa filtros reales dentro del mismo panel.
                         </p>
                       </div>
                       <div className="hidden rounded-full border border-accent/15 bg-accent/8 px-3 py-1 text-[11px] font-semibold text-accent lg:inline-flex">
-                        En pantalla
+                        Full experience
                       </div>
                     </div>
 
-                    <div className="flex flex-wrap gap-2">
-                      {heroPreviewSections.map((section) => {
-                        const isActive = heroPreview === section.id;
+                    <div className="rounded-[1.4rem] border border-border/55 bg-[#F7F4FB] p-1.5">
+                      <div className="grid grid-cols-3 gap-1">
+                        {heroPreviewSections.map((section) => {
+                          const isActive = heroPreview === section.id;
 
-                        return (
-                          <button
-                            key={section.id}
-                            type="button"
-                            onClick={() => setHeroPreview(section.id)}
-                            className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                              isActive
-                                ? "bg-accent text-white shadow-sm shadow-accent/20"
-                                : "border border-border/60 bg-white text-foreground hover:border-accent/35 hover:text-accent"
-                            }`}
-                          >
-                            {section.label}
-                          </button>
-                        );
-                      })}
+                          return (
+                            <button
+                              key={section.id}
+                              type="button"
+                              onClick={() => {
+                                setHeroPreview(section.id);
+                                window.history.replaceState(null, "", `#${section.id}`);
+                              }}
+                              className={`relative rounded-full px-4 py-2.5 text-sm font-medium transition-colors ${
+                                isActive ? "text-white" : "text-foreground/74 hover:text-foreground"
+                              }`}
+                            >
+                              {isActive && (
+                                <motion.span
+                                  layoutId="hero-preview-pill"
+                                  className="absolute inset-0 rounded-full bg-[linear-gradient(135deg,#7E4CF4,#7111DF)] shadow-[0_14px_30px_rgba(113,17,223,0.22)]"
+                                  transition={{ type: "spring", bounce: 0.2, duration: 0.38 }}
+                                />
+                              )}
+                              <span className="relative z-10">{section.label}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
 
-                    <p className="mt-4 text-sm text-muted-foreground">{heroPreviewCopy[heroPreview]}</p>
+                    <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{heroPreviewCopy[heroPreview]}</p>
                   </div>
 
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={heroPreview}
-                      initial={{ opacity: 0, y: 14 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                      className="min-h-[420px] lg:min-h-[560px]"
-                    >
-                      {heroPreview === "vista-ejecutiva" && <InteractiveDashboard />}
-                      {heroPreview === "ranking-vendedores" && <SellerRankingBoard />}
-                      {heroPreview === "mix-producto" && <ProductSignalBoard />}
-                    </motion.div>
-                  </AnimatePresence>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </section>
-
-        <section className="bg-[#F7F5F2] py-16 lg:py-20">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.45 }}
-              className="mb-10 max-w-3xl"
-            >
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">
-                Continuidad guiada
-              </p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground">
-                Después del panorama, la demo baja a operación y producto sin cortar la lectura.
-              </h2>
-              <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-                Cada bloque responde una pregunta concreta. Primero quién necesita foco comercial.
-                Después qué mix conviene empujar o corregir.
-              </p>
-            </motion.div>
-
-            <div
-              id="ranking-vendedores"
-              className="scroll-mt-40 grid gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:items-start lg:gap-10 lg:scroll-mt-44"
-            >
-              <motion.div
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.45 }}
-                className="space-y-5 lg:sticky lg:top-44"
-              >
-                <div className="space-y-3">
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent/60">
-                    Ranking comercial
-                  </p>
-                  <h3 className="text-3xl font-semibold tracking-tight text-foreground">
-                    Quién está cerca del objetivo y dónde se abre la brecha.
-                  </h3>
-                  <p className="text-base leading-relaxed text-muted-foreground">
-                    Esta vista baja la lectura al equipo. No agrega ruido: ordena rápido qué vendedor
-                    o cartera necesita intervención concreta.
-                  </p>
-                </div>
-
-                <div className="rounded-2xl border border-border/50 bg-white/76 p-4">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-                    Decisión que habilita
-                  </p>
-                  <p className="mt-2 text-sm leading-relaxed text-foreground/80">
-                    Priorizar seguimiento, coaching o reasignación comercial antes de que la brecha se agrande.
-                  </p>
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.45, delay: 0.08 }}
-              >
-                <SellerRankingBoard />
-              </motion.div>
-            </div>
-
-            <div
-              id="mix-producto"
-              className="scroll-mt-40 mt-14 grid gap-8 border-t border-foreground/6 pt-14 lg:mt-16 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-start lg:gap-10 lg:pt-16 lg:scroll-mt-44"
-            >
-              <motion.div
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.45 }}
-                className="order-2 lg:order-1"
-              >
-                <ProductSignalBoard />
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.45, delay: 0.08 }}
-                className="order-1 space-y-5 lg:order-2 lg:sticky lg:top-44"
-              >
-                <div className="space-y-3">
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent/60">
-                    Mix de producto
-                  </p>
-                  <h3 className="text-3xl font-semibold tracking-tight text-foreground">
-                    Qué productos empujan valor y cuáles están frenando margen.
-                  </h3>
-                  <p className="text-base leading-relaxed text-muted-foreground">
-                    Acá la demo deja claro si el crecimiento viene bien orientado o si el mix está
-                    escondiendo deterioro comercial detrás del volumen.
-                  </p>
-                </div>
-
-                <div className="rounded-2xl border border-border/50 bg-white/76 p-4">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-                    Decisión que habilita
-                  </p>
-                  <p className="mt-2 text-sm leading-relaxed text-foreground/80">
-                    Cambiar foco, descuentos o prioridad de producto antes de seguir escalando lo menos rentable.
-                  </p>
+                  <div className="h-[620px] overflow-hidden lg:h-[640px]">
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={heroPreview}
+                        initial={{ opacity: 0, y: 14 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                        className="h-full"
+                      >
+                        {heroPreview === "vista-ejecutiva" && (
+                          <div className="h-full">
+                            <InteractiveDashboard />
+                          </div>
+                        )}
+                        {heroPreview === "ranking-vendedores" && <SellerRankingBoard />}
+                        {heroPreview === "mix-producto" && <ProductSignalBoard />}
+                      </motion.div>
+                    </AnimatePresence>
+                  </div>
                 </div>
               </motion.div>
             </div>
@@ -588,12 +917,12 @@ export function DemoDashboard() {
         </section>
 
         <OpportunitiesSection
-          eyebrow="Señales clave"
-          title="Otras oportunidades que también se pueden volver visibles"
-          description="Además del panorama principal, el sistema puede abrir focos accionables sobre cartera, margen, expansión y automatización operativa."
-          footerText="Si esta lectura se parece a tu negocio, el siguiente paso lógico es revisar tu caso real y ver cuál conviene priorizar primero."
+          eyebrow="Senales clave"
+          title="Otras oportunidades que tambien se pueden volver visibles"
+          description="Ademas del panorama principal, el sistema puede abrir focos accionables sobre cartera, margen, expansion y automatizacion operativa."
+          footerText="Si esta lectura se parece a tu negocio, el siguiente paso logico es revisar tu caso real y ver cual conviene priorizar primero."
           footerHref={ROOT_DIAGNOSTIC_SECTION_HREF}
-          footerLabel="Agendar diagnóstico"
+          footerLabel="Agendar diagnostico"
           footerOnClick={() => trackDiagnosisClick("demo_signals")}
         />
 
@@ -615,8 +944,8 @@ export function DemoDashboard() {
                     Si esta demo te resulta familiar, ya tenemos un punto de partida serio para tu caso.
                   </h2>
                   <p className="mt-4 text-sm leading-relaxed text-white/70">
-                    El diagnóstico sirve para bajar tu situación real a una primera lectura útil y
-                    definir si vale la pena avanzar, dónde conviene empezar y qué visibilidad falta hoy.
+                    El diagnostico sirve para bajar tu situacion real a una primera lectura util y definir
+                    si vale la pena avanzar, donde conviene empezar y que visibilidad falta hoy.
                   </p>
                 </div>
 
@@ -626,7 +955,7 @@ export function DemoDashboard() {
                     onClick={() => trackDiagnosisClick("demo_final")}
                     className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-accent hover:text-white"
                   >
-                    Agendar diagnóstico
+                    Agendar diagnostico
                     <ArrowRight className="h-4 w-4" />
                   </a>
                   <a
