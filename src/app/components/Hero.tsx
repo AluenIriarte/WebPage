@@ -13,7 +13,7 @@ export function Hero() {
       </div>
 
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+        <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-14">
           <div className="space-y-8">
             <div className="inline-flex items-center space-x-2 rounded-full border border-accent/15 bg-accent/8 px-4 py-2">
               <BarChart3 className="h-3.5 w-3.5 text-accent" />
@@ -44,16 +44,15 @@ export function Hero() {
                 <a
                   href="#contacto"
                   onClick={() => trackDiagnosisClick("hero")}
-                  className="group inline-flex items-center justify-center rounded-full bg-accent px-8 py-4 text-base font-medium text-accent-foreground transition-all duration-300 hover:scale-[1.02] hover:bg-accent/90 hover:shadow-xl hover:shadow-accent/25"
+                  className="inline-flex items-center justify-center rounded-full border border-border bg-white px-8 py-4 text-base font-medium text-foreground transition-all duration-300 hover:border-accent/40 hover:bg-accent/5 hover:text-accent"
                 >
                   {"Agendar diagn\u00f3stico"}
-                  <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </a>
 
                 <Link
                   to={DEMO_PAGE_HREF}
                   onClick={() => trackEvent("demo_click", { source: "hero" })}
-                  className="group inline-flex items-center justify-center rounded-full border border-border bg-white px-8 py-4 text-base font-medium transition-all duration-300 hover:border-accent/40 hover:bg-accent/5 hover:text-accent"
+                  className="group inline-flex items-center justify-center rounded-full bg-accent px-8 py-4 text-base font-medium text-accent-foreground transition-all duration-300 hover:scale-[1.02] hover:bg-accent/90 hover:shadow-xl hover:shadow-accent/25"
                 >
                   {"Ver demo"}
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
@@ -64,10 +63,9 @@ export function Hero() {
                 <Link
                   to={QUOTE_PAGE_HREF}
                   onClick={() => trackQuoteClick("hero")}
-                  className="group inline-flex items-center gap-2 text-sm font-medium text-accent transition-colors duration-200 hover:text-accent/75"
+                  className="inline-flex items-center text-sm font-medium text-accent transition-colors duration-200 hover:text-accent/75"
                 >
                   {"\u00bfYa sab\u00e9s lo que quer\u00e9s? Ped\u00ed cotizaci\u00f3n"}
-                  <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
                 </Link>
               </div>
             </div>
@@ -88,7 +86,7 @@ export function Hero() {
             </div>
           </div>
 
-          <div className="relative mt-4 px-4 lg:mt-0 lg:px-0">
+          <div className="relative mt-4 px-2 lg:mt-0 lg:px-0">
             <div className="mb-5 flex flex-wrap gap-2 lg:hidden">
               {[
                 { color: "bg-violet-50 border-violet-100 text-violet-700", text: "12 clientes inactivos +90d" },

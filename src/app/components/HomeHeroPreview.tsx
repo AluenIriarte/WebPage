@@ -1,6 +1,6 @@
 const chartSeries = {
-  ventas: [48, 56, 63, 68, 76],
-  margen: [34, 39, 45, 49, 55],
+  ventas: [28, 39, 51, 63, 76],
+  margen: [28, 37, 49, 60, 76],
 };
 
 function buildLinePath(values: number[], width: number, height: number) {
@@ -23,8 +23,8 @@ function buildAreaPath(values: number[], width: number, height: number) {
   return `${linePath} L ${width} ${height} L 0 ${height} Z`;
 }
 
-const lineWidth = 420;
-const lineHeight = 180;
+const lineWidth = 460;
+const lineHeight = 196;
 const ventasPath = buildLinePath(chartSeries.ventas, lineWidth, lineHeight);
 const margenPath = buildLinePath(chartSeries.margen, lineWidth, lineHeight);
 const areaPath = buildAreaPath(chartSeries.ventas, lineWidth, lineHeight);
@@ -38,10 +38,10 @@ const metrics = [
 export function HomeHeroPreview() {
   return (
     <div className="relative">
-      <div className="absolute inset-x-8 bottom-0 top-6 -z-10 rounded-[2rem] bg-[radial-gradient(circle_at_top_right,rgba(113,17,223,0.18),transparent_55%)] blur-3xl" />
+      <div className="absolute inset-x-6 bottom-0 top-6 -z-10 rounded-[2.25rem] bg-[radial-gradient(circle_at_top_right,rgba(113,17,223,0.18),transparent_55%)] blur-3xl" />
 
-      <div className="overflow-hidden rounded-[2rem] border border-border/60 bg-white shadow-[0_28px_80px_rgba(20,19,26,0.08)]">
-        <div className="border-b border-border/40 px-5 pb-4 pt-5 sm:px-6 sm:pb-5 sm:pt-6">
+      <div className="overflow-hidden rounded-[2.25rem] border border-border/60 bg-white shadow-[0_32px_90px_rgba(20,19,26,0.08)]">
+        <div className="border-b border-border/40 px-5 pb-4 pt-5 sm:px-7 sm:pb-5 sm:pt-7">
           <div className="mb-4 flex items-start justify-between gap-4">
             <div>
               <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-accent/70">
@@ -61,15 +61,15 @@ export function HomeHeroPreview() {
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-1 rounded-2xl bg-[#F6F4FA] p-1 text-[11px] font-medium text-muted-foreground">
-            <span className="rounded-xl bg-white px-3 py-2 text-center text-foreground shadow-sm">Mes</span>
-            <span className="px-3 py-2 text-center">Equipo</span>
-            <span className="px-3 py-2 text-center">Mix</span>
+          <div className="grid grid-cols-3 gap-1 rounded-2xl bg-[#F6F4FA] p-1.5 text-[11px] font-medium text-muted-foreground">
+            <span className="rounded-xl border border-accent/10 bg-white px-3 py-2.5 text-center text-foreground shadow-sm">Mes</span>
+            <span className="px-3 py-2.5 text-center">Equipo</span>
+            <span className="px-3 py-2.5 text-center">Mix</span>
           </div>
         </div>
 
-        <div className="space-y-5 px-5 pb-5 pt-5 sm:px-6 sm:pb-6">
-          <div className="rounded-[1.5rem] border border-[#ECE6F2] bg-[#FCFBFE] p-4 sm:p-5">
+        <div className="space-y-5 px-5 pb-5 pt-5 sm:px-7 sm:pb-7">
+          <div className="rounded-[1.6rem] border border-[#E9E2F2] bg-[#FCFBFE] p-4 sm:p-5">
             <div className="flex items-center justify-between gap-4">
               <div>
                 <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/70">
@@ -84,8 +84,8 @@ export function HomeHeroPreview() {
               </span>
             </div>
 
-            <div className="mt-5 overflow-hidden rounded-[1.25rem] border border-border/40 bg-white">
-              <div className="border-b border-border/35 px-4 py-3">
+            <div className="mt-5 overflow-hidden rounded-[1.35rem] border border-border/40 bg-white">
+              <div className="border-b border-border/35 px-4 py-3 sm:px-5">
                 <div className="flex items-center justify-between gap-4">
                   <div>
                     <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/70">
@@ -99,11 +99,11 @@ export function HomeHeroPreview() {
                 </div>
               </div>
 
-              <div className="px-3 pb-3 pt-4 sm:px-4">
-                <svg viewBox={`0 0 ${lineWidth} ${lineHeight}`} className="h-40 w-full sm:h-44" aria-hidden="true">
+              <div className="bg-[linear-gradient(180deg,rgba(113,17,223,0.02),rgba(113,17,223,0))] px-3 pb-3 pt-4 sm:px-5">
+                <svg viewBox={`0 0 ${lineWidth} ${lineHeight}`} className="h-44 w-full sm:h-48" aria-hidden="true">
                   <defs>
                     <linearGradient id="home-preview-area" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#7111DF" stopOpacity="0.22" />
+                      <stop offset="0%" stopColor="#7111DF" stopOpacity="0.24" />
                       <stop offset="100%" stopColor="#7111DF" stopOpacity="0" />
                     </linearGradient>
                   </defs>
@@ -112,9 +112,9 @@ export function HomeHeroPreview() {
                     <line
                       key={index}
                       x1="0"
-                      y1={28 + index * 36}
+                      y1={30 + index * 38}
                       x2={lineWidth}
-                      y2={28 + index * 36}
+                      y2={30 + index * 38}
                       stroke="rgba(20,19,26,0.08)"
                       strokeWidth="1"
                     />
@@ -125,7 +125,7 @@ export function HomeHeroPreview() {
                   <path d={margenPath} fill="none" stroke="#05B6D3" strokeWidth="4" strokeLinecap="round" />
                 </svg>
 
-                <div className="mt-1 flex items-center gap-5 px-1">
+                <div className="mt-1 flex items-center gap-5 px-1 pb-1">
                   <div className="flex items-center gap-2">
                     <span className="h-0.5 w-5 rounded-full bg-[#7111DF]" />
                     <span className="text-[10px] font-medium text-muted-foreground">Ventas</span>
@@ -141,7 +141,7 @@ export function HomeHeroPreview() {
 
           <div className="grid gap-3 sm:grid-cols-3">
             {metrics.map((metric) => (
-              <div key={metric.label} className="rounded-[1.25rem] border border-[#ECE6F2] bg-[#FCFBFE] p-4">
+              <div key={metric.label} className="rounded-[1.3rem] border border-[#E9E2F2] bg-[#FCFBFE] p-4 sm:p-[1.125rem]">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/70">
                   {metric.label}
                 </p>
