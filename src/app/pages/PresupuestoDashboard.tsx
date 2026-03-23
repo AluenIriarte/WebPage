@@ -53,20 +53,6 @@ const fieldConfig: {
   },
 ];
 
-const projectTypes = [
-  "Dashboard de ventas a medida para direccion o gerencia comercial",
-  "Tablero comercial operativo con pipeline, cartera y seguimiento por vendedor",
-  "Landing o pagina para ordenar oferta, conversion y contacto",
-  "Activos de marca, publishing o delivery kit para comunicar mejor",
-];
-
-const priceDrivers = [
-  "Cantidad de fuentes de datos y nivel de consolidacion requerido",
-  "Limpieza, modelado o criterios de negocio que haya que ordenar",
-  "Cantidad de vistas, entregables, activos o piezas necesarias",
-  "Integraciones, automatizaciones o entregables adicionales",
-];
-
 const emptyFields: QuoteBriefFields = {
   nombre: "",
   email: "",
@@ -171,13 +157,6 @@ export function PresupuestoDashboard() {
                   </p>
                 </div>
 
-                <div className="grid gap-5 sm:grid-cols-2">
-                  {projectTypes.map((item) => (
-                    <div key={item} className="rounded-2xl border border-border/50 bg-white p-5">
-                      <p className="text-sm leading-relaxed text-foreground/78">{item}</p>
-                    </div>
-                  ))}
-                </div>
               </motion.div>
 
               <motion.div
@@ -323,55 +302,6 @@ export function PresupuestoDashboard() {
           </div>
         </section>
 
-        <section className="pb-20 lg:pb-28">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="grid gap-10 lg:grid-cols-[1fr_1fr]">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.6 }}
-                className="rounded-3xl border border-border/50 bg-white p-8 lg:p-10"
-              >
-                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground/50">
-                  Que mueve el precio
-                </p>
-                <h2 className="mb-6 text-3xl font-semibold tracking-tight text-foreground">
-                  No cotizo por pantalla. Cotizo por alcance real.
-                </h2>
-                <div className="space-y-3">
-                  {priceDrivers.map((item) => (
-                    <div key={item} className="flex gap-3">
-                      <div className="mt-[7px] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent/50" />
-                      <p className="text-sm leading-relaxed text-foreground/75">{item}</p>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.6, delay: 0.08 }}
-                className="rounded-3xl border border-border/50 bg-white p-8 lg:p-10"
-              >
-                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground/50">
-                  Antes de escribir
-                </p>
-                <h2 className="mb-6 text-3xl font-semibold tracking-tight text-foreground">
-                  Que conviene tener claro para pedir presupuesto
-                </h2>
-                <div className="space-y-3 text-sm leading-relaxed text-foreground/75">
-                  <p>Que decision o resultado queres habilitar con el proyecto.</p>
-                  <p>Que fuentes, procesos o materiales existen hoy y cuanto estan ordenados.</p>
-                  <p>Quienes lo van a mirar, usar o ejecutar.</p>
-                  <p>Si necesitas algo puntual o una solucion mas amplia.</p>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </section>
       </main>
       <Footer />
     </div>
