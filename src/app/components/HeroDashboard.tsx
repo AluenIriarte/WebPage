@@ -127,7 +127,9 @@ function RiskAlertCard({ compact = false }: { compact?: boolean }) {
       <p className={compact ? "text-3xl font-semibold tracking-tight text-foreground" : "text-[1.7rem] font-semibold tracking-tight text-foreground"}>
         12 cuentas
       </p>
-      <p className={`mt-1 text-muted-foreground ${compact ? "text-[11px]" : "text-xs"}`}>sin actividad en +90 dias</p>
+      <p className={`mt-1 text-muted-foreground ${compact ? "text-[11px]" : "text-xs"}`}>
+        sin actividad por mas de 90 dias
+      </p>
       <div className="mt-3 flex gap-1">
         {[1, 1, 1, 1, 1, 0, 0].map((filled, index) => (
           <motion.div
@@ -228,9 +230,9 @@ export function InteractiveDashboard({ variant = "full", fillHeight = false }: I
               ) : (
                 <>
                   <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/70">
-                    Sistema de decision
+                    Dashboard de ventas
                   </p>
-                  <h3 className="text-[1.05rem] font-semibold text-foreground">Diagnostico comercial activo</h3>
+                  <h3 className="text-[1.05rem] font-semibold text-foreground">Lectura comercial activa</h3>
                 </>
               )}
             </div>

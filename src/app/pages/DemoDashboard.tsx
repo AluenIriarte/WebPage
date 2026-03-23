@@ -16,27 +16,27 @@ const heroPreviewSections = [
 
 type HeroPreviewId = (typeof heroPreviewSections)[number]["id"];
 type SellerAvatarVariant = "wave" | "short" | "bun";
-type RankingTeamId = "grandes-cuentas" | "canal" | "expansion";
-type MixMode = "producto" | "categoria";
 type MixClientId = "distribuidora-norte" | "grupo-solaris" | "comercial-andes";
 type MatrixState = "active" | "gap" | "none";
-type BoardPresentation = "preview" | "detail";
 
 const heroPreviewDetails: Record<HeroPreviewId, { eyebrow: string; title: string; description: string }> = {
   "vista-ejecutiva": {
     eyebrow: "Vista activa",
-    title: "Respuesta rapida para saber si el negocio flota o se hunde.",
-    description: 'Vista general para responder rapido: "Flotamos o nos hundimos?"',
+    title: "Lectura general para entender si el resultado se sostiene.",
+    description:
+      "En una sola vista muestra actividad, margen y expansion para responder rapido si el negocio esta sano o si ya hay senales de deterioro.",
   },
   "ranking-vendedores": {
     eyebrow: "Vista activa",
-    title: "Lectura por equipo para ver quien cumple y donde intervenir primero.",
-    description: "Compara desempeno, brecha vs objetivo y foco de seguimiento para detectar donde intervenir primero.",
+    title: "Ranking comercial para ver quien cumple y donde intervenir primero.",
+    description:
+      "Ordena seguimiento por ejecutivo, brecha contra objetivo y prioridad inmediata de acompanamiento sin llenar la pantalla de reportes.",
   },
   "mix-producto": {
     eyebrow: "Vista activa",
-    title: "Analisis por producto y categoria para separar volumen, margen y foco.",
-    description: "Detecta mix incompleto, huecos de linea y oportunidades de cross-sell sin perder contexto comercial.",
+    title: "Mix por cliente para detectar huecos de linea y expansion.",
+    description:
+      "Separa compra activa, huecos del catalogo y oportunidad de cross-sell con una lectura simple de que conviene empujar primero.",
   },
 };
 
@@ -91,281 +91,125 @@ const avatarStyles = {
   },
 } as const;
 
-const rankingTeamViews = {
-  "grandes-cuentas": {
-    label: "Grandes cuentas",
-    eyebrow: "Vista comercial",
-    title: "Ranking de vendedores vs objetivo",
-    subtitle: "Compara desempeno, brecha y foco de seguimiento dentro del equipo clave.",
-    summary: [
-      { label: "Cumplimiento promedio", value: "100%" },
-      { label: "Sobre meta", value: "1 ejecutivo" },
-      { label: "Brecha recuperable", value: "$28K" },
-    ],
-    note: {
-      title: "Martin y Lucia concentran la brecha recuperable del equipo.",
-      detail:
-        "Sofia ya sostiene la meta del frente principal. La intervencion inmediata esta en dos cuentas estrategicas que, combinadas, devuelven $28K sin ampliar cobertura.",
-      metric: "$28K",
-      metricLabel: "para volver a meta",
-    },
-    sellers: [
-      {
-        seller: "Sofia Gomez",
-        focus: "Grandes cuentas",
-        actual: "$448K",
-        target: "$420K",
-        attainment: 107,
-        gap: "+$28K",
-        tone: "text-emerald-600",
-        avatar: avatarStyles.violetWave,
-      },
-      {
-        seller: "Martin Rivas",
-        focus: "Cartera corporativa",
-        actual: "$391K",
-        target: "$405K",
-        attainment: 97,
-        gap: "-$14K",
-        tone: "text-amber-600",
-        avatar: avatarStyles.slateShort,
-      },
-      {
-        seller: "Lucia Perez",
-        focus: "Cuentas estrategicas",
-        actual: "$336K",
-        target: "$350K",
-        attainment: 96,
-        gap: "-$14K",
-        tone: "text-amber-600",
-        avatar: avatarStyles.clayBun,
-      },
-    ],
+const rankingBoardData = {
+  eyebrow: "Vista comercial",
+  title: "Ranking comercial por ejecutivo",
+  subtitle:
+    "La lectura baja del resultado general al equipo para ver quien sostiene la meta y donde intervenir primero.",
+  summary: [
+    { label: "Cumplimiento promedio", value: "100%" },
+    { label: "Sobre meta", value: "1 ejecutivo" },
+    { label: "Brecha recuperable", value: "$28K" },
+  ],
+  note: {
+    title: "La brecha recuperable esta concentrada en dos ejecutivos, no en todo el equipo.",
+    detail:
+      "Sofia ya sostiene la meta del frente principal. El foco comercial inmediato esta en Martin y Lucia, que juntos concentran $28K recuperables sin ampliar cobertura ni sumar mas pipeline.",
+    metric: "$28K",
+    metricLabel: "para volver a meta",
   },
-  canal: {
-    label: "Canal",
-    eyebrow: "Vista comercial",
-    title: "Ranking de vendedores vs objetivo",
-    subtitle: "Lee rapido que parte del canal sostiene volumen y cual necesita coaching comercial.",
-    summary: [
-      { label: "Cumplimiento promedio", value: "95%" },
-      { label: "Sobre meta", value: "0 equipos" },
-      { label: "Brecha recuperable", value: "$46K" },
-    ],
-    note: {
-      title: "El primer ajuste esta en Diego, que explica mas de la mitad del desvio del canal.",
-      detail:
-        "Aca no falta demanda nueva. Falta corregir seguimiento y prioridad sobre distribuidores norte antes de empujar mas volumen al resto del equipo.",
-      metric: "$26K",
-      metricLabel: "desvio principal",
+  sellers: [
+    {
+      seller: "Sofia Gomez",
+      focus: "Grandes cuentas",
+      actual: "$448K",
+      target: "$420K",
+      attainment: 107,
+      gap: "+$28K",
+      tone: "text-emerald-600",
+      avatar: avatarStyles.violetWave,
     },
-    sellers: [
-      {
-        seller: "Diego Ferraro",
-        focus: "Distribuidores norte",
-        actual: "$284K",
-        target: "$310K",
-        attainment: 92,
-        gap: "-$26K",
-        tone: "text-rose-600",
-        avatar: avatarStyles.midnightShort,
-      },
-      {
-        seller: "Carla Medina",
-        focus: "Mayoristas centro",
-        actual: "$302K",
-        target: "$315K",
-        attainment: 96,
-        gap: "-$13K",
-        tone: "text-amber-600",
-        avatar: avatarStyles.wineBun,
-      },
-      {
-        seller: "Federico Costa",
-        focus: "Reventa interior",
-        actual: "$328K",
-        target: "$335K",
-        attainment: 98,
-        gap: "-$7K",
-        tone: "text-amber-600",
-        avatar: avatarStyles.mossWave,
-      },
-    ],
-  },
-  expansion: {
-    label: "Expansion",
-    eyebrow: "Vista comercial",
-    title: "Ranking de vendedores vs objetivo",
-    subtitle: "Aisla quien esta abriendo cartera nueva y quien necesita respaldo para convertir mejor.",
-    summary: [
-      { label: "Cumplimiento promedio", value: "102%" },
-      { label: "Sobre meta", value: "2 ejecutivos" },
-      { label: "Brecha puntual", value: "$6K" },
-    ],
-    note: {
-      title: "Expansion ya tracciona; el riesgo es que Julia corte el ritmo del equipo.",
-      detail:
-        "Con un apoyo puntual en partners y referidos, el frente sigue sobre meta sin abrir mas prospeccion ni dispersar esfuerzo comercial.",
-      metric: "$6K",
-      metricLabel: "brecha a corregir",
+    {
+      seller: "Martin Rivas",
+      focus: "Cartera corporativa",
+      actual: "$391K",
+      target: "$405K",
+      attainment: 97,
+      gap: "-$14K",
+      tone: "text-amber-600",
+      avatar: avatarStyles.slateShort,
     },
-    sellers: [
-      {
-        seller: "Ines Duarte",
-        focus: "Nuevos negocios",
-        actual: "$218K",
-        target: "$205K",
-        attainment: 106,
-        gap: "+$13K",
-        tone: "text-emerald-600",
-        avatar: avatarStyles.clayBun,
-      },
-      {
-        seller: "Tomas Pardo",
-        focus: "Prospeccion outbound",
-        actual: "$194K",
-        target: "$188K",
-        attainment: 103,
-        gap: "+$6K",
-        tone: "text-emerald-600",
-        avatar: avatarStyles.midnightShort,
-      },
-      {
-        seller: "Julia Sosa",
-        focus: "Partners y referidos",
-        actual: "$171K",
-        target: "$177K",
-        attainment: 97,
-        gap: "-$6K",
-        tone: "text-amber-600",
-        avatar: avatarStyles.violetWave,
-      },
-    ],
-  },
+    {
+      seller: "Lucia Perez",
+      focus: "Cuentas estrategicas",
+      actual: "$336K",
+      target: "$350K",
+      attainment: 96,
+      gap: "-$14K",
+      tone: "text-amber-600",
+      avatar: avatarStyles.clayBun,
+    },
+  ],
 } as const;
 
-const mixClientFilters = [
-  { id: "distribuidora-norte", label: "Distribuidora Norte" },
-  { id: "grupo-solaris", label: "Grupo Solaris" },
-  { id: "comercial-andes", label: "Comercial Andes" },
-] as const;
-
-const mixColumns = {
-  producto: ["Linea A", "Linea B", "Linea C", "Linea D", "Linea E"],
-  categoria: ["Base", "Premium", "Accesorios", "Servicio", "Reposicion"],
-} as const;
+const mixColumns = ["Linea A", "Linea B", "Linea C", "Linea D", "Linea E"] as const;
 
 const mixMatrixRows = [
   {
     id: "distribuidora-norte",
     label: "Distribuidora Norte",
-    producto: ["active", "active", "gap", "active", "none"] as MatrixState[],
-    categoria: ["active", "gap", "active", "none", "gap"] as MatrixState[],
+    cells: ["active", "active", "gap", "active", "none"] as MatrixState[],
   },
   {
     id: "grupo-solaris",
     label: "Grupo Solaris",
-    producto: ["active", "gap", "active", "gap", "none"] as MatrixState[],
-    categoria: ["active", "none", "active", "gap", "gap"] as MatrixState[],
+    cells: ["active", "gap", "active", "gap", "none"] as MatrixState[],
   },
   {
     id: "comercial-andes",
     label: "Comercial Andes",
-    producto: ["active", "active", "active", "gap", "active"] as MatrixState[],
-    categoria: ["gap", "active", "active", "active", "none"] as MatrixState[],
+    cells: ["active", "active", "active", "gap", "active"] as MatrixState[],
   },
   {
     id: "industrial-mendez",
     label: "Industrial Mendez",
-    producto: ["none", "active", "none", "gap", "none"] as MatrixState[],
-    categoria: ["active", "gap", "none", "none", "active"] as MatrixState[],
+    cells: ["none", "active", "none", "gap", "none"] as MatrixState[],
   },
   {
     id: "logistica-central",
     label: "Logistica Central",
-    producto: ["active", "none", "gap", "active", "active"] as MatrixState[],
-    categoria: ["gap", "active", "none", "active", "gap"] as MatrixState[],
+    cells: ["active", "none", "gap", "active", "active"] as MatrixState[],
   },
   {
     id: "techparts",
     label: "TechParts SRL",
-    producto: ["active", "active", "active", "active", "none"] as MatrixState[],
-    categoria: ["none", "active", "gap", "active", "none"] as MatrixState[],
+    cells: ["active", "active", "active", "active", "none"] as MatrixState[],
   },
 ] as const;
 
 const mixClientInsights = {
   "distribuidora-norte": {
-    producto: {
-      eyebrow: "Mix por cliente",
-      title: "Huecos de linea y cross-sell potencial",
-      description: "El cliente compra bien las lineas base, pero todavia deja espacio claro en el catalogo medio.",
-      stats: [
-        { label: "Mix incompleto", value: "68%", detail: "sobre catalogo vigente" },
-        { label: "Huecos detectados", value: "4", detail: "lineas para abrir" },
-        { label: "Mayor potencial", value: "Linea C", detail: "cross-sell inmediato" },
-      ],
-      note: "Aca no falta volumen: falta completar mezcla.",
-    },
-    categoria: {
-      eyebrow: "Mix por cliente",
-      title: "Brechas de categoria relevantes",
-      description: "Se sostiene la base, pero Premium y Reposicion todavia estan subpenetradas para este cliente.",
-      stats: [
-        { label: "Mix incompleto", value: "54%", detail: "por categoria" },
-        { label: "Huecos detectados", value: "3", detail: "categorias activables" },
-        { label: "Mayor potencial", value: "Premium", detail: "subpenetrada" },
-      ],
-      note: "La oportunidad esta en subir valor por cliente, no solo frecuencia.",
-    },
+    eyebrow: "Mix por cliente",
+    title: "Huecos de linea y cross-sell potencial",
+    description: "La cuenta compra bien las lineas base, pero todavia deja espacio claro en el catalogo medio.",
+    stats: [
+      { label: "Mix incompleto", value: "68%", detail: "sobre catalogo vigente" },
+      { label: "Huecos detectados", value: "4", detail: "lineas para abrir" },
+      { label: "Mayor potencial", value: "Linea C", detail: "cross-sell inmediato" },
+    ],
+    note: "Aca no falta volumen: falta completar mezcla con una propuesta mas ordenada.",
   },
   "grupo-solaris": {
-    producto: {
-      eyebrow: "Mix por cliente",
-      title: "Cobertura irregular entre lineas",
-      description: "Grupo Solaris ya compra volumen, pero deja huecos claros donde mas margen podrias capturar.",
-      stats: [
-        { label: "Mix incompleto", value: "61%", detail: "sobre lineas activas" },
-        { label: "Huecos detectados", value: "5", detail: "lineas para priorizar" },
-        { label: "Mayor potencial", value: "Linea D", detail: "entrada natural" },
-      ],
-      note: "Conviene ordenar propuesta antes de seguir empujando descuentos.",
-    },
-    categoria: {
-      eyebrow: "Mix por cliente",
-      title: "Categorias con baja profundidad",
-      description: "Hay adopcion inicial, pero todavia no aparece una logica consistente de crecimiento por categoria.",
-      stats: [
-        { label: "Mix incompleto", value: "58%", detail: "por familia" },
-        { label: "Huecos detectados", value: "4", detail: "categorias abiertas" },
-        { label: "Mayor potencial", value: "Servicio", detail: "anclaje consultivo" },
-      ],
-      note: "La mejora esta en expandir valor, no en sumar mas SKUs aislados.",
-    },
+    eyebrow: "Mix por cliente",
+    title: "Cobertura irregular entre lineas",
+    description: "Grupo Solaris ya compra volumen, pero deja huecos claros donde todavia hay margen por capturar.",
+    stats: [
+      { label: "Mix incompleto", value: "61%", detail: "sobre lineas activas" },
+      { label: "Huecos detectados", value: "5", detail: "lineas para priorizar" },
+      { label: "Mayor potencial", value: "Linea D", detail: "entrada natural" },
+    ],
+    note: "Conviene ordenar propuesta antes de seguir empujando descuento o frecuencia.",
   },
   "comercial-andes": {
-    producto: {
-      eyebrow: "Mix por cliente",
-      title: "Cuenta madura con una brecha especifica",
-      description: "Comercial Andes ya compra varias lineas, pero todavia queda una pieza critica con potencial directo.",
-      stats: [
-        { label: "Mix incompleto", value: "42%", detail: "mas completo que el promedio" },
-        { label: "Huecos detectados", value: "2", detail: "faltantes reales" },
-        { label: "Mayor potencial", value: "Linea D", detail: "mayor ticket incremental" },
-      ],
-      note: "Cuando la cuenta ya esta madura, la lectura fina del mix vale mas que la intuicion.",
-    },
-    categoria: {
-      eyebrow: "Mix por cliente",
-      title: "Categorias con espacio de expansion",
-      description: "La cuenta ya tiene base solida; el proximo paso es capturar profundidad en categorias de mayor valor.",
-      stats: [
-        { label: "Mix incompleto", value: "47%", detail: "sobre categorias objetivo" },
-        { label: "Huecos detectados", value: "2", detail: "espacios concretos" },
-        { label: "Mayor potencial", value: "Reposicion", detail: "recurrencia" },
-      ],
-      note: "La senal relevante no es vender mas de lo mismo, sino vender mejor.",
-    },
+    eyebrow: "Mix por cliente",
+    title: "Cuenta madura con una brecha puntual",
+    description: "La cuenta ya compra varias lineas, pero todavia queda una pieza concreta con potencial directo.",
+    stats: [
+      { label: "Mix incompleto", value: "42%", detail: "mas completo que el promedio" },
+      { label: "Huecos detectados", value: "2", detail: "faltantes reales" },
+      { label: "Mayor potencial", value: "Linea D", detail: "mayor ticket incremental" },
+    ],
+    note: "Cuando la cuenta ya esta madura, la lectura fina del mix vale mas que sumar mas volumen ciego.",
   },
 } as const;
 
@@ -373,7 +217,7 @@ const signalOpportunityCards = [
   {
     icon: Users,
     title: "Clientes inactivos",
-    description: "Cuentas con peso comercial que dejaron de comprar y conviene recuperar antes de seguir abriendo frente nuevo.",
+    description: "Cuentas con peso comercial que dejaron de comprar y conviene recuperar antes de abrir mas frente nuevo.",
     metric: "12 cuentas",
     detail: "sin actividad reciente",
     tone: "text-violet-600",
@@ -397,7 +241,7 @@ const signalOpportunityCards = [
   {
     icon: ShoppingCart,
     title: "Productos subpenetrados",
-    description: "Lineas con baja penetracion sobre la cartera mas valiosa, donde la oportunidad depende mas de foco que de demanda.",
+    description: "Lineas con baja penetracion sobre la cartera mas valiosa, donde la oportunidad depende mas de foco que de demanda nueva.",
     metric: "15%",
     detail: "penetracion actual",
     tone: "text-amber-600",
@@ -498,22 +342,14 @@ function DemoViewSelector({
   active,
   onChange,
   layoutId,
-  size = "default",
 }: {
   active: HeroPreviewId;
   onChange: (view: HeroPreviewId) => void;
   layoutId: string;
-  size?: "default" | "compact";
 }) {
-  const isCompact = size === "compact";
-
   return (
-    <div
-      className={`rounded-[1.45rem] border border-[#E6E0EE] bg-white ${
-        isCompact ? "p-1" : "p-1.5"
-      }`}
-    >
-      <div className={`grid grid-cols-1 sm:grid-cols-3 ${isCompact ? "gap-1" : "gap-1.5"}`}>
+    <div className="rounded-[1.6rem] border border-[#E6E0EE] bg-[#FCFBFE] p-2 shadow-[0_14px_34px_rgba(20,19,26,0.04)]">
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
         {heroPreviewSections.map((section) => {
           const isActive = active === section.id;
 
@@ -522,14 +358,14 @@ function DemoViewSelector({
               key={section.id}
               type="button"
               onClick={() => onChange(section.id)}
-              className={`relative rounded-full font-medium transition-colors ${
-                isCompact ? "px-3 py-2.5 text-xs" : "px-4 py-3 text-sm"
-              } ${isActive ? "text-white" : "text-foreground/76 hover:text-foreground"}`}
+              className={`relative min-h-[4.2rem] rounded-[1.2rem] px-5 py-4 text-sm font-semibold leading-tight transition-colors ${
+                isActive ? "text-white" : "text-foreground/78 hover:text-foreground"
+              }`}
             >
               {isActive && (
                 <motion.span
                   layoutId={layoutId}
-                  className="absolute inset-0 rounded-full bg-[linear-gradient(135deg,#7E4CF4,#7111DF)] shadow-[0_12px_24px_rgba(113,17,223,0.16)]"
+                  className="absolute inset-0 rounded-[1.2rem] bg-[linear-gradient(135deg,#7E4CF4,#7111DF)] shadow-[0_16px_34px_rgba(113,17,223,0.22)]"
                   transition={{ type: "spring", bounce: 0.2, duration: 0.38 }}
                 />
               )}
@@ -542,147 +378,89 @@ function DemoViewSelector({
   );
 }
 
-function SellerRankingBoard({ presentation = "detail" }: { presentation?: BoardPresentation }) {
-  const [teamView, setTeamView] = useState<RankingTeamId>("grandes-cuentas");
-  const currentTeam = rankingTeamViews[teamView];
-  const isPreview = presentation === "preview";
-  const visibleSellers = isPreview ? currentTeam.sellers.slice(0, 2) : currentTeam.sellers;
-  const layoutId = isPreview ? "ranking-team-pill-preview" : "ranking-team-pill-detail";
-
+function SellerRankingBoard() {
   return (
-    <div
-      className={`relative flex flex-col overflow-hidden rounded-[1.7rem] border border-border/60 bg-white ${
-        isPreview ? "h-full shadow-[0_18px_46px_rgba(20,19,26,0.05)]" : "shadow-[0_24px_70px_rgba(20,19,26,0.06)]"
-      }`}
-    >
-      <div className={`border-b border-border/45 ${isPreview ? "px-5 pb-3.5 pt-5" : "px-5 pb-4 pt-5"}`}>
+    <div className="relative flex flex-col overflow-hidden rounded-[1.8rem] border border-border/60 bg-white shadow-[0_24px_70px_rgba(20,19,26,0.06)]">
+      <div className="border-b border-border/45 px-5 pb-4 pt-5">
         <div className="mb-4 flex items-start justify-between gap-4">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/50">
-              {currentTeam.eyebrow}
+              {rankingBoardData.eyebrow}
             </p>
-            <h3 className={`mt-2 font-semibold tracking-tight text-foreground ${isPreview ? "text-[1.45rem]" : "text-[1.75rem]"}`}>
-              {currentTeam.title}
+            <h3 className="mt-2 text-[1.75rem] font-semibold tracking-tight text-foreground">
+              {rankingBoardData.title}
             </h3>
             <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-              {currentTeam.subtitle}
+              {rankingBoardData.subtitle}
             </p>
           </div>
           <Users className="mt-1 h-5 w-5 text-accent" />
         </div>
+      </div>
 
-        <div className="rounded-full border border-[#E6E0EE] bg-[#FCFBFE] p-1">
-          <div className="grid grid-cols-3 gap-1">
-            {(Object.entries(rankingTeamViews) as [RankingTeamId, (typeof rankingTeamViews)[RankingTeamId]][]).map(
-              ([teamId, team]) => {
-                const isActive = teamView === teamId;
+      <div className="flex h-full flex-col px-5 pb-5 pt-5">
+        <div className="mb-5 grid gap-3 md:grid-cols-3">
+          {rankingBoardData.summary.map((stat) => (
+            <div key={stat.label} className="rounded-2xl border border-[#ECE6F2] bg-[#FCFBFE] px-4 py-3.5">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
+                {stat.label}
+              </p>
+              <p className="mt-2 text-lg font-semibold text-foreground">{stat.value}</p>
+            </div>
+          ))}
+        </div>
 
-                return (
-                  <button
-                    key={teamId}
-                    type="button"
-                    onClick={() => setTeamView(teamId)}
-                    className={`relative rounded-full px-3 py-2.5 text-xs font-medium transition-colors ${
-                      isActive ? "text-white" : "text-foreground/72 hover:text-foreground"
-                    }`}
-                  >
-                    {isActive && (
-                      <motion.span
-                        layoutId={layoutId}
-                        className="absolute inset-0 rounded-full bg-[linear-gradient(135deg,#7E4CF4,#7111DF)] shadow-[0_12px_26px_rgba(113,17,223,0.22)]"
-                        transition={{ type: "spring", bounce: 0.2, duration: 0.35 }}
-                      />
-                    )}
-                    <span className="relative z-10">{team.label}</span>
-                  </button>
-                );
-              },
-            )}
+        <div className="flex-1 space-y-3">
+          {rankingBoardData.sellers.map((seller, index) => (
+            <div key={seller.seller} className="rounded-2xl border border-[#ECE6F2] bg-[#FCFBFE] p-4">
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex items-start gap-3">
+                  <SellerAvatar rank={index + 1} avatar={seller.avatar} />
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">{seller.seller}</p>
+                    <p className="mt-1 text-xs text-muted-foreground">{seller.focus}</p>
+                  </div>
+                </div>
+
+                <div className="text-right">
+                  <p className={`text-sm font-semibold ${seller.tone}`}>{seller.attainment}%</p>
+                  <p className="text-[11px] text-muted-foreground">{seller.gap}</p>
+                </div>
+              </div>
+
+              <div className="mt-4">
+                <div className="mb-2 flex items-center justify-between text-[11px] text-muted-foreground">
+                  <span>{seller.actual} actual</span>
+                  <span>{seller.target} objetivo</span>
+                </div>
+                <div className="h-2 rounded-full bg-muted/70">
+                  <motion.div
+                    className="h-2 rounded-full bg-[linear-gradient(90deg,#8A5CF6,#7111DF)]"
+                    initial={{ width: 0 }}
+                    animate={{ width: `${Math.min(seller.attainment, 100)}%` }}
+                    transition={{ duration: 0.45, ease: "easeOut" }}
+                  />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-4 grid gap-4 rounded-[1.6rem] border border-[#E4DDF0] bg-[#FAF8FD] px-4 py-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-start">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent/65">Lectura ejecutiva</p>
+            <p className="mt-2 text-base font-medium tracking-tight text-foreground">{rankingBoardData.note.title}</p>
+            <p className="mt-2 text-sm leading-relaxed text-foreground/76">{rankingBoardData.note.detail}</p>
+          </div>
+          <div className="rounded-2xl border border-accent/12 bg-white px-4 py-3 md:min-w-[10rem]">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
+              Prioridad ahora
+            </p>
+            <p className="mt-2 text-2xl font-semibold tracking-tight text-accent">{rankingBoardData.note.metric}</p>
+            <p className="mt-1 text-[11px] text-muted-foreground">{rankingBoardData.note.metricLabel}</p>
           </div>
         </div>
       </div>
-
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={teamView}
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-          className={`flex h-full flex-col px-5 ${isPreview ? "pb-4 pt-4" : "pb-5 pt-5"}`}
-        >
-          <div className={`grid gap-3 md:grid-cols-3 ${isPreview ? "mb-4" : "mb-5"}`}>
-            {currentTeam.summary.map((stat) => (
-              <div key={stat.label} className="rounded-2xl border border-[#ECE6F2] bg-[#FCFBFE] px-4 py-3.5">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-                  {stat.label}
-                </p>
-                <p className="mt-2 text-lg font-semibold text-foreground">{stat.value}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className={`space-y-3 ${isPreview ? "" : "flex-1"}`}>
-            {visibleSellers.map((seller, index) => (
-              <div key={seller.seller} className="rounded-2xl border border-[#ECE6F2] bg-[#FCFBFE] p-4">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex items-start gap-3">
-                    <SellerAvatar rank={index + 1} avatar={seller.avatar} />
-                    <div>
-                      <p className="text-sm font-semibold text-foreground">{seller.seller}</p>
-                      <p className="mt-1 text-xs text-muted-foreground">{seller.focus}</p>
-                    </div>
-                  </div>
-
-                  <div className="text-right">
-                    <p className={`text-sm font-semibold ${seller.tone}`}>{seller.attainment}%</p>
-                    <p className="text-[11px] text-muted-foreground">{seller.gap}</p>
-                  </div>
-                </div>
-
-                <div className="mt-4">
-                  <div className="mb-2 flex items-center justify-between text-[11px] text-muted-foreground">
-                    <span>{seller.actual} actual</span>
-                    <span>{seller.target} objetivo</span>
-                  </div>
-                  <div className="h-2 rounded-full bg-muted/70">
-                    <motion.div
-                      className="h-2 rounded-full bg-[linear-gradient(90deg,#8A5CF6,#7111DF)]"
-                      initial={{ width: 0 }}
-                      animate={{ width: `${Math.min(seller.attainment, 100)}%` }}
-                      transition={{ duration: 0.45, ease: "easeOut" }}
-                    />
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {!isPreview && (
-            <div className="mt-4 grid gap-4 rounded-[1.6rem] border border-[#E4DDF0] bg-[#FAF8FD] px-4 py-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-start">
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent/65">Lectura ejecutiva</p>
-                <p className="mt-2 text-base font-medium tracking-tight text-foreground">{currentTeam.note.title}</p>
-                <p className="mt-2 text-sm leading-relaxed text-foreground/76">{currentTeam.note.detail}</p>
-              </div>
-              <div className="rounded-2xl border border-accent/12 bg-white px-4 py-3 md:min-w-[10rem]">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-                  Prioridad ahora
-                </p>
-                <p className="mt-2 text-2xl font-semibold tracking-tight text-accent">{currentTeam.note.metric}</p>
-                <p className="mt-1 text-[11px] text-muted-foreground">{currentTeam.note.metricLabel}</p>
-              </div>
-            </div>
-          )}
-        </motion.div>
-      </AnimatePresence>
-
-      {isPreview && (
-        <div
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-16"
-          style={{ background: "linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.96) 72%, rgba(255,255,255,1) 100%)" }}
-        />
-      )}
     </div>
   );
 }
@@ -731,28 +509,20 @@ function MixStatusSquare({
   );
 }
 
-function ProductSignalBoard({ presentation = "detail" }: { presentation?: BoardPresentation }) {
-  const [mode, setMode] = useState<MixMode>("producto");
-  const [selectedClient, setSelectedClient] = useState<MixClientId>("distribuidora-norte");
-  const currentInsight = mixClientInsights[selectedClient][mode];
-  const columns = mixColumns[mode];
-  const isPreview = presentation === "preview";
-  const visibleRows = isPreview ? mixMatrixRows.slice(0, 4) : mixMatrixRows;
-  const layoutId = isPreview ? "mix-mode-pill-preview" : "mix-mode-pill-detail";
+function ProductSignalBoard() {
+  const selectedClient: MixClientId = "distribuidora-norte";
+  const currentInsight = mixClientInsights[selectedClient];
+  const visibleRows = mixMatrixRows;
 
   return (
-    <div
-      className={`relative flex flex-col overflow-hidden rounded-[1.7rem] border border-border/60 bg-white ${
-        isPreview ? "h-full shadow-[0_18px_46px_rgba(20,19,26,0.05)]" : "shadow-[0_24px_70px_rgba(20,19,26,0.06)]"
-      }`}
-    >
-      <div className={`border-b border-border/45 ${isPreview ? "px-5 pb-3.5 pt-5" : "px-5 pb-4 pt-5"}`}>
+    <div className="relative flex flex-col overflow-hidden rounded-[1.8rem] border border-border/60 bg-white shadow-[0_24px_70px_rgba(20,19,26,0.06)]">
+      <div className="border-b border-border/45 px-5 pb-4 pt-5">
         <div className="mb-4 flex items-start justify-between gap-4">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/50">
               {currentInsight.eyebrow}
             </p>
-            <h3 className={`mt-2 font-semibold tracking-tight text-foreground ${isPreview ? "text-[1.45rem]" : "text-[1.75rem]"}`}>
+            <h3 className="mt-2 text-[1.75rem] font-semibold tracking-tight text-foreground">
               {currentInsight.title}
             </h3>
             <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
@@ -762,147 +532,80 @@ function ProductSignalBoard({ presentation = "detail" }: { presentation?: BoardP
           <Layers3 className="mt-1 h-5 w-5 text-accent" />
         </div>
 
-        <div className="space-y-3">
-          <div className="rounded-full border border-[#E6E0EE] bg-[#FCFBFE] p-1">
-            <div className="grid grid-cols-2 gap-1">
-              {(["producto", "categoria"] as MixMode[]).map((currentMode) => {
-                const isActive = mode === currentMode;
+      </div>
 
-                return (
-                  <button
-                    key={currentMode}
-                    type="button"
-                    onClick={() => setMode(currentMode)}
-                    className={`relative rounded-full px-3 py-2.5 text-xs font-medium transition-colors ${
-                      isActive ? "text-white" : "text-foreground/72 hover:text-foreground"
-                    }`}
-                  >
-                    {isActive && (
-                      <motion.span
-                        layoutId={layoutId}
-                        className="absolute inset-0 rounded-full bg-[linear-gradient(135deg,#7E4CF4,#7111DF)] shadow-[0_12px_26px_rgba(113,17,223,0.22)]"
-                        transition={{ type: "spring", bounce: 0.2, duration: 0.35 }}
-                      />
-                    )}
-                    <span className="relative z-10">{currentMode === "producto" ? "Producto" : "Categoria"}</span>
-                  </button>
-                );
-              })}
+      <div className="flex h-full flex-col px-5 pb-5 pt-5">
+        <div className="mb-5 grid gap-3 md:grid-cols-3">
+          {currentInsight.stats.map((stat) => (
+            <div key={stat.label} className="rounded-2xl border border-[#ECE6F2] bg-[#FCFBFE] px-4 py-3.5">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
+                {stat.label}
+              </p>
+              <p className="mt-2 text-2xl font-semibold tracking-tight text-foreground">{stat.value}</p>
+              <p className="mt-1 text-[11px] text-muted-foreground">{stat.detail}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mb-4 rounded-[1.6rem] border border-[#E4DDF0] bg-[#FAF8FD] px-4 py-4">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent/65">Decision sugerida</p>
+          <p className="mt-2 text-sm leading-relaxed text-foreground/80">{currentInsight.note}</p>
+        </div>
+
+        <div className="flex-1 overflow-hidden rounded-[1.5rem] border border-[#E8E2EE] bg-white">
+          <div className="overflow-x-auto">
+            <div className="min-w-[42rem]">
+              <div className="grid grid-cols-[1.6fr_repeat(5,0.7fr)] gap-2 border-b border-border/45 px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
+                <span>Cliente</span>
+                {mixColumns.map((column) => (
+                  <span key={column} className="text-center">
+                    {column}
+                  </span>
+                ))}
+              </div>
+
+              <div className="divide-y divide-border/45">
+                {visibleRows.map((row) => {
+                  const isHighlighted = row.id === selectedClient;
+
+                  return (
+                    <div
+                      key={row.id}
+                      className={`grid grid-cols-[1.6fr_repeat(5,0.7fr)] items-center gap-2 px-4 py-3 transition-colors ${
+                        isHighlighted ? "bg-accent/[0.05]" : "bg-transparent"
+                      }`}
+                    >
+                      <span className={`text-sm ${isHighlighted ? "font-semibold text-foreground" : "text-foreground/76"}`}>
+                        {row.label}
+                      </span>
+                      {row.cells.map((cell, index) => (
+                        <div key={`${row.id}-${index}`} className="flex justify-center">
+                          <MixStatusSquare state={cell} isHighlighted={isHighlighted} />
+                        </div>
+                      ))}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
+        </div>
 
-          <div className="flex flex-wrap gap-2">
-            {mixClientFilters.map((client) => {
-              const isActive = selectedClient === client.id;
-
-              return (
-                <button
-                  key={client.id}
-                  type="button"
-                  onClick={() => setSelectedClient(client.id)}
-                  className={`rounded-full border px-3.5 py-2 text-xs font-medium transition-colors ${
-                    isActive
-                      ? "border-accent/20 bg-accent/[0.06] text-accent"
-                      : "border-[#E8E2EE] bg-white text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {client.label}
-                </button>
-              );
-            })}
+        <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[11px] text-muted-foreground">
+          <div className="flex items-center gap-2">
+            <MixStatusSquare state="active" isHighlighted={false} />
+            <span>Compra activa</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <MixStatusSquare state="gap" isHighlighted={false} />
+            <span>Hueco con oportunidad</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <MixStatusSquare state="none" isHighlighted={false} />
+            <span>Sin senal prioritaria</span>
           </div>
         </div>
       </div>
-
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={`${mode}-${selectedClient}`}
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-          className={`flex h-full flex-col px-5 ${isPreview ? "pb-4 pt-4" : "pb-5 pt-5"}`}
-        >
-          <div className={`grid gap-3 md:grid-cols-3 ${isPreview ? "mb-4" : "mb-5"}`}>
-            {currentInsight.stats.map((stat) => (
-              <div key={stat.label} className="rounded-2xl border border-[#ECE6F2] bg-[#FCFBFE] px-4 py-3.5">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-                  {stat.label}
-                </p>
-                <p className="mt-2 text-2xl font-semibold tracking-tight text-foreground">{stat.value}</p>
-                <p className="mt-1 text-[11px] text-muted-foreground">{stat.detail}</p>
-              </div>
-            ))}
-          </div>
-
-          {!isPreview && (
-            <div className="mb-4 rounded-[1.6rem] border border-[#E4DDF0] bg-[#FAF8FD] px-4 py-4">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent/65">Decision sugerida</p>
-              <p className="mt-2 text-sm leading-relaxed text-foreground/80">{currentInsight.note}</p>
-            </div>
-          )}
-
-          <div className="flex-1 overflow-hidden rounded-[1.5rem] border border-[#E8E2EE] bg-white">
-            <div className="grid grid-cols-[1.6fr_repeat(5,0.7fr)] gap-2 border-b border-border/45 px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-              <span>Cliente</span>
-              {columns.map((column) => (
-                <span key={column} className="text-center">
-                  {column}
-                </span>
-              ))}
-            </div>
-
-            <div className="divide-y divide-border/45">
-              {visibleRows.map((row) => {
-                const cells = row[mode];
-                const isHighlighted = row.id === selectedClient;
-
-                return (
-                  <div
-                    key={row.id}
-                    className={`grid grid-cols-[1.6fr_repeat(5,0.7fr)] items-center gap-2 px-4 py-3 transition-colors ${
-                      isHighlighted ? "bg-accent/[0.05]" : "bg-transparent"
-                    }`}
-                  >
-                    <span className={`text-sm ${isHighlighted ? "font-semibold text-foreground" : "text-foreground/76"}`}>
-                      {row.label}
-                    </span>
-                    {cells.map((cell, index) => (
-                      <div key={`${row.id}-${index}`} className="flex justify-center">
-                        <MixStatusSquare state={cell} isHighlighted={isHighlighted} />
-                      </div>
-                    ))}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {!isPreview && (
-            <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[11px] text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <MixStatusSquare state="active" isHighlighted={false} />
-                <span>Compra activa</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <MixStatusSquare state="gap" isHighlighted={false} />
-                <span>Hueco con oportunidad</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <MixStatusSquare state="none" isHighlighted={false} />
-                <span>Sin senal prioritaria</span>
-              </div>
-            </div>
-          )}
-        </motion.div>
-      </AnimatePresence>
-
-      {isPreview && (
-        <div
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-16"
-          style={{ background: "linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.96) 72%, rgba(255,255,255,1) 100%)" }}
-        />
-      )}
     </div>
   );
 }
@@ -928,14 +631,14 @@ export function DemoDashboard() {
     }
 
     if (heroPreview === "ranking-vendedores") {
-      return <SellerRankingBoard presentation="detail" />;
+      return <SellerRankingBoard />;
     }
 
-    return <ProductSignalBoard presentation="detail" />;
+    return <ProductSignalBoard />;
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen overflow-x-hidden bg-background">
       <Header />
       <main>
         <section
@@ -967,11 +670,11 @@ export function DemoDashboard() {
                 <span className="text-xs font-semibold tracking-[0.14em] text-accent">Demo guiada</span>
               </div>
               <h1 className="mt-6 text-4xl font-semibold leading-[0.96] tracking-tight text-foreground md:text-[3.8rem]">
-                Un dashboard comercial para ver foco, margen y oportunidades de verdad.
+                Dashboard de ventas para decidir con foco comercial.
               </h1>
               <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
-                Cambia entre las tres vistas clave y recorre una lectura completa del negocio sin salir de la
-                misma experiencia.
+                Recorre una demo real con tres vistas que ordenan lectura ejecutiva, desempeno del equipo y
+                oportunidades de mix dentro de una sola experiencia.
               </p>
             </motion.div>
 
@@ -981,29 +684,23 @@ export function DemoDashboard() {
               transition={{ duration: 0.72, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
               className="mt-12"
             >
-              <div className="grid gap-8 lg:grid-cols-[minmax(0,0.62fr)_minmax(0,0.38fr)] lg:items-end">
-                <div className="max-w-3xl">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">
-                    {activeView.eyebrow}
-                  </p>
-                  <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground lg:text-[2.5rem]">
-                    {activeView.title}
-                  </h2>
-                  <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-[0.96rem]">
-                    {activeView.description}
-                  </p>
-                </div>
-
-                <div className="lg:w-full lg:max-w-[30rem] lg:justify-self-end">
-                  <DemoViewSelector
-                    active={heroPreview}
-                    onChange={setHeroPreview}
-                    layoutId="detail-preview-pill"
-                  />
-                </div>
+              <div className="mx-auto max-w-3xl">
+                <DemoViewSelector active={heroPreview} onChange={setHeroPreview} layoutId="detail-preview-pill" />
               </div>
 
-              <div className="mt-8">
+              <div className="mx-auto mt-8 max-w-3xl text-center">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">
+                  {activeView.eyebrow}
+                </p>
+                <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground lg:text-[2.4rem]">
+                  {activeView.title}
+                </h2>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-[0.98rem]">
+                  {activeView.description}
+                </p>
+              </div>
+
+              <div className="mx-auto mt-8 max-w-[66rem]">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={`detail-${heroPreview}`}
@@ -1017,34 +714,36 @@ export function DemoDashboard() {
                 </AnimatePresence>
               </div>
 
-              <div className="mt-8 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <div className="mx-auto mt-8 max-w-[66rem]">
+                <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                    <a
+                      href={ROOT_DIAGNOSTIC_SECTION_HREF}
+                      onClick={() => trackDiagnosisClick("demo_primary_cta")}
+                      className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#7E4CF4,#7111DF)] px-7 py-3.5 text-sm font-medium text-white shadow-[0_18px_40px_rgba(113,17,223,0.18)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_22px_48px_rgba(113,17,223,0.24)]"
+                    >
+                      Agendar diagnostico
+                      <ArrowRight className="h-4 w-4" />
+                    </a>
+                    <a
+                      href="#oportunidades"
+                      onClick={(event) => handleAnchorClick(event, "oportunidades")}
+                      className="inline-flex min-h-14 items-center justify-center rounded-full border border-border/65 bg-white px-7 py-3.5 text-sm font-medium text-foreground shadow-[0_10px_24px_rgba(20,19,26,0.04)] transition-all duration-200 hover:border-accent/25 hover:text-accent hover:shadow-[0_16px_30px_rgba(20,19,26,0.07)]"
+                    >
+                      Ver otras oportunidades
+                    </a>
+                  </div>
+
                   <a
-                    href={ROOT_DIAGNOSTIC_SECTION_HREF}
-                    onClick={() => trackDiagnosisClick("demo_primary_cta")}
-                    className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#7E4CF4,#7111DF)] px-7 py-3.5 text-sm font-medium text-white shadow-[0_18px_40px_rgba(113,17,223,0.18)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_22px_48px_rgba(113,17,223,0.24)]"
+                    href={LINKEDIN_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex w-fit items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
                   >
-                    Agendar diagnostico
-                    <ArrowRight className="h-4 w-4" />
-                  </a>
-                  <a
-                    href="#oportunidades"
-                    onClick={(event) => handleAnchorClick(event, "oportunidades")}
-                    className="inline-flex min-h-14 items-center justify-center rounded-full border border-border/65 bg-white px-7 py-3.5 text-sm font-medium text-foreground shadow-[0_10px_24px_rgba(20,19,26,0.04)] transition-all duration-200 hover:border-accent/25 hover:text-accent hover:shadow-[0_16px_30px_rgba(20,19,26,0.07)]"
-                  >
-                    Ver otras oportunidades
+                    Prefiero escribir por LinkedIn
+                    <Linkedin className="h-4 w-4" />
                   </a>
                 </div>
-
-                <a
-                  href={LINKEDIN_URL}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex w-fit items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  Prefiero escribir por LinkedIn
-                  <Linkedin className="h-4 w-4" />
-                </a>
               </div>
             </motion.div>
           </div>
@@ -1063,11 +762,11 @@ export function DemoDashboard() {
                 Senales clave
               </p>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground lg:text-[2.7rem]">
-                Otras oportunidades que tambien conviene volver visibles.
+                Otras senales que este dashboard tambien puede volver visibles.
               </h2>
               <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
-                Ademas del tablero principal, el sistema puede abrir focos accionables sobre cartera,
-                margen, expansion y tiempo operativo con una lectura mucho mas clara.
+                Ademas de la lectura principal, tambien puede abrir alertas accionables sobre recuperacion
+                de cartera, margen, expansion y tiempo operativo.
               </p>
             </motion.div>
 
@@ -1118,8 +817,8 @@ export function DemoDashboard() {
                   Transicion
                 </p>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
-                  Si esta lectura se parece a tu negocio, el siguiente paso logico es bajar tu caso real y
-                  ordenar cual de estas oportunidades conviene priorizar primero.
+                  Si esta lectura se parece a tu negocio, el siguiente paso es bajar tu caso real y definir
+                  que frente conviene atacar primero.
                 </p>
               </div>
               <a
@@ -1149,11 +848,11 @@ export function DemoDashboard() {
                     Siguiente paso
                   </p>
                   <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground lg:text-[2.55rem]">
-                    Si esta demo te resulta familiar, ya hay un punto de partida serio para tu caso.
+                    Si esta forma de leer ventas te hace sentido, ya hay un punto de partida claro.
                   </h2>
                   <p className="mt-4 text-sm leading-relaxed text-muted-foreground md:text-base">
-                    El diagnostico sirve para bajar tu situacion real a una primera lectura util, definir
-                    donde conviene empezar y ver que visibilidad falta hoy para decidir mejor.
+                    En el diagnostico revisamos que senales conviene abrir primero y que tipo de dashboard
+                    de ventas tiene sentido construir para tu caso real.
                   </p>
                 </div>
 
