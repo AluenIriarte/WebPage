@@ -234,7 +234,7 @@ export function DemoDashboard() {
       <main>
         <section
           id="vista-ejecutiva"
-          className="relative overflow-hidden pb-16 pt-32 lg:pb-20 lg:pt-40 scroll-mt-28"
+          className="relative overflow-hidden pb-20 pt-32 lg:pb-24 lg:pt-40 scroll-mt-28"
         >
           <div className="pointer-events-none absolute inset-0 -z-10">
             <div className="absolute left-0 right-0 top-0 h-[520px] bg-gradient-to-b from-accent/[0.05] via-transparent to-transparent" />
@@ -326,30 +326,29 @@ export function DemoDashboard() {
                 <InteractiveDashboard />
               </motion.div>
             </div>
-          </div>
-        </section>
 
-        <section className="pb-20 lg:pb-28">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.45 }}
-              className="mb-8 max-w-3xl"
+              className="mt-14 border-t border-foreground/5 pt-10 lg:mt-16 lg:pt-12"
             >
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">
-                Otras vistas que completan la lectura
-              </p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground">
-                No alcanza con una sola pantalla: hace falta bajar a ejecución y a producto.
-              </h2>
-              <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-                Estas dos vistas muestran cómo la lectura ejecutiva se traduce en foco comercial:
-                quién está llegando a objetivo y qué productos merecen más prioridad.
-              </p>
+              <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+                <div className="max-w-2xl">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">
+                    La misma lectura, bajada a operación
+                  </p>
+                  <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground">
+                    La alerta ejecutiva sigue en equipo y producto.
+                  </h2>
+                </div>
+                <p className="max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+                  Sin salir de la demo, podés bajar del panorama general al ranking comercial y al
+                  mix prioritario para decidir dónde intervenir.
+                </p>
+              </div>
             </motion.div>
-
             <div className="grid gap-6 lg:grid-cols-2">
               <motion.div
                 id="ranking-vendedores"
@@ -375,7 +374,16 @@ export function DemoDashboard() {
           </div>
         </section>
 
-        <OpportunitiesSection hideFooter />
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="h-px bg-gradient-to-r from-transparent via-foreground/5 to-transparent" />
+        </div>
+
+        <OpportunitiesSection
+          hideFooter
+          eyebrow="Más oportunidades visibles"
+          title="Otras oportunidades que se pueden hacer visibles"
+          description="Después de la lectura principal, el mismo sistema también puede abrir foco sobre cartera inactiva, margen, mix, expansión y automatización operativa."
+        />
 
         <section className="pb-24">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">

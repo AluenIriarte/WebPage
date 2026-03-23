@@ -1,7 +1,12 @@
+import type { ReactNode } from "react";
 import { motion } from "motion/react";
 import { Users, TrendingUp, ShoppingCart, BarChart2, Layers, Clock, ArrowRight } from "lucide-react";
+import { ROOT_DIAGNOSTIC_SECTION_HREF } from "../lib/contact";
 
 interface OpportunitiesSectionProps {
+  eyebrow?: string;
+  title?: ReactNode;
+  description?: ReactNode;
   footerText?: string;
   footerHref?: string;
   footerLabel?: string;
@@ -61,9 +66,12 @@ const opportunities = [
 ];
 
 export function OpportunitiesSection({
+  eyebrow,
+  title,
+  description,
   footerText = "Cada una de estas se\u00f1ales puede estar activa en tu negocio hoy, sin que sea visible en los reportes habituales.",
-  footerHref = "#mini-casos",
-  footerLabel = "Ver mini-casos",
+  footerHref = ROOT_DIAGNOSTIC_SECTION_HREF,
+  footerLabel = "Revisar mi caso",
   sectionId = "oportunidades",
   hideFooter = false,
 }: OpportunitiesSectionProps) {
@@ -77,15 +85,23 @@ export function OpportunitiesSection({
           transition={{ duration: 0.6 }}
           className="max-w-3xl mx-auto text-center mb-12"
         >
+          {eyebrow && (
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">
+              {eyebrow}
+            </p>
+          )}
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground mb-4">
-            {"Qu\u00e9 "}
-            <span className="text-accent">{"se\u00f1ales conviene"}</span>
-            {" volver visibles primero"}
+            {title ?? (
+              <>
+                {"Qu\u00e9 "}
+                <span className="text-accent">{"se\u00f1ales conviene"}</span>
+                {" volver visibles primero"}
+              </>
+            )}
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
-            {
-              "Cada negocio tiene patrones con valor sin explotar. El sistema los vuelve visibles y los convierte en prioridades accionables para el equipo comercial."
-            }
+            {description ??
+              "Cada negocio tiene patrones con valor sin explotar. El sistema los vuelve visibles y los convierte en prioridades accionables para el equipo comercial."}
           </p>
         </motion.div>
 

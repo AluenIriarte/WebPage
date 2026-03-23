@@ -159,10 +159,10 @@ export function UnifiedProblem() {
               className="pt-2 border-t border-border/40"
             >
               <a
-                href="#mini-casos"
+                href="#proceso"
                 className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent/75 transition-colors duration-200 group"
               >
-                Ver mini-casos y cómo se detectan
+                Ver cómo lo llevamos a la operación
                 <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
               </a>
             </motion.div>
