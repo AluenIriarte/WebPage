@@ -150,7 +150,7 @@ export function InteractiveDashboard({ variant = "full", fillHeight = false }: I
   const uid = useId().replace(/:/g, "");
   const containerRef = useRef<HTMLDivElement>(null);
   const isMini = variant === "mini";
-  const chartHeight = isMini ? 120 : 168;
+  const chartHeight = isMini ? 120 : 188;
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -211,10 +211,10 @@ export function InteractiveDashboard({ variant = "full", fillHeight = false }: I
       <motion.div
         style={isMini ? { rotateX, rotateY, transformStyle: "preserve-3d" } : undefined}
         className={`overflow-hidden rounded-2xl border border-border/60 bg-white ${
-          isMini ? "shadow-2xl" : "shadow-[0_24px_60px_rgba(20,19,26,0.08)]"
+          isMini ? "shadow-2xl" : "shadow-[0_18px_44px_rgba(20,19,26,0.06)]"
         } ${fillHeight ? "flex h-full flex-col" : ""}`}
       >
-        <div className="border-b border-border/40 px-5 pb-4 pt-5">
+        <div className={`border-b border-border/40 ${isMini ? "px-5 pb-4 pt-5" : "px-6 pb-5 pt-6"}`}>
           <div className="mb-4 flex items-center justify-between">
             <div>
               {isMini ? (
@@ -227,10 +227,10 @@ export function InteractiveDashboard({ variant = "full", fillHeight = false }: I
                 </>
               ) : (
                 <>
-                  <p className="mb-0.5 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
-                    Demo ejecutiva
+                  <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/70">
+                    Sistema de decision
                   </p>
-                  <h3 className="text-sm font-semibold text-foreground">Visibilidad comercial activa</h3>
+                  <h3 className="text-[1.05rem] font-semibold text-foreground">Diagnostico comercial activo</h3>
                 </>
               )}
             </div>
@@ -245,7 +245,7 @@ export function InteractiveDashboard({ variant = "full", fillHeight = false }: I
             </div>
           </div>
 
-          <div className="flex gap-1 rounded-lg bg-muted/70 p-1">
+          <div className={`flex gap-1 rounded-xl bg-muted/70 p-1 ${isMini ? "" : "max-w-xl"}`}>
             {periods.map((currentPeriod) => (
               <button
                 key={currentPeriod}
@@ -269,7 +269,7 @@ export function InteractiveDashboard({ variant = "full", fillHeight = false }: I
           </div>
         </div>
 
-        <div className="px-2 pb-1 pt-4">
+        <div className={isMini ? "px-2 pb-1 pt-4" : "px-4 pb-2 pt-5"}>
           <div style={{ height: chartHeight }}>
             <ResponsiveContainer width="100%" height={chartHeight}>
               <AreaChart data={data.chart} margin={{ top: 4, right: 8, left: -28, bottom: 0 }}>
@@ -328,7 +328,7 @@ export function InteractiveDashboard({ variant = "full", fillHeight = false }: I
             </ResponsiveContainer>
           </div>
 
-          <div className="flex gap-4 px-3 pb-2">
+          <div className={`${isMini ? "px-3 pb-2" : "px-2 pb-3"} flex gap-4`}>
             <div className="flex items-center gap-1.5">
               <div className="h-0.5 w-4 rounded-full bg-[#8B5CF6]" />
               <span className="text-[9px] font-medium text-muted-foreground">Ventas</span>
@@ -340,7 +340,11 @@ export function InteractiveDashboard({ variant = "full", fillHeight = false }: I
           </div>
         </div>
 
-        <div className={`grid gap-3 px-4 ${isMini ? "grid-cols-2 pb-5" : "pb-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,0.9fr)]"}`}>
+        <div
+          className={`grid gap-3 ${
+            isMini ? "grid-cols-2 px-4 pb-5" : "px-6 pb-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,0.95fr)]"
+          }`}
+        >
           {data.metrics.map((metric, index) => (
             <motion.div
               key={`${period}-kpi-${index}`}

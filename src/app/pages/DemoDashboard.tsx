@@ -1,9 +1,8 @@
 import { useEffect, useState, type MouseEvent } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { ArrowRight, Layers3, Linkedin, TrendingUp, Users } from "lucide-react";
+import { ArrowRight, BarChart2, Clock, Layers3, Linkedin, ShoppingCart, TrendingUp, Users } from "lucide-react";
 import { Header } from "../components/Header";
 import { InteractiveDashboard } from "../components/HeroDashboard";
-import { OpportunitiesSection } from "../components/OpportunitiesSection";
 import { trackDiagnosisClick } from "../lib/analytics";
 import { ROOT_DIAGNOSTIC_SECTION_HREF } from "../lib/contact";
 
@@ -23,27 +22,21 @@ type MixClientId = "distribuidora-norte" | "grupo-solaris" | "comercial-andes";
 type MatrixState = "active" | "gap" | "none";
 type BoardPresentation = "preview" | "detail";
 
-const heroPreviewCopy: Record<HeroPreviewId, string> = {
-  "vista-ejecutiva": 'Vista general para responder rapido: "Flotamos o nos hundimos?"',
-  "ranking-vendedores": "Vista por equipo, para saber quien cumple con el objetivo y quien necesita apoyo.",
-  "mix-producto": "Analisis por producto y categoria.",
-};
-
 const heroPreviewDetails: Record<HeroPreviewId, { eyebrow: string; title: string; description: string }> = {
   "vista-ejecutiva": {
     eyebrow: "Vista activa",
     title: "Respuesta rapida para saber si el negocio flota o se hunde.",
-    description: "Ventas, margen, rentabilidad y riesgo dentro de una sola lectura ejecutiva.",
+    description: 'Vista general para responder rapido: "Flotamos o nos hundimos?"',
   },
   "ranking-vendedores": {
     eyebrow: "Vista activa",
     title: "Lectura por equipo para ver quien cumple y donde intervenir primero.",
-    description: "Cambia entre equipos, mira brecha contra objetivo y detecta rapido donde hace falta apoyo comercial.",
+    description: "Compara desempeno, brecha vs objetivo y foco de seguimiento para detectar donde intervenir primero.",
   },
   "mix-producto": {
     eyebrow: "Vista activa",
     title: "Analisis por producto y categoria para separar volumen, margen y foco.",
-    description: "El filtro por cliente y la matriz de huecos muestran donde hay expansion real y donde no.",
+    description: "Detecta mix incompleto, huecos de linea y oportunidades de cross-sell sin perder contexto comercial.",
   },
 };
 
@@ -358,6 +351,57 @@ const mixClientInsights = {
   },
 } as const;
 
+const signalOpportunityCards = [
+  {
+    icon: Users,
+    title: "Clientes inactivos",
+    description: "Cuentas con peso comercial que dejaron de comprar y conviene recuperar antes de seguir abriendo frente nuevo.",
+    metric: "12 cuentas",
+    detail: "sin actividad reciente",
+    tone: "text-violet-600",
+  },
+  {
+    icon: BarChart2,
+    title: "Mix volumen / margen",
+    description: "Productos que sostienen volumen, pero esconden una brecha clara de margen que hoy no esta siendo priorizada.",
+    metric: "40%+",
+    detail: "margen subaprovechado",
+    tone: "text-emerald-600",
+  },
+  {
+    icon: TrendingUp,
+    title: "Up-sell y cross-sell",
+    description: "Clientes que ya compran una linea y tienen expansion directa sobre otra categoria con entrada natural.",
+    metric: "+34%",
+    detail: "margen incremental",
+    tone: "text-sky-600",
+  },
+  {
+    icon: ShoppingCart,
+    title: "Productos subpenetrados",
+    description: "Lineas con baja penetracion sobre la cartera mas valiosa, donde la oportunidad depende mas de foco que de demanda.",
+    metric: "15%",
+    detail: "penetracion actual",
+    tone: "text-amber-600",
+  },
+  {
+    icon: Layers3,
+    title: "Afinidad por categoria",
+    description: "Segmentos que responden mejor a familias premium y permiten ordenar mejor el mix sin depender de intuicion.",
+    metric: "3x",
+    detail: "mayor afinidad detectada",
+    tone: "text-fuchsia-600",
+  },
+  {
+    icon: Clock,
+    title: "Automatizacion operativa",
+    description: "Horas de reporte manual que se pueden devolver al equipo para seguimiento, analisis y accion comercial.",
+    metric: "-8h",
+    detail: "por semana",
+    tone: "text-cyan-600",
+  },
+] as const;
+
 function SellerAvatar({
   rank,
   avatar,
@@ -446,8 +490,12 @@ function DemoViewSelector({
   const isCompact = size === "compact";
 
   return (
-    <div className={`rounded-[1.4rem] border border-border/55 bg-[#F7F4FB] ${isCompact ? "p-1" : "p-1.5"}`}>
-      <div className={`grid grid-cols-3 ${isCompact ? "gap-1" : "gap-1.5"}`}>
+    <div
+      className={`rounded-[1.45rem] border border-[#DED6EC] bg-[linear-gradient(180deg,#FBFAFE_0%,#F4F0FA_100%)] ${
+        isCompact ? "p-1" : "p-1.5"
+      }`}
+    >
+      <div className={`grid grid-cols-1 sm:grid-cols-3 ${isCompact ? "gap-1" : "gap-1.5"}`}>
         {heroPreviewSections.map((section) => {
           const isActive = active === section.id;
 
@@ -457,13 +505,13 @@ function DemoViewSelector({
               type="button"
               onClick={() => onChange(section.id)}
               className={`relative rounded-full font-medium transition-colors ${
-                isCompact ? "px-3 py-2 text-xs" : "px-4 py-2.5 text-sm"
-              } ${isActive ? "text-white" : "text-foreground/74 hover:text-foreground"}`}
+                isCompact ? "px-3 py-2.5 text-xs" : "px-4 py-3 text-sm"
+              } ${isActive ? "text-white" : "text-foreground/76 hover:text-foreground"}`}
             >
               {isActive && (
                 <motion.span
                   layoutId={layoutId}
-                  className="absolute inset-0 rounded-full bg-[linear-gradient(135deg,#7E4CF4,#7111DF)] shadow-[0_14px_30px_rgba(113,17,223,0.22)]"
+                  className="absolute inset-0 rounded-full bg-[linear-gradient(135deg,#7E4CF4,#7111DF)] shadow-[0_14px_30px_rgba(113,17,223,0.18)]"
                   transition={{ type: "spring", bounce: 0.2, duration: 0.38 }}
                 />
               )}
@@ -846,22 +894,16 @@ export function DemoDashboard() {
 
   const activeView = heroPreviewDetails[heroPreview];
 
-  const renderBoard = (presentation: BoardPresentation) => {
+  const renderBoard = () => {
     if (heroPreview === "vista-ejecutiva") {
-      return presentation === "preview" ? (
-        <div className="h-full">
-          <InteractiveDashboard variant="mini" fillHeight />
-        </div>
-      ) : (
-        <InteractiveDashboard />
-      );
+      return <InteractiveDashboard />;
     }
 
     if (heroPreview === "ranking-vendedores") {
-      return <SellerRankingBoard presentation={presentation} />;
+      return <SellerRankingBoard presentation="detail" />;
     }
 
-    return <ProductSignalBoard presentation={presentation} />;
+    return <ProductSignalBoard presentation="detail" />;
   };
 
   return (
@@ -870,12 +912,12 @@ export function DemoDashboard() {
       <main>
         <section
           id="demo-dashboard"
-          className="relative overflow-hidden border-b border-border/40 bg-[#F3F1EE] pb-16 pt-32 lg:pb-20 lg:pt-36"
+          className="relative overflow-hidden border-b border-border/35 bg-[#F3F1EE] pb-20 pt-32 lg:pb-24 lg:pt-36"
         >
           <div
             className="pointer-events-none absolute inset-0 -z-10"
             style={{
-              background: "linear-gradient(180deg, rgba(243,241,238,1) 0%, rgba(255,255,255,1) 72%)",
+              background: "linear-gradient(180deg, rgba(243,241,238,1) 0%, rgba(255,255,255,0.98) 68%, rgba(255,255,255,1) 100%)",
             }}
           />
           <div
@@ -886,176 +928,204 @@ export function DemoDashboard() {
           />
 
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="grid gap-10 lg:grid-cols-[minmax(0,0.5fr)_minmax(0,1.5fr)] lg:items-center">
-              <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                className="space-y-6 lg:max-w-[30rem]"
-              >
-                <div className="inline-flex items-center gap-2 rounded-full border border-accent/15 bg-white/75 px-4 py-2">
-                  <TrendingUp className="h-3.5 w-3.5 text-accent" />
-                  <span className="text-xs font-semibold tracking-[0.12em] text-accent">Demo guiada</span>
-                </div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+              className="mx-auto max-w-3xl text-center"
+            >
+              <div className="inline-flex items-center gap-2 rounded-full border border-accent/15 bg-white/78 px-4 py-2">
+                <TrendingUp className="h-3.5 w-3.5 text-accent" />
+                <span className="text-xs font-semibold tracking-[0.14em] text-accent">Demo guiada</span>
+              </div>
+              <h1 className="mt-6 text-4xl font-semibold leading-[0.96] tracking-tight text-foreground md:text-[3.8rem]">
+                Un dashboard comercial para ver foco, margen y oportunidades de verdad.
+              </h1>
+              <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
+                Cambia entre las tres vistas clave y recorre una lectura completa del negocio sin salir de la
+                misma experiencia.
+              </p>
+            </motion.div>
 
-                <div className="space-y-4">
-                  <h1 className="max-w-[11ch] text-4xl font-semibold leading-[0.98] tracking-tight text-foreground md:text-[3.45rem]">
-                    No es un reporte. Es una lectura comercial para decidir.
-                  </h1>
-                  <p className="max-w-md text-base leading-relaxed text-muted-foreground">
-                    Cambia entre resultado general, equipo y mix. Debajo ves la misma vista completa, con
-                    filtros reales y sin bloques repetidos.
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.72, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+              className="mt-10 rounded-[2.4rem] border border-[#E3DCEB] bg-[linear-gradient(180deg,rgba(255,255,255,0.94)_0%,rgba(248,245,252,0.98)_100%)] p-5 shadow-[0_28px_70px_rgba(20,19,26,0.06)] lg:mt-12 lg:p-8"
+            >
+              <div className="grid gap-8 border-b border-border/45 pb-8 lg:grid-cols-[minmax(0,0.62fr)_minmax(0,0.38fr)] lg:items-end">
+                <div className="max-w-3xl">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">
+                    {activeView.eyebrow}
+                  </p>
+                  <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground lg:text-[2.5rem]">
+                    {activeView.title}
+                  </h2>
+                  <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-[0.96rem]">
+                    {activeView.description}
                   </p>
                 </div>
 
-                <div className="space-y-3">
-                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                    <a
-                      href={ROOT_DIAGNOSTIC_SECTION_HREF}
-                      onClick={() => trackDiagnosisClick("demo_hero")}
-                      className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#7E4CF4,#7111DF)] px-7 py-3.5 text-sm font-medium text-white shadow-[0_18px_40px_rgba(113,17,223,0.22)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_22px_48px_rgba(113,17,223,0.26)]"
-                    >
-                      Agendar diagnostico
-                      <ArrowRight className="h-4 w-4" />
-                    </a>
-                    <a
-                      href="#oportunidades"
-                      onClick={(event) => handleAnchorClick(event, "oportunidades")}
-                      className="inline-flex min-h-14 items-center justify-center rounded-full border border-border/65 bg-white px-7 py-3.5 text-sm font-medium text-foreground shadow-[0_12px_30px_rgba(20,19,26,0.05)] transition-all duration-200 hover:border-accent/25 hover:text-accent hover:shadow-[0_18px_32px_rgba(20,19,26,0.08)]"
-                    >
-                      Ver otras oportunidades
-                    </a>
-                  </div>
+                <div className="lg:w-full lg:max-w-[30rem] lg:justify-self-end">
+                  <DemoViewSelector
+                    active={heroPreview}
+                    onChange={setHeroPreview}
+                    layoutId="detail-preview-pill"
+                  />
+                </div>
+              </div>
 
-                  <a
-                    href={LINKEDIN_URL}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex w-fit items-center gap-2 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
+              <div className="pt-8">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={`detail-${heroPreview}`}
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                   >
-                    Prefiero escribir por LinkedIn
-                    <Linkedin className="h-3.5 w-3.5" />
+                    {renderBoard()}
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+
+              <div className="mt-8 flex flex-col gap-5 border-t border-border/45 pt-6 lg:flex-row lg:items-center lg:justify-between">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <a
+                    href={ROOT_DIAGNOSTIC_SECTION_HREF}
+                    onClick={() => trackDiagnosisClick("demo_primary_cta")}
+                    className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#7E4CF4,#7111DF)] px-7 py-3.5 text-sm font-medium text-white shadow-[0_18px_40px_rgba(113,17,223,0.18)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_22px_48px_rgba(113,17,223,0.24)]"
+                  >
+                    Agendar diagnostico
+                    <ArrowRight className="h-4 w-4" />
+                  </a>
+                  <a
+                    href="#oportunidades"
+                    onClick={(event) => handleAnchorClick(event, "oportunidades")}
+                    className="inline-flex min-h-14 items-center justify-center rounded-full border border-border/65 bg-white px-7 py-3.5 text-sm font-medium text-foreground shadow-[0_10px_24px_rgba(20,19,26,0.04)] transition-all duration-200 hover:border-accent/25 hover:text-accent hover:shadow-[0_16px_30px_rgba(20,19,26,0.07)]"
+                  >
+                    Ver otras oportunidades
                   </a>
                 </div>
-              </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0, scale: 0.98 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-                className="relative"
-              >
-                <div className="rounded-[2rem] border border-border/60 bg-white/88 p-4 shadow-[0_32px_90px_rgba(20,19,26,0.08)] lg:p-6">
-                  <div className="mb-5 border-b border-border/45 pb-5">
-                    <div className="mb-4">
-                      <div>
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">
-                          Recorrer demo
-                        </p>
-                        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                          Cambia de vista en pantalla y despues baja a la lectura completa.
-                        </p>
-                      </div>
-                    </div>
-
-                    <DemoViewSelector
-                      active={heroPreview}
-                      onChange={setHeroPreview}
-                      layoutId="hero-preview-pill"
-                    />
-
-                    <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{heroPreviewCopy[heroPreview]}</p>
-                  </div>
-
-                  <div className="h-[430px] overflow-hidden lg:h-[470px]">
-                    <AnimatePresence mode="wait">
-                      <motion.div
-                        key={heroPreview}
-                        initial={{ opacity: 0, y: 14 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                        className="h-full"
-                      >
-                        {renderBoard("preview")}
-                      </motion.div>
-                    </AnimatePresence>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
+                <a
+                  href={LINKEDIN_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex w-fit items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  Prefiero escribir por LinkedIn
+                  <Linkedin className="h-4 w-4" />
+                </a>
+              </div>
+            </motion.div>
           </div>
         </section>
 
-        <section className="border-b border-border/35 bg-white py-14 lg:py-16">
+        <section id="oportunidades" className="scroll-mt-32 border-b border-border/35 bg-white py-16 lg:scroll-mt-36 lg:py-24">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="mb-8 grid gap-6 lg:grid-cols-[minmax(0,0.62fr)_minmax(0,0.38fr)] lg:items-end">
-              <div className="max-w-3xl">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">
-                  {activeView.eyebrow}
-                </p>
-                <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground lg:text-[2.4rem]">
-                  {activeView.title}
-                </h2>
-                <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-                  {activeView.description}
-                </p>
-              </div>
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.55 }}
+              className="max-w-3xl"
+            >
+              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">
+                Senales clave
+              </p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground lg:text-[2.7rem]">
+                Otras oportunidades que tambien conviene volver visibles.
+              </h2>
+              <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
+                Ademas del tablero principal, el sistema puede abrir focos accionables sobre cartera,
+                margen, expansion y tiempo operativo con una lectura mucho mas clara.
+              </p>
+            </motion.div>
 
-              <div className="lg:justify-self-end lg:min-w-[30rem]">
-                <DemoViewSelector
-                  active={heroPreview}
-                  onChange={setHeroPreview}
-                  layoutId="detail-preview-pill"
-                  size="compact"
-                />
-              </div>
+            <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+              {signalOpportunityCards.map((card, index) => (
+                <motion.article
+                  key={card.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ duration: 0.45, delay: index * 0.05 }}
+                  className="flex h-full flex-col rounded-[1.8rem] border border-border/50 bg-[linear-gradient(180deg,rgba(255,255,255,1)_0%,rgba(249,247,252,0.9)_100%)] p-6 shadow-[0_12px_30px_rgba(20,19,26,0.04)]"
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-accent/[0.08] text-accent">
+                      <card.icon className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-base font-semibold text-foreground">{card.title}</h3>
+                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{card.description}</p>
+                    </div>
+                  </div>
+
+                  <div className="mt-6 flex items-end justify-between gap-4 border-t border-border/40 pt-5">
+                    <div>
+                      <p className={`text-2xl font-semibold tracking-tight ${card.tone}`}>{card.metric}</p>
+                      <p className="mt-1 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground/60">
+                        {card.detail}
+                      </p>
+                    </div>
+                    <span className="rounded-full border border-border/50 bg-white px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/65">
+                      Visible
+                    </span>
+                  </div>
+                </motion.article>
+              ))}
             </div>
 
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={`detail-${heroPreview}`}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              className="mt-10 flex flex-col gap-5 rounded-[2rem] border border-[#E3DCEB] bg-[linear-gradient(180deg,rgba(248,245,252,0.92)_0%,rgba(255,255,255,1)_100%)] p-6 lg:flex-row lg:items-center lg:justify-between lg:p-8"
+            >
+              <div className="max-w-2xl">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">
+                  Transicion
+                </p>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
+                  Si esta lectura se parece a tu negocio, el siguiente paso logico es bajar tu caso real y
+                  ordenar cual de estas oportunidades conviene priorizar primero.
+                </p>
+              </div>
+              <a
+                href={ROOT_DIAGNOSTIC_SECTION_HREF}
+                onClick={() => trackDiagnosisClick("demo_signals")}
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-foreground shadow-[0_10px_24px_rgba(20,19,26,0.05)] transition-colors hover:bg-accent hover:text-white"
               >
-                {renderBoard("detail")}
-              </motion.div>
-            </AnimatePresence>
+                Agendar diagnostico
+                <ArrowRight className="h-4 w-4" />
+              </a>
+            </motion.div>
           </div>
         </section>
 
-        <OpportunitiesSection
-          eyebrow="Senales clave"
-          title="Otras oportunidades que tambien se pueden volver visibles"
-          description="Ademas del panorama principal, el sistema puede abrir focos accionables sobre cartera, margen, expansion y automatizacion operativa."
-          footerText="Si esta lectura se parece a tu negocio, el siguiente paso logico es revisar tu caso real y ver cual conviene priorizar primero."
-          footerHref={ROOT_DIAGNOSTIC_SECTION_HREF}
-          footerLabel="Agendar diagnostico"
-          footerOnClick={() => trackDiagnosisClick("demo_signals")}
-        />
-
-        <section className="bg-white pb-24 pt-6">
+        <section className="bg-[#F7F4EF] py-16 lg:py-20">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.5 }}
-              className="rounded-[2rem] bg-foreground p-8 text-background shadow-[0_28px_90px_rgba(20,19,26,0.16)] lg:p-10"
+              transition={{ duration: 0.55 }}
+              className="rounded-[2.25rem] border border-[#E3DDD4] bg-[linear-gradient(135deg,rgba(255,255,255,0.92)_0%,rgba(243,241,238,0.98)_100%)] p-8 shadow-[0_18px_44px_rgba(20,19,26,0.05)] lg:p-10"
             >
               <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
                 <div className="max-w-2xl">
-                  <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-white/55">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">
                     Siguiente paso
-                  </div>
-                  <h2 className="text-3xl font-semibold tracking-tight text-white">
-                    Si esta demo te resulta familiar, ya tenemos un punto de partida serio para tu caso.
+                  </p>
+                  <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground lg:text-[2.55rem]">
+                    Si esta demo te resulta familiar, ya hay un punto de partida serio para tu caso.
                   </h2>
-                  <p className="mt-4 text-sm leading-relaxed text-white/70">
-                    El diagnostico sirve para bajar tu situacion real a una primera lectura util y definir
-                    si vale la pena avanzar, donde conviene empezar y que visibilidad falta hoy.
+                  <p className="mt-4 text-sm leading-relaxed text-muted-foreground md:text-base">
+                    El diagnostico sirve para bajar tu situacion real a una primera lectura util, definir
+                    donde conviene empezar y ver que visibilidad falta hoy para decidir mejor.
                   </p>
                 </div>
 
@@ -1063,7 +1133,7 @@ export function DemoDashboard() {
                   <a
                     href={ROOT_DIAGNOSTIC_SECTION_HREF}
                     onClick={() => trackDiagnosisClick("demo_final")}
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-accent hover:text-white"
+                    className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#7E4CF4,#7111DF)] px-6 py-3 text-sm font-medium text-white shadow-[0_14px_28px_rgba(113,17,223,0.16)] transition-transform duration-200 hover:-translate-y-0.5"
                   >
                     Agendar diagnostico
                     <ArrowRight className="h-4 w-4" />
@@ -1072,7 +1142,7 @@ export function DemoDashboard() {
                     href={LINKEDIN_URL}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-2 text-sm font-medium text-white/68 transition-colors hover:text-white"
+                    className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
                   >
                     Escribirme por LinkedIn
                     <Linkedin className="h-4 w-4" />
