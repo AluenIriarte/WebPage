@@ -99,14 +99,58 @@ const CustomTooltip = ({
 
 interface InteractiveDashboardProps {
   variant?: "mini" | "full";
+  fillHeight?: boolean;
 }
 
-export function InteractiveDashboard({ variant = "full" }: InteractiveDashboardProps) {
+function RiskAlertCard({ compact = false }: { compact?: boolean }) {
+  return (
+    <div
+      className={`rounded-2xl border border-amber-100 bg-white ${
+        compact ? "p-4 shadow-sm" : "h-full p-4 shadow-[0_18px_36px_rgba(20,19,26,0.08)]"
+      }`}
+    >
+      <div className="mb-2 flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <div className={`flex items-center justify-center rounded-xl bg-amber-50 ${compact ? "h-8 w-8" : "h-9 w-9"}`}>
+            <AlertTriangle className={compact ? "h-4 w-4 text-amber-500" : "h-[18px] w-[18px] text-amber-500"} />
+          </div>
+          <span className={`font-semibold text-amber-700 ${compact ? "text-xs" : "text-[13px]"}`}>Riesgo detectado</span>
+        </div>
+        <span
+          className={`rounded-full bg-amber-50 font-bold text-amber-500 ${
+            compact ? "px-2 py-0.5 text-[10px]" : "px-2.5 py-1 text-[10px]"
+          }`}
+        >
+          Urgente
+        </span>
+      </div>
+      <p className={compact ? "text-3xl font-semibold tracking-tight text-foreground" : "text-[1.7rem] font-semibold tracking-tight text-foreground"}>
+        12 cuentas
+      </p>
+      <p className={`mt-1 text-muted-foreground ${compact ? "text-[11px]" : "text-xs"}`}>sin actividad en +90 dias</p>
+      <div className="mt-3 flex gap-1">
+        {[1, 1, 1, 1, 1, 0, 0].map((filled, index) => (
+          <motion.div
+            key={index}
+            className={`flex-1 rounded-full ${filled ? "bg-amber-400" : "bg-muted"} ${compact ? "h-1.5" : "h-1.5"}`}
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ delay: 0.35 + index * 0.06, duration: 0.2 }}
+            style={{ transformOrigin: "left" }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export function InteractiveDashboard({ variant = "full", fillHeight = false }: InteractiveDashboardProps) {
   const [period, setPeriod] = useState<Period>("monthly");
   const data = dashboardData[period];
   const uid = useId().replace(/:/g, "");
   const containerRef = useRef<HTMLDivElement>(null);
   const isMini = variant === "mini";
+  const chartHeight = isMini ? 120 : 168;
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -148,25 +192,27 @@ export function InteractiveDashboard({ variant = "full" }: InteractiveDashboardP
   return (
     <div
       ref={containerRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{ perspective: "1200px" }}
-      className="relative"
+      onMouseMove={isMini ? handleMouseMove : undefined}
+      onMouseLeave={isMini ? handleMouseLeave : undefined}
+      style={isMini ? { perspective: "1200px" } : undefined}
+      className={`relative ${fillHeight ? "h-full" : ""}`}
     >
-      <motion.div
-        className={`absolute inset-0 -z-10 rounded-3xl ${isMini ? "opacity-40" : "opacity-25"}`}
-        style={{
-          background: `radial-gradient(circle at ${glowX}% ${glowY}%, rgba(139,92,246,0.35) 0%, transparent 65%)`,
-          filter: "blur(20px)",
-          transform: "translateY(12px) scale(0.95)",
-        }}
-      />
+      {isMini && (
+        <motion.div
+          className="absolute inset-0 -z-10 rounded-3xl opacity-40"
+          style={{
+            background: `radial-gradient(circle at ${glowX}% ${glowY}%, rgba(139,92,246,0.35) 0%, transparent 65%)`,
+            filter: "blur(20px)",
+            transform: "translateY(12px) scale(0.95)",
+          }}
+        />
+      )}
 
       <motion.div
-        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+        style={isMini ? { rotateX, rotateY, transformStyle: "preserve-3d" } : undefined}
         className={`overflow-hidden rounded-2xl border border-border/60 bg-white ${
-          isMini ? "shadow-2xl" : "shadow-[0_28px_80px_rgba(20,19,26,0.10)]"
-        }`}
+          isMini ? "shadow-2xl" : "shadow-[0_24px_60px_rgba(20,19,26,0.08)]"
+        } ${fillHeight ? "flex h-full flex-col" : ""}`}
       >
         <div className="border-b border-border/40 px-5 pb-4 pt-5">
           <div className="mb-4 flex items-center justify-between">
@@ -177,7 +223,7 @@ export function InteractiveDashboard({ variant = "full" }: InteractiveDashboardP
                     Dashboard interactivo
                   </p>
                   <h3 className="text-xl font-semibold tracking-tight text-foreground">Mini demo</h3>
-                  <p className="mt-1 text-[11px] text-muted-foreground">Se\u00f1ales comerciales activas</p>
+                  <p className="mt-1 text-[11px] text-muted-foreground">Senales comerciales activas</p>
                 </>
               ) : (
                 <>
@@ -212,7 +258,7 @@ export function InteractiveDashboard({ variant = "full" }: InteractiveDashboardP
               >
                 {period === currentPeriod && (
                   <motion.div
-                    layoutId="period-pill"
+                    layoutId={`${uid}-period-pill`}
                     className="absolute inset-0 rounded-md bg-white shadow-sm"
                     transition={{ type: "spring", bounce: 0.25, duration: 0.4 }}
                   />
@@ -224,8 +270,8 @@ export function InteractiveDashboard({ variant = "full" }: InteractiveDashboardP
         </div>
 
         <div className="px-2 pb-1 pt-4">
-          <div className="h-[120px]">
-            <ResponsiveContainer width="100%" height={120}>
+          <div style={{ height: chartHeight }}>
+            <ResponsiveContainer width="100%" height={chartHeight}>
               <AreaChart data={data.chart} margin={{ top: 4, right: 8, left: -28, bottom: 0 }}>
                 <defs>
                   <linearGradient id={gradientVentas} x1="0" y1="0" x2="0" y2="1">
@@ -294,7 +340,7 @@ export function InteractiveDashboard({ variant = "full" }: InteractiveDashboardP
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-3 px-4 pb-5">
+        <div className={`grid gap-3 px-4 ${isMini ? "grid-cols-2 pb-5" : "pb-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,0.9fr)]"}`}>
           {data.metrics.map((metric, index) => (
             <motion.div
               key={`${period}-kpi-${index}`}
@@ -312,6 +358,17 @@ export function InteractiveDashboard({ variant = "full" }: InteractiveDashboardP
               <span className="text-[9px] font-semibold text-emerald-600">{metric.change}</span>
             </motion.div>
           ))}
+
+          {!isMini && (
+            <motion.div
+              key={`${period}-risk`}
+              initial={{ opacity: 0, scale: 0.92 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.16, duration: 0.3, ease: "easeOut" }}
+            >
+              <RiskAlertCard />
+            </motion.div>
+          )}
         </div>
 
         {isMini && (
@@ -321,77 +378,10 @@ export function InteractiveDashboard({ variant = "full" }: InteractiveDashboardP
             transition={{ delay: 0.28, duration: 0.35, ease: "easeOut" }}
             className="px-4 pb-5"
           >
-            <div className="rounded-2xl border border-amber-100 bg-white p-4 shadow-sm">
-              <div className="mb-2 flex items-center justify-between gap-3">
-                <div className="flex items-center gap-2">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-amber-50">
-                    <AlertTriangle className="h-4 w-4 text-amber-500" />
-                  </div>
-                  <span className="text-xs font-semibold text-amber-700">Riesgo detectado</span>
-                </div>
-                <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-bold text-amber-500">
-                  Urgente
-                </span>
-              </div>
-              <p className="text-3xl font-semibold tracking-tight text-foreground">12 cuentas</p>
-              <p className="mt-1 text-[11px] text-muted-foreground">sin actividad en +90 d\u00edas</p>
-              <div className="mt-3 flex gap-1">
-                {[1, 1, 1, 1, 1, 0, 0].map((filled, index) => (
-                  <motion.div
-                    key={index}
-                    className={`h-1.5 flex-1 rounded-full ${filled ? "bg-amber-400" : "bg-muted"}`}
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    transition={{ delay: 0.35 + index * 0.06, duration: 0.2 }}
-                    style={{ transformOrigin: "left" }}
-                  />
-                ))}
-              </div>
-            </div>
+            <RiskAlertCard compact />
           </motion.div>
         )}
       </motion.div>
-
-      {!isMini && (
-        <motion.div
-          initial={{ opacity: 0, x: 20, y: -10 }}
-          animate={{ opacity: 1, x: 0, y: 0 }}
-          transition={{ delay: 1.1, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute bottom-4 right-4 hidden lg:block"
-        >
-          <motion.div
-            animate={{ y: [0, 4, 0] }}
-            transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-            className="w-48 rounded-2xl border border-amber-100 bg-white p-3.5 shadow-[0_18px_40px_rgba(20,19,26,0.12)]"
-          >
-            <div className="mb-2 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-50">
-                  <AlertTriangle className="h-3.5 w-3.5 text-amber-500" />
-                </div>
-                <span className="text-[11px] font-semibold text-amber-700">Riesgo detectado</span>
-              </div>
-              <span className="rounded-full bg-amber-50 px-1.5 py-0.5 text-[9px] font-bold text-amber-500">
-                Urgente
-              </span>
-            </div>
-            <p className="text-xl font-bold text-foreground">12 cuentas</p>
-            <p className="mt-0.5 text-[10px] text-muted-foreground">sin actividad en +90 d\u00edas</p>
-            <div className="mt-2.5 flex gap-1">
-              {[1, 1, 1, 1, 1, 0, 0].map((filled, index) => (
-                <motion.div
-                  key={index}
-                  className={`h-1 flex-1 rounded-full ${filled ? "bg-amber-400" : "bg-muted"}`}
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ delay: 1.3 + index * 0.08, duration: 0.25 }}
-                  style={{ transformOrigin: "left" }}
-                />
-              ))}
-            </div>
-          </motion.div>
-        </motion.div>
-      )}
     </div>
   );
 }

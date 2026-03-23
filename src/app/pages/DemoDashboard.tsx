@@ -21,11 +21,30 @@ type RankingTeamId = "grandes-cuentas" | "canal" | "expansion";
 type MixMode = "producto" | "categoria";
 type MixClientId = "distribuidora-norte" | "grupo-solaris" | "comercial-andes";
 type MatrixState = "active" | "gap" | "none";
+type BoardPresentation = "preview" | "detail";
 
 const heroPreviewCopy: Record<HeroPreviewId, string> = {
   "vista-ejecutiva": 'Vista general para responder rapido: "Flotamos o nos hundimos?"',
   "ranking-vendedores": "Vista por equipo, para saber quien cumple con el objetivo y quien necesita apoyo.",
   "mix-producto": "Analisis por producto y categoria.",
+};
+
+const heroPreviewDetails: Record<HeroPreviewId, { eyebrow: string; title: string; description: string }> = {
+  "vista-ejecutiva": {
+    eyebrow: "Vista activa",
+    title: "Respuesta rapida para saber si el negocio flota o se hunde.",
+    description: "Ventas, margen, rentabilidad y riesgo dentro de una sola lectura ejecutiva.",
+  },
+  "ranking-vendedores": {
+    eyebrow: "Vista activa",
+    title: "Lectura por equipo para ver quien cumple y donde intervenir primero.",
+    description: "Cambia entre equipos, mira brecha contra objetivo y detecta rapido donde hace falta apoyo comercial.",
+  },
+  "mix-producto": {
+    eyebrow: "Vista activa",
+    title: "Analisis por producto y categoria para separar volumen, margen y foco.",
+    description: "El filtro por cliente y la matriz de huecos muestran donde hay expansion real y donde no.",
+  },
 };
 
 const avatarStyles = {
@@ -413,19 +432,70 @@ function SellerAvatar({
   );
 }
 
-function SellerRankingBoard() {
-  const [teamView, setTeamView] = useState<RankingTeamId>("grandes-cuentas");
-  const currentTeam = rankingTeamViews[teamView];
+function DemoViewSelector({
+  active,
+  onChange,
+  layoutId,
+  size = "default",
+}: {
+  active: HeroPreviewId;
+  onChange: (view: HeroPreviewId) => void;
+  layoutId: string;
+  size?: "default" | "compact";
+}) {
+  const isCompact = size === "compact";
 
   return (
-    <div className="flex h-full flex-col overflow-hidden rounded-[1.7rem] border border-border/60 bg-white shadow-[0_24px_70px_rgba(20,19,26,0.06)]">
-      <div className="border-b border-border/45 px-5 pb-4 pt-5">
+    <div className={`rounded-[1.4rem] border border-border/55 bg-[#F7F4FB] ${isCompact ? "p-1" : "p-1.5"}`}>
+      <div className={`grid grid-cols-3 ${isCompact ? "gap-1" : "gap-1.5"}`}>
+        {heroPreviewSections.map((section) => {
+          const isActive = active === section.id;
+
+          return (
+            <button
+              key={section.id}
+              type="button"
+              onClick={() => onChange(section.id)}
+              className={`relative rounded-full font-medium transition-colors ${
+                isCompact ? "px-3 py-2 text-xs" : "px-4 py-2.5 text-sm"
+              } ${isActive ? "text-white" : "text-foreground/74 hover:text-foreground"}`}
+            >
+              {isActive && (
+                <motion.span
+                  layoutId={layoutId}
+                  className="absolute inset-0 rounded-full bg-[linear-gradient(135deg,#7E4CF4,#7111DF)] shadow-[0_14px_30px_rgba(113,17,223,0.22)]"
+                  transition={{ type: "spring", bounce: 0.2, duration: 0.38 }}
+                />
+              )}
+              <span className="relative z-10">{section.label}</span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function SellerRankingBoard({ presentation = "detail" }: { presentation?: BoardPresentation }) {
+  const [teamView, setTeamView] = useState<RankingTeamId>("grandes-cuentas");
+  const currentTeam = rankingTeamViews[teamView];
+  const isPreview = presentation === "preview";
+  const visibleSellers = isPreview ? currentTeam.sellers.slice(0, 2) : currentTeam.sellers;
+  const layoutId = isPreview ? "ranking-team-pill-preview" : "ranking-team-pill-detail";
+
+  return (
+    <div
+      className={`relative flex flex-col overflow-hidden rounded-[1.7rem] border border-border/60 bg-white ${
+        isPreview ? "h-full shadow-[0_18px_46px_rgba(20,19,26,0.05)]" : "shadow-[0_24px_70px_rgba(20,19,26,0.06)]"
+      }`}
+    >
+      <div className={`border-b border-border/45 ${isPreview ? "px-5 pb-3.5 pt-5" : "px-5 pb-4 pt-5"}`}>
         <div className="mb-4 flex items-start justify-between gap-4">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/50">
               {currentTeam.eyebrow}
             </p>
-            <h3 className="mt-2 text-[1.75rem] font-semibold tracking-tight text-foreground">
+            <h3 className={`mt-2 font-semibold tracking-tight text-foreground ${isPreview ? "text-[1.45rem]" : "text-[1.75rem]"}`}>
               {currentTeam.title}
             </h3>
             <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
@@ -452,7 +522,7 @@ function SellerRankingBoard() {
                   >
                     {isActive && (
                       <motion.span
-                        layoutId="ranking-team-pill"
+                        layoutId={layoutId}
                         className="absolute inset-0 rounded-full bg-[linear-gradient(135deg,#7E4CF4,#7111DF)] shadow-[0_12px_26px_rgba(113,17,223,0.22)]"
                         transition={{ type: "spring", bounce: 0.2, duration: 0.35 }}
                       />
@@ -473,9 +543,9 @@ function SellerRankingBoard() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-          className="flex h-full flex-col px-5 pb-5 pt-5"
+          className={`flex h-full flex-col px-5 ${isPreview ? "pb-4 pt-4" : "pb-5 pt-5"}`}
         >
-          <div className="mb-5 grid gap-3 md:grid-cols-3">
+          <div className={`grid gap-3 md:grid-cols-3 ${isPreview ? "mb-4" : "mb-5"}`}>
             {currentTeam.summary.map((stat) => (
               <div key={stat.label} className="rounded-2xl border border-border/50 bg-muted/15 px-4 py-3.5">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
@@ -486,8 +556,8 @@ function SellerRankingBoard() {
             ))}
           </div>
 
-          <div className="flex-1 space-y-3">
-            {currentTeam.sellers.map((seller, index) => (
+          <div className={`space-y-3 ${isPreview ? "" : "flex-1"}`}>
+            {visibleSellers.map((seller, index) => (
               <div key={seller.seller} className="rounded-2xl border border-border/50 bg-muted/15 p-4">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex items-start gap-3">
@@ -522,12 +592,21 @@ function SellerRankingBoard() {
             ))}
           </div>
 
-          <div className="mt-4 rounded-2xl border border-accent/12 bg-accent/[0.04] px-4 py-3">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent/65">Lectura ejecutiva</p>
-            <p className="mt-2 text-sm leading-relaxed text-foreground/80">{currentTeam.note}</p>
-          </div>
+          {!isPreview && (
+            <div className="mt-4 rounded-2xl border border-accent/12 bg-accent/[0.04] px-4 py-3">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent/65">Lectura ejecutiva</p>
+              <p className="mt-2 text-sm leading-relaxed text-foreground/80">{currentTeam.note}</p>
+            </div>
+          )}
         </motion.div>
       </AnimatePresence>
+
+      {isPreview && (
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-16"
+          style={{ background: "linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.96) 72%, rgba(255,255,255,1) 100%)" }}
+        />
+      )}
     </div>
   );
 }
@@ -576,21 +655,28 @@ function MixStatusSquare({
   );
 }
 
-function ProductSignalBoard() {
+function ProductSignalBoard({ presentation = "detail" }: { presentation?: BoardPresentation }) {
   const [mode, setMode] = useState<MixMode>("producto");
   const [selectedClient, setSelectedClient] = useState<MixClientId>("distribuidora-norte");
   const currentInsight = mixClientInsights[selectedClient][mode];
   const columns = mixColumns[mode];
+  const isPreview = presentation === "preview";
+  const visibleRows = isPreview ? mixMatrixRows.slice(0, 4) : mixMatrixRows;
+  const layoutId = isPreview ? "mix-mode-pill-preview" : "mix-mode-pill-detail";
 
   return (
-    <div className="flex h-full flex-col overflow-hidden rounded-[1.7rem] border border-border/60 bg-white shadow-[0_24px_70px_rgba(20,19,26,0.06)]">
-      <div className="border-b border-border/45 px-5 pb-4 pt-5">
+    <div
+      className={`relative flex flex-col overflow-hidden rounded-[1.7rem] border border-border/60 bg-white ${
+        isPreview ? "h-full shadow-[0_18px_46px_rgba(20,19,26,0.05)]" : "shadow-[0_24px_70px_rgba(20,19,26,0.06)]"
+      }`}
+    >
+      <div className={`border-b border-border/45 ${isPreview ? "px-5 pb-3.5 pt-5" : "px-5 pb-4 pt-5"}`}>
         <div className="mb-4 flex items-start justify-between gap-4">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/50">
               {currentInsight.eyebrow}
             </p>
-            <h3 className="mt-2 text-[1.75rem] font-semibold tracking-tight text-foreground">
+            <h3 className={`mt-2 font-semibold tracking-tight text-foreground ${isPreview ? "text-[1.45rem]" : "text-[1.75rem]"}`}>
               {currentInsight.title}
             </h3>
             <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
@@ -617,7 +703,7 @@ function ProductSignalBoard() {
                   >
                     {isActive && (
                       <motion.span
-                        layoutId="mix-mode-pill"
+                        layoutId={layoutId}
                         className="absolute inset-0 rounded-full bg-[linear-gradient(135deg,#7E4CF4,#7111DF)] shadow-[0_12px_26px_rgba(113,17,223,0.22)]"
                         transition={{ type: "spring", bounce: 0.2, duration: 0.35 }}
                       />
@@ -659,9 +745,9 @@ function ProductSignalBoard() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-          className="flex h-full flex-col px-5 pb-5 pt-5"
+          className={`flex h-full flex-col px-5 ${isPreview ? "pb-4 pt-4" : "pb-5 pt-5"}`}
         >
-          <div className="mb-5 grid gap-3 md:grid-cols-3">
+          <div className={`grid gap-3 md:grid-cols-3 ${isPreview ? "mb-4" : "mb-5"}`}>
             {currentInsight.stats.map((stat) => (
               <div key={stat.label} className="rounded-2xl border border-border/50 bg-muted/15 px-4 py-3.5">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
@@ -673,10 +759,12 @@ function ProductSignalBoard() {
             ))}
           </div>
 
-          <div className="mb-4 rounded-2xl border border-accent/12 bg-accent/[0.04] px-4 py-3">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent/65">Senal principal</p>
-            <p className="mt-2 text-sm leading-relaxed text-foreground/80">{currentInsight.note}</p>
-          </div>
+          {!isPreview && (
+            <div className="mb-4 rounded-2xl border border-accent/12 bg-accent/[0.04] px-4 py-3">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent/65">Senal principal</p>
+              <p className="mt-2 text-sm leading-relaxed text-foreground/80">{currentInsight.note}</p>
+            </div>
+          )}
 
           <div className="flex-1 overflow-hidden rounded-[1.5rem] border border-border/55 bg-[#FCFBFE]">
             <div className="grid grid-cols-[1.6fr_repeat(5,0.7fr)] gap-2 border-b border-border/45 px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
@@ -689,7 +777,7 @@ function ProductSignalBoard() {
             </div>
 
             <div className="divide-y divide-border/45">
-              {mixMatrixRows.map((row) => {
+              {visibleRows.map((row) => {
                 const cells = row[mode];
                 const isHighlighted = row.id === selectedClient;
 
@@ -714,22 +802,31 @@ function ProductSignalBoard() {
             </div>
           </div>
 
-          <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[11px] text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <MixStatusSquare state="active" isHighlighted={false} />
-              <span>Compra activa</span>
+          {!isPreview && (
+            <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[11px] text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <MixStatusSquare state="active" isHighlighted={false} />
+                <span>Compra activa</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <MixStatusSquare state="gap" isHighlighted={false} />
+                <span>Hueco con oportunidad</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <MixStatusSquare state="none" isHighlighted={false} />
+                <span>Sin senal prioritaria</span>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <MixStatusSquare state="gap" isHighlighted={false} />
-              <span>Hueco con oportunidad</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <MixStatusSquare state="none" isHighlighted={false} />
-              <span>Sin senal prioritaria</span>
-            </div>
-          </div>
+          )}
         </motion.div>
       </AnimatePresence>
+
+      {isPreview && (
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-16"
+          style={{ background: "linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.96) 72%, rgba(255,255,255,1) 100%)" }}
+        />
+      )}
     </div>
   );
 }
@@ -741,17 +838,30 @@ export function DemoDashboard() {
     window.scrollTo({ top: 0 });
   }, []);
 
-  useEffect(() => {
-    const currentHash = window.location.hash.replace("#", "");
-    if (heroPreviewSections.some((section) => section.id === currentHash)) {
-      setHeroPreview(currentHash as HeroPreviewId);
-    }
-  }, []);
-
   const handleAnchorClick = (event: MouseEvent<HTMLAnchorElement>, id: string) => {
     event.preventDefault();
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
     window.history.replaceState(null, "", `#${id}`);
+  };
+
+  const activeView = heroPreviewDetails[heroPreview];
+
+  const renderBoard = (presentation: BoardPresentation) => {
+    if (heroPreview === "vista-ejecutiva") {
+      return presentation === "preview" ? (
+        <div className="h-full">
+          <InteractiveDashboard variant="mini" fillHeight />
+        </div>
+      ) : (
+        <InteractiveDashboard />
+      );
+    }
+
+    if (heroPreview === "ranking-vendedores") {
+      return <SellerRankingBoard presentation={presentation} />;
+    }
+
+    return <ProductSignalBoard presentation={presentation} />;
   };
 
   return (
@@ -759,7 +869,7 @@ export function DemoDashboard() {
       <Header />
       <main>
         <section
-          id="vista-ejecutiva"
+          id="demo-dashboard"
           className="relative overflow-hidden border-b border-border/40 bg-[#F3F1EE] pb-16 pt-32 lg:pb-20 lg:pt-36"
         >
           <div
@@ -776,12 +886,12 @@ export function DemoDashboard() {
           />
 
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="grid gap-10 lg:grid-cols-[minmax(0,0.58fr)_minmax(0,1.42fr)] lg:items-center">
+            <div className="grid gap-10 lg:grid-cols-[minmax(0,0.5fr)_minmax(0,1.5fr)] lg:items-center">
               <motion.div
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                className="space-y-6"
+                className="space-y-6 lg:max-w-[30rem]"
               >
                 <div className="inline-flex items-center gap-2 rounded-full border border-accent/15 bg-white/75 px-4 py-2">
                   <TrendingUp className="h-3.5 w-3.5 text-accent" />
@@ -789,12 +899,12 @@ export function DemoDashboard() {
                 </div>
 
                 <div className="space-y-4">
-                  <h1 className="max-w-md text-4xl font-semibold leading-[1.01] tracking-tight text-foreground md:text-[3.3rem]">
-                    Explora una demo real de dashboard comercial.
+                  <h1 className="max-w-[11ch] text-4xl font-semibold leading-[0.98] tracking-tight text-foreground md:text-[3.45rem]">
+                    No es un reporte. Es una lectura comercial para decidir.
                   </h1>
                   <p className="max-w-md text-base leading-relaxed text-muted-foreground">
-                    Tres vistas para leer resultado general, desempeno del equipo y huecos de mix sin salir
-                    de la misma pantalla.
+                    Cambia entre resultado general, equipo y mix. Debajo ves la misma vista completa, con
+                    filtros reales y sin bloques repetidos.
                   </p>
                 </div>
 
@@ -803,7 +913,7 @@ export function DemoDashboard() {
                     <a
                       href={ROOT_DIAGNOSTIC_SECTION_HREF}
                       onClick={() => trackDiagnosisClick("demo_hero")}
-                      className="inline-flex items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#7E4CF4,#7111DF)] px-7 py-3.5 text-sm font-medium text-white shadow-[0_18px_40px_rgba(113,17,223,0.22)] transition-transform duration-200 hover:-translate-y-0.5"
+                      className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#7E4CF4,#7111DF)] px-7 py-3.5 text-sm font-medium text-white shadow-[0_18px_40px_rgba(113,17,223,0.22)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_22px_48px_rgba(113,17,223,0.26)]"
                     >
                       Agendar diagnostico
                       <ArrowRight className="h-4 w-4" />
@@ -811,7 +921,7 @@ export function DemoDashboard() {
                     <a
                       href="#oportunidades"
                       onClick={(event) => handleAnchorClick(event, "oportunidades")}
-                      className="inline-flex items-center justify-center rounded-full border border-border/60 bg-white px-7 py-3.5 text-sm font-medium text-foreground shadow-[0_10px_26px_rgba(20,19,26,0.06)] transition-colors hover:border-accent/35 hover:text-accent"
+                      className="inline-flex min-h-14 items-center justify-center rounded-full border border-border/65 bg-white px-7 py-3.5 text-sm font-medium text-foreground shadow-[0_12px_30px_rgba(20,19,26,0.05)] transition-all duration-200 hover:border-accent/25 hover:text-accent hover:shadow-[0_18px_32px_rgba(20,19,26,0.08)]"
                     >
                       Ver otras oportunidades
                     </a>
@@ -827,11 +937,6 @@ export function DemoDashboard() {
                     <Linkedin className="h-3.5 w-3.5" />
                   </a>
                 </div>
-
-                <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
-                  Cada vista mantiene el mismo encuadre para que la demo se sienta como un producto y no
-                  como una landing con bloques.
-                </p>
               </motion.div>
 
               <motion.div
@@ -840,57 +945,29 @@ export function DemoDashboard() {
                 transition={{ duration: 0.8, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
                 className="relative"
               >
-                <div className="rounded-[2rem] border border-border/60 bg-white/84 p-4 shadow-[0_32px_90px_rgba(20,19,26,0.08)] lg:p-6">
+                <div className="rounded-[2rem] border border-border/60 bg-white/88 p-4 shadow-[0_32px_90px_rgba(20,19,26,0.08)] lg:p-6">
                   <div className="mb-5 border-b border-border/45 pb-5">
-                    <div className="mb-4 flex items-start justify-between gap-4">
+                    <div className="mb-4">
                       <div>
                         <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">
                           Recorrer demo
                         </p>
                         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                          Cambia de vista y usa filtros reales dentro del mismo panel.
+                          Cambia de vista en pantalla y despues baja a la lectura completa.
                         </p>
                       </div>
-                      <div className="hidden rounded-full border border-accent/15 bg-accent/8 px-3 py-1 text-[11px] font-semibold text-accent lg:inline-flex">
-                        Full experience
-                      </div>
                     </div>
 
-                    <div className="rounded-[1.4rem] border border-border/55 bg-[#F7F4FB] p-1.5">
-                      <div className="grid grid-cols-3 gap-1">
-                        {heroPreviewSections.map((section) => {
-                          const isActive = heroPreview === section.id;
-
-                          return (
-                            <button
-                              key={section.id}
-                              type="button"
-                              onClick={() => {
-                                setHeroPreview(section.id);
-                                window.history.replaceState(null, "", `#${section.id}`);
-                              }}
-                              className={`relative rounded-full px-4 py-2.5 text-sm font-medium transition-colors ${
-                                isActive ? "text-white" : "text-foreground/74 hover:text-foreground"
-                              }`}
-                            >
-                              {isActive && (
-                                <motion.span
-                                  layoutId="hero-preview-pill"
-                                  className="absolute inset-0 rounded-full bg-[linear-gradient(135deg,#7E4CF4,#7111DF)] shadow-[0_14px_30px_rgba(113,17,223,0.22)]"
-                                  transition={{ type: "spring", bounce: 0.2, duration: 0.38 }}
-                                />
-                              )}
-                              <span className="relative z-10">{section.label}</span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
+                    <DemoViewSelector
+                      active={heroPreview}
+                      onChange={setHeroPreview}
+                      layoutId="hero-preview-pill"
+                    />
 
                     <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{heroPreviewCopy[heroPreview]}</p>
                   </div>
 
-                  <div className="h-[620px] overflow-hidden lg:h-[640px]">
+                  <div className="h-[430px] overflow-hidden lg:h-[470px]">
                     <AnimatePresence mode="wait">
                       <motion.div
                         key={heroPreview}
@@ -900,19 +977,52 @@ export function DemoDashboard() {
                         transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
                         className="h-full"
                       >
-                        {heroPreview === "vista-ejecutiva" && (
-                          <div className="h-full">
-                            <InteractiveDashboard />
-                          </div>
-                        )}
-                        {heroPreview === "ranking-vendedores" && <SellerRankingBoard />}
-                        {heroPreview === "mix-producto" && <ProductSignalBoard />}
+                        {renderBoard("preview")}
                       </motion.div>
                     </AnimatePresence>
                   </div>
                 </div>
               </motion.div>
             </div>
+          </div>
+        </section>
+
+        <section className="border-b border-border/35 bg-white py-14 lg:py-16">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="mb-8 grid gap-6 lg:grid-cols-[minmax(0,0.62fr)_minmax(0,0.38fr)] lg:items-end">
+              <div className="max-w-3xl">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">
+                  {activeView.eyebrow}
+                </p>
+                <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground lg:text-[2.4rem]">
+                  {activeView.title}
+                </h2>
+                <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                  {activeView.description}
+                </p>
+              </div>
+
+              <div className="lg:justify-self-end lg:min-w-[30rem]">
+                <DemoViewSelector
+                  active={heroPreview}
+                  onChange={setHeroPreview}
+                  layoutId="detail-preview-pill"
+                  size="compact"
+                />
+              </div>
+            </div>
+
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`detail-${heroPreview}`}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              >
+                {renderBoard("detail")}
+              </motion.div>
+            </AnimatePresence>
           </div>
         </section>
 
