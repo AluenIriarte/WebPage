@@ -157,9 +157,8 @@ export function RecursosHub() {
       <section className="border-t border-border/40 bg-muted/30 py-16">
         <div className="mx-auto max-w-3xl px-6">
           <CommercialCta
-            title="Si querés llevar esto a tu operación, no hace falta saltar directo a agenda."
-            description="Podés revisar el servicio de dashboards, pedir presupuesto si ya tenés claro el alcance o arrancar por diagnóstico si todavía estás ordenando el caso."
-            primaryLabel="Ver servicio de dashboards"
+            title="Si alguno de estos recursos ya te hizo sentido, el siguiente paso es verlo aplicado."
+            description="Podés pasar por una demo real, bajar tu caso a diagnóstico o escribir por LinkedIn si preferís un contacto más simple."
           />
         </div>
       </section>

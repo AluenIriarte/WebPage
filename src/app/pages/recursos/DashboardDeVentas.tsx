@@ -290,8 +290,7 @@ export function DashboardDeVentas() {
               </div>
               <CommercialCta
                 title={"¿Necesitás un dashboard de ventas para tu empresa?"}
-                description={"Diseño dashboards comerciales que se integran a tus datos actuales y permiten tomar decisiones sin esperar el reporte de fin de mes."}
-                primaryLabel={"Ver servicio de dashboards"}
+                description={"Podés ver una demo real, bajar tu caso a diagnóstico o escribir por LinkedIn si preferís un contacto más simple."}
               />
             </motion.article>
 

@@ -15,33 +15,33 @@ import { trackDiagnosisClick } from "../lib/analytics";
 
 const recursos = [
   {
-    label: "Todas las guías",
-    desc: "Hub de recursos y artículos",
+    label: "Todas las gu\u00edas",
+    desc: "Hub de recursos y art\u00edculos",
     href: "/recursos",
     icon: BookOpen,
     isHub: true,
   },
   {
-    label: "¿Qué es un dashboard?",
-    desc: "Definición, tipos y para qué sirve",
+    label: "\u00bfQu\u00e9 es un dashboard?",
+    desc: "Definici\u00f3n, tipos y para qu\u00e9 sirve",
     href: "/recursos/que-es-un-dashboard",
     icon: LayoutDashboard,
   },
   {
     label: "Dashboard de ventas",
-    desc: "Qué medir y cómo estructurarlo",
+    desc: "Qu\u00e9 medir y c\u00f3mo estructurarlo",
     href: "/recursos/dashboard-de-ventas",
     icon: TrendingUp,
   },
   {
     label: "KPIs comerciales",
-    desc: "La guía definitiva",
+    desc: "La gu\u00eda definitiva",
     href: "/recursos/kpis-comerciales",
     icon: Target,
   },
   {
     label: "Tablero de ventas",
-    desc: "Cómo construirlo e implementarlo",
+    desc: "C\u00f3mo construirlo e implementarlo",
     href: "/recursos/tablero-de-ventas",
     icon: BarChart2,
   },
@@ -94,9 +94,8 @@ export function Header() {
 
   const navItems = [
     { label: "Inicio", href: homeHref("#home") },
-    { label: "Qué resuelvo", href: homeHref("#problema") },
-    { label: "Cómo trabajo", href: homeHref("#proceso") },
-    { label: "Mini-casos", href: homeHref("#mini-casos") },
+    { label: "Qu\u00e9 resuelvo", href: homeHref("#problema") },
+    { label: "C\u00f3mo trabajo", href: homeHref("#proceso") },
   ];
 
   return (
@@ -127,14 +126,6 @@ export function Header() {
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full" />
               </a>
             ))}
-
-            <Link
-              to="/servicios"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors relative group"
-            >
-              Servicios
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full" />
-            </Link>
 
             <div
               ref={dropdownRef}
@@ -181,10 +172,10 @@ export function Header() {
                         </div>
                         <div>
                           <p className="text-sm font-semibold text-foreground group-hover/item:text-accent transition-colors leading-tight">
-                            Todas las guías
+                            Todas las gu\u00edas
                           </p>
                           <p className="text-[11px] text-muted-foreground/70 leading-tight mt-0.5">
-                            Hub de recursos y artículos
+                            Hub de recursos y art\u00edculos
                           </p>
                         </div>
                       </Link>
@@ -229,7 +220,7 @@ export function Header() {
               onClick={() => trackDiagnosisClick("header_desktop")}
               className="inline-flex items-center justify-center px-6 py-2.5 bg-accent text-accent-foreground rounded-full font-medium text-sm hover:bg-accent/90 transition-all duration-300 hover:shadow-lg hover:shadow-accent/25"
             >
-              Solicitar diagnóstico
+              {"Agendar diagn\u00f3stico"}
             </a>
           </div>
 
@@ -315,16 +306,6 @@ export function Header() {
               </div>
 
               <div className="pt-3">
-                <Link
-                  to="/servicios"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="block px-3 py-2.5 text-base font-medium text-foreground hover:text-accent transition-colors rounded-lg hover:bg-accent/5"
-                >
-                  Servicios
-                </Link>
-              </div>
-
-              <div className="pt-3">
                 <a
                   href={homeHref("#contacto")}
                   onClick={() => {
@@ -333,7 +314,7 @@ export function Header() {
                   }}
                   className="block w-full text-center px-6 py-3 bg-accent text-accent-foreground rounded-full font-medium text-sm hover:bg-accent/90 transition-colors"
                 >
-                  Solicitar diagnóstico
+                  {"Agendar diagn\u00f3stico"}
                 </a>
               </div>
             </div>

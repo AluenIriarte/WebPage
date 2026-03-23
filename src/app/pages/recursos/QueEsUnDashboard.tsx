@@ -344,8 +344,7 @@ export function QueEsUnDashboard() {
               </div>
               <CommercialCta
                 title={"¿Tu empresa necesita un dashboard?"}
-                description={"Podés revisar el servicio de dashboards, pedir presupuesto si ya tenés claro el alcance o arrancar por diagnóstico si primero querés ordenar el caso."}
-                primaryLabel={"Ver servicio de dashboards"}
+                description={"Podés ver una demo real, bajar tu caso a diagnóstico o escribir por LinkedIn si preferís un contacto más simple."}
               />
             </motion.article>
 

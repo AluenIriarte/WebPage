@@ -289,8 +289,7 @@ export function KpisComerciales() {
               </div>
               <CommercialCta
                 title={"¿Qué KPIs debería medir tu empresa?"}
-                description={"Podés bajar esto a un servicio de dashboards, pedir presupuesto si ya conocés el alcance o empezar por diagnóstico si todavía estás definiendo prioridades."}
-                primaryLabel={"Ver servicio de dashboards"}
+                description={"Podés ver una demo real, bajar tu caso a diagnóstico o escribir por LinkedIn si preferís un contacto más simple."}
               />
             </motion.article>
 

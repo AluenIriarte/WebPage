@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { AlertTriangle, ArrowRight, Layers3, TrendingUp, Users } from "lucide-react";
+import { AlertTriangle, Layers3, TrendingUp, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { InteractiveDashboard } from "../components/HeroDashboard";
 import { OpportunitiesSection } from "../components/OpportunitiesSection";
-import {
-  ROOT_DIAGNOSTIC_SECTION_HREF,
-  SERVICES_PAGE_HREF,
-} from "../lib/contact";
+import { StatInterstitial } from "../components/StatInterstitial";
+import { QUOTE_PAGE_HREF, ROOT_DIAGNOSTIC_SECTION_HREF } from "../lib/contact";
 
 const demoAnchors = [
   { label: "Vista ejecutiva", href: "#vista-ejecutiva" },
@@ -250,13 +248,13 @@ export function DemoDashboard() {
                     href={ROOT_DIAGNOSTIC_SECTION_HREF}
                     className="inline-flex items-center justify-center rounded-full bg-accent px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-accent/90"
                   >
-                    Solicitar diagnóstico
+                    Agendar diagnóstico
                   </a>
                   <Link
-                    to={SERVICES_PAGE_HREF}
+                    to={QUOTE_PAGE_HREF}
                     className="inline-flex items-center justify-center rounded-full border border-border bg-white px-7 py-3.5 text-sm font-medium text-foreground transition-colors hover:border-accent/35 hover:text-accent"
                   >
-                    Ver servicios / pedir cotización
+                    Pedir cotización
                   </Link>
                 </div>
 
@@ -289,6 +287,8 @@ export function DemoDashboard() {
             </div>
           </div>
         </section>
+
+        <StatInterstitial />
 
         <section className="pb-20 lg:pb-28">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -338,7 +338,7 @@ export function DemoDashboard() {
 
         <OpportunitiesSection
           footerHref={ROOT_DIAGNOSTIC_SECTION_HREF}
-          footerLabel="Solicitar diagnóstico"
+          footerLabel="Agendar diagnóstico"
           footerText="Si estas señales ya se parecen a tu negocio, la demo alcanza para validar el enfoque. El siguiente paso lógico es revisar tu caso real."
         />
 
@@ -361,8 +361,8 @@ export function DemoDashboard() {
                     Si esta lectura te resulta familiar, ya tenés suficiente contexto para avanzar.
                   </h2>
                   <p className="mt-4 text-sm leading-relaxed text-white/70">
-                    Podés revisar servicios si todavía estás comparando opciones, o pasar directo a
-                    diagnóstico si querés aterrizarlo a tu caso.
+                    La demo ya cumple su función: mostrar cómo se ve el enfoque. Desde acá, el siguiente
+                    paso es revisar tu caso o pedir cotización si ya tenés claro el alcance.
                   </p>
                 </div>
 
@@ -371,13 +371,13 @@ export function DemoDashboard() {
                     href={ROOT_DIAGNOSTIC_SECTION_HREF}
                     className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-accent hover:text-white"
                   >
-                    Solicitar diagnóstico
+                    Agendar diagnóstico
                   </a>
                   <Link
-                    to={SERVICES_PAGE_HREF}
+                    to={QUOTE_PAGE_HREF}
                     className="inline-flex items-center justify-center rounded-full border border-white/15 px-6 py-3 text-sm font-medium text-white/80 transition-colors hover:border-white/30 hover:text-white"
                   >
-                    Ver servicios / pedir cotización
+                    Pedir cotización
                   </Link>
                 </div>
               </div>

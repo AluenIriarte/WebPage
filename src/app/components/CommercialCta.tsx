@@ -1,50 +1,53 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import {
-  QUOTE_PAGE_HREF,
-  ROOT_DIAGNOSTIC_SECTION_HREF,
-  SERVICES_PAGE_HREF,
-} from "../lib/contact";
+import { DEMO_PAGE_HREF, ROOT_DIAGNOSTIC_SECTION_HREF } from "../lib/contact";
+
+const LINKEDIN_URL = "https://www.linkedin.com/in/alan-leonel-perez-argentina/?skipRedirect=true";
 
 interface CommercialCtaProps {
   title: string;
   description: string;
-  primaryLabel?: string;
 }
 
-export function CommercialCta({
-  title,
-  description,
-  primaryLabel = "Ver servicio de dashboards",
-}: CommercialCtaProps) {
+export function CommercialCta({ title, description }: CommercialCtaProps) {
   return (
-    <div className="space-y-4 rounded-2xl bg-foreground p-8 text-background">
-      <h3 className="text-xl font-semibold">{title}</h3>
-      <p className="text-sm leading-relaxed text-background/70">{description}</p>
-
-      <div className="flex flex-col gap-3 sm:flex-row">
-        <Link
-          to={SERVICES_PAGE_HREF}
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-accent/90"
-        >
-          {primaryLabel}
-          <ArrowRight className="h-4 w-4" />
-        </Link>
-        <Link
-          to={QUOTE_PAGE_HREF}
-          className="inline-flex items-center justify-center rounded-full border border-white/15 px-6 py-3 text-sm font-medium text-white/80 transition-colors hover:border-white/30 hover:text-white"
-        >
-          Pedir presupuesto
-        </Link>
+    <div className="rounded-[2rem] border border-border/50 bg-white p-8 shadow-2xl shadow-black/[0.05] lg:p-10">
+      <div className="inline-flex items-center gap-2 rounded-full border border-accent/15 bg-accent/8 px-4 py-2">
+        <span className="text-xs font-semibold tracking-wide text-accent">Siguiente paso</span>
       </div>
 
-      <a
-        href={ROOT_DIAGNOSTIC_SECTION_HREF}
-        className="inline-flex items-center gap-1.5 text-sm text-white/45 transition-colors hover:text-white/70"
-      >
-        Prefiero empezar por diagnóstico
-        <span>→</span>
-      </a>
+      <h3 className="mt-5 text-2xl font-semibold tracking-tight text-foreground">{title}</h3>
+      <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">{description}</p>
+
+      <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+        <Link
+          to={DEMO_PAGE_HREF}
+          className="group inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-colors hover:bg-accent"
+        >
+          Ver demo
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+        </Link>
+
+        <a
+          href={ROOT_DIAGNOSTIC_SECTION_HREF}
+          className="inline-flex items-center justify-center rounded-full border border-border px-6 py-3 text-sm font-medium text-foreground transition-colors hover:border-accent/35 hover:text-accent"
+        >
+          Agendar diagnóstico
+        </a>
+      </div>
+
+      <p className="mt-4 text-sm text-muted-foreground">
+        ¿Preferís un contacto más simple primero?{" "}
+        <a
+          href={LINKEDIN_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-medium text-accent transition-colors hover:text-accent/75"
+        >
+          Escribime por LinkedIn
+        </a>
+        .
+      </p>
     </div>
   );
 }

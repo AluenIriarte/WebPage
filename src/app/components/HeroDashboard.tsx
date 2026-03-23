@@ -1,10 +1,7 @@
 import { useCallback, useId, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "motion/react";
-import { AlertTriangle, ArrowRight } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { DEMO_PAGE_HREF } from "../lib/contact";
-import { trackEvent } from "../lib/analytics";
 
 type Period = "weekly" | "monthly" | "quarterly";
 
@@ -197,19 +194,6 @@ export function InteractiveDashboard({ variant = "full" }: InteractiveDashboardP
               <span className="text-[10px] font-medium text-muted-foreground">En vivo</span>
             </div>
           </div>
-
-          {isMini && (
-            <div className="mb-4">
-              <Link
-                to={DEMO_PAGE_HREF}
-                onClick={() => trackEvent("demo_click", { source: isMini ? "hero_mini_demo" : "dashboard_component" })}
-                className="group inline-flex items-center gap-2 rounded-full border border-accent/15 bg-accent/6 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-accent transition-colors hover:bg-accent hover:text-white"
-              >
-                Ver Demo completa
-                <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
-              </Link>
-            </div>
-          )}
 
           <div className="flex gap-1 rounded-lg bg-muted/70 p-1">
             {periods.map((currentPeriod) => (

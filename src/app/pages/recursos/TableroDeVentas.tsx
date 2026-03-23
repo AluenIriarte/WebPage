@@ -300,8 +300,7 @@ export function TableroDeVentas() {
               </div>
               <CommercialCta
                 title={"¿Necesitás un tablero de ventas para tu empresa?"}
-                description={"Diseño tableros comerciales conectados a tus datos reales. Si ya sabés lo que querés construir, también podés pedir presupuesto directo."}
-                primaryLabel={"Ver servicio de dashboards"}
+                description={"Podés ver una demo real, bajar tu caso a diagnóstico o escribir por LinkedIn si preferís un contacto más simple."}
               />
             </motion.article>
 

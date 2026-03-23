@@ -3,7 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 import {
   CONTACT_EMAIL,
   QUOTE_PAGE_HREF,
-  SERVICES_PAGE_HREF,
 } from "../lib/contact";
 
 export function Footer() {
@@ -15,7 +14,6 @@ export function Footer() {
       { name: "Inicio", href: homeHref("#home"), internal: false },
       { name: "Qué resuelvo", href: homeHref("#problema"), internal: false },
       { name: "Cómo trabajo", href: homeHref("#proceso"), internal: false },
-      { name: "Servicios", href: SERVICES_PAGE_HREF, internal: true },
       { name: "Pedir presupuesto", href: QUOTE_PAGE_HREF, internal: true },
       { name: "Recursos", href: "/recursos", internal: true },
     ],

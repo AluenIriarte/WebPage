@@ -1,11 +1,13 @@
 import { motion } from "motion/react";
-import { Clock, ArrowRight, FileText } from "lucide-react";
+import { Clock, ArrowRight } from "lucide-react";
 import { CALENDLY_URL } from "../lib/contact";
-import { trackCalendlyClick, trackDiagnosisClick, trackGuideClick } from "../lib/analytics";
+import { trackCalendlyClick, trackDiagnosisClick } from "../lib/analytics";
+
+const LINKEDIN_URL = "https://www.linkedin.com/in/alan-leonel-perez-argentina/?skipRedirect=true";
 
 const items = [
-  "Dónde puede estar yéndose dinero hoy sin que esté visible",
-  "Qué señal conviene mirar primero",
+  "D\u00f3nde puede estar y\u00e9ndose dinero hoy sin que est\u00e9 visible",
+  "Qu\u00e9 se\u00f1al conviene mirar primero",
   "Si el problema es de datos, de foco o de lectura comercial",
   "Si tiene sentido construir algo ahora o no",
 ];
@@ -36,17 +38,18 @@ export function EntryOffer() {
 
             <div className="space-y-5">
               <h2 className="text-[2rem] md:text-[2.4rem] lg:text-[2.6rem] font-semibold leading-[1.13] tracking-tight text-foreground">
-                En 15 minutos podemos saber si tiene sentido trabajar juntos
+                {"En 15 minutos podemos saber si tiene sentido trabajar juntos"}
               </h2>
               <p className="text-[1.05rem] text-muted-foreground leading-[1.75] max-w-md">
-                No es una llamada comercial genérica. Es una revisión inicial para ver si hoy hay una
-                pérdida visible en cartera, margen o expansión.
+                {
+                  "No es una llamada comercial gen\u00e9rica. Es una revisi\u00f3n inicial para ver si hoy hay una p\u00e9rdida visible en cartera, margen o expansi\u00f3n."
+                }
               </p>
             </div>
 
             <div className="space-y-4">
               <p className="text-[0.8rem] font-semibold text-foreground/40 uppercase tracking-[0.12em]">
-                En esa llamada revisamos
+                {"En esa llamada revisamos"}
               </p>
               <ul className="space-y-3">
                 {items.map((item, index) => (
@@ -66,7 +69,7 @@ export function EntryOffer() {
             </div>
 
             <p className="text-sm text-muted-foreground/60 border-t border-border/30 pt-6">
-              Sin compromiso. Sin necesidad de tener todo resuelto de antemano.
+              {"Sin compromiso. Sin necesidad de tener todo resuelto de antemano."}
             </p>
           </motion.div>
 
@@ -91,11 +94,13 @@ export function EntryOffer() {
                   </div>
 
                   <h3 className="text-[1.5rem] font-semibold tracking-tight text-foreground leading-tight">
-                    Diagnóstico inicial de 15 minutos
+                    {"Diagn\u00f3stico inicial de 15 minutos"}
                   </h3>
 
                   <p className="text-[0.9rem] text-muted-foreground leading-relaxed">
-                    Salís con una lectura inicial y con un sí o no honesto sobre si vale la pena avanzar.
+                    {
+                      "Sal\u00eds con una lectura inicial y con un s\u00ed o no honesto sobre si vale la pena avanzar."
+                    }
                   </p>
                 </div>
 
@@ -104,7 +109,7 @@ export function EntryOffer() {
                 <div className="space-y-3">
                   {[
                     "Entiendo tu contexto y tus datos disponibles",
-                    "Te marco la primera señal que conviene mirar",
+                    "Te marco la primera se\u00f1al que conviene mirar",
                     "Te digo si tiene sentido avanzar o no",
                   ].map((step, index) => (
                     <div key={step} className="flex items-start gap-3">
@@ -117,7 +122,7 @@ export function EntryOffer() {
                 </div>
 
                 <p className="text-[11px] text-muted-foreground/55 border-t border-border/30 pt-4">
-                  Ideal para: quien hoy decide o lidera lo comercial.
+                  {"Ideal para: quien hoy decide o lidera lo comercial."}
                 </p>
 
                 <div className="space-y-3 pt-1">
@@ -129,18 +134,22 @@ export function EntryOffer() {
                     }}
                     className="group inline-flex items-center justify-center w-full gap-2 px-8 py-4 bg-foreground text-background rounded-full font-medium text-base hover:bg-foreground/90 transition-all duration-300 hover:shadow-xl"
                   >
-                    Agendar diagnóstico
+                    {"Agendar diagn\u00f3stico"}
                     <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
                   </a>
 
-                  <a
-                    href="#recurso"
-                    onClick={() => trackGuideClick("entry_offer", "lead_magnet_section")}
-                    className="inline-flex items-center justify-center w-full gap-1.5 px-8 py-3 text-sm text-muted-foreground hover:text-accent border border-transparent hover:border-accent/15 rounded-full transition-all duration-200"
-                  >
-                    <FileText className="w-3.5 h-3.5 flex-shrink-0" />
-                    Preferís revisar primero por tu cuenta? Revisá el recurso →
-                  </a>
+                  <p className="text-center text-sm text-muted-foreground">
+                    {"\u00bfPrefer\u00eds un contacto m\u00e1s simple primero? "}
+                    <a
+                      href={LINKEDIN_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-medium text-accent transition-colors hover:text-accent/75"
+                    >
+                      {"Escribime por LinkedIn"}
+                    </a>
+                    {"."}
+                  </p>
                 </div>
               </div>
             </div>
@@ -152,7 +161,7 @@ export function EntryOffer() {
               transition={{ duration: 0.5, delay: 0.5 }}
               className="text-center text-[11px] text-muted-foreground/45 mt-5 font-medium"
             >
-              Sin presentación comercial. Sin vueltas.
+              {"Sin presentaci\u00f3n comercial. Sin vueltas."}
             </motion.p>
           </motion.div>
         </div>

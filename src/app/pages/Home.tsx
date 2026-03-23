@@ -6,9 +6,6 @@ import { FAQSection } from "../components/FAQSection";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { Hero } from "../components/Hero";
-import { LeadMagnetSection } from "../components/LeadMagnetSection";
-import { MiniCasesSection } from "../components/MiniCasesSection";
-import { StatInterstitial } from "../components/StatInterstitial";
 import { UnifiedProblem } from "../components/UnifiedProblem";
 import { ValueProposition } from "../components/ValueProposition";
 
@@ -20,12 +17,9 @@ export function Home() {
         <Hero />
         <CredibilityBand />
         <UnifiedProblem />
-        <StatInterstitial />
-        <MiniCasesSection />
         <ValueProposition />
         <CredibilitySection />
         <EntryOffer />
-        <LeadMagnetSection />
         <FAQSection />
         <ContactClose />
       </main>
