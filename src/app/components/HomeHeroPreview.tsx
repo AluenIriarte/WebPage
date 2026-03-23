@@ -1,6 +1,93 @@
-const chartSeries = {
-  ventas: [28, 39, 51, 63, 76],
-  margen: [28, 37, 49, 60, 76],
+import { useEffect, useMemo, useState } from "react";
+
+type PreviewView = "month" | "team" | "mix";
+
+type PreviewMetric = {
+  label: string;
+  value: string;
+  note: string;
+};
+
+type PreviewConfig = {
+  title: string;
+  subtitle: string;
+  summary: string;
+  badge: string;
+  chartEyebrow: string;
+  chartTitle: string;
+  periodLabel: string;
+  xLabels: string[];
+  primaryLabel: string;
+  secondaryLabel: string;
+  primary: number[];
+  secondary: number[];
+  metrics: PreviewMetric[];
+};
+
+const previewViews: { key: PreviewView; label: string }[] = [
+  { key: "month", label: "Mes" },
+  { key: "team", label: "Equipo" },
+  { key: "mix", label: "Mix" },
+];
+
+const previewData: Record<PreviewView, PreviewConfig> = {
+  month: {
+    title: "Tablero comercial activo",
+    subtitle: "Lectura general de cartera, margen y expansion.",
+    summary: "La facturacion aguanta, pero la perdida esta en actividad y margen.",
+    badge: "Prioridad hoy",
+    chartEyebrow: "Panorama mensual",
+    chartTitle: "Ventas vs margen",
+    periodLabel: "Q1 2026",
+    xLabels: ["S1", "S2", "S3", "S4", "S5"],
+    primaryLabel: "Ventas",
+    secondaryLabel: "Margen",
+    primary: [28, 39, 51, 63, 76],
+    secondary: [28, 37, 49, 60, 76],
+    metrics: [
+      { label: "Cartera en riesgo", value: "12 cuentas", note: "+90 dias sin actividad" },
+      { label: "Margen cedido", value: "-2.8 pts", note: "3 categorias para revisar" },
+      { label: "Expansion visible", value: "$348K", note: "cross-sell priorizado" },
+    ],
+  },
+  team: {
+    title: "Vista de seguimiento comercial",
+    subtitle: "Lectura de cumplimiento, foco y brecha por equipo.",
+    summary: "El desvio esta en seguimiento y conversion del equipo interior.",
+    badge: "Intervenir ahora",
+    chartEyebrow: "Ritmo del equipo",
+    chartTitle: "Cumplimiento vs actividad",
+    periodLabel: "Ultimas 5 semanas",
+    xLabels: ["Norte", "Interior", "AMBA", "Canal", "Key"],
+    primaryLabel: "Cumplimiento",
+    secondaryLabel: "Actividad",
+    primary: [74, 62, 81, 69, 88],
+    secondary: [78, 58, 76, 64, 84],
+    metrics: [
+      { label: "Equipo bajo meta", value: "1 equipo", note: "prioridad de coaching" },
+      { label: "Brecha activa", value: "$28K", note: "vs objetivo mensual" },
+      { label: "Seguimiento util", value: "97%", note: "cumplimiento promedio" },
+    ],
+  },
+  mix: {
+    title: "Lectura de mix y rentabilidad",
+    subtitle: "Cruce de volumen, margen y huecos de linea.",
+    summary: "El crecimiento mas limpio esta en lineas premium con baja penetracion.",
+    badge: "Hueco visible",
+    chartEyebrow: "Mix comercial",
+    chartTitle: "Volumen vs margen",
+    periodLabel: "Lineas activas",
+    xLabels: ["Linea A", "Linea B", "Linea C", "Linea D", "Linea E"],
+    primaryLabel: "Volumen",
+    secondaryLabel: "Margen",
+    primary: [82, 76, 48, 64, 59],
+    secondary: [34, 41, 68, 53, 61],
+    metrics: [
+      { label: "Linea prioritaria", value: "Linea C", note: "mayor opcion de expansion" },
+      { label: "Mix incompleto", value: "47 cuentas", note: "categorias sin trabajar" },
+      { label: "Margen premium", value: "36%", note: "linea de mayor calidad" },
+    ],
+  },
 };
 
 function buildLinePath(values: number[], width: number, height: number) {
@@ -12,7 +99,7 @@ function buildLinePath(values: number[], width: number, height: number) {
   return values
     .map((value, index) => {
       const x = index * step;
-      const y = height - ((value - min) / range) * (height - 18) - 12;
+      const y = height - ((value - min) / range) * (height - 24) - 14;
       return `${index === 0 ? "M" : "L"} ${x.toFixed(1)} ${y.toFixed(1)}`;
     })
     .join(" ");
@@ -25,17 +112,25 @@ function buildAreaPath(values: number[], width: number, height: number) {
 
 const lineWidth = 460;
 const lineHeight = 196;
-const ventasPath = buildLinePath(chartSeries.ventas, lineWidth, lineHeight);
-const margenPath = buildLinePath(chartSeries.margen, lineWidth, lineHeight);
-const areaPath = buildAreaPath(chartSeries.ventas, lineWidth, lineHeight);
-
-const metrics = [
-  { label: "Cartera en riesgo", value: "12 cuentas", note: "+90 dias sin actividad" },
-  { label: "Margen cedido", value: "-2.8 pts", note: "3 categorias para revisar" },
-  { label: "Expansion visible", value: "$348K", note: "cross-sell priorizado" },
-];
 
 export function HomeHeroPreview() {
+  const [view, setView] = useState<PreviewView>("month");
+  const [interactive, setInteractive] = useState(false);
+  const data = previewData[view];
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setInteractive(true), 800);
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  const chartPaths = useMemo(() => {
+    const primaryPath = buildLinePath(data.primary, lineWidth, lineHeight);
+    const secondaryPath = buildLinePath(data.secondary, lineWidth, lineHeight);
+    const areaPath = buildAreaPath(data.primary, lineWidth, lineHeight);
+
+    return { primaryPath, secondaryPath, areaPath };
+  }, [data]);
+
   return (
     <div className="relative">
       <div className="absolute inset-x-6 bottom-0 top-6 -z-10 rounded-[2.25rem] bg-[radial-gradient(circle_at_top_right,rgba(113,17,223,0.18),transparent_55%)] blur-3xl" />
@@ -48,11 +143,9 @@ export function HomeHeroPreview() {
                 Sistema de decision
               </p>
               <h3 className="text-lg font-semibold tracking-tight text-foreground sm:text-[1.15rem]">
-                Tablero comercial activo
+                {data.title}
               </h3>
-              <p className="mt-1 text-xs text-muted-foreground">
-                Lectura general de cartera, margen y expansion.
-              </p>
+              <p className="mt-1 text-xs text-muted-foreground">{data.subtitle}</p>
             </div>
 
             <div className="flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1.5">
@@ -62,9 +155,25 @@ export function HomeHeroPreview() {
           </div>
 
           <div className="grid grid-cols-3 gap-1 rounded-2xl bg-[#F6F4FA] p-1.5 text-[11px] font-medium text-muted-foreground">
-            <span className="rounded-xl border border-accent/10 bg-white px-3 py-2.5 text-center text-foreground shadow-sm">Mes</span>
-            <span className="px-3 py-2.5 text-center">Equipo</span>
-            <span className="px-3 py-2.5 text-center">Mix</span>
+            {previewViews.map((item) => {
+              const isActive = item.key === view;
+
+              return (
+                <button
+                  key={item.key}
+                  type="button"
+                  disabled={!interactive}
+                  onClick={() => setView(item.key)}
+                  className={`rounded-xl px-3 py-2.5 text-center transition-all duration-200 ${
+                    isActive
+                      ? "border border-accent/10 bg-white text-foreground shadow-sm"
+                      : "text-muted-foreground"
+                  } ${interactive ? "hover:text-foreground" : "cursor-default"}`}
+                >
+                  {item.label}
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -75,12 +184,10 @@ export function HomeHeroPreview() {
                 <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/70">
                   Lectura ejecutiva
                 </p>
-                <p className="mt-1 text-sm font-semibold text-foreground sm:text-base">
-                  La facturacion aguanta, pero la perdida esta en actividad y margen.
-                </p>
+                <p className="mt-1 text-sm font-semibold text-foreground sm:text-base">{data.summary}</p>
               </div>
               <span className="hidden rounded-full border border-accent/15 bg-accent/6 px-3 py-1.5 text-[11px] font-semibold text-accent sm:inline-flex">
-                Prioridad hoy
+                {data.badge}
               </span>
             </div>
 
@@ -89,13 +196,11 @@ export function HomeHeroPreview() {
                 <div className="flex items-center justify-between gap-4">
                   <div>
                     <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/70">
-                      Panorama mensual
+                      {data.chartEyebrow}
                     </p>
-                    <p className="mt-1 text-sm font-semibold text-foreground sm:text-base">
-                      Ventas vs margen
-                    </p>
+                    <p className="mt-1 text-sm font-semibold text-foreground sm:text-base">{data.chartTitle}</p>
                   </div>
-                  <span className="text-[11px] font-medium text-muted-foreground">Q1 2026</span>
+                  <span className="text-[11px] font-medium text-muted-foreground">{data.periodLabel}</span>
                 </div>
               </div>
 
@@ -120,27 +225,35 @@ export function HomeHeroPreview() {
                     />
                   ))}
 
-                  <path d={areaPath} fill="url(#home-preview-area)" />
-                  <path d={ventasPath} fill="none" stroke="#7111DF" strokeWidth="4" strokeLinecap="round" />
-                  <path d={margenPath} fill="none" stroke="#05B6D3" strokeWidth="4" strokeLinecap="round" />
+                  <path d={chartPaths.areaPath} fill="url(#home-preview-area)" />
+                  <path d={chartPaths.primaryPath} fill="none" stroke="#7111DF" strokeWidth="4" strokeLinecap="round" />
+                  <path d={chartPaths.secondaryPath} fill="none" stroke="#05B6D3" strokeWidth="4" strokeLinecap="round" />
                 </svg>
 
                 <div className="mt-1 flex items-center gap-5 px-1 pb-1">
                   <div className="flex items-center gap-2">
                     <span className="h-0.5 w-5 rounded-full bg-[#7111DF]" />
-                    <span className="text-[10px] font-medium text-muted-foreground">Ventas</span>
+                    <span className="text-[10px] font-medium text-muted-foreground">{data.primaryLabel}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="h-0.5 w-5 rounded-full bg-[#05B6D3]" />
-                    <span className="text-[10px] font-medium text-muted-foreground">Margen</span>
+                    <span className="text-[10px] font-medium text-muted-foreground">{data.secondaryLabel}</span>
                   </div>
+                </div>
+
+                <div className="mt-2 grid grid-cols-5 gap-2 px-1 text-[10px] font-medium text-muted-foreground/80">
+                  {data.xLabels.map((label) => (
+                    <span key={label} className="text-center">
+                      {label}
+                    </span>
+                  ))}
                 </div>
               </div>
             </div>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-3">
-            {metrics.map((metric) => (
+            {data.metrics.map((metric) => (
               <div key={metric.label} className="rounded-[1.3rem] border border-[#E9E2F2] bg-[#FCFBFE] p-4 sm:p-[1.125rem]">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/70">
                   {metric.label}
