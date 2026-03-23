@@ -1,12 +1,20 @@
 import { useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { SeoHead } from "../components/SeoHead";
-import { setupCalendlyTracking, trackPageView } from "../lib/analytics";
+import { scheduleAnalyticsLoad, setupCalendlyTracking, trackPageView } from "../lib/analytics";
 
 export function Root() {
   const location = useLocation();
 
-  useEffect(() => setupCalendlyTracking(), []);
+  useEffect(() => {
+    const cleanupCalendly = setupCalendlyTracking();
+    const cleanupAnalytics = scheduleAnalyticsLoad();
+
+    return () => {
+      cleanupCalendly();
+      cleanupAnalytics();
+    };
+  }, []);
 
   useEffect(() => {
     if (location.hash) {

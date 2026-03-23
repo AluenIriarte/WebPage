@@ -9,6 +9,62 @@ declare global {
 
 type EventParams = Record<string, string | number | boolean | undefined>;
 
+let analyticsBootstrapped = false;
+let analyticsScheduled = false;
+
+function createAnalyticsStub() {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  window.dataLayer = window.dataLayer || [];
+
+  if (typeof window.gtag !== "function") {
+    window.gtag = (...args: unknown[]) => {
+      window.dataLayer?.push(args);
+    };
+  }
+}
+
+function injectAnalyticsScript() {
+  if (typeof window === "undefined" || analyticsBootstrapped) {
+    return;
+  }
+
+  createAnalyticsStub();
+  window.gtag?.("js", new Date());
+  window.gtag?.("config", GA_MEASUREMENT_ID, { send_page_view: false });
+
+  if (!document.querySelector(`script[data-ga-id="${GA_MEASUREMENT_ID}"]`)) {
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+    script.dataset.gaId = GA_MEASUREMENT_ID;
+    document.head.appendChild(script);
+  }
+
+  analyticsBootstrapped = true;
+}
+
+export function scheduleAnalyticsLoad() {
+  if (typeof window === "undefined" || analyticsScheduled) {
+    return () => {};
+  }
+
+  analyticsScheduled = true;
+  createAnalyticsStub();
+
+  const load = () => injectAnalyticsScript();
+
+  if ("requestIdleCallback" in window) {
+    const idleId = window.requestIdleCallback(load, { timeout: 2000 });
+    return () => window.cancelIdleCallback(idleId);
+  }
+
+  const timeoutId = window.setTimeout(load, 1200);
+  return () => window.clearTimeout(timeoutId);
+}
+
 export function trackEvent(eventName: string, params: EventParams = {}) {
   if (typeof window === "undefined" || typeof window.gtag !== "function") {
     return;

@@ -1,29 +1,41 @@
-import { ContactClose } from "../components/ContactClose";
+import { Suspense, lazy, startTransition, useEffect, useState } from "react";
 import { CredibilityBand } from "../components/CredibilityBand";
-import { CredibilitySection } from "../components/CredibilitySection";
-import { EntryOffer } from "../components/EntryOffer";
-import { FAQSection } from "../components/FAQSection";
-import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { Hero } from "../components/Hero";
-import { UnifiedProblem } from "../components/UnifiedProblem";
-import { ValueProposition } from "../components/ValueProposition";
+
+const HomeBelowFold = lazy(() =>
+  import("../components/HomeBelowFold").then((module) => ({ default: module.HomeBelowFold })),
+);
 
 export function Home() {
+  const [showBelowFold, setShowBelowFold] = useState(false);
+
+  useEffect(() => {
+    const revealBelowFold = () => {
+      startTransition(() => setShowBelowFold(true));
+    };
+
+    if ("requestIdleCallback" in window) {
+      const idleId = window.requestIdleCallback(revealBelowFold, { timeout: 1200 });
+      return () => window.cancelIdleCallback(idleId);
+    }
+
+    const timeoutId = window.setTimeout(revealBelowFold, 300);
+    return () => window.clearTimeout(timeoutId);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
       <main>
         <Hero />
         <CredibilityBand />
-        <UnifiedProblem />
-        <ValueProposition />
-        <CredibilitySection />
-        <EntryOffer />
-        <FAQSection />
-        <ContactClose />
+        {showBelowFold ? (
+          <Suspense fallback={null}>
+            <HomeBelowFold />
+          </Suspense>
+        ) : null}
       </main>
-      <Footer />
     </div>
   );
 }

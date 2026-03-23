@@ -30,7 +30,15 @@ export function CredibilitySection() {
           >
             <div className="relative">
               <div className="w-36 h-36 lg:w-44 lg:h-44 rounded-3xl overflow-hidden border border-border/40 shadow-xl shadow-black/5">
-                <img src={profilePhoto} alt="Alan L. Perez" className="w-full h-full object-cover object-top" />
+                <img
+                  src={profilePhoto}
+                  alt="Alan L. Perez"
+                  loading="lazy"
+                  decoding="async"
+                  width="176"
+                  height="176"
+                  className="w-full h-full object-cover object-top"
+                />
               </div>
               <div className="absolute -bottom-2 -right-2 w-6 h-6 rounded-full bg-accent shadow-lg shadow-accent/30" />
             </div>

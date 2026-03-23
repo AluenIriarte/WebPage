@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
-import { motion } from "motion/react";
 import { ArrowRight, BarChart3, TrendingUp, Users } from "lucide-react";
 import { DEMO_PAGE_HREF, QUOTE_PAGE_HREF } from "../lib/contact";
 import { trackDiagnosisClick, trackEvent, trackQuoteClick } from "../lib/analytics";
-import { InteractiveDashboard } from "./HeroDashboard";
+import { HomeHeroPreview } from "./HomeHeroPreview";
 
 export function Hero() {
   return (
@@ -15,30 +14,15 @@ export function Hero() {
 
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="space-y-8"
-          >
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.15 }}
-              className="inline-flex items-center space-x-2 rounded-full border border-accent/15 bg-accent/8 px-4 py-2"
-            >
+          <div className="space-y-8">
+            <div className="inline-flex items-center space-x-2 rounded-full border border-accent/15 bg-accent/8 px-4 py-2">
               <BarChart3 className="h-3.5 w-3.5 text-accent" />
               <span className="text-xs font-semibold tracking-wide text-accent">
                 {"Dashboards comerciales a medida"}
               </span>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.25 }}
-              className="space-y-5"
-            >
+            <div className="space-y-5">
               <h1 className="text-4xl font-semibold leading-[1.1] tracking-tight text-foreground md:text-5xl lg:text-[3.25rem]">
                 {"Convert\u00ed tus datos de ventas "}
                 <span className="text-accent">{"en ingresos"}</span>
@@ -53,14 +37,9 @@ export function Hero() {
                   "Dashboards de ventas y BI comercial a medida para equipos que necesitan visibilidad sobre cartera, margen y expansi\u00f3n."
                 }
               </p>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="space-y-4"
-            >
+            <div className="space-y-4">
               <div className="flex flex-col gap-4 sm:flex-row">
                 <a
                   href="#contacto"
@@ -91,14 +70,9 @@ export function Hero() {
                   <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
                 </Link>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.55 }}
-              className="border-t border-border/50 pt-6"
-            >
+            <div className="border-t border-border/50 pt-6">
               <div className="flex flex-wrap gap-5">
                 {[
                   { icon: Users, text: "Diagn\u00f3stico inicial de 15 minutos" },
@@ -111,35 +85,27 @@ export function Hero() {
                   </div>
                 ))}
               </div>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="relative mt-4 px-4 lg:mt-0 lg:px-0"
-          >
+          <div className="relative mt-4 px-4 lg:mt-0 lg:px-0">
             <div className="mb-5 flex flex-wrap gap-2 lg:hidden">
               {[
                 { color: "bg-violet-50 border-violet-100 text-violet-700", text: "12 clientes inactivos +90d" },
                 { color: "bg-emerald-50 border-emerald-100 text-emerald-700", text: "+34% potencial cross-sell" },
                 { color: "bg-amber-50 border-amber-100 text-amber-700", text: "Margen erosionado detectado" },
-              ].map((pill, index) => (
-                <motion.span
+              ].map((pill) => (
+                <span
                   key={pill.text}
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 + index * 0.1, duration: 0.4 }}
                   className={`inline-flex items-center rounded-full border px-3 py-1.5 text-[11px] font-semibold ${pill.color}`}
                 >
                   {pill.text}
-                </motion.span>
+                </span>
               ))}
             </div>
 
-            <InteractiveDashboard variant="mini" />
-          </motion.div>
+            <HomeHeroPreview />
+          </div>
         </div>
       </div>
     </section>
