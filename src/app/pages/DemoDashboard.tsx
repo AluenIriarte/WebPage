@@ -1,5 +1,5 @@
 import { useEffect, useState, type MouseEvent } from "react";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, Layers3, Linkedin, TrendingUp, Users } from "lucide-react";
 import { Header } from "../components/Header";
 import { InteractiveDashboard } from "../components/HeroDashboard";
@@ -17,25 +17,18 @@ const demoSections = [
 ] as const;
 
 type DemoSectionId = (typeof demoSections)[number]["id"];
-type SellerAvatarVariant = "wave" | "short" | "bun";
-
-const readingGuides = [
-  {
-    step: "01",
-    title: "Leé la señal ejecutiva",
-    body: "Primero mirá qué desvío aparece y por qué ya merece atención comercial.",
-  },
-  {
-    step: "02",
-    title: "Bajá al equipo",
-    body: "Después revisá ranking para entender dónde intervenir y con qué prioridad.",
-  },
-  {
-    step: "03",
-    title: "Cerrá con producto",
-    body: "Por último, confirmá si el problema o la oportunidad viene del mix y del margen.",
-  },
+const heroPreviewSections = [
+  { id: "vista-ejecutiva", label: "Vista ejecutiva" },
+  { id: "ranking-vendedores", label: "Ranking comercial" },
+  { id: "mix-producto", label: "Mix de producto" },
 ] as const;
+type HeroPreviewId = (typeof heroPreviewSections)[number]["id"];
+type SellerAvatarVariant = "wave" | "short" | "bun";
+const heroPreviewCopy: Record<HeroPreviewId, string> = {
+  "vista-ejecutiva": "Un encuadre inicial para leer el negocio en pocos segundos.",
+  "ranking-vendedores": "La misma lectura bajada al equipo para detectar dónde intervenir primero.",
+  "mix-producto": "La vista que separa volumen, margen y foco comercial sin salir de la demo.",
+};
 
 const sellerRanking = [
   {
@@ -368,6 +361,7 @@ function DemoStickyNav({
 
 export function DemoDashboard() {
   const [activeSection, setActiveSection] = useState<DemoSectionId>("vista-ejecutiva");
+  const [heroPreview, setHeroPreview] = useState<HeroPreviewId>("vista-ejecutiva");
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
@@ -377,6 +371,10 @@ export function DemoDashboard() {
     const currentHash = window.location.hash.replace("#", "");
     if (demoSections.some((section) => section.id === currentHash)) {
       setActiveSection(currentHash as DemoSectionId);
+    }
+
+    if (heroPreviewSections.some((section) => section.id === currentHash)) {
+      setHeroPreview(currentHash as HeroPreviewId);
     }
   }, []);
 
@@ -464,84 +462,40 @@ export function DemoDashboard() {
                   </p>
                 </div>
 
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                  <a
-                    href={ROOT_DIAGNOSTIC_SECTION_HREF}
-                    onClick={() => trackDiagnosisClick("demo_hero")}
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-accent/90"
-                  >
-                    Agendar diagnóstico
-                    <ArrowRight className="h-4 w-4" />
-                  </a>
+                <div className="space-y-3">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                    <a
+                      href={ROOT_DIAGNOSTIC_SECTION_HREF}
+                      onClick={() => trackDiagnosisClick("demo_hero")}
+                      className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-accent/90"
+                    >
+                      Agendar diagnóstico
+                      <ArrowRight className="h-4 w-4" />
+                    </a>
+                    <a
+                      href="#oportunidades"
+                      onClick={(event) => handleAnchorClick(event, "oportunidades")}
+                      className="inline-flex items-center justify-center rounded-full border border-border/60 bg-white px-7 py-3.5 text-sm font-medium text-foreground transition-colors hover:border-accent/35 hover:text-accent"
+                    >
+                      Ver otras oportunidades
+                    </a>
+                  </div>
 
                   <a
                     href={LINKEDIN_URL}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                    className="inline-flex w-fit items-center gap-2 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
                   >
-                    Prefiero escribir primero por LinkedIn
-                    <Linkedin className="h-4 w-4" />
+                    Prefiero escribir por LinkedIn
+                    <Linkedin className="h-3.5 w-3.5" />
                   </a>
                 </div>
 
-                <div className="rounded-[1.75rem] border border-border/50 bg-white/78 p-4 shadow-sm shadow-black/[0.03]">
-                  <div className="mb-3 flex items-center justify-between gap-4">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">
-                      Recorrer demo
-                    </p>
-                    <p className="hidden text-[11px] text-muted-foreground sm:block">
-                      Seguí el orden sugerido o saltá directo a la vista que querés validar.
-                    </p>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {demoSections.map((section) => (
-                      <a
-                        key={section.id}
-                        href={`#${section.id}`}
-                        onClick={(event) => handleAnchorClick(event, section.id)}
-                        className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-white px-4 py-2 text-sm font-medium text-foreground/78 transition-colors hover:border-accent/35 hover:text-accent"
-                      >
-                        <span className="h-1.5 w-1.5 rounded-full bg-accent/65" />
-                        {section.label}
-                      </a>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="grid gap-3 sm:grid-cols-3">
-                  {readingGuides.map((item) => (
-                    <div
-                      key={item.step}
-                      className="rounded-2xl border border-border/50 bg-white/78 p-4 shadow-sm shadow-black/[0.02]"
-                    >
-                      <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-accent/55">
-                        {item.step}
-                      </p>
-                      <p className="mt-2 text-sm font-semibold text-foreground">{item.title}</p>
-                      <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{item.body}</p>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <div className="rounded-2xl border border-border/50 bg-white/78 p-4">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-                      Qué hace visible
-                    </p>
-                    <p className="mt-2 text-sm leading-relaxed text-foreground/80">
-                      Dónde se enfría la base, dónde se erosiona margen y dónde aparece expansión real.
-                    </p>
-                  </div>
-                  <div className="rounded-2xl border border-border/50 bg-white/78 p-4">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-                      Qué decisión habilita
-                    </p>
-                    <p className="mt-2 text-sm leading-relaxed text-foreground/80">
-                      Elegir rápido qué equipo, qué cartera o qué mix conviene priorizar primero.
-                    </p>
-                  </div>
-                </div>
+                <p className="max-w-xl text-sm leading-relaxed text-muted-foreground">
+                  La diferencia es que acá podés cambiar de vista como si ya estuvieras mirando el dashboard.
+                  Más abajo, cada bloque se desarrolla completo para validar si te hace sentido.
+                </p>
               </motion.div>
 
               <motion.div
@@ -550,22 +504,60 @@ export function DemoDashboard() {
                 transition={{ duration: 0.8, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
                 className="relative"
               >
-                <div className="rounded-[2rem] border border-border/60 bg-white/82 p-4 shadow-[0_32px_90px_rgba(20,19,26,0.08)] lg:p-6 lg:pr-6 lg:pb-6">
-                  <div className="mb-4 flex items-center justify-between gap-4 px-1">
-                    <div>
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">
-                        Vista ejecutiva
-                      </p>
-                      <p className="mt-1 text-sm text-muted-foreground">
-                        Un encuadre inicial para leer el negocio en pocos segundos.
-                      </p>
+                <div className="rounded-[2rem] border border-border/60 bg-white/82 p-4 shadow-[0_32px_90px_rgba(20,19,26,0.08)] lg:p-6">
+                  <div className="mb-5 border-b border-border/45 pb-5">
+                    <div className="mb-4 flex items-start justify-between gap-4">
+                      <div>
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">
+                          Recorrer demo
+                        </p>
+                        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                          Cambiá de vista en pantalla y mirá la lógica completa sin salir del hero.
+                        </p>
+                      </div>
+                      <div className="hidden rounded-full border border-accent/15 bg-accent/8 px-3 py-1 text-[11px] font-semibold text-accent lg:inline-flex">
+                        En pantalla
+                      </div>
                     </div>
-                    <div className="hidden rounded-full border border-accent/15 bg-accent/8 px-3 py-1 text-[11px] font-semibold text-accent lg:inline-flex">
-                      Sistema de decisión
+
+                    <div className="flex flex-wrap gap-2">
+                      {heroPreviewSections.map((section) => {
+                        const isActive = heroPreview === section.id;
+
+                        return (
+                          <button
+                            key={section.id}
+                            type="button"
+                            onClick={() => setHeroPreview(section.id)}
+                            className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                              isActive
+                                ? "bg-accent text-white shadow-sm shadow-accent/20"
+                                : "border border-border/60 bg-white text-foreground hover:border-accent/35 hover:text-accent"
+                            }`}
+                          >
+                            {section.label}
+                          </button>
+                        );
+                      })}
                     </div>
+
+                    <p className="mt-4 text-sm text-muted-foreground">{heroPreviewCopy[heroPreview]}</p>
                   </div>
 
-                  <InteractiveDashboard />
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={heroPreview}
+                      initial={{ opacity: 0, y: 14 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                      className="min-h-[420px] lg:min-h-[560px]"
+                    >
+                      {heroPreview === "vista-ejecutiva" && <InteractiveDashboard />}
+                      {heroPreview === "ranking-vendedores" && <SellerRankingBoard />}
+                      {heroPreview === "mix-producto" && <ProductSignalBoard />}
+                    </motion.div>
+                  </AnimatePresence>
                 </div>
               </motion.div>
             </div>
