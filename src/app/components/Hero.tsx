@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, BarChart3, TrendingUp, Users } from "lucide-react";
 import { DEMO_PAGE_HREF, QUOTE_PAGE_HREF } from "../lib/contact";
 import { trackDiagnosisClick, trackEvent, trackQuoteClick } from "../lib/analytics";
-import { HomeHeroPreview } from "./HomeHeroPreview";
+import { InteractiveDashboard } from "./HeroDashboard";
 
 export function Hero() {
   return (
@@ -13,7 +13,7 @@ export function Hero() {
       </div>
 
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-14">
+        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <div className="space-y-8">
             <div className="inline-flex items-center space-x-2 rounded-full border border-accent/15 bg-accent/8 px-4 py-2">
               <BarChart3 className="h-3.5 w-3.5 text-accent" />
@@ -86,7 +86,7 @@ export function Hero() {
             </div>
           </div>
 
-          <div className="relative mt-4 px-2 lg:mt-0 lg:px-0">
+          <div className="relative mt-4 px-4 lg:mt-0 lg:px-0">
             <div className="mb-5 flex flex-wrap gap-2 lg:hidden">
               {[
                 { color: "bg-violet-50 border-violet-100 text-violet-700", text: "12 clientes inactivos +90d" },
@@ -102,7 +102,7 @@ export function Hero() {
               ))}
             </div>
 
-            <HomeHeroPreview />
+            <InteractiveDashboard variant="full" animated={false} />
           </div>
         </div>
       </div>

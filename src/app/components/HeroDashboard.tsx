@@ -52,7 +52,11 @@ const dashboardData: Record<
   },
 };
 
-function AnimatedValue({ value }: { value: string | number }) {
+function AnimatedValue({ value, animated = true }: { value: string | number; animated?: boolean }) {
+  if (!animated) {
+    return <span>{value}</span>;
+  }
+
   return (
     <AnimatePresence mode="wait">
       <motion.span
@@ -100,9 +104,10 @@ const CustomTooltip = ({
 interface InteractiveDashboardProps {
   variant?: "mini" | "full";
   fillHeight?: boolean;
+  animated?: boolean;
 }
 
-function RiskAlertCard({ compact = false }: { compact?: boolean }) {
+function RiskAlertCard({ compact = false, animated = true }: { compact?: boolean; animated?: boolean }) {
   return (
     <div
       className={`rounded-2xl border border-amber-100 bg-white ${
@@ -135,9 +140,9 @@ function RiskAlertCard({ compact = false }: { compact?: boolean }) {
           <motion.div
             key={index}
             className={`flex-1 rounded-full ${filled ? "bg-amber-400" : "bg-muted"} ${compact ? "h-1.5" : "h-1.5"}`}
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ delay: 0.35 + index * 0.06, duration: 0.2 }}
+            initial={animated ? { scaleX: 0 } : undefined}
+            animate={animated ? { scaleX: 1 } : undefined}
+            transition={animated ? { delay: 0.35 + index * 0.06, duration: 0.2 } : undefined}
             style={{ transformOrigin: "left" }}
           />
         ))}
@@ -146,7 +151,11 @@ function RiskAlertCard({ compact = false }: { compact?: boolean }) {
   );
 }
 
-export function InteractiveDashboard({ variant = "full", fillHeight = false }: InteractiveDashboardProps) {
+export function InteractiveDashboard({
+  variant = "full",
+  fillHeight = false,
+  animated = true,
+}: InteractiveDashboardProps) {
   const [period, setPeriod] = useState<Period>("monthly");
   const data = dashboardData[period];
   const uid = useId().replace(/:/g, "");
@@ -199,7 +208,7 @@ export function InteractiveDashboard({ variant = "full", fillHeight = false }: I
       style={isMini ? { perspective: "1200px" } : undefined}
       className={`relative ${fillHeight ? "h-full" : ""}`}
     >
-      {isMini && (
+      {isMini && animated && (
         <motion.div
           className="absolute inset-0 -z-10 rounded-3xl opacity-40"
           style={{
@@ -211,7 +220,7 @@ export function InteractiveDashboard({ variant = "full", fillHeight = false }: I
       )}
 
       <motion.div
-        style={isMini ? { rotateX, rotateY, transformStyle: "preserve-3d" } : undefined}
+        style={isMini && animated ? { rotateX, rotateY, transformStyle: "preserve-3d" } : undefined}
         className={`overflow-hidden rounded-2xl border border-border/60 bg-white ${
           isMini ? "shadow-2xl" : "shadow-[0_18px_44px_rgba(20,19,26,0.06)]"
         } ${fillHeight ? "flex h-full flex-col" : ""}`}
@@ -240,8 +249,8 @@ export function InteractiveDashboard({ variant = "full", fillHeight = false }: I
             <div className="flex items-center gap-2">
               <motion.div
                 className="h-2 w-2 rounded-full bg-emerald-500"
-                animate={{ scale: [1, 1.4, 1], opacity: [1, 0.6, 1] }}
-                transition={{ repeat: Infinity, duration: 2.2, ease: "easeInOut" }}
+                animate={animated ? { scale: [1, 1.4, 1], opacity: [1, 0.6, 1] } : undefined}
+                transition={animated ? { repeat: Infinity, duration: 2.2, ease: "easeInOut" } : undefined}
               />
               <span className="text-[10px] font-medium text-muted-foreground">En vivo</span>
             </div>
@@ -258,13 +267,16 @@ export function InteractiveDashboard({ variant = "full", fillHeight = false }: I
                     : "text-muted-foreground hover:text-foreground/80"
                 }`}
               >
-                {period === currentPeriod && (
-                  <motion.div
-                    layoutId={`${uid}-period-pill`}
-                    className="absolute inset-0 rounded-md bg-white shadow-sm"
-                    transition={{ type: "spring", bounce: 0.25, duration: 0.4 }}
-                  />
-                )}
+                {period === currentPeriod &&
+                  (animated ? (
+                    <motion.div
+                      layoutId={`${uid}-period-pill`}
+                      className="absolute inset-0 rounded-md bg-white shadow-sm"
+                      transition={{ type: "spring", bounce: 0.25, duration: 0.4 }}
+                    />
+                  ) : (
+                    <div className="absolute inset-0 rounded-md bg-white shadow-sm" />
+                  ))}
                 <span className="relative z-10">{periodLabels[currentPeriod]}</span>
               </button>
             ))}
@@ -311,7 +323,8 @@ export function InteractiveDashboard({ variant = "full", fillHeight = false }: I
                   fill={`url(#${gradientVentas})`}
                   dot={false}
                   activeDot={{ r: 3.5, fill: "#8B5CF6", strokeWidth: 2, stroke: "#fff" }}
-                  animationDuration={700}
+                  isAnimationActive={animated}
+                  animationDuration={animated ? 700 : 0}
                   animationEasing="ease-out"
                 />
                 <Area
@@ -323,7 +336,8 @@ export function InteractiveDashboard({ variant = "full", fillHeight = false }: I
                   fill={`url(#${gradientMargen})`}
                   dot={false}
                   activeDot={{ r: 3.5, fill: "#06b6d4", strokeWidth: 2, stroke: "#fff" }}
-                  animationDuration={700}
+                  isAnimationActive={animated}
+                  animationDuration={animated ? 700 : 0}
                   animationEasing="ease-out"
                 />
               </AreaChart>
@@ -350,9 +364,9 @@ export function InteractiveDashboard({ variant = "full", fillHeight = false }: I
           {data.metrics.map((metric, index) => (
             <motion.div
               key={`${period}-kpi-${index}`}
-              initial={{ opacity: 0, scale: 0.92 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.06, duration: 0.3, ease: "easeOut" }}
+              initial={animated ? { opacity: 0, scale: 0.92 } : undefined}
+              animate={animated ? { opacity: 1, scale: 1 } : undefined}
+              transition={animated ? { delay: index * 0.06, duration: 0.3, ease: "easeOut" } : undefined}
               className={`rounded-xl p-3.5 ${
                 isMini ? "border border-border/30 bg-muted/50" : "border border-[#ECE6F2] bg-[#FCFBFE]"
               }`}
@@ -361,7 +375,7 @@ export function InteractiveDashboard({ variant = "full", fillHeight = false }: I
                 {metric.label}
               </p>
               <div className="mb-0.5 text-base font-bold text-foreground">
-                <AnimatedValue value={metric.value} />
+                <AnimatedValue value={metric.value} animated={animated} />
               </div>
               <span className="text-[9px] font-semibold text-emerald-600">{metric.change}</span>
             </motion.div>
@@ -370,23 +384,23 @@ export function InteractiveDashboard({ variant = "full", fillHeight = false }: I
           {!isMini && (
             <motion.div
               key={`${period}-risk`}
-              initial={{ opacity: 0, scale: 0.92 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.16, duration: 0.3, ease: "easeOut" }}
+              initial={animated ? { opacity: 0, scale: 0.92 } : undefined}
+              animate={animated ? { opacity: 1, scale: 1 } : undefined}
+              transition={animated ? { delay: 0.16, duration: 0.3, ease: "easeOut" } : undefined}
             >
-              <RiskAlertCard />
+              <RiskAlertCard animated={animated} />
             </motion.div>
           )}
         </div>
 
         {isMini && (
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.28, duration: 0.35, ease: "easeOut" }}
+            initial={animated ? { opacity: 0, y: 10 } : undefined}
+            animate={animated ? { opacity: 1, y: 0 } : undefined}
+            transition={animated ? { delay: 0.28, duration: 0.35, ease: "easeOut" } : undefined}
             className="px-4 pb-5"
           >
-            <RiskAlertCard compact />
+            <RiskAlertCard compact animated={animated} />
           </motion.div>
         )}
       </motion.div>
