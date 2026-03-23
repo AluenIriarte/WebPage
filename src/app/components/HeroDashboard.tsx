@@ -154,7 +154,7 @@ export function InteractiveDashboard({ variant = "full" }: InteractiveDashboardP
       className="relative"
     >
       <motion.div
-        className="absolute inset-0 -z-10 rounded-3xl opacity-40"
+        className={`absolute inset-0 -z-10 rounded-3xl ${isMini ? "opacity-40" : "opacity-25"}`}
         style={{
           background: `radial-gradient(circle at ${glowX}% ${glowY}%, rgba(139,92,246,0.35) 0%, transparent 65%)`,
           filter: "blur(20px)",
@@ -164,7 +164,9 @@ export function InteractiveDashboard({ variant = "full" }: InteractiveDashboardP
 
       <motion.div
         style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-        className="overflow-hidden rounded-2xl border border-border/60 bg-white shadow-2xl"
+        className={`overflow-hidden rounded-2xl border border-border/60 bg-white ${
+          isMini ? "shadow-2xl" : "shadow-[0_28px_80px_rgba(20,19,26,0.10)]"
+        }`}
       >
         <div className="border-b border-border/40 px-5 pb-4 pt-5">
           <div className="mb-4 flex items-center justify-between">
@@ -355,12 +357,12 @@ export function InteractiveDashboard({ variant = "full" }: InteractiveDashboardP
           initial={{ opacity: 0, x: 20, y: -10 }}
           animate={{ opacity: 1, x: 0, y: 0 }}
           transition={{ delay: 1.1, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute -bottom-6 -right-8 hidden lg:block"
+          className="absolute bottom-4 right-4 hidden lg:block"
         >
           <motion.div
             animate={{ y: [0, 4, 0] }}
             transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-            className="w-52 rounded-2xl border border-amber-100 bg-white p-3.5 shadow-xl"
+            className="w-48 rounded-2xl border border-amber-100 bg-white p-3.5 shadow-[0_18px_40px_rgba(20,19,26,0.12)]"
           >
             <div className="mb-2 flex items-center justify-between">
               <div className="flex items-center gap-2">

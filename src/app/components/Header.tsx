@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { trackDiagnosisClick } from "../lib/analytics";
+import { DEMO_PAGE_HREF } from "../lib/contact";
 
 const recursos = [
   {
@@ -60,6 +61,8 @@ export function Header({ variant = "default" }: HeaderProps) {
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const location = useLocation();
   const isConversion = variant === "conversion";
+  const isDemoConversion = isConversion && location.pathname === "/demo-dashboard";
+  const isDemoPage = location.pathname === DEMO_PAGE_HREF;
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -100,8 +103,7 @@ export function Header({ variant = "default" }: HeaderProps) {
   };
 
   const homeHref = (hash: string) => (location.pathname === "/" ? hash : `/${hash}`);
-  const brandHref =
-    isConversion && location.pathname === "/demo-dashboard" ? "#vista-ejecutiva" : homeHref("#home");
+  const brandHref = homeHref("#home");
 
   const navItems = [
     { label: "Inicio", href: homeHref("#home") },
@@ -112,7 +114,11 @@ export function Header({ variant = "default" }: HeaderProps) {
   return (
     <motion.header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white/80 backdrop-blur-xl shadow-sm" : "bg-transparent"
+        isDemoConversion || isDemoPage
+          ? "border-b border-border/50 bg-[rgba(243,241,238,0.88)] backdrop-blur-xl"
+          : isScrolled
+            ? "bg-white/80 backdrop-blur-xl shadow-sm"
+            : "bg-transparent"
       }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
@@ -120,11 +126,22 @@ export function Header({ variant = "default" }: HeaderProps) {
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          <a href={brandHref} className="flex items-center space-x-2 group">
-            <span className="text-xl font-semibold tracking-tight text-foreground transition-colors group-hover:text-accent">
-              Alan L. Perez
-            </span>
-          </a>
+          <div className="flex items-center gap-5">
+            <a href={brandHref} className="flex items-center space-x-2 group">
+              <span className="text-xl font-semibold tracking-tight text-foreground transition-colors group-hover:text-accent">
+                Alan L. Perez
+              </span>
+            </a>
+
+            {isDemoConversion && (
+              <a
+                href={homeHref("#home")}
+                className="hidden md:inline-flex text-sm font-medium text-muted-foreground/70 transition-colors hover:text-foreground"
+              >
+                Volver al inicio
+              </a>
+            )}
+          </div>
 
           {!isConversion && (
             <nav className="hidden md:flex items-center space-x-8">
@@ -138,6 +155,20 @@ export function Header({ variant = "default" }: HeaderProps) {
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full" />
                 </a>
               ))}
+
+              <Link
+                to={DEMO_PAGE_HREF}
+                className={`text-sm font-medium transition-colors relative group ${
+                  isDemoPage ? "text-accent" : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                Ver demo
+                <span
+                  className={`absolute -bottom-1 left-0 h-0.5 bg-accent transition-all duration-300 ${
+                    isDemoPage ? "w-full" : "w-0 group-hover:w-full"
+                  }`}
+                />
+              </Link>
 
               <div
                 ref={dropdownRef}
@@ -292,6 +323,16 @@ export function Header({ variant = "default" }: HeaderProps) {
                     {item.label}
                   </a>
                 ))}
+
+                <Link
+                  to={DEMO_PAGE_HREF}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={`block px-3 py-2.5 text-base font-medium transition-colors rounded-lg hover:bg-accent/5 ${
+                    isDemoPage ? "text-accent" : "text-foreground hover:text-accent"
+                  }`}
+                >
+                  Ver demo
+                </Link>
 
                 <div>
                   <button

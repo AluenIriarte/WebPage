@@ -10,6 +10,7 @@ interface OpportunitiesSectionProps {
   footerText?: string;
   footerHref?: string;
   footerLabel?: string;
+  footerOnClick?: () => void;
   sectionId?: string;
   hideFooter?: boolean;
 }
@@ -72,11 +73,12 @@ export function OpportunitiesSection({
   footerText = "Cada una de estas se\u00f1ales puede estar activa en tu negocio hoy, sin que sea visible en los reportes habituales.",
   footerHref = ROOT_DIAGNOSTIC_SECTION_HREF,
   footerLabel = "Revisar mi caso",
+  footerOnClick,
   sectionId = "oportunidades",
   hideFooter = false,
 }: OpportunitiesSectionProps) {
   return (
-    <section id={sectionId} className="py-20 lg:py-28 bg-white">
+    <section id={sectionId} className="scroll-mt-40 bg-white py-16 lg:scroll-mt-44 lg:py-24">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -155,6 +157,7 @@ export function OpportunitiesSection({
             <p className="text-sm text-muted-foreground max-w-sm leading-relaxed">{footerText}</p>
             <a
               href={footerHref}
+              onClick={footerOnClick}
               className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent/75 transition-colors duration-200 group flex-shrink-0"
             >
               {footerLabel}
