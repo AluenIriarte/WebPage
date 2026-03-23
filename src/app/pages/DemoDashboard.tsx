@@ -25,9 +25,9 @@ const heroPreviewSections = [
 type HeroPreviewId = (typeof heroPreviewSections)[number]["id"];
 type SellerAvatarVariant = "wave" | "short" | "bun";
 const heroPreviewCopy: Record<HeroPreviewId, string> = {
-  "vista-ejecutiva": "Un encuadre inicial para leer el negocio en pocos segundos.",
-  "ranking-vendedores": "La misma lectura bajada al equipo para detectar dónde intervenir primero.",
-  "mix-producto": "La vista que separa volumen, margen y foco comercial sin salir de la demo.",
+  "vista-ejecutiva": 'Vista general para responder rápido: "¿Flotamos o nos hundimos?"',
+  "ranking-vendedores": "Vista por equipo, para saber quién cumple con el objetivo y quién necesita apoyo.",
+  "mix-producto": "Análisis por producto y categoría.",
 };
 
 const sellerRanking = [
@@ -308,59 +308,7 @@ function ProductSignalBoard() {
   );
 }
 
-function DemoStickyNav({
-  activeSection,
-  onAnchorClick,
-}: {
-  activeSection: DemoSectionId;
-  onAnchorClick: (event: MouseEvent<HTMLAnchorElement>, id: DemoSectionId) => void;
-}) {
-  return (
-    <div className="sticky top-20 z-40 border-y border-border/45 bg-[rgba(243,241,238,0.92)] backdrop-blur-xl">
-      <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-3 lg:flex-row lg:items-center lg:justify-between lg:px-8">
-        <div className="flex flex-col gap-1">
-          <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/65">
-            Recorrer demo
-          </span>
-          <p className="text-sm text-muted-foreground">
-            Leé la demo en cuatro capas y ubicá rápido qué parte te interesa validar.
-          </p>
-        </div>
-
-        <div className="overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <div className="flex min-w-max gap-2">
-            {demoSections.map((section) => {
-              const isActive = activeSection === section.id;
-
-              return (
-                <a
-                  key={section.id}
-                  href={`#${section.id}`}
-                  onClick={(event) => onAnchorClick(event, section.id)}
-                  className={`relative rounded-full px-4 py-2.5 text-sm font-medium transition-colors ${
-                    isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {isActive && (
-                    <motion.span
-                      layoutId="demo-nav-pill"
-                      className="absolute inset-0 rounded-full bg-white shadow-sm shadow-black/[0.05]"
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
-                    />
-                  )}
-                  <span className="relative z-10">{section.label}</span>
-                </a>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export function DemoDashboard() {
-  const [activeSection, setActiveSection] = useState<DemoSectionId>("vista-ejecutiva");
   const [heroPreview, setHeroPreview] = useState<HeroPreviewId>("vista-ejecutiva");
 
   useEffect(() => {
@@ -369,48 +317,13 @@ export function DemoDashboard() {
 
   useEffect(() => {
     const currentHash = window.location.hash.replace("#", "");
-    if (demoSections.some((section) => section.id === currentHash)) {
-      setActiveSection(currentHash as DemoSectionId);
-    }
-
     if (heroPreviewSections.some((section) => section.id === currentHash)) {
       setHeroPreview(currentHash as HeroPreviewId);
     }
   }, []);
 
-  useEffect(() => {
-    const sections = demoSections
-      .map((section) => document.getElementById(section.id))
-      .filter((section): section is HTMLElement => Boolean(section));
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visibleEntries = entries.filter((entry) => entry.isIntersecting);
-        if (!visibleEntries.length) {
-          return;
-        }
-
-        visibleEntries.sort(
-          (left, right) =>
-            Math.abs(left.boundingClientRect.top - 160) - Math.abs(right.boundingClientRect.top - 160),
-        );
-
-        setActiveSection(visibleEntries[0].target.id as DemoSectionId);
-      },
-      {
-        rootMargin: "-22% 0px -58% 0px",
-        threshold: [0.18, 0.4, 0.68],
-      },
-    );
-
-    sections.forEach((section) => observer.observe(section));
-
-    return () => observer.disconnect();
-  }, []);
-
   const handleAnchorClick = (event: MouseEvent<HTMLAnchorElement>, id: DemoSectionId) => {
     event.preventDefault();
-    setActiveSection(id);
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
     window.history.replaceState(null, "", `#${id}`);
   };
@@ -439,26 +352,25 @@ export function DemoDashboard() {
           />
 
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="grid gap-12 lg:grid-cols-[minmax(0,0.84fr)_minmax(0,1.16fr)] lg:items-center">
+            <div className="grid gap-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:items-center">
               <motion.div
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                className="space-y-8"
+                className="space-y-6"
               >
                 <div className="inline-flex items-center gap-2 rounded-full border border-accent/15 bg-white/75 px-4 py-2">
                   <TrendingUp className="h-3.5 w-3.5 text-accent" />
                   <span className="text-xs font-semibold tracking-[0.12em] text-accent">Demo guiada</span>
                 </div>
 
-                <div className="space-y-5">
-                  <h1 className="max-w-3xl text-4xl font-semibold leading-[1.05] tracking-tight text-foreground md:text-5xl lg:text-[3.45rem]">
-                    Esto no es un reporte lindo. Es una demo para validar cómo se ve un sistema de decisión.
+                <div className="space-y-4">
+                  <h1 className="max-w-xl text-4xl font-semibold leading-[1.02] tracking-tight text-foreground md:text-[3.2rem]">
+                    Así se ve un dashboard de ventas para decidir rápido.
                   </h1>
-                  <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground">
-                    Vas a recorrer la lectura ejecutiva, bajar al ranking comercial, revisar el mix
-                    de producto y cerrar con señales accionables. La idea es simple: entender rápido
-                    qué hace visible y por qué importa.
+                  <p className="max-w-lg text-base leading-relaxed text-muted-foreground">
+                    Primero el panorama general. Después el equipo. Por último, producto y categoría.
+                    La lógica es detectar rápido dónde actuar.
                   </p>
                 </div>
 
@@ -492,9 +404,8 @@ export function DemoDashboard() {
                   </a>
                 </div>
 
-                <p className="max-w-xl text-sm leading-relaxed text-muted-foreground">
-                  La diferencia es que acá podés cambiar de vista como si ya estuvieras mirando el dashboard.
-                  Más abajo, cada bloque se desarrolla completo para validar si te hace sentido.
+                <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
+                  Recorré las vistas del panel de la derecha y después bajá al detalle completo.
                 </p>
               </motion.div>
 
@@ -563,8 +474,6 @@ export function DemoDashboard() {
             </div>
           </div>
         </section>
-
-        <DemoStickyNav activeSection={activeSection} onAnchorClick={handleAnchorClick} />
 
         <section className="bg-[#F7F5F2] py-16 lg:py-20">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
