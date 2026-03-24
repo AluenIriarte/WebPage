@@ -1,42 +1,76 @@
 import { useEffect, useState, type MouseEvent } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { ArrowRight, BarChart2, Clock, Layers3, Linkedin, ShoppingCart, TrendingUp, Users } from "lucide-react";
+import {
+  AlertTriangle,
+  ArrowRight,
+  BarChart2,
+  Clock3,
+  Layers3,
+  Linkedin,
+  ShoppingCart,
+  Target,
+  TrendingUp,
+  Users,
+} from "lucide-react";
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Header } from "../components/Header";
-import { InteractiveDashboard } from "../components/HeroDashboard";
 import { trackDiagnosisClick } from "../lib/analytics";
 import { ROOT_DIAGNOSTIC_SECTION_HREF } from "../lib/contact";
 
 const LINKEDIN_URL = "https://www.linkedin.com/in/alan-leonel-perez-argentina/?skipRedirect=true";
 
-const heroPreviewSections = [
-  { id: "vista-ejecutiva", label: "Vista ejecutiva" },
-  { id: "ranking-vendedores", label: "Ranking comercial" },
-  { id: "mix-producto", label: "Mix de producto" },
-] as const;
+const boardSurfaceClass =
+  "overflow-hidden rounded-[2rem] border border-[#E8E1EF] bg-white shadow-[0_24px_70px_rgba(20,19,26,0.05)]";
+const softCardClass = "rounded-[1.35rem] border border-[#ECE5F2] bg-[#FCFBFE]";
 
-type HeroPreviewId = (typeof heroPreviewSections)[number]["id"];
+const demoViewOrder = ["global", "ranking", "vendedores"] as const;
+type DemoViewId = (typeof demoViewOrder)[number];
 type SellerAvatarVariant = "wave" | "short" | "bun";
-type MixClientId = "distribuidora-norte" | "grupo-solaris" | "comercial-andes";
-type MatrixState = "active" | "gap" | "none";
 
-const heroPreviewDetails: Record<HeroPreviewId, { eyebrow: string; title: string; description: string }> = {
-  "vista-ejecutiva": {
-    eyebrow: "Vista activa",
-    title: "Lectura general para entender si el resultado se sostiene.",
+const demoViews: Record<
+  DemoViewId,
+  {
+    label: string;
+    description: string;
+    readingLead: string;
+    readingPoints: string[];
+  }
+> = {
+  global: {
+    label: "Global",
     description:
-      "En una sola vista muestra actividad, margen y expansion para responder rapido si el negocio esta sano o si ya hay senales de deterioro.",
+      "Lectura ejecutiva de volumen, margen, segmentos y una alerta de negocio para decidir donde intervenir primero.",
+    readingLead:
+      "El trimestre sigue sosteniendo volumen, pero la presion ya no esta en vender mas: esta en proteger margen y reactivar cuentas que dejaron de moverse.",
+    readingPoints: [
+      "Grandes cuentas sostienen el ingreso y todavia empujan expansion rentable.",
+      "Distribuidores ceden 2.8 pts de margen y concentran el desvio mas visible.",
+      "Doce cuentas dormidas explican la alerta mas accionable del periodo.",
+    ],
   },
-  "ranking-vendedores": {
-    eyebrow: "Vista activa",
-    title: "Ranking comercial para ver quien cumple y donde intervenir primero.",
+  ranking: {
+    label: "Ranking comercial",
     description:
-      "Ordena seguimiento por ejecutivo, brecha contra objetivo y prioridad inmediata de acompanamiento sin llenar la pantalla de reportes.",
+      "La misma solucion baja del resultado general al equipo para mostrar quien llega, con que cartera y donde esta la brecha recuperable.",
+    readingLead:
+      "La meta no esta rota a nivel equipo: la brecha esta focalizada y se puede corregir con seguimiento sobre cartera ya activa.",
+    readingPoints: [
+      "Sofia sostiene el sobrecumplimiento del frente principal y aporta margen, no solo volumen.",
+      "Martin y Lucia concentran $28K recuperables sin abrir mas pipeline ni sumar cobertura.",
+      "El problema es de foco comercial y acompanamiento, no de capacidad de venta.",
+    ],
   },
-  "mix-producto": {
-    eyebrow: "Vista activa",
-    title: "Mix por cliente para detectar huecos de linea y expansion.",
+  vendedores: {
+    label: "Vendedores",
     description:
-      "Separa compra activa, huecos del catalogo y oportunidad de cross-sell con una lectura simple de que conviene empujar primero.",
+      "La vista baja un nivel mas para orientar accion comercial: que clientes mover, que producto empujar y que restriccion cuidar antes de salir a vender.",
+    readingLead:
+      "El tablero no se queda en el resultado: traduce la lectura comercial en una agenda concreta por vendedor, cuenta y oportunidad.",
+    readingPoints: [
+      "Cada ejecutivo sale con una cuenta prioritaria, una expansion sugerida y una restriccion a vigilar.",
+      "El cross-sell abierto esta en clientes existentes, no en mas prospeccion ciega.",
+      "Las alertas operativas evitan empujar una oferta que hoy no se puede entregar bien.",
+    ],
   },
 };
 
@@ -65,14 +99,6 @@ const avatarStyles = {
     shirt: "#FFF7F2",
     variant: "bun" as SellerAvatarVariant,
   },
-  midnightShort: {
-    background: "#EEF1FF",
-    skin: "#D7A887",
-    hair: "#1E2237",
-    jacket: "#5865F2",
-    shirt: "#F7F8FF",
-    variant: "short" as SellerAvatarVariant,
-  },
   mossWave: {
     background: "#EEF6EC",
     skin: "#E6B89A",
@@ -81,167 +107,184 @@ const avatarStyles = {
     shirt: "#F8FCF8",
     variant: "wave" as SellerAvatarVariant,
   },
-  wineBun: {
-    background: "#FFF0F4",
-    skin: "#EDC3AE",
-    hair: "#6C3650",
-    jacket: "#C34D73",
-    shirt: "#FFF8FA",
-    variant: "bun" as SellerAvatarVariant,
-  },
 } as const;
 
-const rankingBoardData = {
-  eyebrow: "Vista comercial",
-  title: "Ranking comercial por ejecutivo",
-  subtitle:
-    "La lectura baja del resultado general al equipo para ver quien sostiene la meta y donde intervenir primero.",
-  summary: [
-    { label: "Cumplimiento promedio", value: "100%" },
-    { label: "Sobre meta", value: "1 ejecutivo" },
-    { label: "Brecha recuperable", value: "$28K" },
-  ],
-  note: {
-    title: "La brecha recuperable esta concentrada en dos ejecutivos, no en todo el equipo.",
-    detail:
-      "Sofia ya sostiene la meta del frente principal. El foco comercial inmediato esta en Martin y Lucia, que juntos concentran $28K recuperables sin ampliar cobertura ni sumar mas pipeline.",
-    metric: "$28K",
-    metricLabel: "para volver a meta",
-  },
-  sellers: [
-    {
-      seller: "Sofia Gomez",
-      focus: "Grandes cuentas",
-      actual: "$448K",
-      target: "$420K",
-      attainment: 107,
-      gap: "+$28K",
-      tone: "text-emerald-600",
-      avatar: avatarStyles.violetWave,
-    },
-    {
-      seller: "Martin Rivas",
-      focus: "Cartera corporativa",
-      actual: "$391K",
-      target: "$405K",
-      attainment: 97,
-      gap: "-$14K",
-      tone: "text-amber-600",
-      avatar: avatarStyles.slateShort,
-    },
-    {
-      seller: "Lucia Perez",
-      focus: "Cuentas estrategicas",
-      actual: "$336K",
-      target: "$350K",
-      attainment: 96,
-      gap: "-$14K",
-      tone: "text-amber-600",
-      avatar: avatarStyles.clayBun,
-    },
-  ],
-} as const;
-
-const mixColumns = ["Linea A", "Linea B", "Linea C", "Linea D", "Linea E"] as const;
-
-const mixMatrixRows = [
-  {
-    id: "distribuidora-norte",
-    label: "Distribuidora Norte",
-    cells: ["active", "active", "gap", "active", "none"] as MatrixState[],
-  },
-  {
-    id: "grupo-solaris",
-    label: "Grupo Solaris",
-    cells: ["active", "gap", "active", "gap", "none"] as MatrixState[],
-  },
-  {
-    id: "comercial-andes",
-    label: "Comercial Andes",
-    cells: ["active", "active", "active", "gap", "active"] as MatrixState[],
-  },
-  {
-    id: "industrial-mendez",
-    label: "Industrial Mendez",
-    cells: ["none", "active", "none", "gap", "none"] as MatrixState[],
-  },
-  {
-    id: "logistica-central",
-    label: "Logistica Central",
-    cells: ["active", "none", "gap", "active", "active"] as MatrixState[],
-  },
-  {
-    id: "techparts",
-    label: "TechParts SRL",
-    cells: ["active", "active", "active", "active", "none"] as MatrixState[],
-  },
+const globalKpis = [
+  { label: "Ventas netas", value: "$1.38M", detail: "Q1 2026", tone: "text-foreground" },
+  { label: "Margen bruto", value: "24.8%", detail: "-2.8 pts en distribuidores", tone: "text-foreground" },
+  { label: "Segmentos activos", value: "3", detail: "2 sostienen el trimestre", tone: "text-foreground" },
+  { label: "Alerta principal", value: "12 cuentas", detail: "sin recompra en 90 dias", tone: "text-amber-700" },
 ] as const;
 
-const mixClientInsights = {
-  "distribuidora-norte": {
-    eyebrow: "Mix por cliente",
-    title: "Huecos de linea y cross-sell potencial",
-    description: "La cuenta compra bien las lineas base, pero todavia deja espacio claro en el catalogo medio.",
-    stats: [
-      { label: "Mix incompleto", value: "68%", detail: "sobre catalogo vigente" },
-      { label: "Huecos detectados", value: "4", detail: "lineas para abrir" },
-      { label: "Mayor potencial", value: "Linea C", detail: "cross-sell inmediato" },
-    ],
-    note: "Aca no falta volumen: falta completar mezcla con una propuesta mas ordenada.",
+const globalTrendData = [
+  { name: "S1", ventas: 146, margen: 101 },
+  { name: "S2", ventas: 171, margen: 112 },
+  { name: "S3", ventas: 164, margen: 105 },
+  { name: "S4", ventas: 184, margen: 118 },
+] as const;
+
+const globalSegments = [
+  {
+    name: "Grandes cuentas",
+    share: "42% del ingreso",
+    margin: "28% margen",
+    note: "Sostiene expansion y compensa la desaceleracion del resto.",
   },
-  "grupo-solaris": {
-    eyebrow: "Mix por cliente",
-    title: "Cobertura irregular entre lineas",
-    description: "Grupo Solaris ya compra volumen, pero deja huecos claros donde todavia hay margen por capturar.",
-    stats: [
-      { label: "Mix incompleto", value: "61%", detail: "sobre lineas activas" },
-      { label: "Huecos detectados", value: "5", detail: "lineas para priorizar" },
-      { label: "Mayor potencial", value: "Linea D", detail: "entrada natural" },
-    ],
-    note: "Conviene ordenar propuesta antes de seguir empujando descuento o frecuencia.",
+  {
+    name: "Distribuidores",
+    share: "34% del ingreso",
+    margin: "21% margen",
+    note: "Aca aparece la perdida: volumen sano, mezcla y precio desordenados.",
   },
-  "comercial-andes": {
-    eyebrow: "Mix por cliente",
-    title: "Cuenta madura con una brecha puntual",
-    description: "La cuenta ya compra varias lineas, pero todavia queda una pieza concreta con potencial directo.",
-    stats: [
-      { label: "Mix incompleto", value: "42%", detail: "mas completo que el promedio" },
-      { label: "Huecos detectados", value: "2", detail: "faltantes reales" },
-      { label: "Mayor potencial", value: "Linea D", detail: "mayor ticket incremental" },
-    ],
-    note: "Cuando la cuenta ya esta madura, la lectura fina del mix vale mas que sumar mas volumen ciego.",
+  {
+    name: "Canal interior",
+    share: "24% del ingreso",
+    margin: "25% margen",
+    note: "No cae todavia, pero desacelera frecuencia y necesita seguimiento.",
   },
-} as const;
+];
+
+const rankingSummary = [
+  { label: "Cumplimiento promedio", value: "101%" },
+  { label: "Cartera activa", value: "$1.17M" },
+  { label: "Nuevos clientes", value: "11" },
+  { label: "Margen aportado", value: "24%" },
+];
+
+const rankingRows = [
+  {
+    seller: "Sofia Gomez",
+    focus: "Grandes cuentas",
+    actual: "$448K",
+    target: "$420K",
+    attainment: 107,
+    gap: "+$28K",
+    tone: "text-emerald-600",
+    avatar: avatarStyles.violetWave,
+    stats: [
+      { label: "Cartera activa", value: "$1.26M" },
+      { label: "Clientes nuevos", value: "4" },
+      { label: "Margen aportado", value: "29%" },
+    ],
+  },
+  {
+    seller: "Martin Rivas",
+    focus: "Cartera corporativa",
+    actual: "$391K",
+    target: "$405K",
+    attainment: 97,
+    gap: "-$14K",
+    tone: "text-amber-600",
+    avatar: avatarStyles.slateShort,
+    stats: [
+      { label: "Cartera activa", value: "$980K" },
+      { label: "Clientes nuevos", value: "3" },
+      { label: "Margen aportado", value: "22%" },
+    ],
+  },
+  {
+    seller: "Lucia Perez",
+    focus: "Cuentas estrategicas",
+    actual: "$336K",
+    target: "$350K",
+    attainment: 96,
+    gap: "-$14K",
+    tone: "text-amber-600",
+    avatar: avatarStyles.clayBun,
+    stats: [
+      { label: "Cartera activa", value: "$910K" },
+      { label: "Clientes nuevos", value: "4" },
+      { label: "Margen aportado", value: "24%" },
+    ],
+  },
+];
+
+const sellerActionSummary = [
+  { label: "Clientes a mover", value: "9", detail: "prioridad inmediata" },
+  { label: "Cross-sell abierto", value: "$132K", detail: "sobre cartera actual" },
+  { label: "Alertas operativas", value: "2", detail: "lineas con stock sensible" },
+];
+
+const sellerActionRows = [
+  {
+    seller: "Sofia Gomez",
+    area: "Grandes cuentas",
+    avatar: avatarStyles.violetWave,
+    priority: "Hoy",
+    stats: [
+      { label: "Cartera activa", value: "18 cuentas" },
+      { label: "Clientes a mover", value: "3" },
+      { label: "Potencial", value: "$46K" },
+    ],
+    account: "Distribuidora Norte",
+    product: "Linea C premium",
+    action: "Entrar con propuesta cruzada sobre una cuenta ya madura.",
+    signal: "Stock estable en lineas base y ventana abierta para ampliar mezcla.",
+    signalTone: "bg-emerald-50 text-emerald-700 border-emerald-100",
+  },
+  {
+    seller: "Martin Rivas",
+    area: "Cartera corporativa",
+    avatar: avatarStyles.slateShort,
+    priority: "Hoy",
+    stats: [
+      { label: "Cartera activa", value: "22 cuentas" },
+      { label: "Clientes a mover", value: "4" },
+      { label: "Potencial", value: "$39K" },
+    ],
+    account: "Grupo Solaris",
+    product: "Linea D industrial",
+    action: "Completar una cuenta que ya compra volumen pero todavia deja hueco rentable.",
+    signal: "Stock bajo en Linea B. Conviene evitar descuento y empujar sustituto disponible.",
+    signalTone: "bg-amber-50 text-amber-700 border-amber-100",
+  },
+  {
+    seller: "Lucia Perez",
+    area: "Cuentas estrategicas",
+    avatar: avatarStyles.mossWave,
+    priority: "Esta semana",
+    stats: [
+      { label: "Cartera activa", value: "21 cuentas" },
+      { label: "Clientes a mover", value: "2" },
+      { label: "Potencial", value: "$47K" },
+    ],
+    account: "Industrial Mendez",
+    product: "Kit premium categoria A",
+    action: "Recuperar frecuencia y abrir una segunda linea antes de perder share.",
+    signal: "Dos cuentas sin visita reciente. El riesgo no es de demanda: es de seguimiento.",
+    signalTone: "bg-violet-50 text-violet-700 border-violet-100",
+  },
+];
 
 const signalOpportunityCards = [
   {
     icon: Users,
     title: "Clientes inactivos",
-    description: "Cuentas con peso comercial que dejaron de comprar y conviene recuperar antes de abrir mas frente nuevo.",
+    description: "Cuentas de valor que frenaron compra y conviene recuperar antes de abrir mas frente nuevo.",
     metric: "12 cuentas",
-    detail: "sin actividad reciente",
+    detail: "recuperables",
     tone: "text-violet-600",
   },
   {
     icon: BarChart2,
     title: "Mix volumen / margen",
-    description: "Productos que sostienen volumen, pero esconden una brecha clara de margen que hoy no esta siendo priorizada.",
+    description: "Productos que sostienen volumen, pero esconden una brecha de rentabilidad que hoy no se esta priorizando.",
     metric: "40%+",
-    detail: "margen subaprovechado",
+    detail: "margen potencial",
     tone: "text-emerald-600",
   },
   {
     icon: TrendingUp,
     title: "Up-sell y cross-sell",
-    description: "Clientes que ya compran una linea y tienen expansion directa sobre otra categoria con entrada natural.",
+    description: "Clientes que ya compran una linea y tienen expansion natural sobre otra categoria cercana.",
     metric: "+34%",
-    detail: "margen incremental",
+    detail: "potencial incremental",
     tone: "text-sky-600",
   },
   {
     icon: ShoppingCart,
     title: "Productos subpenetrados",
-    description: "Lineas con baja penetracion sobre la cartera mas valiosa, donde la oportunidad depende mas de foco que de demanda nueva.",
+    description: "Lineas con baja adopcion dentro de la cartera mas valiosa, donde la oportunidad depende mas de foco que de demanda nueva.",
     metric: "15%",
     detail: "penetracion actual",
     tone: "text-amber-600",
@@ -249,26 +292,61 @@ const signalOpportunityCards = [
   {
     icon: Layers3,
     title: "Afinidad por categoria",
-    description: "Segmentos que responden mejor a familias premium y permiten ordenar mejor el mix sin depender de intuicion.",
+    description: "Segmentos que responden mejor a familias premium y ordenan mejor que categoria conviene empujar primero.",
     metric: "3x",
-    detail: "mayor afinidad detectada",
+    detail: "mayor afinidad",
     tone: "text-fuchsia-600",
   },
   {
-    icon: Clock,
+    icon: Clock3,
     title: "Automatizacion operativa",
-    description: "Horas de reporte manual que se pueden devolver al equipo para seguimiento, analisis y accion comercial.",
+    description: "Horas de reporte manual que pueden volver al equipo como tiempo de seguimiento, analisis y accion comercial.",
     metric: "-8h",
     detail: "por semana",
     tone: "text-cyan-600",
   },
-] as const;
+];
+
+function DemoTooltip({
+  active,
+  payload,
+  label,
+}: {
+  active?: boolean;
+  payload?: { color?: string; name?: string; value?: number | string }[];
+  label?: string;
+}) {
+  if (!active || !payload?.length) {
+    return null;
+  }
+
+  return (
+    <div className="min-w-[132px] rounded-2xl border border-border/60 bg-white px-3 py-2.5 shadow-[0_18px_36px_rgba(20,19,26,0.08)]">
+      <p className="text-xs font-semibold text-foreground">{label}</p>
+      <div className="mt-2 space-y-1.5">
+        {payload.map((entry, index) => (
+          <div key={`${entry.name}-${index}`} className="flex items-center justify-between gap-4 text-[11px]">
+            <div className="flex items-center gap-2 text-muted-foreground">
+              <span className="h-2 w-2 rounded-full" style={{ backgroundColor: entry.color }} />
+              <span>{entry.name}</span>
+            </div>
+            <span className="font-semibold text-foreground">{entry.value}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function SectionEyebrow({ children }: { children: string }) {
+  return <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/55">{children}</p>;
+}
 
 function SellerAvatar({
   rank,
   avatar,
 }: {
-  rank: number;
+  rank?: number;
   avatar: (typeof avatarStyles)[keyof typeof avatarStyles];
 }) {
   return (
@@ -331,45 +409,48 @@ function SellerAvatar({
         </svg>
       </div>
 
-      <div className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full border border-white bg-foreground text-[10px] font-semibold text-white shadow-sm">
-        {rank}
-      </div>
+      {typeof rank === "number" && (
+        <div className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full border border-white bg-foreground text-[10px] font-semibold text-white shadow-sm">
+          {rank}
+        </div>
+      )}
     </div>
   );
 }
 
-function DemoViewSelector({
+function DemoTabs({
   active,
   onChange,
-  layoutId,
 }: {
-  active: HeroPreviewId;
-  onChange: (view: HeroPreviewId) => void;
-  layoutId: string;
+  active: DemoViewId;
+  onChange: (view: DemoViewId) => void;
 }) {
   return (
-    <div className="rounded-[1.6rem] border border-[#E6E0EE] bg-[#FCFBFE] p-2 shadow-[0_14px_34px_rgba(20,19,26,0.04)]">
-      <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-        {heroPreviewSections.map((section) => {
-          const isActive = active === section.id;
+    <div className="mx-auto max-w-3xl rounded-full border border-[#E8E1F0] bg-[#F6F3FA] p-1.5">
+      <div className="grid grid-cols-3 gap-1.5">
+        {demoViewOrder.map((view) => {
+          const isActive = active === view;
 
           return (
             <button
-              key={section.id}
+              key={view}
               type="button"
-              onClick={() => onChange(section.id)}
-              className={`relative min-h-[4.2rem] rounded-[1.2rem] px-5 py-4 text-sm font-semibold leading-tight transition-colors ${
-                isActive ? "text-white" : "text-foreground/78 hover:text-foreground"
+              onClick={() => onChange(view)}
+              className={`relative rounded-full px-5 py-3 text-sm font-medium transition-colors duration-200 ${
+                isActive ? "text-foreground" : "text-foreground/62 hover:text-foreground"
               }`}
             >
               {isActive && (
                 <motion.span
-                  layoutId={layoutId}
-                  className="absolute inset-0 rounded-[1.2rem] bg-[linear-gradient(135deg,#7E4CF4,#7111DF)] shadow-[0_16px_34px_rgba(113,17,223,0.22)]"
-                  transition={{ type: "spring", bounce: 0.2, duration: 0.38 }}
+                  layoutId="demo-shell-tab"
+                  className="absolute inset-0 rounded-full border border-white/90 bg-white shadow-[0_10px_26px_rgba(20,19,26,0.08)]"
+                  transition={{ type: "spring", bounce: 0.22, duration: 0.38 }}
                 />
               )}
-              <span className="relative z-10">{section.label}</span>
+              <span className="relative z-10 inline-flex items-center gap-2">
+                {isActive && <span className="h-1.5 w-1.5 rounded-full bg-accent" />}
+                {demoViews[view].label}
+              </span>
             </button>
           );
         })}
@@ -378,53 +459,199 @@ function DemoViewSelector({
   );
 }
 
-function SellerRankingBoard() {
+function GlobalBoard() {
   return (
-    <div className="relative flex flex-col overflow-hidden rounded-[1.8rem] border border-border/60 bg-white shadow-[0_24px_70px_rgba(20,19,26,0.06)]">
-      <div className="border-b border-border/45 px-5 pb-4 pt-5">
-        <div className="mb-4 flex items-start justify-between gap-4">
-          <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/50">
-              {rankingBoardData.eyebrow}
-            </p>
+    <div className={boardSurfaceClass}>
+      <div className="border-b border-border/45 px-6 pb-5 pt-6">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+          <div className="max-w-2xl">
+            <SectionEyebrow>Global</SectionEyebrow>
             <h3 className="mt-2 text-[1.75rem] font-semibold tracking-tight text-foreground">
-              {rankingBoardData.title}
+              Panorama comercial y alerta de negocio
             </h3>
-            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-              {rankingBoardData.subtitle}
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              La vista sintetiza volumen, rentabilidad, segmentos que sostienen el trimestre y la senal que hoy
+              merece seguimiento ejecutivo.
             </p>
           </div>
-          <Users className="mt-1 h-5 w-5 text-accent" />
+
+          <span className="inline-flex w-fit items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50 px-3.5 py-2 text-xs font-medium text-emerald-700">
+            <span className="h-2 w-2 rounded-full bg-emerald-500" />
+            En vivo
+          </span>
         </div>
       </div>
 
-      <div className="flex h-full flex-col px-5 pb-5 pt-5">
-        <div className="mb-5 grid gap-3 md:grid-cols-3">
-          {rankingBoardData.summary.map((stat) => (
-            <div key={stat.label} className="rounded-2xl border border-[#ECE6F2] bg-[#FCFBFE] px-4 py-3.5">
+      <div className="px-6 py-6">
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+          {globalKpis.map((kpi) => (
+            <div key={kpi.label} className={`${softCardClass} px-4 py-4`}>
               <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-                {stat.label}
+                {kpi.label}
               </p>
-              <p className="mt-2 text-lg font-semibold text-foreground">{stat.value}</p>
+              <p className={`mt-2 text-[1.85rem] font-semibold tracking-tight ${kpi.tone}`}>{kpi.value}</p>
+              <p className="mt-1 text-xs text-muted-foreground">{kpi.detail}</p>
             </div>
           ))}
         </div>
 
-        <div className="flex-1 space-y-3">
-          {rankingBoardData.sellers.map((seller, index) => (
-            <div key={seller.seller} className="rounded-2xl border border-[#ECE6F2] bg-[#FCFBFE] p-4">
-              <div className="flex items-start justify-between gap-4">
+        <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1.45fr)_minmax(290px,0.95fr)]">
+          <div className={`${softCardClass} p-5`}>
+            <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <SectionEyebrow>Lectura del trimestre</SectionEyebrow>
+                <p className="mt-2 text-lg font-semibold tracking-tight text-foreground">Ventas y margen por periodo</p>
+              </div>
+              <p className="text-xs font-medium text-muted-foreground">Q1 2026</p>
+            </div>
+
+            <div className="h-[17rem]">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={globalTrendData} margin={{ top: 8, right: 12, left: -28, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="demo-global-ventas" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#8B5CF6" stopOpacity={0.28} />
+                      <stop offset="100%" stopColor="#8B5CF6" stopOpacity={0} />
+                    </linearGradient>
+                    <linearGradient id="demo-global-margen" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#0EA5E9" stopOpacity={0.18} />
+                      <stop offset="100%" stopColor="#0EA5E9" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid stroke="#EEE8F5" vertical={false} />
+                  <XAxis dataKey="name" tick={{ fontSize: 11, fill: "#7C7888" }} axisLine={false} tickLine={false} />
+                  <YAxis tick={{ fontSize: 11, fill: "#7C7888" }} axisLine={false} tickLine={false} />
+                  <Tooltip
+                    content={<DemoTooltip />}
+                    cursor={{ stroke: "#8B5CF6", strokeWidth: 1, strokeDasharray: "4 4", strokeOpacity: 0.28 }}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="ventas"
+                    stroke="#7E4CF4"
+                    strokeWidth={2.2}
+                    fill="url(#demo-global-ventas)"
+                    dot={false}
+                    activeDot={{ r: 4, fill: "#7E4CF4", stroke: "#fff", strokeWidth: 2 }}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="margen"
+                    stroke="#0EA5E9"
+                    strokeWidth={2.2}
+                    fill="url(#demo-global-margen)"
+                    dot={false}
+                    activeDot={{ r: 4, fill: "#0EA5E9", stroke: "#fff", strokeWidth: 2 }}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+
+            <div className="mt-4 flex flex-wrap gap-4 text-[11px] font-medium text-muted-foreground">
+              <span className="inline-flex items-center gap-2">
+                <span className="h-0.5 w-5 rounded-full bg-[#7E4CF4]" />
+                Ventas
+              </span>
+              <span className="inline-flex items-center gap-2">
+                <span className="h-0.5 w-5 rounded-full bg-[#0EA5E9]" />
+                Margen
+              </span>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <div className="rounded-[1.6rem] border border-amber-100 bg-amber-50/60 p-5">
+              <div className="flex items-start gap-3">
+                <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white text-amber-500">
+                  <AlertTriangle className="h-5 w-5" />
+                </div>
+                <div>
+                  <SectionEyebrow>Alerta ejecutiva</SectionEyebrow>
+                  <p className="mt-2 text-base font-semibold text-foreground">El deterioro no esta en el top line. Esta en mezcla y recompra.</p>
+                  <p className="mt-2 text-sm leading-relaxed text-foreground/76">
+                    La facturacion aguanta porque corporativo sigue empujando, pero la erosion real aparece en distribuidores y en cuentas que dejaron de comprar.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className={`${softCardClass} p-5`}>
+              <div className="mb-4 flex items-center justify-between">
+                <div>
+                  <SectionEyebrow>Segmentos</SectionEyebrow>
+                  <p className="mt-2 text-base font-semibold text-foreground">Que frente mueve el trimestre</p>
+                </div>
+                <Target className="h-4 w-4 text-accent" />
+              </div>
+
+              <div className="space-y-3">
+                {globalSegments.map((segment) => (
+                  <div key={segment.name} className="rounded-[1.2rem] border border-[#ECE5F2] bg-white px-4 py-3.5">
+                    <div className="flex items-center justify-between gap-4">
+                      <p className="text-sm font-semibold text-foreground">{segment.name}</p>
+                      <span className="text-[11px] font-medium text-muted-foreground">{segment.share}</span>
+                    </div>
+                    <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-accent/70">
+                      {segment.margin}
+                    </p>
+                    <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{segment.note}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RankingBoard() {
+  return (
+    <div className={boardSurfaceClass}>
+      <div className="border-b border-border/45 px-6 pb-5 pt-6">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+          <div className="max-w-2xl">
+            <SectionEyebrow>Ranking comercial</SectionEyebrow>
+            <h3 className="mt-2 text-[1.75rem] font-semibold tracking-tight text-foreground">
+              Quien llega a objetivo y como se construye ese resultado
+            </h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              No solo ordena cumplimiento. Tambien deja ver cartera activa, clientes nuevos y el margen que cada ejecutivo esta sosteniendo.
+            </p>
+          </div>
+
+          <span className="inline-flex w-fit items-center rounded-full border border-[#E7E0EF] bg-[#FBFAFD] px-3.5 py-2 text-xs font-medium text-foreground/70">
+            Equipo comercial
+          </span>
+        </div>
+      </div>
+
+      <div className="px-6 py-6">
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+          {rankingSummary.map((stat) => (
+            <div key={stat.label} className={`${softCardClass} px-4 py-4`}>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">{stat.label}</p>
+              <p className="mt-2 text-[1.6rem] font-semibold tracking-tight text-foreground">{stat.value}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-6 space-y-3">
+          {rankingRows.map((seller, index) => (
+            <div key={seller.seller} className={`${softCardClass} px-4 py-4`}>
+              <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                 <div className="flex items-start gap-3">
                   <SellerAvatar rank={index + 1} avatar={seller.avatar} />
                   <div>
-                    <p className="text-sm font-semibold text-foreground">{seller.seller}</p>
-                    <p className="mt-1 text-xs text-muted-foreground">{seller.focus}</p>
+                    <p className="text-base font-semibold text-foreground">{seller.seller}</p>
+                    <p className="mt-1 text-sm text-muted-foreground">{seller.focus}</p>
                   </div>
                 </div>
 
-                <div className="text-right">
-                  <p className={`text-sm font-semibold ${seller.tone}`}>{seller.attainment}%</p>
-                  <p className="text-[11px] text-muted-foreground">{seller.gap}</p>
+                <div className="text-left lg:text-right">
+                  <p className={`text-lg font-semibold ${seller.tone}`}>{seller.attainment}%</p>
+                  <p className="text-xs text-muted-foreground">{seller.gap} vs objetivo</p>
                 </div>
               </div>
 
@@ -442,176 +669,180 @@ function SellerRankingBoard() {
                   />
                 </div>
               </div>
+
+              <div className="mt-4 grid gap-2 sm:grid-cols-3">
+                {seller.stats.map((stat) => (
+                  <div key={stat.label} className="rounded-2xl border border-[#ECE5F2] bg-white px-3 py-3">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
+                      {stat.label}
+                    </p>
+                    <p className="mt-2 text-sm font-semibold text-foreground">{stat.value}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           ))}
-        </div>
-
-        <div className="mt-4 grid gap-4 rounded-[1.6rem] border border-[#E4DDF0] bg-[#FAF8FD] px-4 py-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-start">
-          <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent/65">Lectura ejecutiva</p>
-            <p className="mt-2 text-base font-medium tracking-tight text-foreground">{rankingBoardData.note.title}</p>
-            <p className="mt-2 text-sm leading-relaxed text-foreground/76">{rankingBoardData.note.detail}</p>
-          </div>
-          <div className="rounded-2xl border border-accent/12 bg-white px-4 py-3 md:min-w-[10rem]">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-              Prioridad ahora
-            </p>
-            <p className="mt-2 text-2xl font-semibold tracking-tight text-accent">{rankingBoardData.note.metric}</p>
-            <p className="mt-1 text-[11px] text-muted-foreground">{rankingBoardData.note.metricLabel}</p>
-          </div>
         </div>
       </div>
     </div>
   );
 }
 
-function MixStatusSquare({
-  state,
-  isHighlighted,
-}: {
-  state: MatrixState;
-  isHighlighted: boolean;
-}) {
-  const baseClass = "h-5 w-5 rounded-[6px] border transition-all duration-200";
-
-  if (state === "active") {
-    return (
-      <div
-        className={`${baseClass} ${isHighlighted ? "scale-105 shadow-[0_6px_14px_rgba(113,17,223,0.22)]" : ""}`}
-        style={{
-          background: "linear-gradient(135deg, #8A5CF6 0%, #7111DF 100%)",
-          borderColor: "#7A3FF0",
-        }}
-      />
-    );
-  }
-
-  if (state === "gap") {
-    return (
-      <div
-        className={`${baseClass} ${isHighlighted ? "scale-105" : ""}`}
-        style={{
-          background: "#E8E2F5",
-          borderColor: "#D8CEE9",
-        }}
-      />
-    );
-  }
-
+function SellersActionBoard() {
   return (
-    <div
-      className={baseClass}
-      style={{
-        background: "#F2EFEB",
-        borderColor: "#E6DFD7",
-      }}
-    />
-  );
-}
-
-function ProductSignalBoard() {
-  const selectedClient: MixClientId = "distribuidora-norte";
-  const currentInsight = mixClientInsights[selectedClient];
-  const visibleRows = mixMatrixRows;
-
-  return (
-    <div className="relative flex flex-col overflow-hidden rounded-[1.8rem] border border-border/60 bg-white shadow-[0_24px_70px_rgba(20,19,26,0.06)]">
-      <div className="border-b border-border/45 px-5 pb-4 pt-5">
-        <div className="mb-4 flex items-start justify-between gap-4">
-          <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/50">
-              {currentInsight.eyebrow}
-            </p>
+    <div className={boardSurfaceClass}>
+      <div className="border-b border-border/45 px-6 pb-5 pt-6">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+          <div className="max-w-2xl">
+            <SectionEyebrow>Vendedores</SectionEyebrow>
             <h3 className="mt-2 text-[1.75rem] font-semibold tracking-tight text-foreground">
-              {currentInsight.title}
+              Agenda comercial para convertir lectura en accion
             </h3>
-            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-              {currentInsight.description}
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              Esta vista orienta al equipo sobre que cuenta mover, que producto conviene empujar y que alerta operativa puede condicionar la venta.
             </p>
           </div>
-          <Layers3 className="mt-1 h-5 w-5 text-accent" />
-        </div>
 
+          <span className="inline-flex w-fit items-center rounded-full border border-[#E7E0EF] bg-[#FBFAFD] px-3.5 py-2 text-xs font-medium text-foreground/70">
+            Foco de campo
+          </span>
+        </div>
       </div>
 
-      <div className="flex h-full flex-col px-5 pb-5 pt-5">
-        <div className="mb-5 grid gap-3 md:grid-cols-3">
-          {currentInsight.stats.map((stat) => (
-            <div key={stat.label} className="rounded-2xl border border-[#ECE6F2] bg-[#FCFBFE] px-4 py-3.5">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-                {stat.label}
-              </p>
-              <p className="mt-2 text-2xl font-semibold tracking-tight text-foreground">{stat.value}</p>
-              <p className="mt-1 text-[11px] text-muted-foreground">{stat.detail}</p>
+      <div className="px-6 py-6">
+        <div className="grid gap-3 md:grid-cols-3">
+          {sellerActionSummary.map((stat) => (
+            <div key={stat.label} className={`${softCardClass} px-4 py-4`}>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">{stat.label}</p>
+              <p className="mt-2 text-[1.6rem] font-semibold tracking-tight text-foreground">{stat.value}</p>
+              <p className="mt-1 text-xs text-muted-foreground">{stat.detail}</p>
             </div>
           ))}
         </div>
 
-        <div className="mb-4 rounded-[1.6rem] border border-[#E4DDF0] bg-[#FAF8FD] px-4 py-4">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent/65">Decision sugerida</p>
-          <p className="mt-2 text-sm leading-relaxed text-foreground/80">{currentInsight.note}</p>
-        </div>
+        <div className="mt-6 grid gap-4 xl:grid-cols-3">
+          {sellerActionRows.map((seller) => (
+            <div key={seller.seller} className={`${softCardClass} flex h-full flex-col px-4 py-4`}>
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex items-start gap-3">
+                  <SellerAvatar avatar={seller.avatar} />
+                  <div>
+                    <p className="text-base font-semibold text-foreground">{seller.seller}</p>
+                    <p className="mt-1 text-sm text-muted-foreground">{seller.area}</p>
+                  </div>
+                </div>
 
-        <div className="flex-1 overflow-hidden rounded-[1.5rem] border border-[#E8E2EE] bg-white">
-          <div className="overflow-x-auto">
-            <div className="min-w-[42rem]">
-              <div className="grid grid-cols-[1.6fr_repeat(5,0.7fr)] gap-2 border-b border-border/45 px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-                <span>Cliente</span>
-                {mixColumns.map((column) => (
-                  <span key={column} className="text-center">
-                    {column}
-                  </span>
+                <span className="rounded-full border border-[#E7E0EF] bg-white px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-accent">
+                  {seller.priority}
+                </span>
+              </div>
+
+              <div className="mt-4 grid gap-2 sm:grid-cols-3">
+                {seller.stats.map((stat) => (
+                  <div key={stat.label} className="rounded-2xl border border-[#ECE5F2] bg-white px-3 py-3">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
+                      {stat.label}
+                    </p>
+                    <p className="mt-2 text-sm font-semibold text-foreground">{stat.value}</p>
+                  </div>
                 ))}
               </div>
 
-              <div className="divide-y divide-border/45">
-                {visibleRows.map((row) => {
-                  const isHighlighted = row.id === selectedClient;
+              <div className="mt-4 space-y-3">
+                <div className="rounded-2xl border border-[#ECE5F2] bg-white px-4 py-3.5">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
+                    Cliente a priorizar
+                  </p>
+                  <p className="mt-2 text-sm font-semibold text-foreground">{seller.account}</p>
+                  <p className="mt-1 text-xs text-muted-foreground">{seller.product}</p>
+                </div>
 
-                  return (
-                    <div
-                      key={row.id}
-                      className={`grid grid-cols-[1.6fr_repeat(5,0.7fr)] items-center gap-2 px-4 py-3 transition-colors ${
-                        isHighlighted ? "bg-accent/[0.05]" : "bg-transparent"
-                      }`}
-                    >
-                      <span className={`text-sm ${isHighlighted ? "font-semibold text-foreground" : "text-foreground/76"}`}>
-                        {row.label}
-                      </span>
-                      {row.cells.map((cell, index) => (
-                        <div key={`${row.id}-${index}`} className="flex justify-center">
-                          <MixStatusSquare state={cell} isHighlighted={isHighlighted} />
-                        </div>
-                      ))}
-                    </div>
-                  );
-                })}
+                <div className="rounded-2xl border border-[#ECE5F2] bg-white px-4 py-3.5">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
+                    Siguiente movimiento
+                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-foreground/80">{seller.action}</p>
+                </div>
+
+                <div className={`rounded-2xl border px-4 py-3.5 ${seller.signalTone}`}>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] opacity-75">Senal a cuidar</p>
+                  <p className="mt-2 text-sm leading-relaxed">{seller.signal}</p>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-
-        <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[11px] text-muted-foreground">
-          <div className="flex items-center gap-2">
-            <MixStatusSquare state="active" isHighlighted={false} />
-            <span>Compra activa</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <MixStatusSquare state="gap" isHighlighted={false} />
-            <span>Hueco con oportunidad</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <MixStatusSquare state="none" isHighlighted={false} />
-            <span>Sin senal prioritaria</span>
-          </div>
+          ))}
         </div>
       </div>
+    </div>
+  );
+}
+
+function ExecutiveReading({ viewId }: { viewId: DemoViewId }) {
+  const view = demoViews[viewId];
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-start">
+      <div>
+        <SectionEyebrow>Lectura ejecutiva</SectionEyebrow>
+        <p className="mt-3 text-lg font-medium tracking-tight text-foreground">{view.readingLead}</p>
+      </div>
+
+      <ul className="grid gap-3">
+        {view.readingPoints.map((point) => (
+          <li
+            key={point}
+            className="rounded-[1.2rem] border border-white/70 bg-white/82 px-4 py-3 text-sm leading-relaxed text-foreground/78 shadow-[0_10px_24px_rgba(20,19,26,0.03)]"
+          >
+            {point}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function OpportunitiesGrid() {
+  return (
+    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      {signalOpportunityCards.map((card, index) => (
+        <motion.article
+          key={card.title}
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.45, delay: index * 0.04 }}
+          className="flex h-full flex-col rounded-[1.7rem] border border-[#ECE5F2] bg-white p-6 shadow-[0_12px_28px_rgba(20,19,26,0.03)]"
+        >
+          <div className="flex items-start gap-4">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-accent/[0.08] text-accent">
+              <card.icon className="h-5 w-5" />
+            </div>
+
+            <div>
+              <h3 className="text-base font-semibold text-foreground">{card.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{card.description}</p>
+            </div>
+          </div>
+
+          <div className="mt-6 flex items-end justify-between gap-4 border-t border-border/40 pt-5">
+            <div>
+              <p className={`text-2xl font-semibold tracking-tight ${card.tone}`}>{card.metric}</p>
+              <p className="mt-1 text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground/55">
+                {card.detail}
+              </p>
+            </div>
+            <span className="rounded-full border border-border/50 bg-[#FCFBFE] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/65">
+              Visible
+            </span>
+          </div>
+        </motion.article>
+      ))}
     </div>
   );
 }
 
 export function DemoDashboard() {
-  const [heroPreview, setHeroPreview] = useState<HeroPreviewId>("vista-ejecutiva");
+  const [activeView, setActiveView] = useState<DemoViewId>("global");
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
@@ -623,38 +854,32 @@ export function DemoDashboard() {
     window.history.replaceState(null, "", `#${id}`);
   };
 
-  const activeView = heroPreviewDetails[heroPreview];
-
   const renderBoard = () => {
-    if (heroPreview === "vista-ejecutiva") {
-      return <InteractiveDashboard />;
+    if (activeView === "global") {
+      return <GlobalBoard />;
     }
 
-    if (heroPreview === "ranking-vendedores") {
-      return <SellerRankingBoard />;
+    if (activeView === "ranking") {
+      return <RankingBoard />;
     }
 
-    return <ProductSignalBoard />;
+    return <SellersActionBoard />;
   };
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-background">
+    <div className="min-h-screen overflow-x-hidden bg-white">
       <Header />
+
       <main>
         <section
           id="demo-dashboard"
-          className="relative overflow-hidden border-b border-border/30 bg-white pb-20 pt-32 lg:pb-24 lg:pt-36"
+          className="relative overflow-hidden border-b border-border/30 pb-20 pt-32 lg:pb-24 lg:pt-36"
         >
+          <div className="pointer-events-none absolute inset-0 -z-10 bg-white" />
           <div
-            className="pointer-events-none absolute inset-0 -z-10"
+            className="pointer-events-none absolute left-0 right-0 top-0 -z-10 h-[34rem]"
             style={{
-              background: "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 100%)",
-            }}
-          />
-          <div
-            className="pointer-events-none absolute left-0 right-0 top-0 -z-10 h-[540px] opacity-60"
-            style={{
-              background: "radial-gradient(ellipse at top right, rgba(113,17,223,0.08) 0%, transparent 60%)",
+              background: "radial-gradient(ellipse at top, rgba(113,17,223,0.08) 0%, rgba(113,17,223,0.02) 35%, transparent 68%)",
             }}
           />
 
@@ -662,220 +887,123 @@ export function DemoDashboard() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               className="mx-auto max-w-3xl text-center"
             >
-              <div className="inline-flex items-center gap-2 rounded-full border border-accent/15 bg-white/78 px-4 py-2">
+              <div className="inline-flex items-center gap-2 rounded-full border border-accent/15 bg-white/90 px-4 py-2 shadow-[0_10px_26px_rgba(20,19,26,0.04)]">
                 <TrendingUp className="h-3.5 w-3.5 text-accent" />
-                <span className="text-xs font-semibold tracking-[0.14em] text-accent">Demo guiada</span>
+                <span className="text-xs font-semibold tracking-[0.16em] text-accent">DEMO GUIADA</span>
               </div>
-              <h1 className="mt-6 text-4xl font-semibold leading-[0.96] tracking-tight text-foreground md:text-[3.8rem]">
-                Dashboard de ventas para decidir con foco comercial.
+
+              <h1 className="mt-6 text-4xl font-semibold leading-[0.96] tracking-tight text-foreground md:text-[3.7rem]">
+                Demo interactiva de dashboard de ventas
               </h1>
               <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
-                Recorre una demo real con tres vistas que ordenan lectura ejecutiva, desempeno del equipo y
-                oportunidades de mix dentro de una sola experiencia.
+                Tres vistas para entender volumen, desempeno del equipo y focos de accion sin que la experiencia se sienta como un reporte tecnico partido en bloques.
               </p>
             </motion.div>
 
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.72, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-12"
+              transition={{ duration: 0.7, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+              className="mx-auto mt-12 max-w-[72rem] rounded-[2.5rem] border border-[#ECE5F2] bg-[#FFFEFC] shadow-[0_30px_90px_rgba(20,19,26,0.06)]"
             >
-              <div className="mx-auto max-w-3xl">
-                <DemoViewSelector active={heroPreview} onChange={setHeroPreview} layoutId="detail-preview-pill" />
-              </div>
-
-              <div className="mx-auto mt-8 max-w-3xl text-center">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">
-                  {activeView.eyebrow}
-                </p>
-                <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground lg:text-[2.4rem]">
-                  {activeView.title}
-                </h2>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-[0.98rem]">
-                  {activeView.description}
+              <div className="px-6 pb-0 pt-8 sm:px-8 sm:pt-10 lg:px-10">
+                <SectionEyebrow>Lente de analisis</SectionEyebrow>
+                <div className="mt-6">
+                  <DemoTabs active={activeView} onChange={setActiveView} />
+                </div>
+                <p className="mx-auto mt-5 max-w-3xl text-center text-sm leading-relaxed text-muted-foreground md:text-[0.98rem]">
+                  {demoViews[activeView].description}
                 </p>
               </div>
 
-              <div className="mx-auto mt-8 max-w-[66rem]">
+              <div className="px-4 pb-0 pt-8 sm:px-6 lg:px-8">
                 <AnimatePresence mode="wait">
                   <motion.div
-                    key={`detail-${heroPreview}`}
-                    initial={{ opacity: 0, y: 16 }}
+                    key={activeView}
+                    initial={{ opacity: 0, y: 14 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
                   >
                     {renderBoard()}
                   </motion.div>
                 </AnimatePresence>
               </div>
 
-              <div className="mx-auto mt-8 max-w-[66rem]">
-                <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <div className="mt-8 border-t border-[#ECE5F2] bg-[#FAF8FD] px-6 py-7 sm:px-8 lg:px-10">
+                <ExecutiveReading viewId={activeView} />
+              </div>
+
+              <div className="border-t border-[#ECE5F2] px-6 py-7 sm:px-8 lg:px-10">
+                <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+                  <div className="max-w-2xl">
+                    <SectionEyebrow>Cierre de demo</SectionEyebrow>
+                    <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground lg:text-[2rem]">
+                      Que mas puede incluir un dashboard como este
+                    </h2>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
+                      Ademas de estas tres vistas, la misma solucion puede abrir alertas sobre cartera dormida, mix, penetracion, pricing y tiempo operativo. Si queres aterrizarlo a tu caso real, el siguiente paso es ordenar prioridades reales.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
+                    <a
+                      href="#oportunidades"
+                      onClick={(event) => handleAnchorClick(event, "oportunidades")}
+                      className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#DED5EA] bg-white px-6 py-3 text-sm font-medium text-foreground transition-colors duration-200 hover:border-accent/25 hover:text-accent"
+                    >
+                      Ver otros indicadores posibles
+                    </a>
                     <a
                       href={ROOT_DIAGNOSTIC_SECTION_HREF}
-                      onClick={() => trackDiagnosisClick("demo_primary_cta")}
-                      className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#7E4CF4,#7111DF)] px-7 py-3.5 text-sm font-medium text-white shadow-[0_18px_40px_rgba(113,17,223,0.18)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_22px_48px_rgba(113,17,223,0.24)]"
+                      onClick={() => trackDiagnosisClick("demo_final_cta")}
+                      className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#7E4CF4,#7111DF)] px-6 py-3 text-sm font-medium text-white shadow-[0_18px_40px_rgba(113,17,223,0.18)] transition-transform duration-200 hover:-translate-y-0.5"
                     >
                       Agendar diagnostico
                       <ArrowRight className="h-4 w-4" />
                     </a>
-                    <a
-                      href="#oportunidades"
-                      onClick={(event) => handleAnchorClick(event, "oportunidades")}
-                      className="inline-flex min-h-14 items-center justify-center rounded-full border border-border/65 bg-white px-7 py-3.5 text-sm font-medium text-foreground shadow-[0_10px_24px_rgba(20,19,26,0.04)] transition-all duration-200 hover:border-accent/25 hover:text-accent hover:shadow-[0_16px_30px_rgba(20,19,26,0.07)]"
-                    >
-                      Ver otras oportunidades
-                    </a>
                   </div>
-
-                  <a
-                    href={LINKEDIN_URL}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex w-fit items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    Prefiero escribir por LinkedIn
-                    <Linkedin className="h-4 w-4" />
-                  </a>
                 </div>
               </div>
             </motion.div>
           </div>
         </section>
 
-        <section id="oportunidades" className="scroll-mt-32 border-b border-border/30 bg-[#FFFEFC] py-16 lg:scroll-mt-36 lg:py-24">
+        <section id="oportunidades" className="scroll-mt-32 border-b border-border/30 bg-white py-16 lg:scroll-mt-36 lg:py-24">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.55 }}
-              className="max-w-3xl"
-            >
-              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">
-                Senales clave
-              </p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground lg:text-[2.7rem]">
-                Otras senales que este dashboard tambien puede volver visibles.
-              </h2>
-              <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
-                Ademas de la lectura principal, tambien puede abrir alertas accionables sobre recuperacion
-                de cartera, margen, expansion y tiempo operativo.
-              </p>
-            </motion.div>
-
-            <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-              {signalOpportunityCards.map((card, index) => (
-                <motion.article
-                  key={card.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-40px" }}
-                  transition={{ duration: 0.45, delay: index * 0.05 }}
-                  className="flex h-full flex-col rounded-[1.8rem] border border-border/45 bg-white p-6 shadow-[0_10px_24px_rgba(20,19,26,0.03)]"
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-accent/[0.08] text-accent">
-                      <card.icon className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <h3 className="text-base font-semibold text-foreground">{card.title}</h3>
-                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{card.description}</p>
-                    </div>
-                  </div>
-
-                  <div className="mt-6 flex items-end justify-between gap-4 border-t border-border/40 pt-5">
-                    <div>
-                      <p className={`text-2xl font-semibold tracking-tight ${card.tone}`}>{card.metric}</p>
-                      <p className="mt-1 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground/60">
-                        {card.detail}
-                      </p>
-                    </div>
-                    <span className="rounded-full border border-border/50 bg-white px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/65">
-                      Visible
-                    </span>
-                  </div>
-                </motion.article>
-              ))}
-            </div>
-
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-              className="mt-10 flex flex-col gap-5 rounded-[2rem] border border-[#E6E0EE] bg-[#FBFAFD] p-6 lg:flex-row lg:items-center lg:justify-between lg:p-8"
+              transition={{ duration: 0.5 }}
+              className="max-w-3xl"
             >
-              <div className="max-w-2xl">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">
-                  Transicion
-                </p>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
-                  Si esta lectura se parece a tu negocio, el siguiente paso es bajar tu caso real y definir
-                  que frente conviene atacar primero.
-                </p>
-              </div>
-              <a
-                href={ROOT_DIAGNOSTIC_SECTION_HREF}
-                onClick={() => trackDiagnosisClick("demo_signals")}
-                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-foreground shadow-[0_10px_24px_rgba(20,19,26,0.05)] transition-colors hover:bg-accent hover:text-white"
-              >
-                Agendar diagnostico
-                <ArrowRight className="h-4 w-4" />
-              </a>
+              <SectionEyebrow>Otros indicadores posibles</SectionEyebrow>
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground lg:text-[2.7rem]">
+                Otras alertas y focos de accion que tambien puede volver visibles.
+              </h2>
+              <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+                Esta demo muestra tres lentes principales, pero la misma arquitectura puede abrir lecturas sobre recuperacion de cartera, rentabilidad, penetracion y automatizacion operativa.
+              </p>
             </motion.div>
-          </div>
-        </section>
 
-        <section className="bg-white py-16 lg:py-20">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="mt-10">
+              <OpportunitiesGrid />
+            </div>
+
             <motion.div
-              initial={{ opacity: 0, y: 18 }}
+              initial={{ opacity: 0, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.55 }}
-              className="rounded-[2.25rem] border border-[#E8E2D9] bg-[#FCFBF8] p-8 shadow-[0_14px_32px_rgba(20,19,26,0.04)] lg:p-10"
+              transition={{ duration: 0.45, delay: 0.12 }}
+              className="mt-10 rounded-[1.9rem] border border-[#ECE5F2] bg-[#FCFBFE] px-6 py-6"
             >
-              <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
-                <div className="max-w-2xl">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">
-                    Siguiente paso
-                  </p>
-                  <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground lg:text-[2.55rem]">
-                    Si esta forma de leer ventas te hace sentido, ya hay un punto de partida claro.
-                  </h2>
-                  <p className="mt-4 text-sm leading-relaxed text-muted-foreground md:text-base">
-                    En el diagnostico revisamos que senales conviene abrir primero y que tipo de dashboard
-                    de ventas tiene sentido construir para tu caso real.
-                  </p>
-                </div>
-
-                <div className="flex flex-col gap-3 lg:items-end">
-                  <a
-                    href={ROOT_DIAGNOSTIC_SECTION_HREF}
-                    onClick={() => trackDiagnosisClick("demo_final")}
-                    className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#7E4CF4,#7111DF)] px-6 py-3 text-sm font-medium text-white shadow-[0_14px_28px_rgba(113,17,223,0.16)] transition-transform duration-200 hover:-translate-y-0.5"
-                  >
-                    Agendar diagnostico
-                    <ArrowRight className="h-4 w-4" />
-                  </a>
-                  <a
-                    href={LINKEDIN_URL}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    Escribirme por LinkedIn
-                    <Linkedin className="h-4 w-4" />
-                  </a>
-                </div>
-              </div>
+              <p className="max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">
+                El valor no esta en acumular pantallas. Esta en elegir que senales conviene volver visibles primero segun tu cartera, tu oferta y la forma en que hoy se toman decisiones comerciales.
+              </p>
             </motion.div>
           </div>
         </section>
@@ -890,8 +1018,9 @@ export function DemoDashboard() {
             <a href="/#home" className="transition-colors hover:text-foreground">
               Volver al inicio
             </a>
-            <a href={LINKEDIN_URL} target="_blank" rel="noreferrer" className="transition-colors hover:text-foreground">
+            <a href={LINKEDIN_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 transition-colors hover:text-foreground">
               LinkedIn
+              <Linkedin className="h-4 w-4" />
             </a>
           </div>
         </div>
