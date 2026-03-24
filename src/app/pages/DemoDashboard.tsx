@@ -244,8 +244,8 @@ function GlobalView() {
         <KPICard label="Ticket promedio" value="$12,042" change="+3.8%" changeType="positive" />
       </div>
 
-      <div className="grid min-h-0 flex-1 grid-cols-1 gap-3 md:grid-cols-2">
-        <div className="flex min-h-0 flex-col rounded-lg bg-white p-4">
+      <div className="grid grid-cols-1 gap-3 md:min-h-0 md:flex-1 md:grid-cols-2">
+        <div className="flex h-[18rem] flex-col rounded-lg bg-white p-4 md:min-h-0 md:h-auto md:flex-1">
           <div className="mb-2 shrink-0">
             <h3 className="text-sm tracking-tight text-[#14131A]">Evolucion de ventas</h3>
             <p className="text-xs text-[#6E6A7A]">Ultimos 6 meses</p>
@@ -284,7 +284,7 @@ function GlobalView() {
           </div>
         </div>
 
-        <div className="flex min-h-0 flex-col rounded-lg bg-white p-4">
+        <div className="flex h-[18rem] flex-col rounded-lg bg-white p-4 md:min-h-0 md:h-auto md:flex-1">
           <div className="mb-2 shrink-0">
             <h3 className="text-sm tracking-tight text-[#14131A]">Volumen por region</h3>
             <p className="text-xs text-[#6E6A7A]">Ventas ($) y margen (%) por region</p>
@@ -350,13 +350,13 @@ function GlobalView() {
 function RankingView() {
   return (
     <div className="flex h-full flex-col gap-3">
-      <div className="flex min-h-0 flex-1 flex-col rounded-lg bg-white p-5">
+      <div className="flex flex-col rounded-lg bg-white p-5 md:min-h-0 md:flex-1">
         <div className="mb-4 shrink-0">
           <h3 className="text-sm tracking-tight text-[#14131A]">Desempeno por vendedor</h3>
           <p className="text-xs text-[#6E6A7A]">Mes actual vs objetivo</p>
         </div>
 
-        <div className="min-h-0 flex-1 space-y-4 overflow-auto pr-1">
+        <div className="space-y-4 md:min-h-0 md:flex-1 md:overflow-auto md:pr-1">
           {sellersData.map((seller, index) => {
             const achievement = (seller.sales / seller.target) * 100;
             const overTarget = achievement >= 100;
@@ -439,13 +439,13 @@ function VendedoresView() {
         </div>
       </div>
 
-      <div className="flex min-h-0 flex-1 flex-col rounded-lg bg-white p-4">
+      <div className="flex flex-col rounded-lg bg-white p-4 md:min-h-0 md:flex-1">
         <div className="mb-3 shrink-0">
           <h3 className="text-sm tracking-tight text-[#14131A]">Cartera por cliente</h3>
           <p className="text-xs text-[#6E6A7A]">Oportunidades de ampliacion</p>
         </div>
 
-        <div className="min-h-0 flex-1 space-y-4 overflow-auto pr-1">
+        <div className="space-y-4 md:min-h-0 md:flex-1 md:overflow-auto md:pr-1">
           {clientsData.map((client, index) => (
             <div key={client.name} className="space-y-2">
               <div className="flex items-start justify-between gap-2">
@@ -543,9 +543,25 @@ function OpportunitiesGrid() {
 
 export function DemoDashboard() {
   const [activeView, setActiveView] = useState<ViewType>("global");
+  const [isMobile, setIsMobile] = useState(() => (typeof window !== "undefined" ? window.innerWidth < 768 : false));
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
+  }, []);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const syncViewport = () => setIsMobile(mediaQuery.matches);
+
+    syncViewport();
+
+    if (typeof mediaQuery.addEventListener === "function") {
+      mediaQuery.addEventListener("change", syncViewport);
+      return () => mediaQuery.removeEventListener("change", syncViewport);
+    }
+
+    mediaQuery.addListener(syncViewport);
+    return () => mediaQuery.removeListener(syncViewport);
   }, []);
 
   const handleAnchorClick = (event: MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -554,14 +570,20 @@ export function DemoDashboard() {
     window.history.replaceState(null, "", `#${id}`);
   };
 
+  const renderActiveView = () => {
+    if (activeView === "global") return <GlobalView />;
+    if (activeView === "ranking") return <RankingView />;
+    return <VendedoresView />;
+  };
+
   return (
     <div className="min-h-screen bg-[#F3F1EE]">
       <Header />
 
       <main>
         <section id="demo-dashboard" className="bg-[#F3F1EE] pt-20 md:pt-24">
-          <div className="flex h-[calc(100dvh-5rem)] flex-col overflow-hidden bg-[#F3F1EE]">
-            <div className="mx-auto flex min-h-0 max-w-[1280px] w-full flex-1 flex-col px-4 py-4 md:px-8 md:py-5">
+          <div className="flex flex-col bg-[#F3F1EE] md:h-[calc(100dvh-5rem)] md:overflow-hidden">
+            <div className="mx-auto flex w-full max-w-[1280px] flex-col px-4 py-4 md:min-h-0 md:flex-1 md:px-8 md:py-5">
               <div className="mb-3 shrink-0 text-center">
                 <div className="mb-1 text-[10px] uppercase tracking-widest text-[#7111DF]">DEMO GUIADA</div>
                 <h1 className="text-xl tracking-tight text-[#14131A] md:text-2xl">Demo interactiva de tablero comercial</h1>
@@ -590,25 +612,31 @@ export function DemoDashboard() {
                 <p className="text-center text-xs text-[#6E6A7A]">{viewDescriptions[activeView]}</p>
               </div>
 
-              <div className="relative flex-1 min-h-0">
-                <div
-                  aria-hidden={activeView !== "global"}
-                  className={activeView === "global" ? "h-full" : "pointer-events-none absolute inset-0 h-full opacity-0"}
-                >
-                  <GlobalView />
-                </div>
-                <div
-                  aria-hidden={activeView !== "ranking"}
-                  className={activeView === "ranking" ? "h-full" : "pointer-events-none absolute inset-0 h-full opacity-0"}
-                >
-                  <RankingView />
-                </div>
-                <div
-                  aria-hidden={activeView !== "vendedores"}
-                  className={activeView === "vendedores" ? "h-full" : "pointer-events-none absolute inset-0 h-full opacity-0"}
-                >
-                  <VendedoresView />
-                </div>
+              <div className="relative md:flex-1 md:min-h-0">
+                {isMobile ? (
+                  renderActiveView()
+                ) : (
+                  <>
+                    <div
+                      aria-hidden={activeView !== "global"}
+                      className={activeView === "global" ? "h-full" : "pointer-events-none absolute inset-0 h-full opacity-0"}
+                    >
+                      <GlobalView />
+                    </div>
+                    <div
+                      aria-hidden={activeView !== "ranking"}
+                      className={activeView === "ranking" ? "h-full" : "pointer-events-none absolute inset-0 h-full opacity-0"}
+                    >
+                      <RankingView />
+                    </div>
+                    <div
+                      aria-hidden={activeView !== "vendedores"}
+                      className={activeView === "vendedores" ? "h-full" : "pointer-events-none absolute inset-0 h-full opacity-0"}
+                    >
+                      <VendedoresView />
+                    </div>
+                  </>
+                )}
               </div>
 
               <div className="mt-3 shrink-0 rounded-lg bg-[#FFFFFF] px-5 py-3">
