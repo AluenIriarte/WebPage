@@ -24,13 +24,13 @@ type ViewType = "global" | "ranking" | "vendedores";
 const viewDescriptions: Record<ViewType, string> = {
   global: "Salud comercial general: volumen, margen, segmentacion y alertas de negocio",
   ranking: "Desempeno del equipo comercial: resultados vs objetivo y composicion de cartera",
-  vendedores: "Vista operativa para vendedores: oportunidades por cliente y priorizacion de acciones",
+  vendedores: "Vista de cartera: clientes prioritarios, oportunidades de venta y foco comercial inmediato",
 };
 
 const views: { key: ViewType; label: string }[] = [
   { key: "global", label: "Global" },
   { key: "ranking", label: "Ranking comercial" },
-  { key: "vendedores", label: "Vendedores" },
+  { key: "vendedores", label: "Cartera de clientes" },
 ];
 
 const trendData = [
@@ -85,24 +85,6 @@ const clientsData = [
     opportunity: "Completar portafolio",
     coverage: 75,
     priority: "medium" as const,
-  },
-  {
-    name: "Soluciones Oeste S.A.S.",
-    revenue: 45000,
-    buys: ["Linea A"],
-    doesntBuy: ["Linea B", "Linea C", "Linea D"],
-    opportunity: "Ampliar categorias",
-    coverage: 25,
-    priority: "high" as const,
-  },
-  {
-    name: "Distribuidora Central",
-    revenue: 38000,
-    buys: ["Linea A", "Linea B", "Linea C"],
-    doesntBuy: ["Linea D"],
-    opportunity: "Linea D premium",
-    coverage: 75,
-    priority: "low" as const,
   },
 ];
 
@@ -441,8 +423,8 @@ function VendedoresView() {
 
       <div className="flex flex-col rounded-lg bg-white p-4 md:min-h-0 md:flex-1">
         <div className="mb-3 shrink-0">
-          <h3 className="text-sm tracking-tight text-[#14131A]">Cartera por cliente</h3>
-          <p className="text-xs text-[#6E6A7A]">Oportunidades de ampliacion</p>
+          <h3 className="text-sm tracking-tight text-[#14131A]">Oportunidades de venta</h3>
+          <p className="text-xs text-[#6E6A7A]">Cartera de clientes priorizada para ampliar mezcla y foco comercial</p>
         </div>
 
         <div className="space-y-4 md:min-h-0 md:flex-1 md:overflow-auto md:pr-1">
@@ -593,7 +575,7 @@ export function DemoDashboard() {
               </div>
 
               <div className="mb-3 shrink-0">
-                <div className="mb-1 flex items-center justify-center gap-2">
+                <div className="mb-1 flex flex-wrap items-center justify-center gap-2">
                   {views.map(({ key, label }) => (
                     <button
                       key={key}
