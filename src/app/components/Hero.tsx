@@ -102,7 +102,7 @@ export function Hero() {
               ))}
             </div>
 
-            <InteractiveDashboard variant="full" animated={false} />
+            <InteractiveDashboard variant="mini" animated={false} />
           </div>
         </div>
       </div>
