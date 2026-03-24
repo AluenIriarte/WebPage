@@ -103,6 +103,17 @@ export function Hero() {
             </div>
 
             <InteractiveDashboard variant="mini" animated={false} />
+
+            <div className="mt-4 flex justify-center lg:hidden">
+              <Link
+                to={DEMO_PAGE_HREF}
+                onClick={() => trackEvent("demo_click", { source: "hero_preview_mobile" })}
+                className="group inline-flex items-center justify-center rounded-full border border-accent/18 bg-white px-5 py-2.5 text-sm font-medium text-foreground transition-all duration-200 hover:border-accent/35 hover:text-accent"
+              >
+                Ver demo completa
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </div>
           </div>
         </div>
       </div>

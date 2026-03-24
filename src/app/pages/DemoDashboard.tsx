@@ -32,45 +32,22 @@ const demoViews: Record<
   {
     label: string;
     description: string;
-    readingLead: string;
-    readingPoints: string[];
   }
 > = {
   global: {
     label: "Global",
     description:
       "Lectura ejecutiva de volumen, margen, segmentos y una alerta de negocio para decidir donde intervenir primero.",
-    readingLead:
-      "El trimestre sigue sosteniendo volumen, pero la presion ya no esta en vender mas: esta en proteger margen y reactivar cuentas que dejaron de moverse.",
-    readingPoints: [
-      "Grandes cuentas sostienen el ingreso y todavia empujan expansion rentable.",
-      "Distribuidores ceden 2.8 pts de margen y concentran el desvio mas visible.",
-      "Doce cuentas dormidas explican la alerta mas accionable del periodo.",
-    ],
   },
   ranking: {
     label: "Ranking comercial",
     description:
       "La misma solucion baja del resultado general al equipo para mostrar quien llega, con que cartera y donde esta la brecha recuperable.",
-    readingLead:
-      "La meta no esta rota a nivel equipo: la brecha esta focalizada y se puede corregir con seguimiento sobre cartera ya activa.",
-    readingPoints: [
-      "Sofia sostiene el sobrecumplimiento del frente principal y aporta margen, no solo volumen.",
-      "Martin y Lucia concentran $28K recuperables sin abrir mas pipeline ni sumar cobertura.",
-      "El problema es de foco comercial y acompanamiento, no de capacidad de venta.",
-    ],
   },
   vendedores: {
     label: "Vendedores",
     description:
       "Vista pensada para priorizar cartera, detectar faltantes y encontrar oportunidades por cliente.",
-    readingLead:
-      "La accion comercial empieza por cartera: que cliente mover, con que linea y si hoy hay stock para empujar esa oportunidad.",
-    readingPoints: [
-      "Cada cliente deja ver que compra hoy, que lineas todavia no tiene y donde conviene abrir.",
-      "La cartera aperturada ordena el trabajo comercial sin convertir la vista en un CRM feo ni operativo.",
-      "La alerta de stock cambia la prioridad y evita empujar una oferta que hoy no se puede sostener.",
-    ],
   },
 };
 
@@ -143,10 +120,15 @@ const globalSegments = [
   },
 ];
 
-const rankingSummary = [
-  { label: "Cumplimiento promedio", value: "101%" },
-  { label: "Total cartera", value: "$1.17M" },
+const rankingPrimarySummary = [
+  { label: "Total vendido", value: "$1.18M", detail: "periodo actual" },
+  { label: "Vs objetivo", value: "100%", detail: "$1.18M sobre $1.18M objetivo" },
+];
+
+const rankingSecondarySummary = [
+  { label: "Total cartera", value: "$3.15M" },
   { label: "Total clientes", value: "61" },
+  { label: "Clientes nuevos en el periodo", value: "11" },
 ];
 
 const rankingRows = [
@@ -162,7 +144,7 @@ const rankingRows = [
     tone: "text-emerald-600",
     avatar: avatarStyles.violetWave,
     stats: [
-      { label: "Clientes nuevos", value: "4" },
+      { label: "Clientes nuevos en el periodo", value: "4" },
       { label: "Margen aportado", value: "29%" },
     ],
   },
@@ -178,7 +160,7 @@ const rankingRows = [
     tone: "text-amber-600",
     avatar: avatarStyles.slateShort,
     stats: [
-      { label: "Clientes nuevos", value: "3" },
+      { label: "Clientes nuevos en el periodo", value: "3" },
       { label: "Margen aportado", value: "22%" },
     ],
   },
@@ -194,7 +176,7 @@ const rankingRows = [
     tone: "text-amber-600",
     avatar: avatarStyles.clayBun,
     stats: [
-      { label: "Clientes nuevos", value: "4" },
+      { label: "Clientes nuevos en el periodo", value: "4" },
       { label: "Margen aportado", value: "24%" },
     ],
   },
@@ -206,7 +188,6 @@ const clientCoverageSummary = [
   { label: "Su cartera", value: "22 clientes", detail: "activos en el periodo" },
   { label: "Volumen del periodo", value: "$391K", detail: "sobre su cartera actual" },
   { label: "Oportunidades hoy", value: "4", detail: "cuentas a priorizar" },
-  { label: "Stock sensible", value: "Linea B", detail: "2 cuentas condicionadas" },
 ];
 
 const portfolioLines = ["Linea A", "Linea B", "Linea C", "Linea D", "Linea E"] as const;
@@ -217,8 +198,6 @@ const selectedSeller = {
   avatar: avatarStyles.slateShort,
   brief:
     "Su cartera ya tiene volumen y oportunidades claras. La prioridad no es abrir mas frente nuevo, sino completar mezcla donde hoy hay hueco rentable y stock disponible.",
-  note:
-    "Grupo Solaris y Logistica Central concentran la restriccion de stock en Linea B, por eso conviene abrir otras familias antes de forzar esa categoria.",
 };
 
 const clientActionRows = [
@@ -648,8 +627,18 @@ function RankingBoard() {
       </div>
 
       <div className="px-6 py-6">
-        <div className="grid gap-3 md:grid-cols-3">
-          {rankingSummary.map((stat) => (
+        <div className="grid gap-3 lg:grid-cols-2">
+          {rankingPrimarySummary.map((stat) => (
+            <div key={stat.label} className={`${softCardClass} px-5 py-5`}>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">{stat.label}</p>
+              <p className="mt-3 text-[2.05rem] font-semibold tracking-tight text-foreground">{stat.value}</p>
+              <p className="mt-2 text-sm text-muted-foreground">{stat.detail}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-3 grid gap-3 md:grid-cols-3">
+          {rankingSecondarySummary.map((stat) => (
             <div key={stat.label} className={`${softCardClass} px-4 py-4`}>
               <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">{stat.label}</p>
               <p className="mt-2 text-[1.6rem] font-semibold tracking-tight text-foreground">{stat.value}</p>
@@ -678,21 +667,22 @@ function RankingBoard() {
                 </div>
 
                 <div className="text-left lg:text-right">
-                  <p className={`text-lg font-semibold ${seller.tone}`}>{seller.attainment}%</p>
-                  <p className="text-xs text-muted-foreground">{seller.gap} vs objetivo</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">Total vendido</p>
+                  <p className="mt-2 text-[1.7rem] font-semibold tracking-tight text-foreground">{seller.actual}</p>
+                  <p className={`mt-1 text-sm font-medium ${seller.tone}`}>{seller.attainment}% vs objetivo</p>
                 </div>
               </div>
 
               <div className="mt-4">
                 <div className="mb-2 flex items-center justify-between text-[11px] text-muted-foreground">
-                  <span>{seller.actual} actual</span>
+                  <span>{seller.gap} de brecha</span>
                   <span>{seller.target} objetivo</span>
                 </div>
                 <div className="h-2 rounded-full bg-muted/70">
                   <motion.div
                     className="h-2 rounded-full bg-[linear-gradient(90deg,#8A5CF6,#7111DF)]"
                     initial={{ width: 0 }}
-                    animate={{ width: `${Math.min(seller.attainment, 100)}%` }}
+                    animate={{ width: `${Math.min(seller.attainment, 110) / 1.1}%` }}
                     transition={{ duration: 0.45, ease: "easeOut" }}
                   />
                 </div>
@@ -754,7 +744,7 @@ function SellersActionBoard() {
       </div>
 
       <div className="px-6 py-6">
-        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-3 md:grid-cols-3">
           {clientCoverageSummary.map((stat) => (
             <div key={stat.label} className={`${softCardClass} px-4 py-4`}>
               <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">{stat.label}</p>
@@ -771,13 +761,12 @@ function SellersActionBoard() {
               <div className="max-w-2xl">
                 <SectionEyebrow>Vendedor seleccionado</SectionEyebrow>
                 <p className="mt-2 text-xl font-semibold tracking-tight text-foreground">{selectedSeller.seller}</p>
-                <p className="mt-1 text-sm text-muted-foreground">{selectedSeller.area} · 22 clientes activos</p>
+                <p className="mt-1 text-sm text-muted-foreground">{selectedSeller.area} / 22 clientes activos</p>
                 <p className="mt-3 text-sm leading-relaxed text-foreground/78">{selectedSeller.brief}</p>
               </div>
             </div>
-            <div className="rounded-2xl border border-amber-100 bg-amber-50/70 px-4 py-3 md:max-w-[18rem]">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-amber-700">Stock y prioridad</p>
-              <p className="mt-2 text-sm leading-relaxed text-foreground/80">{selectedSeller.note}</p>
+            <div className="rounded-full border border-amber-100 bg-amber-50/70 px-4 py-2.5 text-[11px] font-medium text-amber-700 md:max-w-[19rem]">
+              Stock sensible en Linea B para 2 cuentas prioritarias
             </div>
           </div>
         </div>
@@ -789,7 +778,7 @@ function SellersActionBoard() {
           </span>
           <span className="inline-flex items-center gap-2">
             <span className="h-2.5 w-6 rounded-full border border-accent/25 bg-accent/12" />
-            White space
+            Baja penetracion
           </span>
           <span className="inline-flex items-center gap-2">
             <span className="h-2.5 w-6 rounded-full border border-amber-200 bg-amber-100" />
@@ -798,115 +787,86 @@ function SellersActionBoard() {
         </div>
 
         <div className="mt-6">
-          <SectionEyebrow>Su cartera priorizada</SectionEyebrow>
+          <SectionEyebrow>Cartera de clientes</SectionEyebrow>
+          <p className="mt-2 text-xl font-semibold tracking-tight text-foreground">Donde conviene actuar primero</p>
           <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-            Clientes donde hoy conviene actuar primero porque combinan volumen, huecos claros de categoria y una prioridad operativa concreta.
+            Clientes donde hoy conviene actuar primero porque combinan volumen, categorias con baja penetracion y una prioridad operativa concreta.
           </p>
         </div>
 
-        <div className="mt-5 space-y-4">
+        <div className="mt-5 overflow-hidden rounded-[1.5rem] border border-[#ECE5F2] bg-[#FCFBFE]">
+          <div className="hidden grid-cols-[minmax(0,1.1fr)_120px_minmax(0,0.95fr)_minmax(0,1fr)_minmax(0,1.1fr)_minmax(0,0.9fr)] gap-4 border-b border-[#ECE5F2] px-5 py-4 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/60 lg:grid">
+            <span>Cliente</span>
+            <span>Volumen</span>
+            <span>Compra hoy</span>
+            <span>Categorias con baja penetracion</span>
+            <span>Oportunidad sugerida</span>
+            <span>Stock</span>
+          </div>
+
+          <div className="divide-y divide-[#ECE5F2]">
           {clientActionRows.map((client) => (
-            <div key={client.client} className={`${softCardClass} px-4 py-4 lg:px-5`}>
-              <div className="grid gap-5 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.15fr)_minmax(0,0.95fr)]">
-                <div>
+            <div key={client.client} className="bg-white px-4 py-4 lg:px-5">
+              <div className="grid gap-5 lg:grid-cols-[minmax(0,1.1fr)_120px_minmax(0,0.95fr)_minmax(0,1fr)_minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-start">
+                <div className="min-w-0">
                   <div className="flex items-start gap-3">
-                    <SellerAvatar avatar={client.avatar} />
+                    <div className="rounded-full border border-[#ECE5F2] bg-white p-1">
+                      <SellerAvatar avatar={client.avatar} />
+                    </div>
                     <div>
                       <p className="text-base font-semibold text-foreground">{client.client}</p>
-                      <p className="mt-1 text-sm text-muted-foreground">Cliente dentro de su cartera</p>
+                      <p className="mt-1 text-sm text-muted-foreground">Cuenta priorizada de su cartera</p>
                     </div>
                   </div>
 
-                  <div className="mt-4 grid grid-cols-2 gap-2">
-                    <div className="rounded-2xl border border-[#ECE5F2] bg-white px-3 py-3">
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-                        Volumen
-                      </p>
-                      <p className="mt-2 text-sm font-semibold text-foreground">{client.volume}</p>
-                      <p className="mt-1 text-[11px] text-muted-foreground">{client.share}</p>
-                    </div>
-                    <div className="rounded-2xl border border-[#ECE5F2] bg-white px-3 py-3">
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-                        Hueco principal
-                      </p>
-                      <p className="mt-2 text-sm font-semibold text-foreground">{client.misses}</p>
-                      <p className="mt-1 text-[11px] text-muted-foreground">cross-sell abierto</p>
+                  <div className="mt-4">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">Cobertura de categorias</p>
+                    <div className="mt-3 grid grid-cols-5 gap-2">
+                      {portfolioLines.map((line, index) => (
+                        <div key={line} className="space-y-2 text-center">
+                          <PortfolioCoverageBar state={client.coverage[index]} />
+                          <p className="text-[10px] font-medium text-muted-foreground">{line.replace("Linea ", "")}</p>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
 
-                <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-                    Cobertura de categorias
+                <div className="rounded-2xl border border-[#ECE5F2] bg-[#FCFBFE] px-3 py-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">Volumen</p>
+                  <p className="mt-2 text-sm font-semibold text-foreground">{client.volume}</p>
+                  <p className="mt-1 text-[11px] text-muted-foreground">{client.share}</p>
+                </div>
+
+                <div className="rounded-2xl border border-[#ECE5F2] bg-[#FCFBFE] px-3 py-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">Compra hoy</p>
+                  <p className="mt-2 text-sm leading-relaxed text-foreground/82">{client.buys}</p>
+                </div>
+
+                <div className="rounded-2xl border border-[#ECE5F2] bg-[#FCFBFE] px-3 py-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
+                    Categorias con baja penetracion
                   </p>
-                  <div className="mt-3 grid grid-cols-5 gap-2">
-                    {portfolioLines.map((line, index) => (
-                      <div key={line} className="space-y-2 text-center">
-                        <PortfolioCoverageBar state={client.coverage[index]} />
-                        <p className="text-[10px] font-medium text-muted-foreground">{line.replace("Linea ", "")}</p>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="mt-4 grid gap-2 sm:grid-cols-2">
-                    <div className="rounded-2xl border border-[#ECE5F2] bg-white px-3 py-3">
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-                        Compra hoy
-                      </p>
-                      <p className="mt-2 text-sm text-foreground/82">{client.buys}</p>
-                    </div>
-                    <div className="rounded-2xl border border-[#ECE5F2] bg-white px-3 py-3">
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-                        Todavia no compra
-                      </p>
-                      <p className="mt-2 text-sm text-foreground/82">{client.misses}</p>
-                    </div>
-                  </div>
+                  <p className="mt-2 text-sm leading-relaxed text-foreground/82">{client.misses}</p>
                 </div>
 
-                <div className="space-y-3">
-                  <div className="rounded-2xl border border-[#ECE5F2] bg-white px-4 py-3.5">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-                      Oportunidad sugerida
-                    </p>
-                    <p className="mt-2 text-sm leading-relaxed text-foreground/82">{client.opportunity}</p>
-                  </div>
+                <div className="rounded-2xl border border-[#ECE5F2] bg-[#FCFBFE] px-4 py-3.5">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
+                    Oportunidad sugerida
+                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-foreground/82">{client.opportunity}</p>
+                </div>
 
-                  <div className={`rounded-2xl border px-4 py-3.5 ${client.stockTone}`}>
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.14em] opacity-75">Stock y prioridad</p>
-                    <p className="mt-2 text-sm leading-relaxed">{client.stock}</p>
-                  </div>
+                <div className={`rounded-2xl border px-4 py-3.5 ${client.stockTone}`}>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] opacity-75">Stock</p>
+                  <p className="mt-2 text-sm leading-relaxed">{client.stock}</p>
                 </div>
               </div>
-
             </div>
           ))}
+          </div>
         </div>
       </div>
-    </div>
-  );
-}
-
-function ExecutiveReading({ viewId }: { viewId: DemoViewId }) {
-  const view = demoViews[viewId];
-
-  return (
-    <div className="grid gap-6 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-start">
-      <div>
-        <SectionEyebrow>Lectura ejecutiva</SectionEyebrow>
-        <p className="mt-3 text-lg font-medium tracking-tight text-foreground">{view.readingLead}</p>
-      </div>
-
-      <ul className="grid gap-3">
-        {view.readingPoints.map((point) => (
-          <li
-            key={point}
-            className="rounded-[1.2rem] border border-white/70 bg-white/82 px-4 py-3 text-sm leading-relaxed text-foreground/78 shadow-[0_10px_24px_rgba(20,19,26,0.03)]"
-          >
-            {point}
-          </li>
-        ))}
-      </ul>
     </div>
   );
 }
@@ -1041,10 +1001,6 @@ export function DemoDashboard() {
                     {renderBoard()}
                   </motion.div>
                 </AnimatePresence>
-              </div>
-
-              <div className="mt-8 border-t border-[#ECE5F2] bg-[#FAF8FD] px-6 py-7 sm:px-8 lg:px-10">
-                <ExecutiveReading viewId={activeView} />
               </div>
 
               <div className="border-t border-[#ECE5F2] px-6 py-7 sm:px-8 lg:px-10">
