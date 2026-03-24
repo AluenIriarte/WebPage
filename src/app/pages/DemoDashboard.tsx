@@ -112,7 +112,6 @@ const avatarStyles = {
 const globalKpis = [
   { label: "Ventas netas", value: "$1.38M", detail: "Q1 2026", tone: "text-foreground" },
   { label: "Margen bruto", value: "24.8%", detail: "-2.8 pts en distribuidores", tone: "text-foreground" },
-  { label: "Segmentos activos", value: "3", detail: "2 sostienen el trimestre", tone: "text-foreground" },
   { label: "Alerta principal", value: "12 cuentas", detail: "sin recompra en 90 dias", tone: "text-amber-700" },
 ] as const;
 
@@ -146,9 +145,8 @@ const globalSegments = [
 
 const rankingSummary = [
   { label: "Cumplimiento promedio", value: "101%" },
-  { label: "Cartera activa", value: "$1.17M" },
-  { label: "Nuevos clientes", value: "11" },
-  { label: "Margen aportado", value: "24%" },
+  { label: "Total cartera", value: "$1.17M" },
+  { label: "Total clientes", value: "61" },
 ];
 
 const rankingRows = [
@@ -156,6 +154,7 @@ const rankingRows = [
     seller: "Sofia Gomez",
     focus: "Grandes cuentas",
     totalPortfolio: "$1.26M",
+    totalClients: "18 clientes",
     actual: "$448K",
     target: "$420K",
     attainment: 107,
@@ -165,13 +164,13 @@ const rankingRows = [
     stats: [
       { label: "Clientes nuevos", value: "4" },
       { label: "Margen aportado", value: "29%" },
-      { label: "Ticket promedio", value: "$37K" },
     ],
   },
   {
     seller: "Martin Rivas",
     focus: "Cartera corporativa",
     totalPortfolio: "$980K",
+    totalClients: "22 clientes",
     actual: "$391K",
     target: "$405K",
     attainment: 97,
@@ -181,13 +180,13 @@ const rankingRows = [
     stats: [
       { label: "Clientes nuevos", value: "3" },
       { label: "Margen aportado", value: "22%" },
-      { label: "Ticket promedio", value: "$34K" },
     ],
   },
   {
     seller: "Lucia Perez",
     focus: "Cuentas estrategicas",
     totalPortfolio: "$910K",
+    totalClients: "21 clientes",
     actual: "$336K",
     target: "$350K",
     attainment: 96,
@@ -197,7 +196,6 @@ const rankingRows = [
     stats: [
       { label: "Clientes nuevos", value: "4" },
       { label: "Margen aportado", value: "24%" },
-      { label: "Ticket promedio", value: "$33K" },
     ],
   },
 ];
@@ -205,34 +203,31 @@ const rankingRows = [
 type CoverageState = "active" | "opportunity" | "inactive" | "constrained";
 
 const clientCoverageSummary = [
-  { label: "Clientes activos", value: "61", detail: "cartera aperturada" },
-  { label: "Volumen del periodo", value: "$1.17M", detail: "sobre cuentas actuales" },
-  { label: "Oportunidades detectadas", value: "14", detail: "cross-sell abiertos" },
-  { label: "Alerta de stock", value: "Linea B", detail: "2 cuentas condicionadas" },
+  { label: "Su cartera", value: "22 clientes", detail: "activos en el periodo" },
+  { label: "Volumen del periodo", value: "$391K", detail: "sobre su cartera actual" },
+  { label: "Oportunidades hoy", value: "4", detail: "cuentas a priorizar" },
+  { label: "Stock sensible", value: "Linea B", detail: "2 cuentas condicionadas" },
 ];
 
 const portfolioLines = ["Linea A", "Linea B", "Linea C", "Linea D", "Linea E"] as const;
 
+const selectedSeller = {
+  seller: "Martin Rivas",
+  area: "Cartera corporativa",
+  avatar: avatarStyles.slateShort,
+  brief:
+    "Su cartera ya tiene volumen y oportunidades claras. La prioridad no es abrir mas frente nuevo, sino completar mezcla donde hoy hay hueco rentable y stock disponible.",
+  note:
+    "Grupo Solaris y Logistica Central concentran la restriccion de stock en Linea B, por eso conviene abrir otras familias antes de forzar esa categoria.",
+};
+
 const clientActionRows = [
   {
-    client: "Distribuidora Norte",
-    seller: "Sofia Gomez",
-    avatar: avatarStyles.violetWave,
-    volume: "$184K",
-    share: "11% del periodo",
-    buys: "Lineas A, B y D",
-    misses: "Linea C premium",
-    opportunity: "Abrir Linea C con propuesta premium sobre mezcla ya madura.",
-    stock: "Stock estable en lineas activas. Se puede empujar expansion.",
-    stockTone: "bg-emerald-50 text-emerald-700 border-emerald-100",
-    coverage: ["active", "active", "opportunity", "active", "inactive"] as CoverageState[],
-  },
-  {
     client: "Grupo Solaris",
-    seller: "Martin Rivas",
+    seller: selectedSeller.seller,
     avatar: avatarStyles.slateShort,
-    volume: "$161K",
-    share: "9% del periodo",
+    volume: "$118K",
+    share: "30% de su volumen",
     buys: "Lineas A y C",
     misses: "Linea B y D",
     opportunity: "Completar Linea D industrial antes de seguir empujando descuento.",
@@ -241,30 +236,43 @@ const clientActionRows = [
     coverage: ["active", "constrained", "active", "opportunity", "inactive"] as CoverageState[],
   },
   {
-    client: "Industrial Mendez",
-    seller: "Lucia Perez",
-    avatar: avatarStyles.clayBun,
-    volume: "$148K",
-    share: "8% del periodo",
-    buys: "Lineas B y E",
-    misses: "Linea A y C",
-    opportunity: "Entrar con categoria A para recuperar frecuencia y subir ticket.",
-    stock: "Sin restriccion operativa hoy. La prioridad es reactivar visita y oferta.",
-    stockTone: "bg-violet-50 text-violet-700 border-violet-100",
-    coverage: ["opportunity", "active", "opportunity", "inactive", "active"] as CoverageState[],
-  },
-  {
     client: "Logistica Central",
-    seller: "Martin Rivas",
+    seller: selectedSeller.seller,
     avatar: avatarStyles.mossWave,
-    volume: "$132K",
-    share: "7% del periodo",
+    volume: "$96K",
+    share: "25% de su volumen",
     buys: "Lineas A y D",
     misses: "Linea B y E",
     opportunity: "Abrir Linea E con bundle de reposicion y evitar depender de una sola familia.",
     stock: "Linea B sigue corta. La expansion conveniente hoy esta en Linea E.",
     stockTone: "bg-amber-50 text-amber-700 border-amber-100",
     coverage: ["active", "constrained", "inactive", "active", "opportunity"] as CoverageState[],
+  },
+  {
+    client: "Comercial Andes",
+    seller: selectedSeller.seller,
+    avatar: avatarStyles.violetWave,
+    volume: "$94K",
+    share: "24% de su volumen",
+    buys: "Lineas A, C y D",
+    misses: "Linea E",
+    opportunity: "Abrir Linea E con propuesta de reposicion rapida sobre una cuenta ya activa.",
+    stock: "Stock estable. La oportunidad depende mas de foco que de disponibilidad.",
+    stockTone: "bg-emerald-50 text-emerald-700 border-emerald-100",
+    coverage: ["active", "inactive", "active", "active", "opportunity"] as CoverageState[],
+  },
+  {
+    client: "TechParts SRL",
+    seller: selectedSeller.seller,
+    avatar: avatarStyles.clayBun,
+    volume: "$83K",
+    share: "21% de su volumen",
+    buys: "Linea A y E",
+    misses: "Linea C",
+    opportunity: "Completar Linea C para subir ticket sin depender de mas frecuencia.",
+    stock: "Sin restriccion operativa. La prioridad es mover una cuenta con compra ya consolidada.",
+    stockTone: "bg-violet-50 text-violet-700 border-violet-100",
+    coverage: ["active", "inactive", "opportunity", "inactive", "active"] as CoverageState[],
   },
 ];
 
@@ -495,7 +503,7 @@ function GlobalBoard() {
       </div>
 
       <div className="px-6 py-6">
-        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-3 md:grid-cols-3">
           {globalKpis.map((kpi) => (
             <div key={kpi.label} className={`${softCardClass} px-4 py-4`}>
               <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
@@ -507,108 +515,108 @@ function GlobalBoard() {
           ))}
         </div>
 
-        <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1.45fr)_minmax(290px,0.95fr)]">
-          <div className={`${softCardClass} p-5`}>
-            <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <SectionEyebrow>Lectura del trimestre</SectionEyebrow>
-                <p className="mt-2 text-lg font-semibold tracking-tight text-foreground">Ventas y margen por periodo</p>
-              </div>
-              <p className="text-xs font-medium text-muted-foreground">Q1 2026</p>
+        <div className={`${softCardClass} mt-6 p-5`}>
+          <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <SectionEyebrow>Lectura del trimestre</SectionEyebrow>
+              <p className="mt-2 text-lg font-semibold tracking-tight text-foreground">Ventas y margen por periodo</p>
             </div>
-
-            <div className="h-[17rem]">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={globalTrendData} margin={{ top: 8, right: 12, left: -28, bottom: 0 }}>
-                  <defs>
-                    <linearGradient id="demo-global-ventas" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#8B5CF6" stopOpacity={0.28} />
-                      <stop offset="100%" stopColor="#8B5CF6" stopOpacity={0} />
-                    </linearGradient>
-                    <linearGradient id="demo-global-margen" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#0EA5E9" stopOpacity={0.18} />
-                      <stop offset="100%" stopColor="#0EA5E9" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid stroke="#EEE8F5" vertical={false} />
-                  <XAxis dataKey="name" tick={{ fontSize: 11, fill: "#7C7888" }} axisLine={false} tickLine={false} />
-                  <YAxis tick={{ fontSize: 11, fill: "#7C7888" }} axisLine={false} tickLine={false} />
-                  <Tooltip
-                    content={<DemoTooltip />}
-                    cursor={{ stroke: "#8B5CF6", strokeWidth: 1, strokeDasharray: "4 4", strokeOpacity: 0.28 }}
-                  />
-                  <Area
-                    type="monotone"
-                    dataKey="ventas"
-                    stroke="#7E4CF4"
-                    strokeWidth={2.2}
-                    fill="url(#demo-global-ventas)"
-                    dot={false}
-                    activeDot={{ r: 4, fill: "#7E4CF4", stroke: "#fff", strokeWidth: 2 }}
-                  />
-                  <Area
-                    type="monotone"
-                    dataKey="margen"
-                    stroke="#0EA5E9"
-                    strokeWidth={2.2}
-                    fill="url(#demo-global-margen)"
-                    dot={false}
-                    activeDot={{ r: 4, fill: "#0EA5E9", stroke: "#fff", strokeWidth: 2 }}
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
-
-            <div className="mt-4 flex flex-wrap gap-4 text-[11px] font-medium text-muted-foreground">
-              <span className="inline-flex items-center gap-2">
-                <span className="h-0.5 w-5 rounded-full bg-[#7E4CF4]" />
-                Ventas
-              </span>
-              <span className="inline-flex items-center gap-2">
-                <span className="h-0.5 w-5 rounded-full bg-[#0EA5E9]" />
-                Margen
-              </span>
-            </div>
+            <p className="text-xs font-medium text-muted-foreground">Q1 2026</p>
           </div>
 
-          <div className="space-y-4">
-            <div className="rounded-[1.6rem] border border-amber-100 bg-amber-50/60 p-5">
-              <div className="flex items-start gap-3">
-                <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white text-amber-500">
-                  <AlertTriangle className="h-5 w-5" />
-                </div>
-                <div>
-                  <SectionEyebrow>Alerta ejecutiva</SectionEyebrow>
-                  <p className="mt-2 text-base font-semibold text-foreground">El deterioro no esta en el top line. Esta en mezcla y recompra.</p>
-                  <p className="mt-2 text-sm leading-relaxed text-foreground/76">
-                    La facturacion aguanta porque corporativo sigue empujando, pero la erosion real aparece en distribuidores y en cuentas que dejaron de comprar.
-                  </p>
-                </div>
-              </div>
-            </div>
+          <div className="h-[17rem]">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={globalTrendData} margin={{ top: 10, right: 8, left: 0, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="demo-global-ventas" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#8B5CF6" stopOpacity={0.28} />
+                    <stop offset="100%" stopColor="#8B5CF6" stopOpacity={0} />
+                  </linearGradient>
+                  <linearGradient id="demo-global-margen" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#0EA5E9" stopOpacity={0.18} />
+                    <stop offset="100%" stopColor="#0EA5E9" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid stroke="#EEE8F5" vertical={false} />
+                <XAxis dataKey="name" tick={{ fontSize: 11, fill: "#7C7888" }} axisLine={false} tickLine={false} />
+                <YAxis width={34} tick={{ fontSize: 11, fill: "#7C7888" }} axisLine={false} tickLine={false} />
+                <Tooltip
+                  content={<DemoTooltip />}
+                  cursor={{ stroke: "#8B5CF6", strokeWidth: 1, strokeDasharray: "4 4", strokeOpacity: 0.28 }}
+                />
+                <Area
+                  type="monotone"
+                  dataKey="ventas"
+                  stroke="#7E4CF4"
+                  strokeWidth={2.2}
+                  fill="url(#demo-global-ventas)"
+                  dot={false}
+                  activeDot={{ r: 4, fill: "#7E4CF4", stroke: "#fff", strokeWidth: 2 }}
+                />
+                <Area
+                  type="monotone"
+                  dataKey="margen"
+                  stroke="#0EA5E9"
+                  strokeWidth={2.2}
+                  fill="url(#demo-global-margen)"
+                  dot={false}
+                  activeDot={{ r: 4, fill: "#0EA5E9", stroke: "#fff", strokeWidth: 2 }}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
 
+          <div className="mt-4 flex flex-wrap gap-4 text-[11px] font-medium text-muted-foreground">
+            <span className="inline-flex items-center gap-2">
+              <span className="h-0.5 w-5 rounded-full bg-[#7E4CF4]" />
+              Ventas
+            </span>
+            <span className="inline-flex items-center gap-2">
+              <span className="h-0.5 w-5 rounded-full bg-[#0EA5E9]" />
+              Margen
+            </span>
+          </div>
+        </div>
+
+          <div className="mt-6 grid gap-4 xl:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
             <div className={`${softCardClass} p-5`}>
               <div className="mb-4 flex items-center justify-between">
                 <div>
                   <SectionEyebrow>Segmentos</SectionEyebrow>
-                  <p className="mt-2 text-base font-semibold text-foreground">Que frente mueve el trimestre</p>
-                </div>
-                <Target className="h-4 w-4 text-accent" />
+                  <p className="mt-2 text-base font-semibold text-foreground">Que frente sostiene el trimestre</p>
               </div>
+              <Target className="h-4 w-4 text-accent" />
+            </div>
 
-              <div className="space-y-3">
+              <div className="divide-y divide-[#EEE8F5]">
                 {globalSegments.map((segment) => (
-                  <div key={segment.name} className="rounded-[1.2rem] border border-[#ECE5F2] bg-white px-4 py-3.5">
+                  <div key={segment.name} className="py-3 first:pt-0 last:pb-0">
                     <div className="flex items-center justify-between gap-4">
                       <p className="text-sm font-semibold text-foreground">{segment.name}</p>
-                      <span className="text-[11px] font-medium text-muted-foreground">{segment.share}</span>
+                      <div className="text-right">
+                        <span className="block text-[11px] font-medium text-muted-foreground">{segment.share}</span>
+                        <span className="mt-1 block text-[10px] font-semibold uppercase tracking-[0.14em] text-accent/70">
+                          {segment.margin}
+                        </span>
+                      </div>
                     </div>
-                    <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-accent/70">
-                      {segment.margin}
-                    </p>
                     <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{segment.note}</p>
                   </div>
                 ))}
+              </div>
+            </div>
+
+          <div className="rounded-[1.6rem] border border-amber-100 bg-amber-50/60 p-5">
+            <div className="flex items-start gap-3">
+              <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white text-amber-500">
+                <AlertTriangle className="h-5 w-5" />
+              </div>
+              <div>
+                <SectionEyebrow>Alerta ejecutiva</SectionEyebrow>
+                <p className="mt-2 text-base font-semibold text-foreground">La senal clave no esta en vender mas. Esta en mezcla, margen y recompra.</p>
+                <p className="mt-2 text-sm leading-relaxed text-foreground/76">
+                  El trimestre sigue de pie por grandes cuentas, pero la erosion ya aparece donde se sostiene volumen con peor rentabilidad o baja recompra.
+                </p>
               </div>
             </div>
           </div>
@@ -640,7 +648,7 @@ function RankingBoard() {
       </div>
 
       <div className="px-6 py-6">
-        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-3 md:grid-cols-3">
           {rankingSummary.map((stat) => (
             <div key={stat.label} className={`${softCardClass} px-4 py-4`}>
               <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">{stat.label}</p>
@@ -658,9 +666,12 @@ function RankingBoard() {
                   <div>
                     <p className="text-base font-semibold text-foreground">{seller.seller}</p>
                     <p className="mt-1 text-sm text-muted-foreground">{seller.focus}</p>
-                    <div className="mt-2">
+                    <div className="mt-2 flex flex-wrap gap-2">
                       <span className="inline-flex items-center rounded-full border border-[#E7E0EF] bg-white px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-foreground/72">
                         Total cartera {seller.totalPortfolio}
+                      </span>
+                      <span className="inline-flex items-center rounded-full border border-[#E7E0EF] bg-white px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-foreground/72">
+                        {seller.totalClients}
                       </span>
                     </div>
                   </div>
@@ -687,7 +698,7 @@ function RankingBoard() {
                 </div>
               </div>
 
-              <div className="mt-4 grid gap-2 sm:grid-cols-3">
+              <div className="mt-4 grid gap-2 sm:grid-cols-2">
                 {seller.stats.map((stat) => (
                   <div key={stat.label} className="rounded-2xl border border-[#ECE5F2] bg-white px-3 py-3">
                     <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
@@ -753,24 +764,47 @@ function SellersActionBoard() {
           ))}
         </div>
 
-        <div className="mt-5 rounded-[1.5rem] border border-amber-100 bg-amber-50/60 px-5 py-4">
-          <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-            <div className="max-w-2xl">
-              <SectionEyebrow>Senal operativa</SectionEyebrow>
-              <p className="mt-2 text-base font-semibold text-foreground">
-                La prioridad comercial cambia si Linea B sigue corta en Grupo Solaris y Logistica Central.
-              </p>
-              <p className="mt-2 text-sm leading-relaxed text-foreground/76">
-                La oportunidad sigue existiendo, pero hoy conviene mover sustitutos o abrir otra familia antes de empujar una categoria con cobertura sensible.
-              </p>
+        <div className={`${softCardClass} mt-5 px-5 py-5`}>
+          <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+            <div className="flex items-start gap-3">
+              <SellerAvatar avatar={selectedSeller.avatar} />
+              <div className="max-w-2xl">
+                <SectionEyebrow>Vendedor seleccionado</SectionEyebrow>
+                <p className="mt-2 text-xl font-semibold tracking-tight text-foreground">{selectedSeller.seller}</p>
+                <p className="mt-1 text-sm text-muted-foreground">{selectedSeller.area} · 22 clientes activos</p>
+                <p className="mt-3 text-sm leading-relaxed text-foreground/78">{selectedSeller.brief}</p>
+              </div>
             </div>
-            <span className="inline-flex w-fit items-center rounded-full border border-amber-200 bg-white px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-amber-700">
-              Repriorizar oferta
-            </span>
+            <div className="rounded-2xl border border-amber-100 bg-amber-50/70 px-4 py-3 md:max-w-[18rem]">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-amber-700">Stock y prioridad</p>
+              <p className="mt-2 text-sm leading-relaxed text-foreground/80">{selectedSeller.note}</p>
+            </div>
           </div>
         </div>
 
-        <div className="mt-6 space-y-4">
+        <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-[11px] text-muted-foreground">
+          <span className="inline-flex items-center gap-2">
+            <span className="h-2.5 w-6 rounded-full bg-[linear-gradient(90deg,#8A5CF6,#7111DF)]" />
+            Compra activa
+          </span>
+          <span className="inline-flex items-center gap-2">
+            <span className="h-2.5 w-6 rounded-full border border-accent/25 bg-accent/12" />
+            White space
+          </span>
+          <span className="inline-flex items-center gap-2">
+            <span className="h-2.5 w-6 rounded-full border border-amber-200 bg-amber-100" />
+            Restriccion por stock
+          </span>
+        </div>
+
+        <div className="mt-6">
+          <SectionEyebrow>Su cartera priorizada</SectionEyebrow>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+            Clientes donde hoy conviene actuar primero porque combinan volumen, huecos claros de categoria y una prioridad operativa concreta.
+          </p>
+        </div>
+
+        <div className="mt-5 space-y-4">
           {clientActionRows.map((client) => (
             <div key={client.client} className={`${softCardClass} px-4 py-4 lg:px-5`}>
               <div className="grid gap-5 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.15fr)_minmax(0,0.95fr)]">
@@ -779,7 +813,7 @@ function SellersActionBoard() {
                     <SellerAvatar avatar={client.avatar} />
                     <div>
                       <p className="text-base font-semibold text-foreground">{client.client}</p>
-                      <p className="mt-1 text-sm text-muted-foreground">Gestiona {client.seller}</p>
+                      <p className="mt-1 text-sm text-muted-foreground">Cliente dentro de su cartera</p>
                     </div>
                   </div>
 
@@ -845,20 +879,6 @@ function SellersActionBoard() {
                 </div>
               </div>
 
-              <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-[11px] text-muted-foreground">
-                <span className="inline-flex items-center gap-2">
-                  <span className="h-2.5 w-6 rounded-full bg-[linear-gradient(90deg,#8A5CF6,#7111DF)]" />
-                  Compra activa
-                </span>
-                <span className="inline-flex items-center gap-2">
-                  <span className="h-2.5 w-6 rounded-full border border-accent/25 bg-accent/12" />
-                  White space
-                </span>
-                <span className="inline-flex items-center gap-2">
-                  <span className="h-2.5 w-6 rounded-full border border-amber-200 bg-amber-100" />
-                  Restriccion por stock
-                </span>
-              </div>
             </div>
           ))}
         </div>
