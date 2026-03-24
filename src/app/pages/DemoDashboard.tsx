@@ -548,9 +548,9 @@ export function DemoDashboard() {
       <Header />
 
       <main>
-        <section id="demo-dashboard" className="border-b border-border/30 bg-[#F3F1EE] pt-20 md:pt-24">
-          <div className="mx-auto max-w-[1280px] px-4 md:px-8">
-            <div className="flex min-h-[calc(100dvh-5rem)] flex-col overflow-hidden py-4 md:py-5">
+        <section id="demo-dashboard" className="bg-[#F3F1EE] pt-20 md:pt-24">
+          <div className="flex h-[calc(100dvh-5rem)] flex-col overflow-hidden bg-[#F3F1EE]">
+            <div className="mx-auto flex min-h-0 max-w-[1280px] w-full flex-1 flex-col px-4 py-4 md:px-8 md:py-5">
               <div className="mb-3 shrink-0 text-center">
                 <div className="mb-1 text-[10px] uppercase tracking-widest text-[#7111DF]">DEMO GUIADA</div>
                 <h1 className="text-xl tracking-tight text-[#14131A] md:text-2xl">Demo interactiva de tablero comercial</h1>
@@ -566,10 +566,10 @@ export function DemoDashboard() {
                       key={key}
                       type="button"
                       onClick={() => setActiveView(key)}
-                      className={`rounded-full px-4 py-2 text-sm transition-all ${
+                      className={`px-4 py-2 rounded-full text-sm transition-all ${
                         activeView === key
                           ? "bg-[#7111DF] text-white"
-                          : "bg-white text-[#655F7F] hover:bg-[#7111DF]/5"
+                          : "bg-[#FFFFFF] text-[#655F7F] hover:bg-[#7111DF]/5"
                       }`}
                     >
                       {label}
@@ -579,17 +579,16 @@ export function DemoDashboard() {
                 <p className="text-center text-xs text-[#6E6A7A]">{viewDescriptions[activeView]}</p>
               </div>
 
-              <div className="min-h-0 flex-1">{renderView()}</div>
+              <div className="flex-1 min-h-0">{renderView()}</div>
 
-              <div className="mt-3 shrink-0 rounded-lg bg-white px-5 py-3">
-                <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+              <div className="mt-3 shrink-0 rounded-lg bg-[#FFFFFF] px-5 py-3">
+                <div className="flex items-center justify-between gap-4">
                   <div className="min-w-0">
                     <div className="truncate text-sm tracking-tight text-[#14131A]">¿Querés implementar estas vistas en tu negocio?</div>
                     <div className="hidden text-xs text-[#6E6A7A] md:block">
                       Cada solucion se disena segun tu estructura comercial y necesidades.
                     </div>
                   </div>
-
                   <div className="flex shrink-0 gap-2">
                     <a
                       href={ROOT_DIAGNOSTIC_SECTION_HREF}
