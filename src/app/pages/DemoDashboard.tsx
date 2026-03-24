@@ -6,20 +6,31 @@ import {
   Clock3,
   Layers3,
   Linkedin,
+  Package,
   ShoppingCart,
   TrendingUp,
   Users,
 } from "lucide-react";
+import {
+  Bar,
+  CartesianGrid,
+  ComposedChart,
+  Line,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 import { Header } from "../components/Header";
-import { InteractiveDashboard } from "../components/HeroDashboard";
 import { trackDiagnosisClick } from "../lib/analytics";
 import { ROOT_DIAGNOSTIC_SECTION_HREF } from "../lib/contact";
 
 const LINKEDIN_URL = "https://www.linkedin.com/in/alan-leonel-perez-argentina/?skipRedirect=true";
 
-const boardSurfaceClass =
-  "overflow-hidden rounded-[2rem] border border-[#E8E1EF] bg-white shadow-[0_24px_70px_rgba(20,19,26,0.05)]";
-const softCardClass = "rounded-[1.35rem] border border-[#ECE5F2] bg-[#FCFBFE]";
+const shellClass =
+  "overflow-hidden rounded-[2.1rem] border border-[#E8E1EF] bg-[#FBFAFD] shadow-[0_28px_84px_rgba(20,19,26,0.06)]";
+const moduleClass = "rounded-[1.55rem] border border-[#ECE5F2] bg-white";
+const softCardClass = "rounded-[1.1rem] border border-[#ECE5F2] bg-white";
 
 const demoViewOrder = ["global", "ranking", "vendedores"] as const;
 type DemoViewId = (typeof demoViewOrder)[number];
@@ -35,17 +46,17 @@ const demoViews: Record<
   global: {
     label: "Global",
     description:
-      "Lectura ejecutiva de volumen, margen, segmentos y una alerta de negocio para decidir donde intervenir primero.",
+      "Lectura general para ver volumen, margen y donde aparece el desvio comercial mas visible.",
   },
   ranking: {
     label: "Ranking comercial",
     description:
-      "La misma solucion baja del resultado general al equipo para mostrar quien llega, con que cartera y donde esta la brecha recuperable.",
+      "Resultado por ejecutivo para entender quien llega al objetivo y con que base comercial lo sostiene.",
   },
   vendedores: {
     label: "Vendedores",
     description:
-      "Vista pensada para priorizar cartera, detectar faltantes y encontrar oportunidades por cliente.",
+      "Vista accionable para trabajar cartera, cobertura de portafolio y oportunidades por cliente.",
   },
 };
 
@@ -84,138 +95,136 @@ const avatarStyles = {
   },
 } as const;
 
-const rankingPrimarySummary = [
-  { label: "Total vendido", value: "$1.18M", detail: "periodo actual" },
-  { label: "Vs objetivo", value: "100%", detail: "$1.18M sobre $1.18M objetivo" },
+const globalSummary = [
+  { label: "Ventas del trimestre", value: "$1.48M", detail: "+8% vs trimestre previo" },
+  { label: "Margen medio", value: "28.4%", detail: "-0.9 pts en distribuidores" },
+  { label: "Segmento dominante", value: "42%", detail: "grandes cuentas del ingreso" },
+  { label: "Alerta ejecutiva", value: "Distribuidores", detail: "cae recompra y cede mezcla", tone: "alert" as const },
+] as const;
+
+const globalRegionData = [
+  { region: "Centro", ventas: 320, margen: 31 },
+  { region: "Norte", ventas: 270, margen: 28 },
+  { region: "Sur", ventas: 214, margen: 26 },
+  { region: "Litoral", ventas: 248, margen: 29 },
+  { region: "NOA", ventas: 196, margen: 24 },
 ];
 
-const rankingSecondarySummary = [
-  { label: "Total cartera", value: "$3.15M" },
-  { label: "Total clientes", value: "61" },
-  { label: "Clientes nuevos en el periodo", value: "11" },
-];
+const rankingSummary = [
+  { label: "Total vendido", value: "$1.18M", detail: "periodo actual" },
+  { label: "Vs objetivo", value: "100%", detail: "$1.18M sobre $1.18M objetivo" },
+  { label: "Total cartera", value: "$3.15M", detail: "base activa del equipo" },
+  { label: "Clientes activos", value: "61", detail: "11 nuevos en el periodo" },
+] as const;
 
 const rankingRows = [
   {
     seller: "Sofia Gomez",
     focus: "Grandes cuentas",
-    totalPortfolio: "$1.26M",
-    totalClients: "18 clientes",
-    actual: "$448K",
-    target: "$420K",
+    soldLabel: "$448K",
+    targetLabel: "$420K",
     attainment: 107,
-    gap: "+$28K",
-    tone: "text-emerald-600",
+    portfolio: "$1.26M",
+    clients: "18",
+    newClients: "4",
+    margin: "29%",
     avatar: avatarStyles.violetWave,
-    stats: [
-      { label: "Clientes nuevos en el periodo", value: "4" },
-      { label: "Margen aportado", value: "29%" },
-    ],
   },
   {
     seller: "Martin Rivas",
     focus: "Cartera corporativa",
-    totalPortfolio: "$980K",
-    totalClients: "22 clientes",
-    actual: "$391K",
-    target: "$405K",
+    soldLabel: "$391K",
+    targetLabel: "$405K",
     attainment: 97,
-    gap: "-$14K",
-    tone: "text-amber-600",
+    portfolio: "$980K",
+    clients: "22",
+    newClients: "3",
+    margin: "22%",
     avatar: avatarStyles.slateShort,
-    stats: [
-      { label: "Clientes nuevos en el periodo", value: "3" },
-      { label: "Margen aportado", value: "22%" },
-    ],
   },
   {
     seller: "Lucia Perez",
     focus: "Cuentas estrategicas",
-    totalPortfolio: "$910K",
-    totalClients: "21 clientes",
-    actual: "$336K",
-    target: "$350K",
+    soldLabel: "$336K",
+    targetLabel: "$350K",
     attainment: 96,
-    gap: "-$14K",
-    tone: "text-amber-600",
+    portfolio: "$910K",
+    clients: "21",
+    newClients: "4",
+    margin: "24%",
     avatar: avatarStyles.clayBun,
-    stats: [
-      { label: "Clientes nuevos en el periodo", value: "4" },
-      { label: "Margen aportado", value: "24%" },
-    ],
   },
-];
-
-type CoverageState = "active" | "opportunity" | "inactive" | "constrained";
-
-const clientCoverageSummary = [
-  { label: "Su cartera", value: "22 clientes", detail: "activos en el periodo" },
-  { label: "Volumen del periodo", value: "$391K", detail: "sobre su cartera actual" },
-  { label: "Oportunidades hoy", value: "4", detail: "cuentas a priorizar" },
-];
-
-const portfolioLines = ["Linea A", "Linea B", "Linea C", "Linea D", "Linea E"] as const;
+  {
+    seller: "Nicolas Vera",
+    focus: "Canal interior",
+    soldLabel: "$304K",
+    targetLabel: "$315K",
+    attainment: 97,
+    portfolio: "$840K",
+    clients: "17",
+    newClients: "2",
+    margin: "21%",
+    avatar: avatarStyles.mossWave,
+  },
+] as const;
 
 const selectedSeller = {
   seller: "Martin Rivas",
   area: "Cartera corporativa",
   avatar: avatarStyles.slateShort,
-  brief:
-    "Su cartera ya tiene volumen y oportunidades claras. La prioridad no es abrir mas frente nuevo, sino completar mezcla donde hoy hay hueco rentable y stock disponible.",
 };
 
-const clientActionRows = [
+const sellerSummary = [
+  { label: "Clientes activos", value: "42", detail: "5 nuevos este mes" },
+  { label: "Cartera total", value: "$580K", detail: "+11.5% vs mes anterior" },
+  { label: "Oportunidades", value: "18", detail: "para ampliar categorias" },
+] as const;
+
+const clientRows = [
   {
-    client: "Grupo Solaris",
-    seller: selectedSeller.seller,
-    avatar: avatarStyles.slateShort,
-    volume: "$118K",
-    share: "30% de su volumen",
-    buys: "A, C",
-    misses: "B, D",
-    opportunity: "Abrir D industrial",
-    stock: "B bajo",
-    stockTone: "bg-amber-50 text-amber-700 border-amber-100",
-    coverage: ["active", "constrained", "active", "opportunity", "inactive"] as CoverageState[],
+    name: "Grupo Solaris",
+    revenue: "$118K",
+    coverage: 46,
+    buys: ["Linea A", "Linea C"],
+    doesntBuy: ["Linea B", "Linea D"],
+    opportunity: "Completar Linea D industrial",
+    priority: "high" as const,
   },
   {
-    client: "Logistica Central",
-    seller: selectedSeller.seller,
-    avatar: avatarStyles.mossWave,
-    volume: "$96K",
-    share: "25% de su volumen",
-    buys: "A, D",
-    misses: "B, E",
-    opportunity: "Abrir E con bundle",
-    stock: "B baja / mover E",
-    stockTone: "bg-amber-50 text-amber-700 border-amber-100",
-    coverage: ["active", "constrained", "inactive", "active", "opportunity"] as CoverageState[],
+    name: "Logistica Central",
+    revenue: "$96K",
+    coverage: 58,
+    buys: ["Linea A", "Linea D"],
+    doesntBuy: ["Linea B", "Linea E"],
+    opportunity: "Abrir Linea E con bundle de reposicion",
+    priority: "high" as const,
   },
   {
-    client: "Comercial Andes",
-    seller: selectedSeller.seller,
-    avatar: avatarStyles.violetWave,
-    volume: "$94K",
-    share: "24% de su volumen",
-    buys: "A, C, D",
-    misses: "E",
-    opportunity: "Abrir E",
-    stock: "Sin restriccion",
-    stockTone: "bg-emerald-50 text-emerald-700 border-emerald-100",
-    coverage: ["active", "inactive", "active", "active", "opportunity"] as CoverageState[],
+    name: "Comercial Andes",
+    revenue: "$94K",
+    coverage: 72,
+    buys: ["Linea A", "Linea C", "Linea D"],
+    doesntBuy: ["Linea E"],
+    opportunity: "Probar Linea E con reposicion rapida",
+    priority: "medium" as const,
   },
   {
-    client: "TechParts SRL",
-    seller: selectedSeller.seller,
-    avatar: avatarStyles.clayBun,
-    volume: "$83K",
-    share: "21% de su volumen",
-    buys: "A, E",
-    misses: "C",
-    opportunity: "Completar C",
-    stock: "Sin restriccion",
-    stockTone: "bg-violet-50 text-violet-700 border-violet-100",
-    coverage: ["active", "inactive", "opportunity", "inactive", "active"] as CoverageState[],
+    name: "TechParts SRL",
+    revenue: "$83K",
+    coverage: 39,
+    buys: ["Linea A", "Linea E"],
+    doesntBuy: ["Linea C", "Linea D"],
+    opportunity: "Completar Linea C antes de abrir linea nueva",
+    priority: "medium" as const,
+  },
+  {
+    name: "Distribuidora Norte",
+    revenue: "$71K",
+    coverage: 51,
+    buys: ["Linea B", "Linea C"],
+    doesntBuy: ["Linea A", "Linea E"],
+    opportunity: "Mover Linea A si mejora disponibilidad",
+    priority: "medium" as const,
   },
 ] as const;
 
@@ -358,8 +367,8 @@ function DemoTabs({
   onChange: (view: DemoViewId) => void;
 }) {
   return (
-    <div className="mx-auto max-w-3xl rounded-full border border-[#E8E1F0] bg-[#F6F3FA] p-1.5">
-      <div className="grid grid-cols-3 gap-1.5">
+    <div className="mx-auto max-w-2xl rounded-full border border-[#E8E1F0] bg-[#F6F3FA] p-1">
+      <div className="grid grid-cols-3 gap-1">
         {demoViewOrder.map((view) => {
           const isActive = active === view;
 
@@ -368,7 +377,7 @@ function DemoTabs({
               key={view}
               type="button"
               onClick={() => onChange(view)}
-              className={`relative rounded-full px-5 py-3 text-sm font-medium transition-colors duration-200 ${
+              className={`relative rounded-full px-3 py-2.5 text-sm font-medium transition-colors duration-200 sm:px-5 ${
                 isActive ? "text-foreground" : "text-foreground/62 hover:text-foreground"
               }`}
             >
@@ -391,103 +400,175 @@ function DemoTabs({
   );
 }
 
+function CompactKpiCard({
+  label,
+  value,
+  detail,
+  tone = "default",
+}: {
+  label: string;
+  value: string;
+  detail: string;
+  tone?: "default" | "alert";
+}) {
+  const isAlert = tone === "alert";
+
+  return (
+    <div className={`${softCardClass} px-4 py-4 ${isAlert ? "border-amber-200 bg-amber-50/35" : ""}`}>
+      <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/60">{label}</p>
+      <p className="mt-2 text-[1.45rem] font-semibold tracking-tight text-foreground">{value}</p>
+      <p className={`mt-1 text-xs leading-relaxed ${isAlert ? "text-amber-700" : "text-muted-foreground"}`}>{detail}</p>
+    </div>
+  );
+}
+
+function GlobalTooltip({
+  active,
+  payload,
+  label,
+}: {
+  active?: boolean;
+  payload?: Array<{ color?: string; name?: string; value?: number; dataKey?: string }>;
+  label?: string;
+}) {
+  if (!active || !payload?.length) {
+    return null;
+  }
+
+  return (
+    <div className="min-w-[132px] rounded-xl border border-[#E8E1EF] bg-white px-3 py-2 text-xs shadow-lg">
+      <p className="font-semibold text-foreground">{label}</p>
+      <div className="mt-2 space-y-1.5">
+        {payload.map((entry, index) => (
+          <div key={`${entry.dataKey}-${index}`} className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full" style={{ background: entry.color }} />
+              <span className="text-muted-foreground">{entry.name}</span>
+            </div>
+            <span className="font-medium text-foreground">
+              {entry.dataKey === "ventas" ? `$${entry.value}K` : `${entry.value}%`}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function GlobalBoard() {
-  return <InteractiveDashboard variant="full" animated={false} />;
+  return (
+    <div className="flex h-full min-h-0 flex-col gap-4">
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        {globalSummary.map((item) => (
+          <CompactKpiCard key={item.label} label={item.label} value={item.value} detail={item.detail} tone={item.tone} />
+        ))}
+      </div>
+
+      <div className={`${moduleClass} flex min-h-0 flex-1 flex-col px-4 py-4 sm:px-5 sm:py-5`}>
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">Lectura del trimestre</p>
+            <h3 className="mt-1 text-lg font-semibold tracking-tight text-foreground">Volumen y margen por region</h3>
+          </div>
+          <span className="rounded-full border border-[#E8E1EF] bg-[#FBFAFD] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/70">
+            Q1 2026
+          </span>
+        </div>
+
+        <div className="mt-4 min-h-0 flex-1">
+          <ResponsiveContainer width="100%" height="100%">
+            <ComposedChart data={globalRegionData} margin={{ top: 8, right: 6, left: -16, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#F1ECF6" vertical={false} />
+              <XAxis dataKey="region" tick={{ fontSize: 11, fill: "#9A93A9" }} axisLine={false} tickLine={false} />
+              <YAxis yAxisId="left" tick={{ fontSize: 11, fill: "#9A93A9" }} axisLine={false} tickLine={false} tickFormatter={(value) => `$${value}K`} />
+              <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 11, fill: "#9A93A9" }} axisLine={false} tickLine={false} tickFormatter={(value) => `${value}%`} />
+              <Tooltip content={<GlobalTooltip />} cursor={{ fill: "rgba(113,17,223,0.04)" }} />
+              <Bar yAxisId="left" dataKey="ventas" name="Ventas" fill="#7E4CF4" radius={[8, 8, 0, 0]} maxBarSize={56} />
+              <Line yAxisId="right" type="monotone" dataKey="margen" name="Margen" stroke="#655F7F" strokeWidth={2.5} dot={{ r: 3, fill: "#655F7F" }} activeDot={{ r: 4 }} />
+            </ComposedChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 function RankingBoard() {
   return (
-    <div className={boardSurfaceClass}>
-      <div className="border-b border-border/45 px-6 pb-5 pt-6">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-          <div>
-            <SectionEyebrow>Ranking comercial</SectionEyebrow>
-            <h3 className="mt-2 text-[1.55rem] font-semibold tracking-tight text-foreground">Equipo comercial vs objetivo</h3>
-          </div>
-
-          <span className="inline-flex w-fit items-center rounded-full border border-[#E7E0EF] bg-[#FBFAFD] px-3.5 py-2 text-xs font-medium text-foreground/70">
-            Equipo comercial
-          </span>
-        </div>
+    <div className="flex h-full min-h-0 flex-col gap-4">
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        {rankingSummary.map((item) => (
+          <CompactKpiCard key={item.label} label={item.label} value={item.value} detail={item.detail} />
+        ))}
       </div>
 
-      <div className="px-6 py-6">
-        <div className="grid gap-3 lg:grid-cols-2">
-          {rankingPrimarySummary.map((stat) => (
-            <div key={stat.label} className={`${softCardClass} px-5 py-5`}>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">{stat.label}</p>
-              <p className="mt-3 text-[2.05rem] font-semibold tracking-tight text-foreground">{stat.value}</p>
-              <p className="mt-2 text-sm text-muted-foreground">{stat.detail}</p>
-            </div>
-          ))}
+      <div className={`${moduleClass} flex min-h-0 flex-1 flex-col overflow-hidden`}>
+        <div className="flex items-center justify-between gap-4 border-b border-[#ECE5F2] px-4 py-4 sm:px-5">
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">Equipo comercial</p>
+            <h3 className="mt-1 text-lg font-semibold tracking-tight text-foreground">Resultado por ejecutivo</h3>
+          </div>
+          <span className="rounded-full border border-[#E8E1EF] bg-[#FBFAFD] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/70">
+            periodo actual
+          </span>
         </div>
 
-        <div className="mt-3 grid gap-3 md:grid-cols-3">
-          {rankingSecondarySummary.map((stat) => (
-            <div key={stat.label} className={`${softCardClass} px-4 py-4`}>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">{stat.label}</p>
-              <p className="mt-2 text-[1.6rem] font-semibold tracking-tight text-foreground">{stat.value}</p>
+        <div className="min-h-0 flex-1 overflow-auto">
+          <div className="min-w-[52rem]">
+            <div className="grid grid-cols-[minmax(0,1.25fr)_0.95fr_1fr_0.95fr_0.72fr_0.72fr_0.72fr] gap-4 border-b border-[#ECE5F2] px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/60 sm:px-5">
+              <span>Vendedor</span>
+              <span>Total vendido</span>
+              <span>Vs objetivo</span>
+              <span>Total cartera</span>
+              <span>Clientes</span>
+              <span>Nuevos</span>
+              <span>Margen</span>
             </div>
-          ))}
-        </div>
 
-        <div className="mt-5 overflow-hidden rounded-[1.5rem] border border-[#ECE5F2] bg-[#FCFBFE]">
-          <div className="overflow-x-auto">
-            <div className="min-w-[58rem]">
-              <div className="grid grid-cols-[minmax(0,1.2fr)_0.95fr_0.95fr_0.9fr_0.7fr_0.95fr] gap-4 border-b border-[#ECE5F2] px-5 py-4 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/60">
-                <span>Vendedor</span>
-                <span>Total vendido</span>
-                <span>Vs objetivo</span>
-                <span>Total cartera</span>
-                <span>Clientes</span>
-                <span>Nuevos / margen</span>
-              </div>
+            <div className="divide-y divide-[#ECE5F2]">
+              {rankingRows.map((seller, index) => (
+                <div key={seller.seller} className="grid grid-cols-[minmax(0,1.25fr)_0.95fr_1fr_0.95fr_0.72fr_0.72fr_0.72fr] items-center gap-4 px-4 py-4 sm:px-5">
+                  <div className="flex items-start gap-3">
+                    <SellerAvatar rank={index + 1} avatar={seller.avatar} />
+                    <div className="min-w-0">
+                      <p className="text-sm font-semibold text-foreground sm:text-[15px]">{seller.seller}</p>
+                      <p className="mt-1 text-xs text-muted-foreground">{seller.focus}</p>
+                    </div>
+                  </div>
 
-              <div className="divide-y divide-[#ECE5F2]">
-          {rankingRows.map((seller, index) => (
-            <div key={seller.seller} className="bg-white px-4 py-4 lg:px-5">
-              <div className="grid grid-cols-[minmax(0,1.2fr)_0.95fr_0.95fr_0.9fr_0.7fr_0.95fr] items-center gap-4">
-                <div className="flex items-start gap-3">
-                  <SellerAvatar rank={index + 1} avatar={seller.avatar} />
                   <div>
-                    <p className="text-base font-semibold text-foreground">{seller.seller}</p>
-                    <p className="mt-1 text-sm text-muted-foreground">{seller.focus}</p>
+                    <p className="text-base font-semibold tracking-tight text-foreground">{seller.soldLabel}</p>
+                  </div>
+
+                  <div>
+                    <div className="flex items-center justify-between gap-3">
+                      <p className={`text-sm font-semibold ${seller.attainment >= 100 ? "text-emerald-600" : "text-amber-600"}`}>
+                        {seller.attainment}%
+                      </p>
+                      <p className="text-[11px] text-muted-foreground">{seller.targetLabel} obj.</p>
+                    </div>
+                    <div className="mt-2 h-2 rounded-full bg-[#EFEAF5]">
+                      <div className="h-2 rounded-full bg-[linear-gradient(90deg,#8A5CF6,#7111DF)]" style={{ width: `${Math.min(seller.attainment, 110) / 1.1}%` }} />
+                    </div>
+                  </div>
+
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">{seller.portfolio}</p>
+                  </div>
+
+                  <div>
+                    <p className="text-sm font-medium text-foreground">{seller.clients}</p>
+                  </div>
+
+                  <div>
+                    <p className="text-sm font-medium text-foreground">{seller.newClients}</p>
+                  </div>
+
+                  <div>
+                    <p className="text-sm font-medium text-foreground">{seller.margin}</p>
                   </div>
                 </div>
-
-                <div>
-                  <p className="text-[1.35rem] font-semibold tracking-tight text-foreground">{seller.actual}</p>
-                </div>
-
-                <div>
-                  <p className={`text-sm font-semibold ${seller.tone}`}>{seller.attainment}%</p>
-                  <div className="mt-2 h-2 rounded-full bg-muted/70">
-                    <motion.div
-                      className="h-2 rounded-full bg-[linear-gradient(90deg,#8A5CF6,#7111DF)]"
-                      initial={{ width: 0 }}
-                      animate={{ width: `${Math.min(seller.attainment, 110) / 1.1}%` }}
-                      transition={{ duration: 0.45, ease: "easeOut" }}
-                    />
-                  </div>
-                  <p className="mt-2 text-[11px] text-muted-foreground">{seller.gap}</p>
-                </div>
-
-                <div>
-                  <p className="text-sm font-semibold text-foreground">{seller.totalPortfolio}</p>
-                </div>
-
-                <div>
-                  <p className="text-sm font-semibold text-foreground">{seller.totalClients}</p>
-                </div>
-
-                <div>
-                  <p className="text-sm font-semibold text-foreground">{seller.stats[0].value} nuevos</p>
-                  <p className="mt-1 text-[11px] text-muted-foreground">{seller.stats[1].value} margen</p>
-                </div>
-              </div>
-            </div>
-          ))}
-              </div>
+              ))}
             </div>
           </div>
         </div>
@@ -496,122 +577,101 @@ function RankingBoard() {
   );
 }
 
-function PortfolioCoverageBar({ state }: { state: CoverageState }) {
-  if (state === "active") {
-    return <div className="h-2.5 rounded-full bg-[linear-gradient(90deg,#8A5CF6,#7111DF)]" />;
-  }
-
-  if (state === "opportunity") {
-    return <div className="h-2.5 rounded-full border border-accent/25 bg-accent/12" />;
-  }
-
-  if (state === "constrained") {
-    return <div className="h-2.5 rounded-full border border-amber-200 bg-amber-100" />;
-  }
-
-  return <div className="h-2.5 rounded-full bg-[#ECE7E1]" />;
-}
-
 function SellersActionBoard() {
-  const visibleClients = clientActionRows.slice(0, 3);
-
   return (
-    <div className={boardSurfaceClass}>
-      <div className="border-b border-border/45 px-6 pb-5 pt-6">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+    <div className="flex h-full min-h-0 flex-col gap-4">
+      <div className={`${softCardClass} flex items-center justify-between gap-4 px-4 py-4`}>
+        <div className="flex items-center gap-3">
+          <SellerAvatar avatar={selectedSeller.avatar} />
           <div>
-            <SectionEyebrow>Vista operativa</SectionEyebrow>
-            <h3 className="mt-2 text-[1.55rem] font-semibold tracking-tight text-foreground">Cartera y oportunidades por cliente</h3>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">Vendedor seleccionado</p>
+            <p className="mt-1 text-base font-semibold tracking-tight text-foreground">{selectedSeller.seller}</p>
           </div>
+        </div>
+        <span className="rounded-full border border-[#E8E1EF] bg-[#FBFAFD] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/70">
+          {selectedSeller.area}
+        </span>
+      </div>
 
-          <span className="inline-flex w-fit items-center rounded-full border border-[#E7E0EF] bg-[#FBFAFD] px-3.5 py-2 text-xs font-medium text-foreground/70">
-            Gestion de cartera
-          </span>
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        {sellerSummary.map((item) => (
+          <CompactKpiCard key={item.label} label={item.label} value={item.value} detail={item.detail} />
+        ))}
+        <div className={`${softCardClass} border-amber-200 bg-amber-50/40 px-4 py-4`}>
+          <div className="flex items-center gap-2 text-amber-700">
+            <Package className="h-4 w-4" />
+            <p className="text-[10px] font-semibold uppercase tracking-[0.16em]">Alerta de stock</p>
+          </div>
+          <p className="mt-2 text-base font-semibold tracking-tight text-foreground">Linea C limitada</p>
+          <p className="mt-1 text-xs text-amber-700">Priorizar Lineas A y B en las cuentas de mayor volumen.</p>
         </div>
       </div>
 
-      <div className="px-6 py-6">
-        <div className="grid gap-3 md:grid-cols-3">
-          {clientCoverageSummary.map((stat) => (
-            <div key={stat.label} className={`${softCardClass} px-4 py-4`}>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">{stat.label}</p>
-              <p className="mt-2 text-[1.6rem] font-semibold tracking-tight text-foreground">{stat.value}</p>
-              <p className="mt-1 text-xs text-muted-foreground">{stat.detail}</p>
-            </div>
-          ))}
+      <div className={`${moduleClass} flex min-h-0 flex-1 flex-col p-4 sm:p-5`}>
+        <div className="shrink-0">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">Cartera por cliente</p>
+          <h3 className="mt-1 text-lg font-semibold tracking-tight text-foreground">Oportunidades de ampliacion</h3>
         </div>
 
-        <div className={`${softCardClass} mt-5 px-5 py-5`}>
-          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div className="flex items-start gap-3">
-              <SellerAvatar avatar={selectedSeller.avatar} />
-              <div>
-                <SectionEyebrow>Vendedor seleccionado</SectionEyebrow>
-                <p className="mt-2 text-xl font-semibold tracking-tight text-foreground">{selectedSeller.seller}</p>
-                <p className="mt-1 text-sm text-muted-foreground">{selectedSeller.area} / 22 clientes activos</p>
-              </div>
-            </div>
-            <div className="rounded-full border border-amber-100 bg-amber-50/70 px-4 py-2.5 text-[11px] font-medium text-amber-700 md:max-w-[19rem]">
-              Stock sensible en Linea B para 2 cuentas prioritarias
-            </div>
-          </div>
-        </div>
+        <div className="mt-4 min-h-0 flex-1 overflow-auto pr-1">
+          <div className="space-y-4">
+            {clientRows.map((client, index) => (
+              <div key={client.name} className={`${index < clientRows.length - 1 ? "border-b border-[#F1ECF6] pb-4" : ""}`}>
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <p className="text-sm font-semibold tracking-tight text-foreground">{client.name}</p>
+                      {client.priority === "high" && (
+                        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-medium text-emerald-700">
+                          <TrendingUp className="h-3 w-3" />
+                          Alta oportunidad
+                        </span>
+                      )}
+                    </div>
+                    <p className="mt-1 text-xs text-muted-foreground">Aporte mensual: {client.revenue}</p>
+                  </div>
+                </div>
 
-        <div className="mt-6">
-          <SectionEyebrow>Cartera de clientes</SectionEyebrow>
-          <p className="mt-2 text-xl font-semibold tracking-tight text-foreground">Donde conviene actuar primero</p>
-        </div>
+                <div className="mt-3 space-y-1.5">
+                  <div className="flex items-center justify-between text-[11px] text-muted-foreground">
+                    <span>Cobertura de portafolio</span>
+                    <span className="font-medium text-foreground">{client.coverage}%</span>
+                  </div>
+                  <div className="h-1.5 overflow-hidden rounded-full bg-[#EFE9F6]">
+                    <div className="h-full rounded-full bg-[#7111DF]" style={{ width: `${client.coverage}%` }} />
+                  </div>
+                </div>
 
-        <div className="mt-5 overflow-hidden rounded-[1.5rem] border border-[#ECE5F2] bg-[#FCFBFE]">
-          <div className="overflow-x-auto">
-            <div className="min-w-[60rem]">
-              <div className="grid grid-cols-[minmax(0,1fr)_90px_0.8fr_0.8fr_0.9fr_0.7fr] gap-4 border-b border-[#ECE5F2] px-5 py-4 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/60">
-                <span>Cliente</span>
-                <span>Volumen</span>
-                <span>Compra hoy</span>
-                <span>Categorias con baja penetracion</span>
-                <span>Oportunidad sugerida</span>
-                <span>Stock</span>
-              </div>
+                <div className="mt-3 grid gap-3 md:grid-cols-2">
+                  <div>
+                    <p className="mb-1 text-[11px] font-medium text-muted-foreground">Compra</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {client.buys.map((item) => (
+                        <span key={item} className="rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] text-emerald-700">
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
 
-              <div className="divide-y divide-[#ECE5F2]">
-            {visibleClients.map((client) => (
-            <div key={client.client} className="bg-white px-4 py-4 lg:px-5">
-              <div className="grid grid-cols-[minmax(0,1fr)_90px_0.8fr_0.8fr_0.9fr_0.7fr] items-center gap-3">
-                <div className="min-w-0">
-                  <div className="flex items-start gap-3">
-                    <SellerAvatar avatar={client.avatar} />
-                    <div>
-                      <p className="text-base font-semibold text-foreground">{client.client}</p>
-                      <p className="mt-1 text-sm text-muted-foreground">{client.share}</p>
+                  <div>
+                    <p className="mb-1 text-[11px] font-medium text-muted-foreground">No compra aun</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {client.doesntBuy.map((item) => (
+                        <span key={item} className="rounded-full bg-[#F3F1EE] px-2 py-0.5 text-[11px] text-muted-foreground">
+                          {item}
+                        </span>
+                      ))}
                     </div>
                   </div>
                 </div>
 
-                <div>
-                  <p className="text-sm font-semibold text-foreground">{client.volume}</p>
-                </div>
-
-                <div>
-                  <p className="text-sm text-foreground/82">{client.buys}</p>
-                </div>
-
-                <div>
-                  <p className="text-sm text-foreground/82">{client.misses}</p>
-                </div>
-
-                <div>
-                  <p className="text-sm text-foreground/82">{client.opportunity}</p>
-                </div>
-
-                <div className={`rounded-xl border px-3 py-2 ${client.stockTone}`}>
-                  <p className="text-sm">{client.stock}</p>
+                <div className="mt-3 flex items-center gap-2 rounded-xl border border-[#7111DF]/10 bg-[#7111DF]/5 px-3 py-2">
+                  <ArrowRight className="h-3.5 w-3.5 shrink-0 text-accent" />
+                  <p className="text-xs text-muted-foreground">{client.opportunity}</p>
                 </div>
               </div>
-            </div>
-          ))}
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
@@ -714,10 +774,10 @@ export function DemoDashboard() {
               </div>
 
               <h1 className="mt-6 text-4xl font-semibold leading-[0.96] tracking-tight text-foreground md:text-[3.7rem]">
-                Demo interactiva de dashboard de ventas
+                Demo interactiva de tablero comercial
               </h1>
               <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
-                Tres vistas para entender volumen, desempeno del equipo y focos de accion sin que la experiencia se sienta como un reporte tecnico partido en bloques.
+                Tres vistas para entender volumen, desempeno y oportunidades de accion dentro de una misma experiencia de producto.
               </p>
             </motion.div>
 
@@ -725,50 +785,51 @@ export function DemoDashboard() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-              className="mx-auto mt-12 max-w-[72rem] rounded-[2.5rem] border border-[#ECE5F2] bg-[#FFFEFC] shadow-[0_30px_90px_rgba(20,19,26,0.06)]"
+              className={`mx-auto mt-12 flex h-[min(54rem,calc(100dvh-8rem))] min-h-[34rem] max-w-[76rem] flex-col ${shellClass}`}
             >
-              <div className="px-6 pb-0 pt-6 sm:px-8 sm:pt-8 lg:px-10">
+              <div className="border-b border-[#ECE5F2] px-5 py-5 sm:px-8">
                 <DemoTabs active={activeView} onChange={setActiveView} />
+                <p className="mx-auto mt-4 max-w-3xl text-center text-sm leading-relaxed text-muted-foreground">
+                  {demoViews[activeView].description}
+                </p>
               </div>
 
-              <div className="px-4 pb-0 pt-6 sm:px-6 lg:px-8">
+              <div className="min-h-0 flex-1 px-4 py-4 sm:px-6 sm:py-5">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeView}
-                    initial={{ opacity: 0, y: 14 }}
+                    initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                    className="h-full"
                   >
                     {renderBoard()}
                   </motion.div>
                 </AnimatePresence>
               </div>
 
-              <div className="border-t border-[#ECE5F2] px-6 py-7 sm:px-8 lg:px-10">
-                <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+              <div className="border-t border-[#ECE5F2] bg-white px-5 py-4 sm:px-6">
+                <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                   <div className="max-w-2xl">
                     <SectionEyebrow>Cierre de demo</SectionEyebrow>
-                    <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground lg:text-[2rem]">
-                      Que mas puede incluir un dashboard como este
-                    </h2>
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
-                      Ademas de estas tres vistas, la misma solucion puede abrir alertas sobre cartera dormida, mix, penetracion, pricing y tiempo operativo. Si queres aterrizarlo a tu caso real, el siguiente paso es ordenar prioridades reales.
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                      Que mas puede incluir un tablero como este.
                     </p>
                   </div>
 
-                  <div className="flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
+                  <div className="flex flex-col gap-3 sm:flex-row">
                     <a
                       href="#oportunidades"
                       onClick={(event) => handleAnchorClick(event, "oportunidades")}
-                      className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#DED5EA] bg-white px-6 py-3 text-sm font-medium text-foreground transition-colors duration-200 hover:border-accent/25 hover:text-accent"
+                      className="inline-flex min-h-11 items-center justify-center rounded-full border border-[#DED5EA] bg-white px-5 py-2.5 text-sm font-medium text-foreground transition-colors duration-200 hover:border-accent/25 hover:text-accent"
                     >
                       Ver otros indicadores posibles
                     </a>
                     <a
                       href={ROOT_DIAGNOSTIC_SECTION_HREF}
                       onClick={() => trackDiagnosisClick("demo_final_cta")}
-                      className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#7E4CF4,#7111DF)] px-6 py-3 text-sm font-medium text-white shadow-[0_18px_40px_rgba(113,17,223,0.18)] transition-transform duration-200 hover:-translate-y-0.5"
+                      className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#7E4CF4,#7111DF)] px-5 py-2.5 text-sm font-medium text-white shadow-[0_18px_40px_rgba(113,17,223,0.18)] transition-transform duration-200 hover:-translate-y-0.5"
                     >
                       Agendar diagnostico
                       <ArrowRight className="h-4 w-4" />
