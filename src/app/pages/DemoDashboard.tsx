@@ -651,6 +651,15 @@ export function DemoDashboard() {
               <p className="mt-4 text-base leading-relaxed text-muted-foreground">
                 Esta demo muestra tres lentes principales, pero la misma arquitectura puede abrir lecturas sobre recuperacion de cartera, rentabilidad, penetracion y automatizacion operativa.
               </p>
+              <div className="mt-6">
+                <a
+                  href={ROOT_DIAGNOSTIC_SECTION_HREF}
+                  onClick={() => trackDiagnosisClick("opportunities_section_cta")}
+                  className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[#7111DF] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#5c0ec0]"
+                >
+                  Solicitar diagnostico
+                </a>
+              </div>
             </div>
 
             <div className="mt-10">
@@ -661,15 +670,6 @@ export function DemoDashboard() {
               <p className="max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">
                 El valor no esta en acumular pantallas. Esta en elegir que senales conviene volver visibles primero segun tu cartera, tu oferta y la forma en que hoy se toman decisiones comerciales.
               </p>
-              <div className="mt-6">
-                <a
-                  href={ROOT_DIAGNOSTIC_SECTION_HREF}
-                  onClick={() => trackDiagnosisClick("opportunities_section_cta")}
-                  className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[#7111DF] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#5c0ec0]"
-                >
-                  Solicitar diagnostico
-                </a>
-              </div>
             </div>
           </div>
         </section>
