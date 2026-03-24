@@ -1,19 +1,17 @@
 import { useEffect, useState, type MouseEvent } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import {
-  AlertTriangle,
   ArrowRight,
   BarChart2,
   Clock3,
   Layers3,
   Linkedin,
   ShoppingCart,
-  Target,
   TrendingUp,
   Users,
 } from "lucide-react";
-import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Header } from "../components/Header";
+import { InteractiveDashboard } from "../components/HeroDashboard";
 import { trackDiagnosisClick } from "../lib/analytics";
 import { ROOT_DIAGNOSTIC_SECTION_HREF } from "../lib/contact";
 
@@ -85,19 +83,6 @@ const avatarStyles = {
     variant: "wave" as SellerAvatarVariant,
   },
 } as const;
-
-const globalKpis = [
-  { label: "Expansion", value: "$348K", detail: "cross-sell priorizado", tone: "text-foreground" },
-  { label: "Rentabilidad", value: "+22%", detail: "mejora de margen", tone: "text-foreground" },
-  { label: "Riesgo detectado", value: "12 cuentas", detail: "sin actividad +90 dias", tone: "text-foreground" },
-] as const;
-
-const globalTrendData = [
-  { name: "S1", ventas: 146, margen: 101 },
-  { name: "S2", ventas: 171, margen: 112 },
-  { name: "S3", ventas: 164, margen: 105 },
-  { name: "S4", ventas: 184, margen: 118 },
-] as const;
 
 const rankingPrimarySummary = [
   { label: "Total vendido", value: "$1.18M", detail: "periodo actual" },
@@ -285,37 +270,6 @@ const signalOpportunityCards = [
   },
 ];
 
-function DemoTooltip({
-  active,
-  payload,
-  label,
-}: {
-  active?: boolean;
-  payload?: { color?: string; name?: string; value?: number | string }[];
-  label?: string;
-}) {
-  if (!active || !payload?.length) {
-    return null;
-  }
-
-  return (
-    <div className="min-w-[132px] rounded-2xl border border-border/60 bg-white px-3 py-2.5 shadow-[0_18px_36px_rgba(20,19,26,0.08)]">
-      <p className="text-xs font-semibold text-foreground">{label}</p>
-      <div className="mt-2 space-y-1.5">
-        {payload.map((entry, index) => (
-          <div key={`${entry.name}-${index}`} className="flex items-center justify-between gap-4 text-[11px]">
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <span className="h-2 w-2 rounded-full" style={{ backgroundColor: entry.color }} />
-              <span>{entry.name}</span>
-            </div>
-            <span className="font-semibold text-foreground">{entry.value}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 function SectionEyebrow({ children }: { children: string }) {
   return <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/55">{children}</p>;
 }
@@ -438,101 +392,7 @@ function DemoTabs({
 }
 
 function GlobalBoard() {
-  return (
-    <div className={boardSurfaceClass}>
-      <div className="border-b border-border/45 px-6 pb-5 pt-6">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-          <div>
-            <SectionEyebrow>Dashboard de ventas</SectionEyebrow>
-            <h3 className="mt-2 text-[1.55rem] font-semibold tracking-tight text-foreground">Lectura comercial activa</h3>
-          </div>
-
-          <span className="inline-flex w-fit items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50 px-3.5 py-2 text-xs font-medium text-emerald-700">
-            <span className="h-2 w-2 rounded-full bg-emerald-500" />
-            En vivo
-          </span>
-        </div>
-
-        <div className="mt-5 grid grid-cols-3 gap-1 rounded-[1.1rem] bg-[#F7F4FB] p-1">
-          <div className="rounded-[0.9rem] px-3 py-2 text-center text-[11px] font-medium text-muted-foreground">Semana</div>
-          <div className="rounded-[0.9rem] border border-white/90 bg-white px-3 py-2 text-center text-[11px] font-semibold text-foreground shadow-sm">
-            Mes
-          </div>
-          <div className="rounded-[0.9rem] px-3 py-2 text-center text-[11px] font-medium text-muted-foreground">Q1 2026</div>
-        </div>
-      </div>
-
-      <div className="px-4 pb-5 pt-4 sm:px-6">
-        <div className="h-[13.5rem] sm:h-[15rem]">
-          <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={globalTrendData} margin={{ top: 8, right: 8, left: -18, bottom: 0 }}>
-              <defs>
-                <linearGradient id="demo-global-ventas" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#8B5CF6" stopOpacity={0.28} />
-                  <stop offset="100%" stopColor="#8B5CF6" stopOpacity={0} />
-                </linearGradient>
-                <linearGradient id="demo-global-margen" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#0EA5E9" stopOpacity={0.18} />
-                  <stop offset="100%" stopColor="#0EA5E9" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid stroke="#EEE8F5" vertical={false} />
-              <XAxis dataKey="name" tick={{ fontSize: 11, fill: "#7C7888" }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fontSize: 11, fill: "#7C7888" }} axisLine={false} tickLine={false} />
-              <Tooltip
-                content={<DemoTooltip />}
-                cursor={{ stroke: "#8B5CF6", strokeWidth: 1, strokeDasharray: "4 4", strokeOpacity: 0.28 }}
-              />
-              <Area
-                type="monotone"
-                dataKey="ventas"
-                stroke="#7E4CF4"
-                strokeWidth={2.2}
-                fill="url(#demo-global-ventas)"
-                dot={false}
-                activeDot={{ r: 4, fill: "#7E4CF4", stroke: "#fff", strokeWidth: 2 }}
-              />
-              <Area
-                type="monotone"
-                dataKey="margen"
-                stroke="#0EA5E9"
-                strokeWidth={2.2}
-                fill="url(#demo-global-margen)"
-                dot={false}
-                activeDot={{ r: 4, fill: "#0EA5E9", stroke: "#fff", strokeWidth: 2 }}
-              />
-            </AreaChart>
-          </ResponsiveContainer>
-        </div>
-
-        <div className="mt-3 flex flex-wrap gap-4 px-2 text-[11px] font-medium text-muted-foreground">
-          <span className="inline-flex items-center gap-2">
-            <span className="h-0.5 w-5 rounded-full bg-[#7E4CF4]" />
-            Ventas
-          </span>
-          <span className="inline-flex items-center gap-2">
-            <span className="h-0.5 w-5 rounded-full bg-[#0EA5E9]" />
-            Margen
-          </span>
-        </div>
-      </div>
-
-      <div className="grid gap-3 border-t border-border/40 px-4 py-5 sm:px-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,0.92fr)]">
-        {globalKpis.map((kpi, index) => (
-          <div
-            key={kpi.label}
-            className={`rounded-[1.35rem] border px-4 py-4 ${
-              index === 2 ? "border-amber-100 bg-amber-50/70" : "border-[#ECE5F2] bg-[#FCFBFE]"
-            }`}
-          >
-            <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">{kpi.label}</p>
-            <p className={`mt-2 text-[1.7rem] font-semibold tracking-tight ${kpi.tone}`}>{kpi.value}</p>
-            <p className={`mt-1 text-xs ${index === 2 ? "text-amber-700/80" : "text-muted-foreground"}`}>{kpi.detail}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+  return <InteractiveDashboard variant="full" animated={false} />;
 }
 
 function RankingBoard() {
@@ -572,19 +432,21 @@ function RankingBoard() {
         </div>
 
         <div className="mt-5 overflow-hidden rounded-[1.5rem] border border-[#ECE5F2] bg-[#FCFBFE]">
-          <div className="hidden grid-cols-[minmax(0,1.2fr)_0.95fr_0.95fr_0.9fr_0.7fr_0.95fr] gap-4 border-b border-[#ECE5F2] px-5 py-4 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/60 lg:grid">
-            <span>Vendedor</span>
-            <span>Total vendido</span>
-            <span>Vs objetivo</span>
-            <span>Total cartera</span>
-            <span>Clientes</span>
-            <span>Nuevos / margen</span>
-          </div>
+          <div className="overflow-x-auto">
+            <div className="min-w-[58rem]">
+              <div className="grid grid-cols-[minmax(0,1.2fr)_0.95fr_0.95fr_0.9fr_0.7fr_0.95fr] gap-4 border-b border-[#ECE5F2] px-5 py-4 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/60">
+                <span>Vendedor</span>
+                <span>Total vendido</span>
+                <span>Vs objetivo</span>
+                <span>Total cartera</span>
+                <span>Clientes</span>
+                <span>Nuevos / margen</span>
+              </div>
 
-          <div className="divide-y divide-[#ECE5F2]">
+              <div className="divide-y divide-[#ECE5F2]">
           {rankingRows.map((seller, index) => (
             <div key={seller.seller} className="bg-white px-4 py-4 lg:px-5">
-              <div className="grid gap-4 lg:grid-cols-[minmax(0,1.2fr)_0.95fr_0.95fr_0.9fr_0.7fr_0.95fr] lg:items-center">
+              <div className="grid grid-cols-[minmax(0,1.2fr)_0.95fr_0.95fr_0.9fr_0.7fr_0.95fr] items-center gap-4">
                 <div className="flex items-start gap-3">
                   <SellerAvatar rank={index + 1} avatar={seller.avatar} />
                   <div>
@@ -594,13 +456,11 @@ function RankingBoard() {
                 </div>
 
                 <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55 lg:hidden">Total vendido</p>
-                  <p className="mt-1 text-[1.35rem] font-semibold tracking-tight text-foreground lg:mt-0">{seller.actual}</p>
+                  <p className="text-[1.35rem] font-semibold tracking-tight text-foreground">{seller.actual}</p>
                 </div>
 
                 <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55 lg:hidden">Vs objetivo</p>
-                  <p className={`mt-1 text-sm font-semibold lg:mt-0 ${seller.tone}`}>{seller.attainment}%</p>
+                  <p className={`text-sm font-semibold ${seller.tone}`}>{seller.attainment}%</p>
                   <div className="mt-2 h-2 rounded-full bg-muted/70">
                     <motion.div
                       className="h-2 rounded-full bg-[linear-gradient(90deg,#8A5CF6,#7111DF)]"
@@ -613,23 +473,22 @@ function RankingBoard() {
                 </div>
 
                 <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55 lg:hidden">Total cartera</p>
-                  <p className="mt-1 text-sm font-semibold text-foreground lg:mt-0">{seller.totalPortfolio}</p>
+                  <p className="text-sm font-semibold text-foreground">{seller.totalPortfolio}</p>
                 </div>
 
                 <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55 lg:hidden">Clientes</p>
-                  <p className="mt-1 text-sm font-semibold text-foreground lg:mt-0">{seller.totalClients}</p>
+                  <p className="text-sm font-semibold text-foreground">{seller.totalClients}</p>
                 </div>
 
                 <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55 lg:hidden">Nuevos / margen</p>
-                  <p className="mt-1 text-sm font-semibold text-foreground lg:mt-0">{seller.stats[0].value} nuevos</p>
+                  <p className="text-sm font-semibold text-foreground">{seller.stats[0].value} nuevos</p>
                   <p className="mt-1 text-[11px] text-muted-foreground">{seller.stats[1].value} margen</p>
                 </div>
               </div>
             </div>
           ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -704,19 +563,21 @@ function SellersActionBoard() {
         </div>
 
         <div className="mt-5 overflow-hidden rounded-[1.5rem] border border-[#ECE5F2] bg-[#FCFBFE]">
-          <div className="hidden grid-cols-[minmax(0,1fr)_90px_0.8fr_0.8fr_0.9fr_0.7fr] gap-4 border-b border-[#ECE5F2] px-5 py-4 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/60 lg:grid">
-            <span>Cliente</span>
-            <span>Volumen</span>
-            <span>Compra hoy</span>
-            <span>Categorias con baja penetracion</span>
-            <span>Oportunidad sugerida</span>
-            <span>Stock</span>
-          </div>
+          <div className="overflow-x-auto">
+            <div className="min-w-[60rem]">
+              <div className="grid grid-cols-[minmax(0,1fr)_90px_0.8fr_0.8fr_0.9fr_0.7fr] gap-4 border-b border-[#ECE5F2] px-5 py-4 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/60">
+                <span>Cliente</span>
+                <span>Volumen</span>
+                <span>Compra hoy</span>
+                <span>Categorias con baja penetracion</span>
+                <span>Oportunidad sugerida</span>
+                <span>Stock</span>
+              </div>
 
-          <div className="divide-y divide-[#ECE5F2]">
+              <div className="divide-y divide-[#ECE5F2]">
             {visibleClients.map((client) => (
             <div key={client.client} className="bg-white px-4 py-4 lg:px-5">
-              <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_90px_0.8fr_0.8fr_0.9fr_0.7fr] lg:items-center">
+              <div className="grid grid-cols-[minmax(0,1fr)_90px_0.8fr_0.8fr_0.9fr_0.7fr] items-center gap-3">
                 <div className="min-w-0">
                   <div className="flex items-start gap-3">
                     <SellerAvatar avatar={client.avatar} />
@@ -728,36 +589,29 @@ function SellersActionBoard() {
                 </div>
 
                 <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55 lg:hidden">Volumen</p>
-                  <p className="mt-1 text-sm font-semibold text-foreground lg:mt-0">{client.volume}</p>
+                  <p className="text-sm font-semibold text-foreground">{client.volume}</p>
                 </div>
 
                 <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55 lg:hidden">Compra hoy</p>
-                  <p className="mt-1 text-sm text-foreground/82 lg:mt-0">{client.buys}</p>
+                  <p className="text-sm text-foreground/82">{client.buys}</p>
                 </div>
 
                 <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55 lg:hidden">
-                    Baja penetracion
-                  </p>
-                  <p className="mt-1 text-sm text-foreground/82 lg:mt-0">{client.misses}</p>
+                  <p className="text-sm text-foreground/82">{client.misses}</p>
                 </div>
 
                 <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55 lg:hidden">
-                    Oportunidad
-                  </p>
-                  <p className="mt-1 text-sm text-foreground/82 lg:mt-0">{client.opportunity}</p>
+                  <p className="text-sm text-foreground/82">{client.opportunity}</p>
                 </div>
 
                 <div className={`rounded-xl border px-3 py-2 ${client.stockTone}`}>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] opacity-75 lg:hidden">Stock</p>
-                  <p className="mt-1 text-sm lg:mt-0">{client.stock}</p>
+                  <p className="text-sm">{client.stock}</p>
                 </div>
               </div>
             </div>
           ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
