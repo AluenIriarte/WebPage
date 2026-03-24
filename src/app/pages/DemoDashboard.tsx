@@ -253,7 +253,7 @@ const clientActionRows = [
     stockTone: "bg-violet-50 text-violet-700 border-violet-100",
     coverage: ["active", "inactive", "opportunity", "inactive", "active"] as CoverageState[],
   },
-];
+] as const;
 
 const signalOpportunityCards = [
   {
@@ -646,10 +646,10 @@ function RankingBoard() {
           ))}
         </div>
 
-        <div className="mt-6 space-y-3">
+        <div className="mt-5 grid gap-3 xl:grid-cols-3">
           {rankingRows.map((seller, index) => (
-            <div key={seller.seller} className={`${softCardClass} px-4 py-4`}>
-              <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+            <div key={seller.seller} className={`${softCardClass} flex h-full flex-col px-4 py-4`}>
+              <div className="flex items-start justify-between gap-4">
                 <div className="flex items-start gap-3">
                   <SellerAvatar rank={index + 1} avatar={seller.avatar} />
                   <div>
@@ -666,9 +666,9 @@ function RankingBoard() {
                   </div>
                 </div>
 
-                <div className="text-left lg:text-right">
+                <div className="text-right">
                   <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">Total vendido</p>
-                  <p className="mt-2 text-[1.7rem] font-semibold tracking-tight text-foreground">{seller.actual}</p>
+                  <p className="mt-2 text-[1.55rem] font-semibold tracking-tight text-foreground">{seller.actual}</p>
                   <p className={`mt-1 text-sm font-medium ${seller.tone}`}>{seller.attainment}% vs objetivo</p>
                 </div>
               </div>
@@ -723,6 +723,8 @@ function PortfolioCoverageBar({ state }: { state: CoverageState }) {
 }
 
 function SellersActionBoard() {
+  const visibleClients = clientActionRows.slice(0, 3);
+
   return (
     <div className={boardSurfaceClass}>
       <div className="border-b border-border/45 px-6 pb-5 pt-6">
@@ -795,7 +797,7 @@ function SellersActionBoard() {
         </div>
 
         <div className="mt-5 overflow-hidden rounded-[1.5rem] border border-[#ECE5F2] bg-[#FCFBFE]">
-          <div className="hidden grid-cols-[minmax(0,1.1fr)_120px_minmax(0,0.95fr)_minmax(0,1fr)_minmax(0,1.1fr)_minmax(0,0.9fr)] gap-4 border-b border-[#ECE5F2] px-5 py-4 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/60 lg:grid">
+          <div className="hidden grid-cols-[minmax(0,1fr)_110px_minmax(0,0.95fr)_minmax(0,0.9fr)_minmax(0,1fr)_minmax(0,0.9fr)] gap-4 border-b border-[#ECE5F2] px-5 py-4 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/60 lg:grid">
             <span>Cliente</span>
             <span>Volumen</span>
             <span>Compra hoy</span>
@@ -805,9 +807,9 @@ function SellersActionBoard() {
           </div>
 
           <div className="divide-y divide-[#ECE5F2]">
-          {clientActionRows.map((client) => (
+            {visibleClients.map((client) => (
             <div key={client.client} className="bg-white px-4 py-4 lg:px-5">
-              <div className="grid gap-5 lg:grid-cols-[minmax(0,1.1fr)_120px_minmax(0,0.95fr)_minmax(0,1fr)_minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-start">
+              <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_110px_minmax(0,0.95fr)_minmax(0,0.9fr)_minmax(0,1fr)_minmax(0,0.9fr)] lg:items-start">
                 <div className="min-w-0">
                   <div className="flex items-start gap-3">
                     <div className="rounded-full border border-[#ECE5F2] bg-white p-1">
@@ -819,9 +821,8 @@ function SellersActionBoard() {
                     </div>
                   </div>
 
-                  <div className="mt-4">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">Cobertura de categorias</p>
-                    <div className="mt-3 grid grid-cols-5 gap-2">
+                  <div className="mt-3">
+                    <div className="grid grid-cols-5 gap-2">
                       {portfolioLines.map((line, index) => (
                         <div key={line} className="space-y-2 text-center">
                           <PortfolioCoverageBar state={client.coverage[index]} />
