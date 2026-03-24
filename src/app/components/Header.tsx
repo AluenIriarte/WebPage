@@ -63,6 +63,7 @@ export function Header({ variant = "default" }: HeaderProps) {
   const isConversion = variant === "conversion";
   const isDemoConversion = isConversion && location.pathname === "/demo-dashboard";
   const isDemoPage = location.pathname === DEMO_PAGE_HREF;
+  const disableEntranceMotion = isDemoConversion || isDemoPage;
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -120,9 +121,9 @@ export function Header({ variant = "default" }: HeaderProps) {
             ? "bg-white/80 backdrop-blur-xl shadow-sm"
             : "bg-transparent"
       }`}
-      initial={{ y: -100 }}
+      initial={disableEntranceMotion ? { y: 0 } : { y: -100 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      transition={disableEntranceMotion ? { duration: 0 } : { duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">

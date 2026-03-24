@@ -271,7 +271,14 @@ function GlobalView() {
                   contentStyle={{ backgroundColor: "#FFFFFF", border: "1px solid #E5E5E5", borderRadius: 8 }}
                   formatter={(value: number) => [`$${value.toLocaleString()}`, "Ventas"]}
                 />
-                <Area type="monotone" dataKey="value" stroke="#7111DF" strokeWidth={2} fill="url(#colorValue)" />
+                <Area
+                  type="monotone"
+                  dataKey="value"
+                  stroke="#7111DF"
+                  strokeWidth={2}
+                  fill="url(#colorValue)"
+                  isAnimationActive={false}
+                />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -310,7 +317,16 @@ function GlobalView() {
                     <span style={{ fontSize: 12, color: "#6E6A7A" }}>{value === "ventas" ? "Ventas" : "Margen %"}</span>
                   )}
                 />
-                <Bar yAxisId="left" dataKey="ventas" name="ventas" fill="#7111DF" fillOpacity={0.85} radius={[4, 4, 0, 0]} barSize={32} />
+                <Bar
+                  yAxisId="left"
+                  dataKey="ventas"
+                  name="ventas"
+                  fill="#7111DF"
+                  fillOpacity={0.85}
+                  radius={[4, 4, 0, 0]}
+                  barSize={32}
+                  isAnimationActive={false}
+                />
                 <Line
                   yAxisId="right"
                   type="monotone"
@@ -320,6 +336,7 @@ function GlobalView() {
                   strokeWidth={2}
                   dot={{ fill: "#655F7F", r: 4 }}
                   activeDot={{ r: 6 }}
+                  isAnimationActive={false}
                 />
               </ComposedChart>
             </ResponsiveContainer>
@@ -366,7 +383,7 @@ function RankingView() {
 
                 <div className="h-1.5 overflow-hidden rounded-full bg-[#F3F1EE]">
                   <div
-                    className={`h-full rounded-full transition-all ${overTarget ? "bg-emerald-500" : "bg-[#7111DF]"}`}
+                    className={`h-full rounded-full ${overTarget ? "bg-emerald-500" : "bg-[#7111DF]"}`}
                     style={{ width: `${Math.min(achievement, 100)}%` }}
                   />
                 </div>
@@ -537,12 +554,6 @@ export function DemoDashboard() {
     window.history.replaceState(null, "", `#${id}`);
   };
 
-  const renderView = () => {
-    if (activeView === "global") return <GlobalView />;
-    if (activeView === "ranking") return <RankingView />;
-    return <VendedoresView />;
-  };
-
   return (
     <div className="min-h-screen bg-[#F3F1EE]">
       <Header />
@@ -566,7 +577,7 @@ export function DemoDashboard() {
                       key={key}
                       type="button"
                       onClick={() => setActiveView(key)}
-                      className={`px-4 py-2 rounded-full text-sm transition-all ${
+                      className={`rounded-full px-4 py-2 text-sm transition-colors duration-150 ${
                         activeView === key
                           ? "bg-[#7111DF] text-white"
                           : "bg-[#FFFFFF] text-[#655F7F] hover:bg-[#7111DF]/5"
@@ -579,7 +590,26 @@ export function DemoDashboard() {
                 <p className="text-center text-xs text-[#6E6A7A]">{viewDescriptions[activeView]}</p>
               </div>
 
-              <div className="flex-1 min-h-0">{renderView()}</div>
+              <div className="relative flex-1 min-h-0">
+                <div
+                  aria-hidden={activeView !== "global"}
+                  className={activeView === "global" ? "h-full" : "pointer-events-none absolute inset-0 h-full opacity-0"}
+                >
+                  <GlobalView />
+                </div>
+                <div
+                  aria-hidden={activeView !== "ranking"}
+                  className={activeView === "ranking" ? "h-full" : "pointer-events-none absolute inset-0 h-full opacity-0"}
+                >
+                  <RankingView />
+                </div>
+                <div
+                  aria-hidden={activeView !== "vendedores"}
+                  className={activeView === "vendedores" ? "h-full" : "pointer-events-none absolute inset-0 h-full opacity-0"}
+                >
+                  <VendedoresView />
+                </div>
+              </div>
 
               <div className="mt-3 shrink-0 rounded-lg bg-[#FFFFFF] px-5 py-3">
                 <div className="flex items-center justify-between gap-4">
