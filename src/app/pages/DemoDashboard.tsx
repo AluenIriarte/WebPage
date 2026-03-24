@@ -63,13 +63,13 @@ const demoViews: Record<
   vendedores: {
     label: "Vendedores",
     description:
-      "La vista baja un nivel mas para orientar accion comercial: que clientes mover, que producto empujar y que restriccion cuidar antes de salir a vender.",
+      "Vista pensada para priorizar cartera, detectar faltantes y encontrar oportunidades por cliente.",
     readingLead:
-      "El tablero no se queda en el resultado: traduce la lectura comercial en una agenda concreta por vendedor, cuenta y oportunidad.",
+      "La accion comercial empieza por cartera: que cliente mover, con que linea y si hoy hay stock para empujar esa oportunidad.",
     readingPoints: [
-      "Cada ejecutivo sale con una cuenta prioritaria, una expansion sugerida y una restriccion a vigilar.",
-      "El cross-sell abierto esta en clientes existentes, no en mas prospeccion ciega.",
-      "Las alertas operativas evitan empujar una oferta que hoy no se puede entregar bien.",
+      "Cada cliente deja ver que compra hoy, que lineas todavia no tiene y donde conviene abrir.",
+      "La cartera aperturada ordena el trabajo comercial sin convertir la vista en un CRM feo ni operativo.",
+      "La alerta de stock cambia la prioridad y evita empujar una oferta que hoy no se puede sostener.",
     ],
   },
 };
@@ -155,6 +155,7 @@ const rankingRows = [
   {
     seller: "Sofia Gomez",
     focus: "Grandes cuentas",
+    totalPortfolio: "$1.26M",
     actual: "$448K",
     target: "$420K",
     attainment: 107,
@@ -162,14 +163,15 @@ const rankingRows = [
     tone: "text-emerald-600",
     avatar: avatarStyles.violetWave,
     stats: [
-      { label: "Cartera activa", value: "$1.26M" },
       { label: "Clientes nuevos", value: "4" },
       { label: "Margen aportado", value: "29%" },
+      { label: "Ticket promedio", value: "$37K" },
     ],
   },
   {
     seller: "Martin Rivas",
     focus: "Cartera corporativa",
+    totalPortfolio: "$980K",
     actual: "$391K",
     target: "$405K",
     attainment: 97,
@@ -177,14 +179,15 @@ const rankingRows = [
     tone: "text-amber-600",
     avatar: avatarStyles.slateShort,
     stats: [
-      { label: "Cartera activa", value: "$980K" },
       { label: "Clientes nuevos", value: "3" },
       { label: "Margen aportado", value: "22%" },
+      { label: "Ticket promedio", value: "$34K" },
     ],
   },
   {
     seller: "Lucia Perez",
     focus: "Cuentas estrategicas",
+    totalPortfolio: "$910K",
     actual: "$336K",
     target: "$350K",
     attainment: 96,
@@ -192,67 +195,76 @@ const rankingRows = [
     tone: "text-amber-600",
     avatar: avatarStyles.clayBun,
     stats: [
-      { label: "Cartera activa", value: "$910K" },
       { label: "Clientes nuevos", value: "4" },
       { label: "Margen aportado", value: "24%" },
+      { label: "Ticket promedio", value: "$33K" },
     ],
   },
 ];
 
-const sellerActionSummary = [
-  { label: "Clientes a mover", value: "9", detail: "prioridad inmediata" },
-  { label: "Cross-sell abierto", value: "$132K", detail: "sobre cartera actual" },
-  { label: "Alertas operativas", value: "2", detail: "lineas con stock sensible" },
+type CoverageState = "active" | "opportunity" | "inactive" | "constrained";
+
+const clientCoverageSummary = [
+  { label: "Clientes activos", value: "61", detail: "cartera aperturada" },
+  { label: "Volumen del periodo", value: "$1.17M", detail: "sobre cuentas actuales" },
+  { label: "Oportunidades detectadas", value: "14", detail: "cross-sell abiertos" },
+  { label: "Alerta de stock", value: "Linea B", detail: "2 cuentas condicionadas" },
 ];
 
-const sellerActionRows = [
+const portfolioLines = ["Linea A", "Linea B", "Linea C", "Linea D", "Linea E"] as const;
+
+const clientActionRows = [
   {
+    client: "Distribuidora Norte",
     seller: "Sofia Gomez",
-    area: "Grandes cuentas",
     avatar: avatarStyles.violetWave,
-    priority: "Hoy",
-    stats: [
-      { label: "Cartera activa", value: "18 cuentas" },
-      { label: "Clientes a mover", value: "3" },
-      { label: "Potencial", value: "$46K" },
-    ],
-    account: "Distribuidora Norte",
-    product: "Linea C premium",
-    action: "Entrar con propuesta cruzada sobre una cuenta ya madura.",
-    signal: "Stock estable en lineas base y ventana abierta para ampliar mezcla.",
-    signalTone: "bg-emerald-50 text-emerald-700 border-emerald-100",
+    volume: "$184K",
+    share: "11% del periodo",
+    buys: "Lineas A, B y D",
+    misses: "Linea C premium",
+    opportunity: "Abrir Linea C con propuesta premium sobre mezcla ya madura.",
+    stock: "Stock estable en lineas activas. Se puede empujar expansion.",
+    stockTone: "bg-emerald-50 text-emerald-700 border-emerald-100",
+    coverage: ["active", "active", "opportunity", "active", "inactive"] as CoverageState[],
   },
   {
+    client: "Grupo Solaris",
     seller: "Martin Rivas",
-    area: "Cartera corporativa",
     avatar: avatarStyles.slateShort,
-    priority: "Hoy",
-    stats: [
-      { label: "Cartera activa", value: "22 cuentas" },
-      { label: "Clientes a mover", value: "4" },
-      { label: "Potencial", value: "$39K" },
-    ],
-    account: "Grupo Solaris",
-    product: "Linea D industrial",
-    action: "Completar una cuenta que ya compra volumen pero todavia deja hueco rentable.",
-    signal: "Stock bajo en Linea B. Conviene evitar descuento y empujar sustituto disponible.",
-    signalTone: "bg-amber-50 text-amber-700 border-amber-100",
+    volume: "$161K",
+    share: "9% del periodo",
+    buys: "Lineas A y C",
+    misses: "Linea B y D",
+    opportunity: "Completar Linea D industrial antes de seguir empujando descuento.",
+    stock: "Linea B con stock bajo. Conviene ofrecer sustituto y no priorizar esa categoria.",
+    stockTone: "bg-amber-50 text-amber-700 border-amber-100",
+    coverage: ["active", "constrained", "active", "opportunity", "inactive"] as CoverageState[],
   },
   {
+    client: "Industrial Mendez",
     seller: "Lucia Perez",
-    area: "Cuentas estrategicas",
+    avatar: avatarStyles.clayBun,
+    volume: "$148K",
+    share: "8% del periodo",
+    buys: "Lineas B y E",
+    misses: "Linea A y C",
+    opportunity: "Entrar con categoria A para recuperar frecuencia y subir ticket.",
+    stock: "Sin restriccion operativa hoy. La prioridad es reactivar visita y oferta.",
+    stockTone: "bg-violet-50 text-violet-700 border-violet-100",
+    coverage: ["opportunity", "active", "opportunity", "inactive", "active"] as CoverageState[],
+  },
+  {
+    client: "Logistica Central",
+    seller: "Martin Rivas",
     avatar: avatarStyles.mossWave,
-    priority: "Esta semana",
-    stats: [
-      { label: "Cartera activa", value: "21 cuentas" },
-      { label: "Clientes a mover", value: "2" },
-      { label: "Potencial", value: "$47K" },
-    ],
-    account: "Industrial Mendez",
-    product: "Kit premium categoria A",
-    action: "Recuperar frecuencia y abrir una segunda linea antes de perder share.",
-    signal: "Dos cuentas sin visita reciente. El riesgo no es de demanda: es de seguimiento.",
-    signalTone: "bg-violet-50 text-violet-700 border-violet-100",
+    volume: "$132K",
+    share: "7% del periodo",
+    buys: "Lineas A y D",
+    misses: "Linea B y E",
+    opportunity: "Abrir Linea E con bundle de reposicion y evitar depender de una sola familia.",
+    stock: "Linea B sigue corta. La expansion conveniente hoy esta en Linea E.",
+    stockTone: "bg-amber-50 text-amber-700 border-amber-100",
+    coverage: ["active", "constrained", "inactive", "active", "opportunity"] as CoverageState[],
   },
 ];
 
@@ -646,6 +658,11 @@ function RankingBoard() {
                   <div>
                     <p className="text-base font-semibold text-foreground">{seller.seller}</p>
                     <p className="mt-1 text-sm text-muted-foreground">{seller.focus}</p>
+                    <div className="mt-2">
+                      <span className="inline-flex items-center rounded-full border border-[#E7E0EF] bg-white px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-foreground/72">
+                        Total cartera {seller.totalPortfolio}
+                      </span>
+                    </div>
                   </div>
                 </div>
 
@@ -688,30 +705,46 @@ function RankingBoard() {
   );
 }
 
+function PortfolioCoverageBar({ state }: { state: CoverageState }) {
+  if (state === "active") {
+    return <div className="h-2.5 rounded-full bg-[linear-gradient(90deg,#8A5CF6,#7111DF)]" />;
+  }
+
+  if (state === "opportunity") {
+    return <div className="h-2.5 rounded-full border border-accent/25 bg-accent/12" />;
+  }
+
+  if (state === "constrained") {
+    return <div className="h-2.5 rounded-full border border-amber-200 bg-amber-100" />;
+  }
+
+  return <div className="h-2.5 rounded-full bg-[#ECE7E1]" />;
+}
+
 function SellersActionBoard() {
   return (
     <div className={boardSurfaceClass}>
       <div className="border-b border-border/45 px-6 pb-5 pt-6">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div className="max-w-2xl">
-            <SectionEyebrow>Vendedores</SectionEyebrow>
+            <SectionEyebrow>Vista operativa</SectionEyebrow>
             <h3 className="mt-2 text-[1.75rem] font-semibold tracking-tight text-foreground">
-              Agenda comercial para convertir lectura en accion
+              Cartera, foco y oportunidades por cliente
             </h3>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              Esta vista orienta al equipo sobre que cuenta mover, que producto conviene empujar y que alerta operativa puede condicionar la venta.
+              Pensada para el vendedor: muestra cartera aperturada, categorias activas, huecos de linea y una senal operativa que cambia la prioridad comercial.
             </p>
           </div>
 
           <span className="inline-flex w-fit items-center rounded-full border border-[#E7E0EF] bg-[#FBFAFD] px-3.5 py-2 text-xs font-medium text-foreground/70">
-            Foco de campo
+            Gestion de cartera
           </span>
         </div>
       </div>
 
       <div className="px-6 py-6">
-        <div className="grid gap-3 md:grid-cols-3">
-          {sellerActionSummary.map((stat) => (
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+          {clientCoverageSummary.map((stat) => (
             <div key={stat.label} className={`${softCardClass} px-4 py-4`}>
               <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">{stat.label}</p>
               <p className="mt-2 text-[1.6rem] font-semibold tracking-tight text-foreground">{stat.value}</p>
@@ -720,54 +753,111 @@ function SellersActionBoard() {
           ))}
         </div>
 
-        <div className="mt-6 grid gap-4 xl:grid-cols-3">
-          {sellerActionRows.map((seller) => (
-            <div key={seller.seller} className={`${softCardClass} flex h-full flex-col px-4 py-4`}>
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex items-start gap-3">
-                  <SellerAvatar avatar={seller.avatar} />
-                  <div>
-                    <p className="text-base font-semibold text-foreground">{seller.seller}</p>
-                    <p className="mt-1 text-sm text-muted-foreground">{seller.area}</p>
+        <div className="mt-5 rounded-[1.5rem] border border-amber-100 bg-amber-50/60 px-5 py-4">
+          <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+            <div className="max-w-2xl">
+              <SectionEyebrow>Senal operativa</SectionEyebrow>
+              <p className="mt-2 text-base font-semibold text-foreground">
+                La prioridad comercial cambia si Linea B sigue corta en Grupo Solaris y Logistica Central.
+              </p>
+              <p className="mt-2 text-sm leading-relaxed text-foreground/76">
+                La oportunidad sigue existiendo, pero hoy conviene mover sustitutos o abrir otra familia antes de empujar una categoria con cobertura sensible.
+              </p>
+            </div>
+            <span className="inline-flex w-fit items-center rounded-full border border-amber-200 bg-white px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-amber-700">
+              Repriorizar oferta
+            </span>
+          </div>
+        </div>
+
+        <div className="mt-6 space-y-4">
+          {clientActionRows.map((client) => (
+            <div key={client.client} className={`${softCardClass} px-4 py-4 lg:px-5`}>
+              <div className="grid gap-5 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.15fr)_minmax(0,0.95fr)]">
+                <div>
+                  <div className="flex items-start gap-3">
+                    <SellerAvatar avatar={client.avatar} />
+                    <div>
+                      <p className="text-base font-semibold text-foreground">{client.client}</p>
+                      <p className="mt-1 text-sm text-muted-foreground">Gestiona {client.seller}</p>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 grid grid-cols-2 gap-2">
+                    <div className="rounded-2xl border border-[#ECE5F2] bg-white px-3 py-3">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
+                        Volumen
+                      </p>
+                      <p className="mt-2 text-sm font-semibold text-foreground">{client.volume}</p>
+                      <p className="mt-1 text-[11px] text-muted-foreground">{client.share}</p>
+                    </div>
+                    <div className="rounded-2xl border border-[#ECE5F2] bg-white px-3 py-3">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
+                        Hueco principal
+                      </p>
+                      <p className="mt-2 text-sm font-semibold text-foreground">{client.misses}</p>
+                      <p className="mt-1 text-[11px] text-muted-foreground">cross-sell abierto</p>
+                    </div>
                   </div>
                 </div>
 
-                <span className="rounded-full border border-[#E7E0EF] bg-white px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-accent">
-                  {seller.priority}
-                </span>
-              </div>
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
+                    Cobertura de categorias
+                  </p>
+                  <div className="mt-3 grid grid-cols-5 gap-2">
+                    {portfolioLines.map((line, index) => (
+                      <div key={line} className="space-y-2 text-center">
+                        <PortfolioCoverageBar state={client.coverage[index]} />
+                        <p className="text-[10px] font-medium text-muted-foreground">{line.replace("Linea ", "")}</p>
+                      </div>
+                    ))}
+                  </div>
 
-              <div className="mt-4 grid gap-2 sm:grid-cols-3">
-                {seller.stats.map((stat) => (
-                  <div key={stat.label} className="rounded-2xl border border-[#ECE5F2] bg-white px-3 py-3">
+                  <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                    <div className="rounded-2xl border border-[#ECE5F2] bg-white px-3 py-3">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
+                        Compra hoy
+                      </p>
+                      <p className="mt-2 text-sm text-foreground/82">{client.buys}</p>
+                    </div>
+                    <div className="rounded-2xl border border-[#ECE5F2] bg-white px-3 py-3">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
+                        Todavia no compra
+                      </p>
+                      <p className="mt-2 text-sm text-foreground/82">{client.misses}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="rounded-2xl border border-[#ECE5F2] bg-white px-4 py-3.5">
                     <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-                      {stat.label}
+                      Oportunidad sugerida
                     </p>
-                    <p className="mt-2 text-sm font-semibold text-foreground">{stat.value}</p>
+                    <p className="mt-2 text-sm leading-relaxed text-foreground/82">{client.opportunity}</p>
                   </div>
-                ))}
+
+                  <div className={`rounded-2xl border px-4 py-3.5 ${client.stockTone}`}>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.14em] opacity-75">Stock y prioridad</p>
+                    <p className="mt-2 text-sm leading-relaxed">{client.stock}</p>
+                  </div>
+                </div>
               </div>
 
-              <div className="mt-4 space-y-3">
-                <div className="rounded-2xl border border-[#ECE5F2] bg-white px-4 py-3.5">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-                    Cliente a priorizar
-                  </p>
-                  <p className="mt-2 text-sm font-semibold text-foreground">{seller.account}</p>
-                  <p className="mt-1 text-xs text-muted-foreground">{seller.product}</p>
-                </div>
-
-                <div className="rounded-2xl border border-[#ECE5F2] bg-white px-4 py-3.5">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-                    Siguiente movimiento
-                  </p>
-                  <p className="mt-2 text-sm leading-relaxed text-foreground/80">{seller.action}</p>
-                </div>
-
-                <div className={`rounded-2xl border px-4 py-3.5 ${seller.signalTone}`}>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] opacity-75">Senal a cuidar</p>
-                  <p className="mt-2 text-sm leading-relaxed">{seller.signal}</p>
-                </div>
+              <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-[11px] text-muted-foreground">
+                <span className="inline-flex items-center gap-2">
+                  <span className="h-2.5 w-6 rounded-full bg-[linear-gradient(90deg,#8A5CF6,#7111DF)]" />
+                  Compra activa
+                </span>
+                <span className="inline-flex items-center gap-2">
+                  <span className="h-2.5 w-6 rounded-full border border-accent/25 bg-accent/12" />
+                  White space
+                </span>
+                <span className="inline-flex items-center gap-2">
+                  <span className="h-2.5 w-6 rounded-full border border-amber-200 bg-amber-100" />
+                  Restriccion por stock
+                </span>
               </div>
             </div>
           ))}
