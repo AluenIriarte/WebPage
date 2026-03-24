@@ -87,9 +87,9 @@ const avatarStyles = {
 } as const;
 
 const globalKpis = [
-  { label: "Ventas netas", value: "$1.38M", detail: "Q1 2026", tone: "text-foreground" },
-  { label: "Margen bruto", value: "24.8%", detail: "-2.8 pts en distribuidores", tone: "text-foreground" },
-  { label: "Alerta principal", value: "12 cuentas", detail: "sin recompra en 90 dias", tone: "text-amber-700" },
+  { label: "Expansion", value: "$348K", detail: "cross-sell priorizado", tone: "text-foreground" },
+  { label: "Rentabilidad", value: "+22%", detail: "mejora de margen", tone: "text-foreground" },
+  { label: "Riesgo detectado", value: "12 cuentas", detail: "sin actividad +90 dias", tone: "text-foreground" },
 ] as const;
 
 const globalTrendData = [
@@ -98,27 +98,6 @@ const globalTrendData = [
   { name: "S3", ventas: 164, margen: 105 },
   { name: "S4", ventas: 184, margen: 118 },
 ] as const;
-
-const globalSegments = [
-  {
-    name: "Grandes cuentas",
-    share: "42% del ingreso",
-    margin: "28% margen",
-    note: "Sostiene expansion y compensa la desaceleracion del resto.",
-  },
-  {
-    name: "Distribuidores",
-    share: "34% del ingreso",
-    margin: "21% margen",
-    note: "Aca aparece la perdida: volumen sano, mezcla y precio desordenados.",
-  },
-  {
-    name: "Canal interior",
-    share: "24% del ingreso",
-    margin: "25% margen",
-    note: "No cae todavia, pero desacelera frecuencia y necesita seguimiento.",
-  },
-];
 
 const rankingPrimarySummary = [
   { label: "Total vendido", value: "$1.18M", detail: "periodo actual" },
@@ -207,10 +186,10 @@ const clientActionRows = [
     avatar: avatarStyles.slateShort,
     volume: "$118K",
     share: "30% de su volumen",
-    buys: "Lineas A y C",
-    misses: "Linea B y D",
-    opportunity: "Completar Linea D industrial antes de seguir empujando descuento.",
-    stock: "Linea B con stock bajo. Conviene ofrecer sustituto y no priorizar esa categoria.",
+    buys: "A, C",
+    misses: "B, D",
+    opportunity: "Abrir D industrial",
+    stock: "B bajo",
     stockTone: "bg-amber-50 text-amber-700 border-amber-100",
     coverage: ["active", "constrained", "active", "opportunity", "inactive"] as CoverageState[],
   },
@@ -220,10 +199,10 @@ const clientActionRows = [
     avatar: avatarStyles.mossWave,
     volume: "$96K",
     share: "25% de su volumen",
-    buys: "Lineas A y D",
-    misses: "Linea B y E",
-    opportunity: "Abrir Linea E con bundle de reposicion y evitar depender de una sola familia.",
-    stock: "Linea B sigue corta. La expansion conveniente hoy esta en Linea E.",
+    buys: "A, D",
+    misses: "B, E",
+    opportunity: "Abrir E con bundle",
+    stock: "B baja / mover E",
     stockTone: "bg-amber-50 text-amber-700 border-amber-100",
     coverage: ["active", "constrained", "inactive", "active", "opportunity"] as CoverageState[],
   },
@@ -233,10 +212,10 @@ const clientActionRows = [
     avatar: avatarStyles.violetWave,
     volume: "$94K",
     share: "24% de su volumen",
-    buys: "Lineas A, C y D",
-    misses: "Linea E",
-    opportunity: "Abrir Linea E con propuesta de reposicion rapida sobre una cuenta ya activa.",
-    stock: "Stock estable. La oportunidad depende mas de foco que de disponibilidad.",
+    buys: "A, C, D",
+    misses: "E",
+    opportunity: "Abrir E",
+    stock: "Sin restriccion",
     stockTone: "bg-emerald-50 text-emerald-700 border-emerald-100",
     coverage: ["active", "inactive", "active", "active", "opportunity"] as CoverageState[],
   },
@@ -246,10 +225,10 @@ const clientActionRows = [
     avatar: avatarStyles.clayBun,
     volume: "$83K",
     share: "21% de su volumen",
-    buys: "Linea A y E",
-    misses: "Linea C",
-    opportunity: "Completar Linea C para subir ticket sin depender de mas frecuencia.",
-    stock: "Sin restriccion operativa. La prioridad es mover una cuenta con compra ya consolidada.",
+    buys: "A, E",
+    misses: "C",
+    opportunity: "Completar C",
+    stock: "Sin restriccion",
     stockTone: "bg-violet-50 text-violet-700 border-violet-100",
     coverage: ["active", "inactive", "opportunity", "inactive", "active"] as CoverageState[],
   },
@@ -463,15 +442,9 @@ function GlobalBoard() {
     <div className={boardSurfaceClass}>
       <div className="border-b border-border/45 px-6 pb-5 pt-6">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-          <div className="max-w-2xl">
-            <SectionEyebrow>Global</SectionEyebrow>
-            <h3 className="mt-2 text-[1.75rem] font-semibold tracking-tight text-foreground">
-              Panorama comercial y alerta de negocio
-            </h3>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              La vista sintetiza volumen, rentabilidad, segmentos que sostienen el trimestre y la senal que hoy
-              merece seguimiento ejecutivo.
-            </p>
+          <div>
+            <SectionEyebrow>Dashboard de ventas</SectionEyebrow>
+            <h3 className="mt-2 text-[1.55rem] font-semibold tracking-tight text-foreground">Lectura comercial activa</h3>
           </div>
 
           <span className="inline-flex w-fit items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50 px-3.5 py-2 text-xs font-medium text-emerald-700">
@@ -479,127 +452,84 @@ function GlobalBoard() {
             En vivo
           </span>
         </div>
+
+        <div className="mt-5 grid grid-cols-3 gap-1 rounded-[1.1rem] bg-[#F7F4FB] p-1">
+          <div className="rounded-[0.9rem] px-3 py-2 text-center text-[11px] font-medium text-muted-foreground">Semana</div>
+          <div className="rounded-[0.9rem] border border-white/90 bg-white px-3 py-2 text-center text-[11px] font-semibold text-foreground shadow-sm">
+            Mes
+          </div>
+          <div className="rounded-[0.9rem] px-3 py-2 text-center text-[11px] font-medium text-muted-foreground">Q1 2026</div>
+        </div>
       </div>
 
-      <div className="px-6 py-6">
-        <div className="grid gap-3 md:grid-cols-3">
-          {globalKpis.map((kpi) => (
-            <div key={kpi.label} className={`${softCardClass} px-4 py-4`}>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-                {kpi.label}
-              </p>
-              <p className={`mt-2 text-[1.85rem] font-semibold tracking-tight ${kpi.tone}`}>{kpi.value}</p>
-              <p className="mt-1 text-xs text-muted-foreground">{kpi.detail}</p>
-            </div>
-          ))}
+      <div className="px-4 pb-5 pt-4 sm:px-6">
+        <div className="h-[13.5rem] sm:h-[15rem]">
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={globalTrendData} margin={{ top: 8, right: 8, left: -18, bottom: 0 }}>
+              <defs>
+                <linearGradient id="demo-global-ventas" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#8B5CF6" stopOpacity={0.28} />
+                  <stop offset="100%" stopColor="#8B5CF6" stopOpacity={0} />
+                </linearGradient>
+                <linearGradient id="demo-global-margen" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#0EA5E9" stopOpacity={0.18} />
+                  <stop offset="100%" stopColor="#0EA5E9" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid stroke="#EEE8F5" vertical={false} />
+              <XAxis dataKey="name" tick={{ fontSize: 11, fill: "#7C7888" }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize: 11, fill: "#7C7888" }} axisLine={false} tickLine={false} />
+              <Tooltip
+                content={<DemoTooltip />}
+                cursor={{ stroke: "#8B5CF6", strokeWidth: 1, strokeDasharray: "4 4", strokeOpacity: 0.28 }}
+              />
+              <Area
+                type="monotone"
+                dataKey="ventas"
+                stroke="#7E4CF4"
+                strokeWidth={2.2}
+                fill="url(#demo-global-ventas)"
+                dot={false}
+                activeDot={{ r: 4, fill: "#7E4CF4", stroke: "#fff", strokeWidth: 2 }}
+              />
+              <Area
+                type="monotone"
+                dataKey="margen"
+                stroke="#0EA5E9"
+                strokeWidth={2.2}
+                fill="url(#demo-global-margen)"
+                dot={false}
+                activeDot={{ r: 4, fill: "#0EA5E9", stroke: "#fff", strokeWidth: 2 }}
+              />
+            </AreaChart>
+          </ResponsiveContainer>
         </div>
 
-        <div className={`${softCardClass} mt-6 p-5`}>
-          <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <SectionEyebrow>Lectura del trimestre</SectionEyebrow>
-              <p className="mt-2 text-lg font-semibold tracking-tight text-foreground">Ventas y margen por periodo</p>
-            </div>
-            <p className="text-xs font-medium text-muted-foreground">Q1 2026</p>
-          </div>
-
-          <div className="h-[17rem]">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={globalTrendData} margin={{ top: 10, right: 8, left: 0, bottom: 0 }}>
-                <defs>
-                  <linearGradient id="demo-global-ventas" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#8B5CF6" stopOpacity={0.28} />
-                    <stop offset="100%" stopColor="#8B5CF6" stopOpacity={0} />
-                  </linearGradient>
-                  <linearGradient id="demo-global-margen" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#0EA5E9" stopOpacity={0.18} />
-                    <stop offset="100%" stopColor="#0EA5E9" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid stroke="#EEE8F5" vertical={false} />
-                <XAxis dataKey="name" tick={{ fontSize: 11, fill: "#7C7888" }} axisLine={false} tickLine={false} />
-                <YAxis width={34} tick={{ fontSize: 11, fill: "#7C7888" }} axisLine={false} tickLine={false} />
-                <Tooltip
-                  content={<DemoTooltip />}
-                  cursor={{ stroke: "#8B5CF6", strokeWidth: 1, strokeDasharray: "4 4", strokeOpacity: 0.28 }}
-                />
-                <Area
-                  type="monotone"
-                  dataKey="ventas"
-                  stroke="#7E4CF4"
-                  strokeWidth={2.2}
-                  fill="url(#demo-global-ventas)"
-                  dot={false}
-                  activeDot={{ r: 4, fill: "#7E4CF4", stroke: "#fff", strokeWidth: 2 }}
-                />
-                <Area
-                  type="monotone"
-                  dataKey="margen"
-                  stroke="#0EA5E9"
-                  strokeWidth={2.2}
-                  fill="url(#demo-global-margen)"
-                  dot={false}
-                  activeDot={{ r: 4, fill: "#0EA5E9", stroke: "#fff", strokeWidth: 2 }}
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-
-          <div className="mt-4 flex flex-wrap gap-4 text-[11px] font-medium text-muted-foreground">
-            <span className="inline-flex items-center gap-2">
-              <span className="h-0.5 w-5 rounded-full bg-[#7E4CF4]" />
-              Ventas
-            </span>
-            <span className="inline-flex items-center gap-2">
-              <span className="h-0.5 w-5 rounded-full bg-[#0EA5E9]" />
-              Margen
-            </span>
-          </div>
+        <div className="mt-3 flex flex-wrap gap-4 px-2 text-[11px] font-medium text-muted-foreground">
+          <span className="inline-flex items-center gap-2">
+            <span className="h-0.5 w-5 rounded-full bg-[#7E4CF4]" />
+            Ventas
+          </span>
+          <span className="inline-flex items-center gap-2">
+            <span className="h-0.5 w-5 rounded-full bg-[#0EA5E9]" />
+            Margen
+          </span>
         </div>
+      </div>
 
-          <div className="mt-6 grid gap-4 xl:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
-            <div className={`${softCardClass} p-5`}>
-              <div className="mb-4 flex items-center justify-between">
-                <div>
-                  <SectionEyebrow>Segmentos</SectionEyebrow>
-                  <p className="mt-2 text-base font-semibold text-foreground">Que frente sostiene el trimestre</p>
-              </div>
-              <Target className="h-4 w-4 text-accent" />
-            </div>
-
-              <div className="divide-y divide-[#EEE8F5]">
-                {globalSegments.map((segment) => (
-                  <div key={segment.name} className="py-3 first:pt-0 last:pb-0">
-                    <div className="flex items-center justify-between gap-4">
-                      <p className="text-sm font-semibold text-foreground">{segment.name}</p>
-                      <div className="text-right">
-                        <span className="block text-[11px] font-medium text-muted-foreground">{segment.share}</span>
-                        <span className="mt-1 block text-[10px] font-semibold uppercase tracking-[0.14em] text-accent/70">
-                          {segment.margin}
-                        </span>
-                      </div>
-                    </div>
-                    <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{segment.note}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-          <div className="rounded-[1.6rem] border border-amber-100 bg-amber-50/60 p-5">
-            <div className="flex items-start gap-3">
-              <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white text-amber-500">
-                <AlertTriangle className="h-5 w-5" />
-              </div>
-              <div>
-                <SectionEyebrow>Alerta ejecutiva</SectionEyebrow>
-                <p className="mt-2 text-base font-semibold text-foreground">La senal clave no esta en vender mas. Esta en mezcla, margen y recompra.</p>
-                <p className="mt-2 text-sm leading-relaxed text-foreground/76">
-                  El trimestre sigue de pie por grandes cuentas, pero la erosion ya aparece donde se sostiene volumen con peor rentabilidad o baja recompra.
-                </p>
-              </div>
-            </div>
+      <div className="grid gap-3 border-t border-border/40 px-4 py-5 sm:px-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,0.92fr)]">
+        {globalKpis.map((kpi, index) => (
+          <div
+            key={kpi.label}
+            className={`rounded-[1.35rem] border px-4 py-4 ${
+              index === 2 ? "border-amber-100 bg-amber-50/70" : "border-[#ECE5F2] bg-[#FCFBFE]"
+            }`}
+          >
+            <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">{kpi.label}</p>
+            <p className={`mt-2 text-[1.7rem] font-semibold tracking-tight ${kpi.tone}`}>{kpi.value}</p>
+            <p className={`mt-1 text-xs ${index === 2 ? "text-amber-700/80" : "text-muted-foreground"}`}>{kpi.detail}</p>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );
@@ -610,14 +540,9 @@ function RankingBoard() {
     <div className={boardSurfaceClass}>
       <div className="border-b border-border/45 px-6 pb-5 pt-6">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-          <div className="max-w-2xl">
+          <div>
             <SectionEyebrow>Ranking comercial</SectionEyebrow>
-            <h3 className="mt-2 text-[1.75rem] font-semibold tracking-tight text-foreground">
-              Quien llega a objetivo y como se construye ese resultado
-            </h3>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              No solo ordena cumplimiento. Tambien deja ver cartera activa, clientes nuevos y el margen que cada ejecutivo esta sosteniendo.
-            </p>
+            <h3 className="mt-2 text-[1.55rem] font-semibold tracking-tight text-foreground">Equipo comercial vs objetivo</h3>
           </div>
 
           <span className="inline-flex w-fit items-center rounded-full border border-[#E7E0EF] bg-[#FBFAFD] px-3.5 py-2 text-xs font-medium text-foreground/70">
@@ -646,60 +571,66 @@ function RankingBoard() {
           ))}
         </div>
 
-        <div className="mt-5 grid gap-3 xl:grid-cols-3">
+        <div className="mt-5 overflow-hidden rounded-[1.5rem] border border-[#ECE5F2] bg-[#FCFBFE]">
+          <div className="hidden grid-cols-[minmax(0,1.2fr)_0.95fr_0.95fr_0.9fr_0.7fr_0.95fr] gap-4 border-b border-[#ECE5F2] px-5 py-4 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/60 lg:grid">
+            <span>Vendedor</span>
+            <span>Total vendido</span>
+            <span>Vs objetivo</span>
+            <span>Total cartera</span>
+            <span>Clientes</span>
+            <span>Nuevos / margen</span>
+          </div>
+
+          <div className="divide-y divide-[#ECE5F2]">
           {rankingRows.map((seller, index) => (
-            <div key={seller.seller} className={`${softCardClass} flex h-full flex-col px-4 py-4`}>
-              <div className="flex items-start justify-between gap-4">
+            <div key={seller.seller} className="bg-white px-4 py-4 lg:px-5">
+              <div className="grid gap-4 lg:grid-cols-[minmax(0,1.2fr)_0.95fr_0.95fr_0.9fr_0.7fr_0.95fr] lg:items-center">
                 <div className="flex items-start gap-3">
                   <SellerAvatar rank={index + 1} avatar={seller.avatar} />
                   <div>
                     <p className="text-base font-semibold text-foreground">{seller.seller}</p>
                     <p className="mt-1 text-sm text-muted-foreground">{seller.focus}</p>
-                    <div className="mt-2 flex flex-wrap gap-2">
-                      <span className="inline-flex items-center rounded-full border border-[#E7E0EF] bg-white px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-foreground/72">
-                        Total cartera {seller.totalPortfolio}
-                      </span>
-                      <span className="inline-flex items-center rounded-full border border-[#E7E0EF] bg-white px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-foreground/72">
-                        {seller.totalClients}
-                      </span>
-                    </div>
                   </div>
                 </div>
 
-                <div className="text-right">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">Total vendido</p>
-                  <p className="mt-2 text-[1.55rem] font-semibold tracking-tight text-foreground">{seller.actual}</p>
-                  <p className={`mt-1 text-sm font-medium ${seller.tone}`}>{seller.attainment}% vs objetivo</p>
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55 lg:hidden">Total vendido</p>
+                  <p className="mt-1 text-[1.35rem] font-semibold tracking-tight text-foreground lg:mt-0">{seller.actual}</p>
                 </div>
-              </div>
 
-              <div className="mt-4">
-                <div className="mb-2 flex items-center justify-between text-[11px] text-muted-foreground">
-                  <span>{seller.gap} de brecha</span>
-                  <span>{seller.target} objetivo</span>
-                </div>
-                <div className="h-2 rounded-full bg-muted/70">
-                  <motion.div
-                    className="h-2 rounded-full bg-[linear-gradient(90deg,#8A5CF6,#7111DF)]"
-                    initial={{ width: 0 }}
-                    animate={{ width: `${Math.min(seller.attainment, 110) / 1.1}%` }}
-                    transition={{ duration: 0.45, ease: "easeOut" }}
-                  />
-                </div>
-              </div>
-
-              <div className="mt-4 grid gap-2 sm:grid-cols-2">
-                {seller.stats.map((stat) => (
-                  <div key={stat.label} className="rounded-2xl border border-[#ECE5F2] bg-white px-3 py-3">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-                      {stat.label}
-                    </p>
-                    <p className="mt-2 text-sm font-semibold text-foreground">{stat.value}</p>
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55 lg:hidden">Vs objetivo</p>
+                  <p className={`mt-1 text-sm font-semibold lg:mt-0 ${seller.tone}`}>{seller.attainment}%</p>
+                  <div className="mt-2 h-2 rounded-full bg-muted/70">
+                    <motion.div
+                      className="h-2 rounded-full bg-[linear-gradient(90deg,#8A5CF6,#7111DF)]"
+                      initial={{ width: 0 }}
+                      animate={{ width: `${Math.min(seller.attainment, 110) / 1.1}%` }}
+                      transition={{ duration: 0.45, ease: "easeOut" }}
+                    />
                   </div>
-                ))}
+                  <p className="mt-2 text-[11px] text-muted-foreground">{seller.gap}</p>
+                </div>
+
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55 lg:hidden">Total cartera</p>
+                  <p className="mt-1 text-sm font-semibold text-foreground lg:mt-0">{seller.totalPortfolio}</p>
+                </div>
+
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55 lg:hidden">Clientes</p>
+                  <p className="mt-1 text-sm font-semibold text-foreground lg:mt-0">{seller.totalClients}</p>
+                </div>
+
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55 lg:hidden">Nuevos / margen</p>
+                  <p className="mt-1 text-sm font-semibold text-foreground lg:mt-0">{seller.stats[0].value} nuevos</p>
+                  <p className="mt-1 text-[11px] text-muted-foreground">{seller.stats[1].value} margen</p>
+                </div>
               </div>
             </div>
           ))}
+          </div>
         </div>
       </div>
     </div>
@@ -729,14 +660,9 @@ function SellersActionBoard() {
     <div className={boardSurfaceClass}>
       <div className="border-b border-border/45 px-6 pb-5 pt-6">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-          <div className="max-w-2xl">
+          <div>
             <SectionEyebrow>Vista operativa</SectionEyebrow>
-            <h3 className="mt-2 text-[1.75rem] font-semibold tracking-tight text-foreground">
-              Cartera, foco y oportunidades por cliente
-            </h3>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              Pensada para el vendedor: muestra cartera aperturada, categorias activas, huecos de linea y una senal operativa que cambia la prioridad comercial.
-            </p>
+            <h3 className="mt-2 text-[1.55rem] font-semibold tracking-tight text-foreground">Cartera y oportunidades por cliente</h3>
           </div>
 
           <span className="inline-flex w-fit items-center rounded-full border border-[#E7E0EF] bg-[#FBFAFD] px-3.5 py-2 text-xs font-medium text-foreground/70">
@@ -757,14 +683,13 @@ function SellersActionBoard() {
         </div>
 
         <div className={`${softCardClass} mt-5 px-5 py-5`}>
-          <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div className="flex items-start gap-3">
               <SellerAvatar avatar={selectedSeller.avatar} />
-              <div className="max-w-2xl">
+              <div>
                 <SectionEyebrow>Vendedor seleccionado</SectionEyebrow>
                 <p className="mt-2 text-xl font-semibold tracking-tight text-foreground">{selectedSeller.seller}</p>
                 <p className="mt-1 text-sm text-muted-foreground">{selectedSeller.area} / 22 clientes activos</p>
-                <p className="mt-3 text-sm leading-relaxed text-foreground/78">{selectedSeller.brief}</p>
               </div>
             </div>
             <div className="rounded-full border border-amber-100 bg-amber-50/70 px-4 py-2.5 text-[11px] font-medium text-amber-700 md:max-w-[19rem]">
@@ -773,31 +698,13 @@ function SellersActionBoard() {
           </div>
         </div>
 
-        <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-[11px] text-muted-foreground">
-          <span className="inline-flex items-center gap-2">
-            <span className="h-2.5 w-6 rounded-full bg-[linear-gradient(90deg,#8A5CF6,#7111DF)]" />
-            Compra activa
-          </span>
-          <span className="inline-flex items-center gap-2">
-            <span className="h-2.5 w-6 rounded-full border border-accent/25 bg-accent/12" />
-            Baja penetracion
-          </span>
-          <span className="inline-flex items-center gap-2">
-            <span className="h-2.5 w-6 rounded-full border border-amber-200 bg-amber-100" />
-            Restriccion por stock
-          </span>
-        </div>
-
         <div className="mt-6">
           <SectionEyebrow>Cartera de clientes</SectionEyebrow>
           <p className="mt-2 text-xl font-semibold tracking-tight text-foreground">Donde conviene actuar primero</p>
-          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-            Clientes donde hoy conviene actuar primero porque combinan volumen, categorias con baja penetracion y una prioridad operativa concreta.
-          </p>
         </div>
 
         <div className="mt-5 overflow-hidden rounded-[1.5rem] border border-[#ECE5F2] bg-[#FCFBFE]">
-          <div className="hidden grid-cols-[minmax(0,1fr)_110px_minmax(0,0.95fr)_minmax(0,0.9fr)_minmax(0,1fr)_minmax(0,0.9fr)] gap-4 border-b border-[#ECE5F2] px-5 py-4 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/60 lg:grid">
+          <div className="hidden grid-cols-[minmax(0,1fr)_90px_0.8fr_0.8fr_0.9fr_0.7fr] gap-4 border-b border-[#ECE5F2] px-5 py-4 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/60 lg:grid">
             <span>Cliente</span>
             <span>Volumen</span>
             <span>Compra hoy</span>
@@ -809,58 +716,44 @@ function SellersActionBoard() {
           <div className="divide-y divide-[#ECE5F2]">
             {visibleClients.map((client) => (
             <div key={client.client} className="bg-white px-4 py-4 lg:px-5">
-              <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_110px_minmax(0,0.95fr)_minmax(0,0.9fr)_minmax(0,1fr)_minmax(0,0.9fr)] lg:items-start">
+              <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_90px_0.8fr_0.8fr_0.9fr_0.7fr] lg:items-center">
                 <div className="min-w-0">
                   <div className="flex items-start gap-3">
-                    <div className="rounded-full border border-[#ECE5F2] bg-white p-1">
-                      <SellerAvatar avatar={client.avatar} />
-                    </div>
+                    <SellerAvatar avatar={client.avatar} />
                     <div>
                       <p className="text-base font-semibold text-foreground">{client.client}</p>
-                      <p className="mt-1 text-sm text-muted-foreground">Cuenta priorizada de su cartera</p>
-                    </div>
-                  </div>
-
-                  <div className="mt-3">
-                    <div className="grid grid-cols-5 gap-2">
-                      {portfolioLines.map((line, index) => (
-                        <div key={line} className="space-y-2 text-center">
-                          <PortfolioCoverageBar state={client.coverage[index]} />
-                          <p className="text-[10px] font-medium text-muted-foreground">{line.replace("Linea ", "")}</p>
-                        </div>
-                      ))}
+                      <p className="mt-1 text-sm text-muted-foreground">{client.share}</p>
                     </div>
                   </div>
                 </div>
 
-                <div className="rounded-2xl border border-[#ECE5F2] bg-[#FCFBFE] px-3 py-3">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">Volumen</p>
-                  <p className="mt-2 text-sm font-semibold text-foreground">{client.volume}</p>
-                  <p className="mt-1 text-[11px] text-muted-foreground">{client.share}</p>
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55 lg:hidden">Volumen</p>
+                  <p className="mt-1 text-sm font-semibold text-foreground lg:mt-0">{client.volume}</p>
                 </div>
 
-                <div className="rounded-2xl border border-[#ECE5F2] bg-[#FCFBFE] px-3 py-3">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">Compra hoy</p>
-                  <p className="mt-2 text-sm leading-relaxed text-foreground/82">{client.buys}</p>
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55 lg:hidden">Compra hoy</p>
+                  <p className="mt-1 text-sm text-foreground/82 lg:mt-0">{client.buys}</p>
                 </div>
 
-                <div className="rounded-2xl border border-[#ECE5F2] bg-[#FCFBFE] px-3 py-3">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-                    Categorias con baja penetracion
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55 lg:hidden">
+                    Baja penetracion
                   </p>
-                  <p className="mt-2 text-sm leading-relaxed text-foreground/82">{client.misses}</p>
+                  <p className="mt-1 text-sm text-foreground/82 lg:mt-0">{client.misses}</p>
                 </div>
 
-                <div className="rounded-2xl border border-[#ECE5F2] bg-[#FCFBFE] px-4 py-3.5">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-                    Oportunidad sugerida
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55 lg:hidden">
+                    Oportunidad
                   </p>
-                  <p className="mt-2 text-sm leading-relaxed text-foreground/82">{client.opportunity}</p>
+                  <p className="mt-1 text-sm text-foreground/82 lg:mt-0">{client.opportunity}</p>
                 </div>
 
-                <div className={`rounded-2xl border px-4 py-3.5 ${client.stockTone}`}>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] opacity-75">Stock</p>
-                  <p className="mt-2 text-sm leading-relaxed">{client.stock}</p>
+                <div className={`rounded-xl border px-3 py-2 ${client.stockTone}`}>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] opacity-75 lg:hidden">Stock</p>
+                  <p className="mt-1 text-sm lg:mt-0">{client.stock}</p>
                 </div>
               </div>
             </div>
@@ -980,17 +873,11 @@ export function DemoDashboard() {
               transition={{ duration: 0.7, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
               className="mx-auto mt-12 max-w-[72rem] rounded-[2.5rem] border border-[#ECE5F2] bg-[#FFFEFC] shadow-[0_30px_90px_rgba(20,19,26,0.06)]"
             >
-              <div className="px-6 pb-0 pt-8 sm:px-8 sm:pt-10 lg:px-10">
-                <SectionEyebrow>Lente de analisis</SectionEyebrow>
-                <div className="mt-6">
-                  <DemoTabs active={activeView} onChange={setActiveView} />
-                </div>
-                <p className="mx-auto mt-5 max-w-3xl text-center text-sm leading-relaxed text-muted-foreground md:text-[0.98rem]">
-                  {demoViews[activeView].description}
-                </p>
+              <div className="px-6 pb-0 pt-6 sm:px-8 sm:pt-8 lg:px-10">
+                <DemoTabs active={activeView} onChange={setActiveView} />
               </div>
 
-              <div className="px-4 pb-0 pt-8 sm:px-6 lg:px-8">
+              <div className="px-4 pb-0 pt-6 sm:px-6 lg:px-8">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeView}
