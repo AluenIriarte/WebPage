@@ -1,6 +1,8 @@
 const SHEET_ID = "12QJzfBFkhz49JEBReAyrclt5rnBFvyRhNecUNk8MRAI";
 const SHEET_NAME = "Sheet1";
 const WEBHOOK_TOKEN = "REEMPLAZAR_POR_UN_TOKEN_LARGO";
+const NOTIFY_EMAIL = "contacto@alanlperez.com";
+const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit`;
 const HEADERS = [
   "received_at",
   "kind",
@@ -27,9 +29,10 @@ function doPost(e) {
     const payload = JSON.parse(e.postData.contents || "{}");
     const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName(SHEET_NAME);
     ensureHeaders(sheet);
+    const receivedAt = new Date();
 
     sheet.appendRow([
-      new Date(),
+      receivedAt,
       payload.kind || "",
       payload.nombre || "",
       payload.email || "",
@@ -43,8 +46,10 @@ function doPost(e) {
       payload.desafio || "",
       payload.submittedAt || "",
     ]);
+    const rowNumber = sheet.getLastRow();
+    const notification = notifyCrmUpdate(payload, rowNumber, receivedAt);
 
-    return json({ ok: true });
+    return json({ ok: true, notified: notification.ok, notificationError: notification.error });
   } catch (error) {
     return json(
       {
@@ -77,4 +82,45 @@ function ensureHeaders(sheet) {
 
   sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]);
   sheet.setFrozenRows(1);
+}
+
+function notifyCrmUpdate(payload, rowNumber, receivedAt) {
+  try {
+    const subject = `CRM actualizado: ${payload.empresa || payload.nombre || "Nueva cotizacion"}`;
+    const body = [
+      "Se registro una nueva cotizacion en el CRM.",
+      "",
+      `Fila: ${rowNumber}`,
+      `Recibido: ${formatTimestamp(receivedAt)}`,
+      `Nombre: ${payload.nombre || "-"}`,
+      `Email: ${payload.email || "-"}`,
+      `Empresa: ${payload.empresa || "-"}`,
+      `Producto o servicio: ${payload.producto || "-"}`,
+      `Rol: ${payload.rol || "-"}`,
+      `Objetivo: ${payload.objetivo || "-"}`,
+      `Fuentes: ${payload.fuentes || "-"}`,
+      `Destinatarios: ${payload.destinatarios || "-"}`,
+      `Plazo: ${payload.plazo || "-"}`,
+      `Desafio: ${payload.desafio || "-"}`,
+      "",
+      `Abrir CRM: ${SHEET_URL}`,
+    ].join("\n");
+
+    const options = {
+      name: "CRM alanlperez.com",
+      replyTo: payload.email || undefined,
+    };
+
+    MailApp.sendEmail(NOTIFY_EMAIL, subject, body, options);
+    return { ok: true, error: null };
+  } catch (error) {
+    return {
+      ok: false,
+      error: error instanceof Error ? error.message : "notification_failed",
+    };
+  }
+}
+
+function formatTimestamp(date) {
+  return Utilities.formatDate(date, Session.getScriptTimeZone(), "yyyy-MM-dd HH:mm:ss");
 }

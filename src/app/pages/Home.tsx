@@ -1,11 +1,8 @@
-import { Suspense, lazy, startTransition, useEffect, useState } from "react";
+import { startTransition, useEffect, useState } from "react";
+import { HomeBelowFold } from "../components/HomeBelowFold";
 import { CredibilityBand } from "../components/CredibilityBand";
 import { Header } from "../components/Header";
 import { Hero } from "../components/Hero";
-
-const HomeBelowFold = lazy(() =>
-  import("../components/HomeBelowFold").then((module) => ({ default: module.HomeBelowFold })),
-);
 
 export function Home() {
   const [showBelowFold, setShowBelowFold] = useState(false);
@@ -30,11 +27,7 @@ export function Home() {
       <main>
         <Hero />
         <CredibilityBand />
-        {showBelowFold ? (
-          <Suspense fallback={null}>
-            <HomeBelowFold />
-          </Suspense>
-        ) : null}
+        {showBelowFold ? <HomeBelowFold /> : null}
       </main>
     </div>
   );

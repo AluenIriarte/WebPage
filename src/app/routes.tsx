@@ -1,115 +1,87 @@
 import { createBrowserRouter } from "react-router-dom";
+import { AutoDiagnostico } from "./pages/AutoDiagnostico";
+import { DashboardVentasPowerBi } from "./pages/DashboardVentasPowerBi";
+import { DemoDashboard } from "./pages/DemoDashboard";
+import { GraciasAutoDiagnostico } from "./pages/GraciasAutoDiagnostico";
+import { GraciasPresupuestoDashboard } from "./pages/GraciasPresupuestoDashboard";
+import { Home } from "./pages/Home";
+import { NotFound } from "./pages/NotFound";
 import { Root } from "./pages/Root";
+import { RouteErrorPage } from "./pages/RouteErrorPage";
+import { Servicios } from "./pages/Servicios";
+import { PresupuestoDashboard } from "./pages/PresupuestoDashboard";
+import { AutoevaluacionEjecutiva } from "./pages/recursos/AutoevaluacionEjecutiva";
+import { DashboardDeVentas } from "./pages/recursos/DashboardDeVentas";
+import { KpisComerciales } from "./pages/recursos/KpisComerciales";
+import { QueEsUnDashboard } from "./pages/recursos/QueEsUnDashboard";
+import { RecursosHub } from "./pages/recursos/RecursosHub";
+import { TableroDeVentas } from "./pages/recursos/TableroDeVentas";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     Component: Root,
+    errorElement: <RouteErrorPage />,
     children: [
       {
         index: true,
-        lazy: async () => {
-          const { Home } = await import("./pages/Home");
-          return { Component: Home };
-        },
+        Component: Home,
       },
       {
         path: "servicios",
-        lazy: async () => {
-          const { Servicios } = await import("./pages/Servicios");
-          return { Component: Servicios };
-        },
+        Component: Servicios,
       },
       {
         path: "dashboard-de-ventas-power-bi",
-        lazy: async () => {
-          const { DashboardVentasPowerBi } = await import("./pages/DashboardVentasPowerBi");
-          return { Component: DashboardVentasPowerBi };
-        },
+        Component: DashboardVentasPowerBi,
       },
       {
         path: "demo-dashboard",
-        lazy: async () => {
-          const { DemoDashboard } = await import("./pages/DemoDashboard");
-          return { Component: DemoDashboard };
-        },
+        Component: DemoDashboard,
       },
       {
         path: "auto-diagnostico",
-        lazy: async () => {
-          const { AutoDiagnostico } = await import("./pages/AutoDiagnostico");
-          return { Component: AutoDiagnostico };
-        },
+        Component: AutoDiagnostico,
       },
       {
         path: "gracias/auto-diagnostico",
-        lazy: async () => {
-          const { GraciasAutoDiagnostico } = await import("./pages/GraciasAutoDiagnostico");
-          return { Component: GraciasAutoDiagnostico };
-        },
+        Component: GraciasAutoDiagnostico,
       },
       {
         path: "gracias/presupuesto-dashboard",
-        lazy: async () => {
-          const { GraciasPresupuestoDashboard } = await import("./pages/GraciasPresupuestoDashboard");
-          return { Component: GraciasPresupuestoDashboard };
-        },
+        Component: GraciasPresupuestoDashboard,
       },
       {
         path: "presupuesto-dashboard",
-        lazy: async () => {
-          const { PresupuestoDashboard } = await import("./pages/PresupuestoDashboard");
-          return { Component: PresupuestoDashboard };
-        },
+        Component: PresupuestoDashboard,
       },
       {
         path: "recursos",
-        lazy: async () => {
-          const { RecursosHub } = await import("./pages/recursos/RecursosHub");
-          return { Component: RecursosHub };
-        },
+        Component: RecursosHub,
       },
       {
         path: "recursos/que-es-un-dashboard",
-        lazy: async () => {
-          const { QueEsUnDashboard } = await import("./pages/recursos/QueEsUnDashboard");
-          return { Component: QueEsUnDashboard };
-        },
+        Component: QueEsUnDashboard,
       },
       {
         path: "recursos/dashboard-de-ventas",
-        lazy: async () => {
-          const { DashboardDeVentas } = await import("./pages/recursos/DashboardDeVentas");
-          return { Component: DashboardDeVentas };
-        },
+        Component: DashboardDeVentas,
       },
       {
         path: "recursos/autoevaluacion-ejecutiva",
-        lazy: async () => {
-          const { AutoevaluacionEjecutiva } = await import("./pages/recursos/AutoevaluacionEjecutiva");
-          return { Component: AutoevaluacionEjecutiva };
-        },
+        Component: AutoevaluacionEjecutiva,
       },
       {
         path: "recursos/kpis-comerciales",
-        lazy: async () => {
-          const { KpisComerciales } = await import("./pages/recursos/KpisComerciales");
-          return { Component: KpisComerciales };
-        },
+        Component: KpisComerciales,
       },
       {
         path: "recursos/tablero-de-ventas",
-        lazy: async () => {
-          const { TableroDeVentas } = await import("./pages/recursos/TableroDeVentas");
-          return { Component: TableroDeVentas };
-        },
+        Component: TableroDeVentas,
       },
       {
         path: "*",
-        lazy: async () => {
-          const { NotFound } = await import("./pages/NotFound");
-          return { Component: NotFound };
-        },
+        Component: NotFound,
       },
     ],
   },
