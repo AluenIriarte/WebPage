@@ -14,10 +14,11 @@ import {
 } from "recharts";
 import { AlertCircle, ArrowRight, BarChart2, Clock3, Layers3, Linkedin, Package, TrendingUp, Users } from "lucide-react";
 import { Header } from "../components/Header";
-import { trackDiagnosisClick } from "../lib/analytics";
-import { ROOT_DIAGNOSTIC_SECTION_HREF } from "../lib/contact";
+import { trackDiagnosisClick, trackQuoteClick } from "../lib/analytics";
+import { buildQuotePageHref, ROOT_DIAGNOSTIC_SECTION_HREF } from "../lib/contact";
 
 const LINKEDIN_URL = "https://www.linkedin.com/in/alan-leonel-perez-argentina/?skipRedirect=true";
+const DEMO_QUOTE_HREF = buildQuotePageHref("Dashboard de ventas / BI comercial a medida");
 
 type ViewType = "global" | "ranking" | "vendedores";
 
@@ -635,13 +636,24 @@ export function DemoDashboard() {
                       Agendar diagnostico
                     </a>
                     <a
-                      href="#oportunidades"
-                      onClick={(event) => handleAnchorClick(event, "oportunidades")}
-                      className="hidden whitespace-nowrap rounded-lg bg-[#F3F1EE] px-4 py-2 text-sm text-[#14131A] transition-colors hover:bg-[#e8e5e0] md:block"
+                      href={DEMO_QUOTE_HREF}
+                      onClick={() =>
+                        trackQuoteClick("demo_secondary_cta", "Dashboard de ventas / BI comercial a medida")
+                      }
+                      className="whitespace-nowrap rounded-lg bg-[#F3F1EE] px-4 py-2 text-sm text-[#14131A] transition-colors hover:bg-[#e8e5e0]"
                     >
-                      Ver otros indicadores
+                      Pedir cotizacion
                     </a>
                   </div>
+                </div>
+                <div className="mt-3 flex justify-end">
+                  <a
+                    href="#oportunidades"
+                    onClick={(event) => handleAnchorClick(event, "oportunidades")}
+                    className="text-xs text-[#6E6A7A] transition-colors hover:text-[#14131A]"
+                  >
+                    Ver otros indicadores
+                  </a>
                 </div>
               </div>
             </div>
