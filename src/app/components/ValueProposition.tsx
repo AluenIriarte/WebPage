@@ -98,7 +98,7 @@ export function ValueProposition() {
           </div>
 
           <a
-            href="#contacto"
+            href="#autoridad"
             className="inline-flex items-center gap-2 text-sm font-semibold text-accent hover:text-accent/75 transition-colors duration-200 group flex-shrink-0"
           >
             Revisar mi caso

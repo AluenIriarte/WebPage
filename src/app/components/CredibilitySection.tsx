@@ -1,5 +1,7 @@
 import { motion } from "motion/react";
 import profilePhoto from "../../../assets/images/profile2.png";
+import { trackDiagnosisClick } from "../lib/analytics";
+import { ROOT_DIAGNOSTIC_SECTION_HREF } from "../lib/contact";
 
 const chips = [
   "BI operativo",
@@ -112,6 +114,15 @@ export function CredibilitySection() {
               No se trata de sumar otra herramienta, se trata de lograr impacto real. Medible y
               accionable.
             </p>
+
+            <a
+              href={ROOT_DIAGNOSTIC_SECTION_HREF}
+              onClick={() => trackDiagnosisClick("credibility_section_cta")}
+              className="inline-flex items-center gap-2 text-sm font-semibold text-accent hover:text-accent/75 transition-colors duration-200 group"
+            >
+              Agendar diagnostico
+              <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
+            </a>
           </motion.div>
         </div>
       </div>
