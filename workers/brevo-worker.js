@@ -278,6 +278,21 @@ async function postQuoteBackupToSheet(env, payload) {
     throw new Error(`Sheets webhook devolvio ${response.status}: ${errorText}`);
   }
 
+  const responseText = await response.text();
+  let responsePayload = null;
+
+  try {
+    responsePayload = responseText ? JSON.parse(responseText) : null;
+  } catch {
+    responsePayload = null;
+  }
+
+  if (!responsePayload?.ok) {
+    throw new Error(
+      `Sheets webhook respondio sin confirmar escritura: ${responseText || "empty_response"}`,
+    );
+  }
+
   return true;
 }
 

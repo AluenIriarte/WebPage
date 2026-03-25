@@ -186,13 +186,11 @@ export function PresupuestoDashboard() {
                     Pedi una primera estimacion de alcance
                   </h1>
                   <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground">
-                    Este paso es para casos con necesidad bastante definida. Completas el brief,
-                    reviso el contexto y te respondo por email con una primera lectura comercial y
-                    de alcance.
+                    Si ya tenes claro que necesitas, completa el brief y te respondo por email con
+                    una primera lectura de alcance.
                   </p>
                   <p className="max-w-3xl text-base leading-relaxed text-foreground/70">
-                    Si todavia estas ordenando el problema o no tenes claro que conviene construir,
-                    el camino correcto es pasar primero por diagnostico.
+                    Si todavia lo estas definiendo, primero conviene diagnostico.
                   </p>
                 </div>
 
@@ -202,8 +200,8 @@ export function PresupuestoDashboard() {
                       Todavia lo estoy definiendo
                     </p>
                     <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                      Si necesitas bajar el problema, ordenar prioridades o definir alcance, conviene
-                      arrancar por una conversacion corta.
+                      Si te falta ordenar el problema, conviene una conversacion breve antes de
+                      cotizar.
                     </p>
                     <a
                       href={ROOT_DIAGNOSTIC_SECTION_HREF}
@@ -220,8 +218,8 @@ export function PresupuestoDashboard() {
                       Ya tengo claro lo que necesito
                     </p>
                     <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                      Entonces este brief es el camino directo: servicio, contexto, fuentes y
-                      usuarios para poder responderte con criterio.
+                      Si ya definiste servicio, contexto y fuentes, este brief es el camino
+                      directo.
                     </p>
                     <a
                       href="#brief-cotizacion"
@@ -241,19 +239,19 @@ export function PresupuestoDashboard() {
                     <div>
                       <p className="text-sm font-medium text-foreground">Confirmacion inmediata</p>
                       <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                        Te confirmo por email que el brief entro correctamente.
+                        Recibis el ok por email.
                       </p>
                     </div>
                     <div>
                       <p className="text-sm font-medium text-foreground">Revision en 24 horas</p>
                       <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                        Revisamos el caso y respondemos con una primera lectura de alcance.
+                        Respondo con una primera lectura.
                       </p>
                     </div>
                     <div>
                       <p className="text-sm font-medium text-foreground">Si falta definicion</p>
                       <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                        El siguiente paso natural es llevarlo a diagnostico.
+                        El siguiente paso es diagnostico.
                       </p>
                     </div>
                   </div>
@@ -276,8 +274,7 @@ export function PresupuestoDashboard() {
                       Brief para pedir una primera estimacion
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      Los campos clave son servicio, empresa, objetivo y fuentes. El resto suma
-                      contexto, pero no bloquea el envio.
+                      Servicio, empresa, objetivo y fuentes son lo clave. El resto suma contexto.
                     </p>
                   </div>
                 </div>
@@ -389,8 +386,8 @@ export function PresupuestoDashboard() {
                     <p className="text-sm font-semibold text-foreground">Respaldo y salida manual</p>
                   </div>
                   <p className="text-sm leading-relaxed text-muted-foreground">
-                    Enviamos confirmacion al email cargado y tambien una notificacion interna. Si
-                    algo falla, siempre podes copiar el brief y enviarlo manualmente a{" "}
+                    Te confirmo el envio por email y guardo el brief en el registro interno. Si
+                    algo falla, siempre podes copiarlo y enviarlo manualmente a{" "}
                     <a
                       href={`mailto:${CONTACT_EMAIL}`}
                       className="font-medium text-foreground underline underline-offset-2"

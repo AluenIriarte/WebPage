@@ -4,7 +4,7 @@ import { ArrowRight, ClipboardCheck } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
-import { QUOTE_PAGE_HREF, ROOT_DIAGNOSTIC_SECTION_HREF } from "../lib/contact";
+import { ROOT_DIAGNOSTIC_SECTION_HREF } from "../lib/contact";
 
 type QuoteRequestState = {
   nombre?: string;
@@ -64,7 +64,7 @@ export function GraciasPresupuestoDashboard() {
                 </div>
 
                 <h1 className="text-4xl font-semibold leading-[1.08] tracking-tight text-foreground md:text-5xl">
-                  {nombre ? `Recibido, ${nombre}.` : "Solicitud enviada."}
+                  {nombre ? `Gracias por confiar, ${nombre}.` : "Gracias por confiar."}
                 </h1>
 
                 <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">
@@ -93,10 +93,10 @@ export function GraciasPresupuestoDashboard() {
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Link>
                   <Link
-                    to={QUOTE_PAGE_HREF}
+                    to="/"
                     className="inline-flex items-center justify-center rounded-full border border-border px-7 py-3.5 text-sm font-medium text-foreground transition-colors hover:border-accent/35 hover:text-accent"
                   >
-                    Volver al brief
+                    Volver al inicio
                   </Link>
                 </div>
               </div>
