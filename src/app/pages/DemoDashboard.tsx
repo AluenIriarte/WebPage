@@ -513,9 +513,6 @@ function OpportunitiesGrid() {
               <p className={`text-2xl font-semibold tracking-tight ${card.tone}`}>{card.metric}</p>
               <p className="mt-1 text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground/55">{card.detail}</p>
             </div>
-            <span className="rounded-full border border-border/50 bg-[#FCFBFE] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/65">
-              Visible
-            </span>
           </div>
         </article>
       ))}
