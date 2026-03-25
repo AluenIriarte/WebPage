@@ -27,7 +27,7 @@ const folderCache = new Map();
 const listCache = new Map();
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
     if (request.method === "OPTIONS") {
@@ -58,7 +58,7 @@ export default {
 
       if (request.method === "POST" && url.pathname === "/quote-request") {
         const payload = await request.json();
-        await handleQuoteRequest(payload, env);
+        await handleQuoteRequest(payload, env, ctx);
         return json({ ok: true, message: "Solicitud enviada correctamente." });
       }
 
@@ -255,6 +255,32 @@ async function sendEmail(env, payload) {
   });
 }
 
+async function postQuoteBackupToSheet(env, payload) {
+  if (!env.QUOTE_SHEET_WEBHOOK_URL) {
+    return false;
+  }
+
+  const webhookUrl = new URL(env.QUOTE_SHEET_WEBHOOK_URL);
+  if (env.QUOTE_SHEET_WEBHOOK_TOKEN) {
+    webhookUrl.searchParams.set("token", env.QUOTE_SHEET_WEBHOOK_TOKEN);
+  }
+
+  const response = await fetch(webhookUrl.toString(), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Sheets webhook devolvio ${response.status}: ${errorText}`);
+  }
+
+  return true;
+}
+
 function buildAbsoluteResourceUrl(resourceHref) {
   return new URL(normalize(resourceHref) || "/", SITE_URL).toString();
 }
@@ -338,7 +364,7 @@ async function handleLeadMagnet(payload, env) {
   });
 }
 
-async function handleQuoteRequest(payload, env) {
+async function handleQuoteRequest(payload, env, ctx) {
   const nombre = requireValue(payload?.nombre, "Necesitamos tu nombre.");
   const email = requireEmail(payload?.email);
   const empresa = requireValue(payload?.empresa, "Necesitamos el nombre de tu empresa.");
@@ -350,6 +376,20 @@ async function handleQuoteRequest(payload, env) {
   const plazo = normalize(payload?.plazo);
   const desafio = normalize(payload?.desafio);
   const submittedAt = new Date().toISOString();
+  const backupPayload = {
+    kind: "quote_request",
+    nombre,
+    email,
+    empresa,
+    producto,
+    rol,
+    objetivo,
+    fuentes,
+    destinatarios,
+    plazo,
+    desafio,
+    submittedAt,
+  };
 
   logInfo("quote_request_received", {
     email,
@@ -401,25 +441,66 @@ async function handleQuoteRequest(payload, env) {
     textContent: `Gracias, ${nombre}. Recibimos tu solicitud para ${producto} y respondemos en las proximas 24 horas.`,
   });
 
-  await sendEmail(env, {
-    to: [{ email: env.BREVO_SENDER_EMAIL, name: env.BREVO_SENDER_NAME }],
-    subject: `Nueva solicitud de cotizacion: ${producto}`,
-    textContent: [
-      "Nueva solicitud desde la web",
-      "",
-      `Nombre: ${nombre}`,
-      `Email: ${email}`,
-      `Empresa: ${empresa}`,
-      `Producto o servicio: ${producto}`,
-      `Rol: ${rol || "-"}`,
-      `Objetivo: ${objetivo || "-"}`,
-      `Fuentes o herramientas: ${fuentes || "-"}`,
-      `Quienes lo usan: ${destinatarios || "-"}`,
-      `Plazo: ${plazo || "-"}`,
-      `Desafio principal: ${desafio || "-"}`,
-      `Fecha: ${submittedAt}`,
-    ].join("\n"),
-  });
+  const backupTask = async () => {
+    if (env.QUOTE_SHEET_WEBHOOK_URL) {
+      await postQuoteBackupToSheet(env, backupPayload);
+      logInfo("quote_request_backed_up_to_sheet", {
+        email,
+        empresa,
+        producto,
+      });
+      return;
+    }
+
+    await sendEmail(env, {
+      to: [{ email: env.BREVO_SENDER_EMAIL, name: env.BREVO_SENDER_NAME }],
+      subject: `Nueva solicitud de cotizacion: ${producto}`,
+      textContent: [
+        "Nueva solicitud desde la web",
+        "",
+        `Nombre: ${nombre}`,
+        `Email: ${email}`,
+        `Empresa: ${empresa}`,
+        `Producto o servicio: ${producto}`,
+        `Rol: ${rol || "-"}`,
+        `Objetivo: ${objetivo || "-"}`,
+        `Fuentes o herramientas: ${fuentes || "-"}`,
+        `Quienes lo usan: ${destinatarios || "-"}`,
+        `Plazo: ${plazo || "-"}`,
+        `Desafio principal: ${desafio || "-"}`,
+        `Fecha: ${submittedAt}`,
+      ].join("\n"),
+    });
+    logInfo("quote_request_internal_email_sent", {
+      email,
+      empresa,
+      producto,
+    });
+  };
+
+  if (ctx?.waitUntil) {
+    ctx.waitUntil(
+      backupTask().catch((error) => {
+        logError("quote_request_backup_failed", {
+          email,
+          empresa,
+          producto,
+          message: error instanceof Error ? error.message : "unknown_error",
+        });
+      }),
+    );
+  } else {
+    try {
+      await backupTask();
+    } catch (error) {
+      logError("quote_request_backup_failed", {
+        email,
+        empresa,
+        producto,
+        message: error instanceof Error ? error.message : "unknown_error",
+      });
+    }
+  }
 
   logInfo("quote_request_processed", {
     email,

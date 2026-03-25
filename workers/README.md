@@ -10,6 +10,8 @@ Este Worker resuelve dos endpoints:
 - `BREVO_API_KEY`
 - `BREVO_SENDER_EMAIL`
 - `BREVO_SENDER_NAME`
+- `QUOTE_SHEET_WEBHOOK_URL` (opcional)
+- `QUOTE_SHEET_WEBHOOK_TOKEN` (recomendado si usas Google Sheets)
 
 ## Archivo para pegar en Cloudflare
 
@@ -81,6 +83,9 @@ Importante:
 
 - Un link editor de Google Sheets no alcanza para escribir desde el worker
 - Hace falta un webhook de Apps Script o credenciales de Google Sheets API
+- Hay un ejemplo listo en `workers/google-sheets-webhook.gs`
+- Si `QUOTE_SHEET_WEBHOOK_URL` esta configurado, la cotizacion se guarda en la Sheet y deja de usar el segundo email interno de Brevo
+- Si no esta configurado, el worker mantiene el email interno como fallback
 
 ## Flujo actual
 
