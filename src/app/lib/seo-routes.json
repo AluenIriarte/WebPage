@@ -121,6 +121,23 @@
       ]
     },
     {
+      "path": "/gracias/presupuesto-dashboard",
+      "title": "Solicitud recibida | Alan L. Perez",
+      "description": "Confirmacion de solicitud recibida para presupuesto o alcance.",
+      "canonical": "https://alanlperez.com/gracias/presupuesto-dashboard",
+      "robots": "noindex,follow",
+      "ogType": "website",
+      "schema": [
+        {
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": "Solicitud recibida para presupuesto",
+          "url": "https://alanlperez.com/gracias/presupuesto-dashboard",
+          "inLanguage": "es"
+        }
+      ]
+    },
+    {
       "path": "/presupuesto-dashboard",
       "title": "Pedir cotización para dashboard de ventas a medida | Alan L. Perez",
       "description": "Pedí cotización para un dashboard de ventas, tablero comercial o sistema de BI a medida. Alcance, contexto y presupuesto por email.",

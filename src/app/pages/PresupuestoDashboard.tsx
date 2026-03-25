@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { ArrowRight, Copy, Mail, ShieldCheck } from "lucide-react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import {
   CONTACT_EMAIL,
   PRODUCT_OPTIONS,
+  QUOTE_THANKYOU_HREF,
   ROOT_DIAGNOSTIC_SECTION_HREF,
   buildQuoteEmailBody,
   type QuoteBriefFields,
@@ -76,6 +77,7 @@ const emptyFields: QuoteBriefFields = {
 };
 
 export function PresupuestoDashboard() {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [fields, setFields] = useState<QuoteBriefFields>(emptyFields);
   const [copied, setCopied] = useState(false);
@@ -109,9 +111,19 @@ export function PresupuestoDashboard() {
       await submitQuoteRequest(fields);
       trackFormSubmit("quote_request", fields.producto);
       trackQuoteClick("quote_page_form", fields.producto);
-      setSubmitSuccess(
-        "Solicitud enviada. Te confirmamos por email y revisamos el caso dentro de las proximas 24 horas.",
-      );
+      const requestState = {
+        nombre: fields.nombre,
+        email: fields.email,
+        empresa: fields.empresa,
+        producto: fields.producto,
+      };
+      if (typeof window !== "undefined") {
+        window.sessionStorage.setItem("quote_request", JSON.stringify(requestState));
+      }
+      setSubmitSuccess("Solicitud enviada. Redirigiendo...");
+      window.setTimeout(() => {
+        navigate(QUOTE_THANKYOU_HREF, { state: requestState });
+      }, 700);
     } catch (error) {
       setSubmitError(
         error instanceof Error
@@ -132,6 +144,22 @@ export function PresupuestoDashboard() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
+      {submitSuccess ? (
+        <div className="fixed inset-x-0 top-24 z-50 flex justify-center px-6">
+          <div className="rounded-full border border-[#CBE9D7] bg-[#F2FFF7] px-5 py-3 text-sm font-medium text-[#1F6B3C] shadow-lg shadow-black/[0.05]">
+            {submitSuccess}
+          </div>
+        </div>
+      ) : null}
+
+      {submitError ? (
+        <div className="fixed inset-x-0 top-24 z-50 flex justify-center px-6">
+          <div className="rounded-full border border-[#F1C5C5] bg-[#FFF6F6] px-5 py-3 text-sm font-medium text-[#9B2C2C] shadow-lg shadow-black/[0.05]">
+            {submitError}
+          </div>
+        </div>
+      ) : null}
+
       <main>
         <section className="relative overflow-hidden pb-20 pt-36 lg:pb-24 lg:pt-44">
           <div className="pointer-events-none absolute inset-0 -z-10">
@@ -334,18 +362,6 @@ export function PresupuestoDashboard() {
                       )}
                     </label>
                   ))}
-
-                  {submitSuccess ? (
-                    <p className="rounded-[1rem] border border-[#CBE9D7] bg-[#F2FFF7] px-4 py-3 text-sm text-[#1F6B3C]">
-                      {submitSuccess}
-                    </p>
-                  ) : null}
-
-                  {submitError ? (
-                    <p className="rounded-[1rem] border border-[#F1C5C5] bg-[#FFF6F6] px-4 py-3 text-sm text-[#9B2C2C]">
-                      {submitError}
-                    </p>
-                  ) : null}
 
                   <div className="mt-2 flex flex-col gap-3 sm:flex-row">
                     <button

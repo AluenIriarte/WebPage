@@ -7,6 +7,7 @@ export const QUOTE_PAGE_HREF = "/presupuesto-dashboard";
 export const DEMO_PAGE_HREF = "/demo-dashboard";
 export const AUTO_DIAGNOSTIC_PAGE_HREF = "/auto-diagnostico";
 export const AUTO_DIAGNOSTIC_THANKYOU_HREF = "/gracias/auto-diagnostico";
+export const QUOTE_THANKYOU_HREF = "/gracias/presupuesto-dashboard";
 export const PRIMARY_SERVICE_PAGE_HREF = "/dashboard-de-ventas-power-bi";
 
 const quoteSubject = "Consulta por dashboard de ventas a medida";
