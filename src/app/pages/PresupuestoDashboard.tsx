@@ -7,33 +7,42 @@ import { Header } from "../components/Header";
 import {
   CONTACT_EMAIL,
   PRODUCT_OPTIONS,
+  ROOT_DIAGNOSTIC_SECTION_HREF,
   buildQuoteEmailBody,
   type QuoteBriefFields,
 } from "../lib/contact";
-import { trackFormSubmit, trackQuoteClick } from "../lib/analytics";
+import { trackDiagnosisClick, trackFormSubmit, trackQuoteClick } from "../lib/analytics";
 import { submitQuoteRequest } from "../lib/forms-api";
 
 const fieldConfig: {
   id: keyof QuoteBriefFields;
   label: string;
   placeholder: string;
+  required?: boolean;
   multiline?: boolean;
 }[] = [
-  { id: "nombre", label: "Nombre", placeholder: "Tu nombre" },
-  { id: "email", label: "Email", placeholder: "nombre@empresa.com" },
-  { id: "producto", label: "Producto / servicio", placeholder: "Selecciona una opcion" },
-  { id: "empresa", label: "Empresa", placeholder: "Nombre de tu empresa" },
+  { id: "nombre", label: "Nombre", placeholder: "Tu nombre", required: true },
+  { id: "email", label: "Email", placeholder: "nombre@empresa.com", required: true },
+  {
+    id: "producto",
+    label: "Producto / servicio",
+    placeholder: "Selecciona una opcion",
+    required: true,
+  },
+  { id: "empresa", label: "Empresa", placeholder: "Nombre de tu empresa", required: true },
   { id: "rol", label: "Rol", placeholder: "Tu rol o area" },
   {
     id: "objetivo",
     label: "Que necesitas ver",
     placeholder: "Que tipo de solucion, tablero o activo queres tener",
+    required: true,
     multiline: true,
   },
   {
     id: "fuentes",
     label: "Fuentes o herramientas actuales",
     placeholder: "Excel, CRM, ERP, SQL, Power BI, etc.",
+    required: true,
   },
   {
     id: "destinatarios",
@@ -146,20 +155,85 @@ export function PresupuestoDashboard() {
 
                 <div className="space-y-5">
                   <h1 className="text-4xl font-semibold leading-[1.08] tracking-tight text-foreground md:text-5xl lg:text-[3.2rem]">
-                    Pedi cotizacion para tu servicio o producto digital
+                    Pedi una primera estimacion de alcance
                   </h1>
                   <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground">
-                    Si ya tenes relativamente claro lo que necesitas, este es el camino mas directo:
-                    completas el brief y te respondemos por email con una primera lectura de alcance.
+                    Este paso es para casos con necesidad bastante definida. Completas el brief,
+                    reviso el contexto y te respondo por email con una primera lectura comercial y
+                    de alcance.
                   </p>
                   <p className="max-w-3xl text-base leading-relaxed text-foreground/70">
-                    Si todavia estas explorando que conviene construir o por donde empezar, te conviene pasar primero por servicios o diagnostico.
+                    Si todavia estas ordenando el problema o no tenes claro que conviene construir,
+                    el camino correcto es pasar primero por diagnostico.
                   </p>
                 </div>
 
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="rounded-[1.75rem] border border-border/55 bg-white/85 p-5">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
+                      Todavia lo estoy definiendo
+                    </p>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                      Si necesitas bajar el problema, ordenar prioridades o definir alcance, conviene
+                      arrancar por una conversacion corta.
+                    </p>
+                    <a
+                      href={ROOT_DIAGNOSTIC_SECTION_HREF}
+                      onClick={() => trackDiagnosisClick("quote_page_intro")}
+                      className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-accent transition-colors hover:text-accent/80"
+                    >
+                      Agendar diagnostico
+                      <ArrowRight className="h-4 w-4" />
+                    </a>
+                  </div>
+
+                  <div className="rounded-[1.75rem] border border-accent/20 bg-accent/[0.04] p-5">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent">
+                      Ya tengo claro lo que necesito
+                    </p>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                      Entonces este brief es el camino directo: servicio, contexto, fuentes y
+                      usuarios para poder responderte con criterio.
+                    </p>
+                    <a
+                      href="#brief-cotizacion"
+                      className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-foreground transition-colors hover:text-accent"
+                    >
+                      Completar brief
+                      <ArrowRight className="h-4 w-4" />
+                    </a>
+                  </div>
+                </div>
+
+                <div className="rounded-[1.75rem] border border-border/55 bg-white/75 p-5">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
+                    Que pasa despues
+                  </p>
+                  <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                    <div>
+                      <p className="text-sm font-medium text-foreground">Confirmacion inmediata</p>
+                      <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                        Te confirmo por email que el brief entro correctamente.
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-foreground">Revision en 24 horas</p>
+                      <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                        Revisamos el caso y respondemos con una primera lectura de alcance.
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-foreground">Si falta definicion</p>
+                      <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                        El siguiente paso natural es llevarlo a diagnostico.
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </motion.div>
 
               <motion.div
+                id="brief-cotizacion"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.75, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
@@ -170,9 +244,12 @@ export function PresupuestoDashboard() {
                     <Mail className="h-4.5 w-4.5 text-accent" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-foreground">Brief rapido para cotizar</p>
+                    <p className="text-sm font-semibold text-foreground">
+                      Brief para pedir una primera estimacion
+                    </p>
                     <p className="text-xs text-muted-foreground">
-                      Cuanto mas claro el contexto, mas util y precisa puede ser la respuesta.
+                      Los campos clave son servicio, empresa, objetivo y fuentes. El resto suma
+                      contexto, pero no bloquea el envio.
                     </p>
                   </div>
                 </div>
@@ -183,10 +260,13 @@ export function PresupuestoDashboard() {
                       <label key={field.id} className="space-y-1.5">
                         <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground/55">
                           {field.label}
+                          <span className="ml-2 normal-case tracking-normal text-muted-foreground/45">
+                            {field.required ? "Requerido" : "Opcional"}
+                          </span>
                         </span>
                         <input
                           type={field.id === "email" ? "email" : "text"}
-                          required
+                          required={field.required}
                           value={fields[field.id]}
                           onChange={(event) =>
                             setFields((previous) => ({
@@ -205,9 +285,13 @@ export function PresupuestoDashboard() {
                     <label key={field.id} className="space-y-1.5">
                       <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground/55">
                         {field.label}
+                        <span className="ml-2 normal-case tracking-normal text-muted-foreground/45">
+                          {field.required ? "Requerido" : "Opcional"}
+                        </span>
                       </span>
                       {field.id === "producto" ? (
                         <select
+                          required={field.required}
                           value={fields.producto}
                           onChange={(event) =>
                             setFields((previous) => ({ ...previous, producto: event.target.value }))
@@ -222,6 +306,7 @@ export function PresupuestoDashboard() {
                         </select>
                       ) : field.multiline ? (
                         <textarea
+                          required={field.required}
                           value={fields[field.id]}
                           onChange={(event) =>
                             setFields((previous) => ({
@@ -235,6 +320,7 @@ export function PresupuestoDashboard() {
                         />
                       ) : (
                         <input
+                          required={field.required}
                           value={fields[field.id]}
                           onChange={(event) =>
                             setFields((previous) => ({
@@ -284,10 +370,11 @@ export function PresupuestoDashboard() {
                 <div className="mt-6 rounded-2xl border border-accent/15 bg-accent/5 p-5">
                   <div className="mb-2 flex items-center gap-2">
                     <ShieldCheck className="h-4 w-4 text-accent" />
-                    <p className="text-sm font-semibold text-foreground">Como funciona</p>
+                    <p className="text-sm font-semibold text-foreground">Respaldo y salida manual</p>
                   </div>
                   <p className="text-sm leading-relaxed text-muted-foreground">
-                    Enviamos confirmacion al email cargado y tambien una notificacion interna. Si algo falla, siempre podes copiar el brief y enviarlo manualmente a{" "}
+                    Enviamos confirmacion al email cargado y tambien una notificacion interna. Si
+                    algo falla, siempre podes copiar el brief y enviarlo manualmente a{" "}
                     <a
                       href={`mailto:${CONTACT_EMAIL}`}
                       className="font-medium text-foreground underline underline-offset-2"
