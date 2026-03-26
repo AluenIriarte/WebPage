@@ -139,6 +139,10 @@ function optionalValue(value) {
   return normalize(value) || "-";
 }
 
+function requiresSources(producto) {
+  return normalize(producto).toLowerCase().includes("dashboard");
+}
+
 function getInternalRecipient(env) {
   return {
     email: env.BREVO_NOTIFICATION_EMAIL || env.BREVO_SENDER_EMAIL,
@@ -529,10 +533,12 @@ async function handleQuoteRequest(payload, env, ctx) {
     payload?.objetivo,
     "Necesitamos entender que necesitas ver para preparar la cotizacion.",
   );
-  const fuentes = requireValue(
-    payload?.fuentes,
-    "Necesitamos saber que fuentes o herramientas usas hoy.",
-  );
+  const fuentes = requiresSources(producto)
+    ? requireValue(
+        payload?.fuentes,
+        "Necesitamos saber que fuentes o herramientas usas hoy.",
+      )
+    : normalize(payload?.fuentes);
   const destinatarios = normalize(payload?.destinatarios);
   const plazo = normalize(payload?.plazo);
   const desafio = normalize(payload?.desafio);

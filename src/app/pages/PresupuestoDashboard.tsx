@@ -77,6 +77,10 @@ const STEP_TWO_FIELD_IDS: Array<keyof QuoteBriefFields> = [
   "desafio",
 ];
 
+function requiresSources(product: string) {
+  return product.toLowerCase().includes("dashboard");
+}
+
 const fieldConfigById = fieldConfig.reduce(
   (accumulator, field) => ({ ...accumulator, [field.id]: field }),
   {} as Record<keyof QuoteBriefFields, QuoteFieldConfig>,
@@ -148,13 +152,12 @@ export function PresupuestoDashboard() {
     setStepError(null);
 
     const missingField = stepOneFields.find(
-      (field) => field.required && !fields[field.id].trim(),
+      (field) => isFieldRequired(field.id) && !fields[field.id].trim(),
     );
 
     if (missingField) {
-      setStepError(
-        "Completá nombre, email, producto, empresa, qué necesitás ver y fuentes para seguir.",
-      );
+      const sourceText = requiresSources(fields.producto) ? " y fuentes" : "";
+      setStepError(`Completá nombre, email, producto, empresa, qué necesitás ver${sourceText} para seguir.`);
       focusField(missingField.id);
       return;
     }
@@ -169,23 +172,32 @@ export function PresupuestoDashboard() {
     moveToStep(2);
   }
 
+  function isFieldRequired(fieldId: keyof QuoteBriefFields) {
+    if (fieldId === "fuentes") {
+      return requiresSources(fields.producto);
+    }
+
+    return Boolean(fieldConfigById[fieldId].required);
+  }
+
   function renderField(field: QuoteFieldConfig) {
     const commonClassName =
       "w-full rounded-2xl border border-border/60 bg-white px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-accent/35";
+    const fieldRequired = isFieldRequired(field.id);
 
     return (
       <label key={field.id} className="space-y-1.5">
         <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground/55">
           {field.label}
           <span className="ml-2 normal-case tracking-normal text-muted-foreground/45">
-            {field.required ? "Requerido" : "Opcional"}
+            {fieldRequired ? "Requerido" : "Opcional"}
           </span>
         </span>
         {field.id === "producto" ? (
           <select
             id={`quote-${field.id}`}
             name={field.id}
-            required={field.required}
+            required={fieldRequired}
             value={fields.producto}
             onChange={(event) =>
               setFields((previous) => ({ ...previous, producto: event.target.value }))
@@ -202,7 +214,7 @@ export function PresupuestoDashboard() {
           <textarea
             id={`quote-${field.id}`}
             name={field.id}
-            required={field.required}
+            required={fieldRequired}
             value={fields[field.id]}
             onChange={(event) =>
               setFields((previous) => ({
@@ -219,7 +231,7 @@ export function PresupuestoDashboard() {
             id={`quote-${field.id}`}
             name={field.id}
             type={field.id === "email" ? "email" : "text"}
-            required={field.required}
+            required={fieldRequired}
             value={fields[field.id]}
             onChange={(event) =>
               setFields((previous) => ({
