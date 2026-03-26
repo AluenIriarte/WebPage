@@ -24,17 +24,17 @@ export function Hero() {
 
             <div className="space-y-5">
               <h1 className="text-4xl font-semibold leading-[1.1] tracking-tight text-foreground md:text-5xl lg:text-[3.25rem]">
-                {"Convert\u00ed tus datos de ventas "}
+                {"Convertí tus datos de ventas "}
                 <span className="text-accent">{"en ingresos"}</span>
               </h1>
               <p className="max-w-xl text-lg leading-relaxed text-muted-foreground md:text-xl">
                 {
-                  "Dise\u00f1o sistemas de decisi\u00f3n comercial para que veas qu\u00e9 clientes se enfr\u00edan, d\u00f3nde cede el margen y d\u00f3nde hay expansi\u00f3n real por capturar."
+                  "Diseño sistemas de decisión comercial para que veas qué clientes se enfrían, dónde cede el margen y dónde hay expansión real por capturar."
                 }
               </p>
               <p className="max-w-2xl text-sm leading-relaxed text-foreground/75 md:text-base">
                 {
-                  "Dashboards de ventas y BI comercial a medida para equipos que necesitan visibilidad sobre cartera, margen y expansi\u00f3n."
+                  "Dashboards de ventas y BI comercial a medida para equipos que necesitan visibilidad sobre cartera, margen y expansión."
                 }
               </p>
             </div>
@@ -46,7 +46,7 @@ export function Hero() {
                   onClick={() => trackDiagnosisClick("hero")}
                   className="inline-flex items-center justify-center rounded-full border border-border bg-white px-8 py-4 text-base font-medium text-foreground transition-all duration-300 hover:border-accent/40 hover:bg-accent/5 hover:text-accent"
                 >
-                  {"Agendar diagn\u00f3stico"}
+                  {"Agendar diagnóstico"}
                 </a>
 
                 <Link
@@ -60,12 +60,17 @@ export function Hero() {
               </div>
 
               <div className="pl-1">
+                <p className="mb-2 text-sm font-medium text-foreground/78">
+                  {"¿Ya tenés claro el proyecto?"}
+                </p>
                 <Link
                   to={QUOTE_PAGE_HREF}
                   onClick={() => trackQuoteClick("hero")}
-                  className="inline-flex items-center text-sm font-medium text-accent transition-colors duration-200 hover:text-accent/75"
+                  aria-label="Ir al formulario de cotización"
+                  className="group inline-flex items-center justify-center rounded-full border border-accent/25 bg-white px-5 py-3 text-sm font-semibold text-foreground transition-all duration-200 hover:border-accent/40 hover:bg-accent/8 hover:text-accent"
                 >
-                  {"\u00bfYa sab\u00e9s lo que quer\u00e9s? Ped\u00ed cotizaci\u00f3n"}
+                  {"Pedir cotización"}
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Link>
               </div>
             </div>
@@ -73,7 +78,7 @@ export function Hero() {
             <div className="border-t border-border/50 pt-6">
               <div className="flex flex-wrap gap-5">
                 {[
-                  { icon: Users, text: "Diagn\u00f3stico inicial de 15 minutos" },
+                  { icon: Users, text: "Diagnóstico inicial de 15 minutos" },
                   { icon: BarChart3, text: "Prioridades visibles en semanas" },
                   { icon: TrendingUp, text: "Trabajo confidencial y aplicado al negocio" },
                 ].map((item) => (
