@@ -12,6 +12,8 @@ const items = [
   "Si tiene sentido construir algo ahora o no",
 ];
 
+const cardLabelClassName = "text-[10px] font-semibold uppercase tracking-[0.16em]";
+
 export function EntryOffer() {
   return (
     <section id="contacto" className="relative overflow-hidden bg-white py-24 lg:py-36">
@@ -27,7 +29,7 @@ export function EntryOffer() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
-            className="space-y-8"
+            className="space-y-7"
           >
             <div className="flex items-center gap-3">
               <div className="h-px w-8 rounded-full bg-accent/40" />
@@ -65,7 +67,7 @@ export function EntryOffer() {
               </ul>
             </div>
 
-            <p className="text-sm font-medium text-muted-foreground/68">
+            <p className="pt-1 text-sm font-medium text-muted-foreground/68">
               {"Sin compromiso."}
             </p>
           </motion.div>
@@ -80,8 +82,8 @@ export function EntryOffer() {
             <div className="relative overflow-hidden rounded-3xl border border-border/50 bg-white shadow-2xl shadow-black/[0.06]">
               <div className="h-1 w-full bg-gradient-to-r from-accent/60 via-accent to-accent/60" />
 
-              <div className="space-y-6 p-8 lg:p-10">
-                <div className="space-y-3.5">
+              <div className="space-y-5 p-8 lg:p-10">
+                <div className="space-y-4">
                   <div className="inline-flex items-center gap-2 rounded-full border border-accent/12 bg-accent/8 px-3 py-1.5 text-[11px] font-semibold text-accent">
                     <Clock className="h-3 w-3" />
                     <span>15 min</span>
@@ -90,7 +92,7 @@ export function EntryOffer() {
                   </div>
 
                   <h3 className="max-w-[21rem] text-[1.5rem] font-semibold leading-tight tracking-tight text-foreground">
-                    {"Eleg\u00ed c\u00f3mo quer\u00e9s avanzar"}
+                    {"Eleg\u00ed el camino m\u00e1s \u00fatil para tu caso"}
                   </h3>
 
                   <p className="max-w-[24rem] text-[0.9rem] leading-relaxed text-muted-foreground">
@@ -99,13 +101,13 @@ export function EntryOffer() {
                     }
                   </p>
 
-                  <p className="max-w-[24rem] text-[0.92rem] leading-relaxed text-muted-foreground">
+                  <p className="max-w-[24rem] rounded-2xl border border-border/45 bg-[#FBFBFA] px-4 py-3 text-[0.9rem] leading-relaxed text-muted-foreground">
                     {"\u00bfPrefer\u00eds escribir primero? "}
                     <a
                       href={LINKEDIN_URL}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="font-medium text-accent underline decoration-accent/30 underline-offset-4 transition-colors hover:text-accent/80 hover:decoration-accent/70"
+                      className="font-medium text-accent underline decoration-accent/35 underline-offset-4 transition-colors hover:text-accent/80 hover:decoration-accent/70"
                     >
                       {"Hablemos por LinkedIn"}
                     </a>
@@ -115,7 +117,7 @@ export function EntryOffer() {
 
                 <div className="space-y-4">
                   <div className="rounded-[1.55rem] border border-accent/18 bg-accent/[0.05] p-6 shadow-[0_16px_40px_rgba(122,92,255,0.06)]">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-accent/52">
+                    <p className={`${cardLabelClassName} text-accent/52`}>
                       PRINCIPAL
                     </p>
                     <p className="mt-2.5 text-[1.05rem] font-semibold text-foreground">
@@ -137,14 +139,14 @@ export function EntryOffer() {
                     </a>
                   </div>
 
-                  <div className="rounded-[1.55rem] border border-border/55 bg-[#FBFBFA] p-5">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-foreground/34">
+                  <div className="rounded-[1.55rem] border border-border/65 bg-white/95 p-5 shadow-[0_10px_26px_rgba(15,23,42,0.03)]">
+                    <p className={`${cardLabelClassName} text-foreground/40`}>
                       SECUNDARIO
                     </p>
-                    <p className="mt-2.5 text-[1.02rem] font-semibold text-foreground">
+                    <p className="mt-2.5 text-[1.02rem] font-semibold text-foreground/95">
                       {"Cotizaci\u00f3n directa"}
                     </p>
-                    <p className="mt-2.5 max-w-[17rem] text-[0.9rem] leading-relaxed text-muted-foreground">
+                    <p className="mt-2.5 max-w-[17rem] text-[0.9rem] leading-relaxed text-muted-foreground/90">
                       {"Mejor para proyectos ya definidos."}
                     </p>
                     <Link
