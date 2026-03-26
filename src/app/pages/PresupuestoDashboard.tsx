@@ -5,14 +5,14 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import {
+  CALENDLY_URL,
   CONTACT_EMAIL,
   PRODUCT_OPTIONS,
   QUOTE_THANKYOU_HREF,
-  ROOT_DIAGNOSTIC_SECTION_HREF,
   buildQuoteEmailBody,
   type QuoteBriefFields,
 } from "../lib/contact";
-import { trackDiagnosisClick, trackFormSubmit, trackQuoteClick } from "../lib/analytics";
+import { trackCalendlyClick, trackDiagnosisClick, trackFormSubmit, trackQuoteClick } from "../lib/analytics";
 import { submitQuoteRequest } from "../lib/forms-api";
 
 const fieldConfig: {
@@ -27,15 +27,15 @@ const fieldConfig: {
   {
     id: "producto",
     label: "Producto / servicio",
-    placeholder: "Seleccion\u00e1 una opci\u00f3n",
+    placeholder: "Seleccioná una opción",
     required: true,
   },
   { id: "empresa", label: "Empresa", placeholder: "Nombre de tu empresa", required: true },
-  { id: "rol", label: "Rol", placeholder: "Tu rol o \u00e1rea" },
+  { id: "rol", label: "Rol", placeholder: "Tu rol o área" },
   {
     id: "objetivo",
-    label: "Qu\u00e9 necesit\u00e1s ver",
-    placeholder: "Qu\u00e9 tipo de soluci\u00f3n, tablero o activo quer\u00e9s tener",
+    label: "Qué necesitás ver",
+    placeholder: "Qué tipo de solución, tablero o activo querés tener",
     required: true,
     multiline: true,
   },
@@ -46,19 +46,16 @@ const fieldConfig: {
     required: true,
   },
   {
-    id: "destinatarios",
-    label: "Qui\u00e9nes lo van a usar",
-    placeholder: "Direcci\u00f3n, gerencia comercial, vendedores, etc.",
+    id: "destinatarios", label: "Quiénes lo van a usar", placeholder: "Dirección, gerencia comercial, vendedores, etc."
   },
   {
     id: "plazo",
-    label: "Plazo estimado",
-    placeholder: "Este mes, pr\u00f3ximo trimestre, sin fecha cerrada...",
+    label: "Plazo estimado", placeholder: "Este mes, próximo trimestre, sin fecha cerrada...",
   },
   {
     id: "desafio",
-    label: "Contexto o desaf\u00edo principal",
-    placeholder: "Qu\u00e9 duele hoy o qu\u00e9 quer\u00e9s resolver primero",
+    label: "Contexto o desafío principal",
+    placeholder: "Qué duele hoy o qué querés resolver primero",
     multiline: true,
   },
 ];
@@ -129,7 +126,7 @@ export function PresupuestoDashboard() {
       setSubmitError(
         error instanceof Error
           ? error.message
-          : "No pudimos enviar la solicitud. Prob\u00e1 de nuevo en unos segundos.",
+          : "No pudimos enviar la solicitud. Probá de nuevo en unos segundos.",
       );
     } finally {
       setIsSubmitting(false);
@@ -184,32 +181,34 @@ export function PresupuestoDashboard() {
 
                 <div className="space-y-5">
                   <h1 className="text-4xl font-semibold leading-[1.08] tracking-tight text-foreground md:text-5xl lg:text-[3.2rem]">
-                    Ped\u00ed una primera estimaci\u00f3n de alcance
+                    Pedí una primera estimación de alcance
                   </h1>
                   <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground">
-                    Si ya ten\u00e9s claro qu\u00e9 necesit\u00e1s, complet\u00e1 el brief y te respondo por email con
+                    Si ya tenés claro qué necesitás, completá el brief y te respondo por email con
                     una primera lectura de alcance.
                   </p>
                   <p className="max-w-3xl text-base leading-relaxed text-foreground/70">
-                    Si todav\u00eda lo est\u00e1s definiendo, primero conviene diagn\u00f3stico.
+                    Si todavía lo estás definiendo, primero conviene un diagnóstico.
                   </p>
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="rounded-[1.75rem] border border-border/55 bg-white/85 p-5">
                     <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-                      Todav\u00eda lo estoy definiendo
+                      Todavía lo estoy definiendo
                     </p>
                     <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                      Si te falta ordenar el problema, conviene una conversaci\u00f3n breve antes de
-                      cotizar.
+                      Si te falta ordenar el problema, conviene una conversación breve antes de cotizar.
                     </p>
                     <a
-                      href={ROOT_DIAGNOSTIC_SECTION_HREF}
-                      onClick={() => trackDiagnosisClick("quote_page_intro")}
+                      href={CALENDLY_URL}
+                      onClick={() => {
+                        trackDiagnosisClick("quote_page_intro");
+                        trackCalendlyClick("quote_page_intro");
+                      }}
                       className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-accent transition-colors hover:text-accent/80"
                     >
-                      Agendar diagn\u00f3stico
+                      Agendar diagnóstico
                       <ArrowRight className="h-4 w-4" />
                     </a>
                   </div>
@@ -231,32 +230,6 @@ export function PresupuestoDashboard() {
                     </a>
                   </div>
                 </div>
-
-                <div className="rounded-[1.75rem] border border-border/55 bg-white/75 p-5">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-                    Qu\u00e9 pasa despu\u00e9s
-                  </p>
-                  <div className="mt-4 grid gap-3 sm:grid-cols-3">
-                    <div>
-                      <p className="text-sm font-medium text-foreground">Confirmaci\u00f3n inmediata</p>
-                      <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                        Recib\u00eds el ok por email.
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-foreground">Revisi\u00f3n en 24 horas</p>
-                      <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                        Respondo con una primera lectura.
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-foreground">Si falta definici\u00f3n</p>
-                      <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                        El siguiente paso es diagn\u00f3stico.
-                      </p>
-                    </div>
-                  </div>
-                </div>
               </motion.div>
 
               <motion.div
@@ -272,7 +245,7 @@ export function PresupuestoDashboard() {
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-foreground">
-                      Brief para pedir una primera estimaci\u00f3n
+                      Brief para pedir una primera estimación
                     </p>
                     <p className="text-xs text-muted-foreground">
                       Servicio, empresa, objetivo y fuentes son lo clave. El resto suma contexto.
@@ -387,8 +360,8 @@ export function PresupuestoDashboard() {
                     <p className="text-sm font-semibold text-foreground">Respaldo y salida manual</p>
                   </div>
                   <p className="text-sm leading-relaxed text-muted-foreground">
-                    Te confirmo el env\u00edo por email y guardo el brief en el registro interno. Si
-                    algo falla, siempre pod\u00e9s copiarlo y enviarlo manualmente a{" "}
+                    Te confirmo el envío por email y guardo el brief en el registro interno. Si algo
+                    falla, siempre podés copiarlo y enviarlo manualmente a{" "}
                     <a
                       href={`mailto:${CONTACT_EMAIL}`}
                       className="font-medium text-foreground underline underline-offset-2"
