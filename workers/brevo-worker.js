@@ -545,7 +545,6 @@ async function handleQuoteRequest(payload, env, ctx) {
   const submittedAt = new Date().toISOString();
   const requestId = createRequestId();
   const summaryLines = [
-    `ID: ${requestId}`,
     `Nombre: ${nombre}`,
     `Email: ${email}`,
     `Empresa: ${empresa}`,
@@ -559,7 +558,6 @@ async function handleQuoteRequest(payload, env, ctx) {
     `Fecha: ${submittedAt}`,
   ];
   const summaryHtml = [
-    `<strong>ID:</strong> ${escapeHtml(requestId)}`,
     `<strong>Empresa:</strong> ${escapeHtml(empresa)}`,
     `<strong>Servicio:</strong> ${escapeHtml(producto)}`,
     `<strong>Rol:</strong> ${escapeHtml(optionalValue(rol))}`,

@@ -255,11 +255,10 @@ export function PresupuestoDashboard() {
     setIsSubmitting(true);
 
     try {
-      const response = await submitQuoteRequest(fields);
+      await submitQuoteRequest(fields);
       trackFormSubmit("quote_request", fields.producto);
       trackQuoteClick("quote_page_form", fields.producto);
       const requestState = {
-        requestId: response.requestId,
         nombre: fields.nombre,
         email: fields.email,
         empresa: fields.empresa,

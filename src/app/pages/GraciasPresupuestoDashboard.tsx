@@ -4,10 +4,9 @@ import { ArrowRight, ClipboardCheck } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
-import { ROOT_DIAGNOSTIC_SECTION_HREF } from "../lib/contact";
+import { CALENDLY_URL } from "../lib/contact";
 
 type QuoteRequestState = {
-  requestId?: string;
   nombre?: string;
   email?: string;
   empresa?: string;
@@ -35,7 +34,6 @@ export function GraciasPresupuestoDashboard() {
   const email = request?.email?.trim();
   const empresa = request?.empresa?.trim();
   const producto = request?.producto?.trim();
-  const requestId = request?.requestId?.trim();
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
@@ -71,34 +69,29 @@ export function GraciasPresupuestoDashboard() {
 
                 <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">
                   {email
-                    ? `Te confirmamos por email en ${email} que el brief entr\u00f3 correctamente.`
-                    : "Te confirmamos por email que el brief entr\u00f3 correctamente."}
+                    ? `Te confirmamos por email en ${email} que el brief entró correctamente.`
+                    : "Te confirmamos por email que el brief entró correctamente."}
                 </p>
 
                 <div className="mt-6 space-y-3 text-base leading-relaxed text-foreground/72">
-                  <p>Revis\u00e1 tu inbox y tambi\u00e9n spam o promociones por si la confirmaci\u00f3n cae ah\u00ed.</p>
-                  <p>Reviso el caso y te respondo en las pr\u00f3ximas 24 horas con una primera lectura de alcance.</p>
+                  <p>Revisá tu inbox y también spam o promociones por si la confirmación cae ahí.</p>
+                  <p>Reviso el caso y te respondo en las próximas 24 horas con una primera lectura de alcance.</p>
                   {producto || empresa ? (
                     <p className="text-sm text-muted-foreground">
                       {producto ? `Servicio: ${producto}. ` : ""}
                       {empresa ? `Empresa: ${empresa}.` : ""}
                     </p>
                   ) : null}
-                  {requestId ? (
-                    <p className="text-sm text-muted-foreground">
-                      Referencia de solicitud: <span className="font-medium text-foreground">{requestId}</span>
-                    </p>
-                  ) : null}
                 </div>
 
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                  <Link
-                    to={ROOT_DIAGNOSTIC_SECTION_HREF}
+                  <a
+                    href={CALENDLY_URL}
                     className="group inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-accent/90"
                   >
-                    Agendar diagn\u00f3stico
+                    Agendar diagnóstico
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </Link>
+                  </a>
                   <Link
                     to="/"
                     className="inline-flex items-center justify-center rounded-full border border-border px-7 py-3.5 text-sm font-medium text-foreground transition-colors hover:border-accent/35 hover:text-accent"
