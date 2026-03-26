@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { ArrowRight, Copy, Mail, ShieldCheck } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -15,13 +15,15 @@ import {
 import { trackCalendlyClick, trackDiagnosisClick, trackFormSubmit, trackQuoteClick } from "../lib/analytics";
 import { submitQuoteRequest } from "../lib/forms-api";
 
-const fieldConfig: {
+type QuoteFieldConfig = {
   id: keyof QuoteBriefFields;
   label: string;
   placeholder: string;
   required?: boolean;
   multiline?: boolean;
-}[] = [
+};
+
+const fieldConfig: QuoteFieldConfig[] = [
   { id: "nombre", label: "Nombre", placeholder: "Tu nombre", required: true },
   { id: "email", label: "Email", placeholder: "nombre@empresa.com", required: true },
   {
@@ -60,6 +62,26 @@ const fieldConfig: {
   },
 ];
 
+const STEP_ONE_FIELD_IDS: Array<keyof QuoteBriefFields> = [
+  "nombre",
+  "email",
+  "producto",
+  "empresa",
+  "objetivo",
+  "fuentes",
+];
+const STEP_TWO_FIELD_IDS: Array<keyof QuoteBriefFields> = [
+  "rol",
+  "destinatarios",
+  "plazo",
+  "desafio",
+];
+
+const fieldConfigById = fieldConfig.reduce(
+  (accumulator, field) => ({ ...accumulator, [field.id]: field }),
+  {} as Record<keyof QuoteBriefFields, QuoteFieldConfig>,
+);
+
 const emptyFields: QuoteBriefFields = {
   nombre: "",
   email: "",
@@ -76,9 +98,12 @@ const emptyFields: QuoteBriefFields = {
 export function PresupuestoDashboard() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const formCardRef = useRef<HTMLDivElement | null>(null);
   const [fields, setFields] = useState<QuoteBriefFields>(emptyFields);
+  const [currentStep, setCurrentStep] = useState<1 | 2>(1);
   const [copied, setCopied] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [stepError, setStepError] = useState<string | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
 
@@ -96,6 +121,119 @@ export function PresupuestoDashboard() {
   }, [searchParams]);
 
   const emailBody = buildQuoteEmailBody(fields);
+  const stepOneFields = STEP_ONE_FIELD_IDS.map((fieldId) => fieldConfigById[fieldId]);
+  const stepTwoFields = STEP_TWO_FIELD_IDS.map((fieldId) => fieldConfigById[fieldId]);
+
+  function focusField(fieldId: keyof QuoteBriefFields) {
+    if (typeof document === "undefined") {
+      return;
+    }
+
+    const fieldElement = document.getElementById(`quote-${fieldId}`);
+    if (fieldElement instanceof HTMLElement) {
+      fieldElement.focus();
+    }
+  }
+
+  function moveToStep(step: 1 | 2) {
+    setCurrentStep(step);
+    setStepError(null);
+    window.requestAnimationFrame(() => {
+      formCardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
+
+  function handleNextStep() {
+    setSubmitError(null);
+    setStepError(null);
+
+    const missingField = stepOneFields.find(
+      (field) => field.required && !fields[field.id].trim(),
+    );
+
+    if (missingField) {
+      setStepError(
+        "Completá nombre, email, producto, empresa, qué necesitás ver y fuentes para seguir.",
+      );
+      focusField(missingField.id);
+      return;
+    }
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(fields.email.trim())) {
+      setStepError("Ingresá un email válido para seguir.");
+      focusField("email");
+      return;
+    }
+
+    moveToStep(2);
+  }
+
+  function renderField(field: QuoteFieldConfig) {
+    const commonClassName =
+      "w-full rounded-2xl border border-border/60 bg-white px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-accent/35";
+
+    return (
+      <label key={field.id} className="space-y-1.5">
+        <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground/55">
+          {field.label}
+          <span className="ml-2 normal-case tracking-normal text-muted-foreground/45">
+            {field.required ? "Requerido" : "Opcional"}
+          </span>
+        </span>
+        {field.id === "producto" ? (
+          <select
+            id={`quote-${field.id}`}
+            name={field.id}
+            required={field.required}
+            value={fields.producto}
+            onChange={(event) =>
+              setFields((previous) => ({ ...previous, producto: event.target.value }))
+            }
+            className={commonClassName}
+          >
+            {PRODUCT_OPTIONS.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        ) : field.multiline ? (
+          <textarea
+            id={`quote-${field.id}`}
+            name={field.id}
+            required={field.required}
+            value={fields[field.id]}
+            onChange={(event) =>
+              setFields((previous) => ({
+                ...previous,
+                [field.id]: event.target.value,
+              }))
+            }
+            rows={4}
+            placeholder={field.placeholder}
+            className={`min-h-[104px] ${commonClassName}`}
+          />
+        ) : (
+          <input
+            id={`quote-${field.id}`}
+            name={field.id}
+            type={field.id === "email" ? "email" : "text"}
+            required={field.required}
+            value={fields[field.id]}
+            onChange={(event) =>
+              setFields((previous) => ({
+                ...previous,
+                [field.id]: event.target.value,
+              }))
+            }
+            placeholder={field.placeholder}
+            className={commonClassName}
+          />
+        )}
+      </label>
+    );
+  }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -234,6 +372,7 @@ export function PresupuestoDashboard() {
 
               <motion.div
                 id="brief-cotizacion"
+                ref={formCardRef}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.75, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
@@ -244,113 +383,77 @@ export function PresupuestoDashboard() {
                     <Mail className="h-4.5 w-4.5 text-accent" />
                   </div>
                   <div>
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground/50">
+                      {currentStep === 1 ? "Paso 1 de 2" : "Paso 2 de 2"}
+                    </p>
                     <p className="text-sm font-semibold text-foreground">
                       Brief para pedir una primera estimación
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      Servicio, empresa, objetivo y fuentes son lo clave. El resto suma contexto.
+                      {currentStep === 1
+                        ? "Arrancá con los datos clave para poder estimar bien."
+                        : "Este paso es opcional y suma contexto para afinar la lectura."}
                     </p>
                   </div>
                 </div>
 
                 <form onSubmit={handleSubmit} className="grid gap-4">
-                  <div className="grid gap-4 lg:grid-cols-2">
-                    {fieldConfig.slice(0, 2).map((field) => (
-                      <label key={field.id} className="space-y-1.5">
-                        <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground/55">
-                          {field.label}
-                          <span className="ml-2 normal-case tracking-normal text-muted-foreground/45">
-                            {field.required ? "Requerido" : "Opcional"}
-                          </span>
-                        </span>
-                        <input
-                          type={field.id === "email" ? "email" : "text"}
-                          required={field.required}
-                          value={fields[field.id]}
-                          onChange={(event) =>
-                            setFields((previous) => ({
-                              ...previous,
-                              [field.id]: event.target.value,
-                            }))
-                          }
-                          placeholder={field.placeholder}
-                          className="w-full rounded-2xl border border-border/60 bg-white px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-accent/35"
-                        />
-                      </label>
-                    ))}
-                  </div>
+                  {currentStep === 1 ? (
+                    <>
+                      <div className="grid gap-4 lg:grid-cols-2">
+                        {stepOneFields.slice(0, 4).map((field) => renderField(field))}
+                      </div>
+                      {stepOneFields.slice(4).map((field) => renderField(field))}
+                    </>
+                  ) : (
+                    <>
+                      {stepTwoFields.map((field) => renderField(field))}
+                    </>
+                  )}
 
-                  {fieldConfig.slice(2).map((field) => (
-                    <label key={field.id} className="space-y-1.5">
-                      <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground/55">
-                        {field.label}
-                        <span className="ml-2 normal-case tracking-normal text-muted-foreground/45">
-                          {field.required ? "Requerido" : "Opcional"}
-                        </span>
-                      </span>
-                      {field.id === "producto" ? (
-                        <select
-                          required={field.required}
-                          value={fields.producto}
-                          onChange={(event) =>
-                            setFields((previous) => ({ ...previous, producto: event.target.value }))
-                          }
-                          className="w-full rounded-2xl border border-border/60 bg-white px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-accent/35"
-                        >
-                          {PRODUCT_OPTIONS.map((option) => (
-                            <option key={option} value={option}>
-                              {option}
-                            </option>
-                          ))}
-                        </select>
-                      ) : field.multiline ? (
-                        <textarea
-                          required={field.required}
-                          value={fields[field.id]}
-                          onChange={(event) =>
-                            setFields((previous) => ({
-                              ...previous,
-                              [field.id]: event.target.value,
-                            }))
-                          }
-                          rows={4}
-                          placeholder={field.placeholder}
-                          className="min-h-[104px] w-full rounded-2xl border border-border/60 bg-white px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-accent/35"
-                        />
-                      ) : (
-                        <input
-                          required={field.required}
-                          value={fields[field.id]}
-                          onChange={(event) =>
-                            setFields((previous) => ({
-                              ...previous,
-                              [field.id]: event.target.value,
-                            }))
-                          }
-                          placeholder={field.placeholder}
-                          className="w-full rounded-2xl border border-border/60 bg-white px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-accent/35"
-                        />
-                      )}
-                    </label>
-                  ))}
+                  {stepError ? (
+                    <p className="rounded-[1rem] border border-[#F1D7B5] bg-[#FFF8EF] px-4 py-3 text-sm text-[#8A5A12]">
+                      {stepError}
+                    </p>
+                  ) : null}
 
                   <div className="mt-2 flex flex-col gap-3 sm:flex-row">
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="group inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-medium text-white transition-colors hover:bg-accent/90 disabled:cursor-not-allowed disabled:opacity-70"
-                    >
-                      {isSubmitting ? "Enviando..." : "Enviar solicitud"}
-                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleCopy}
-                      className="inline-flex items-center justify-center gap-2 rounded-full border border-border px-6 py-3.5 text-sm font-medium text-foreground transition-colors hover:border-accent/35 hover:text-accent"
-                    >
-                      <Copy className="h-4 w-4" />
-                      {copied ? "Brief copiado" : "Copiar brief"}
-                    </button>
+                    {currentStep === 1 ? (
+                      <button
+                        type="button"
+                        onClick={handleNextStep}
+                        className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-medium text-white transition-colors hover:bg-accent/90"
+                      >
+                        Siguiente
+                        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      </button>
+                    ) : (
+                      <>
+                        <button
+                          type="button"
+                          onClick={() => moveToStep(1)}
+                          className="inline-flex items-center justify-center rounded-full border border-border px-5 py-3.5 text-sm font-medium text-foreground transition-colors hover:border-accent/35 hover:text-accent"
+                        >
+                          Volver
+                        </button>
+                        <button
+                          type="submit"
+                          disabled={isSubmitting}
+                          className="group inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-medium text-white transition-colors hover:bg-accent/90 disabled:cursor-not-allowed disabled:opacity-70"
+                        >
+                          {isSubmitting ? "Enviando..." : "Enviar solicitud"}
+                          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={handleCopy}
+                          className="inline-flex items-center justify-center gap-2 rounded-full border border-border px-5 py-3.5 text-sm font-medium text-foreground transition-colors hover:border-accent/35 hover:text-accent"
+                        >
+                          <Copy className="h-4 w-4" />
+                          {copied ? "Brief copiado" : "Copiar brief"}
+                        </button>
+                      </>
+                    )}
                   </div>
                 </form>
 
