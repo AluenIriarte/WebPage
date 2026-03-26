@@ -15,7 +15,7 @@ import {
 import { AlertCircle, ArrowRight, BarChart2, Clock3, Layers3, Linkedin, Package, TrendingUp, Users } from "lucide-react";
 import { Header } from "../components/Header";
 import { trackDiagnosisClick, trackQuoteClick } from "../lib/analytics";
-import { buildQuotePageHref, ROOT_DIAGNOSTIC_SECTION_HREF } from "../lib/contact";
+import { buildQuotePageHref, CALENDLY_URL } from "../lib/contact";
 
 const LINKEDIN_URL = "https://www.linkedin.com/in/alan-leonel-perez-argentina/?skipRedirect=true";
 const DEMO_QUOTE_HREF = buildQuotePageHref("Dashboard de ventas / BI comercial a medida");
@@ -629,7 +629,7 @@ export function DemoDashboard() {
                   </div>
                   <div className="flex shrink-0 gap-2">
                     <a
-                      href={ROOT_DIAGNOSTIC_SECTION_HREF}
+                      href={CALENDLY_URL}
                       onClick={() => trackDiagnosisClick("demo_primary_cta")}
                       className="whitespace-nowrap rounded-lg bg-[#7111DF] px-4 py-2 text-sm text-white transition-colors hover:bg-[#5c0ec0]"
                     >
@@ -682,7 +682,7 @@ export function DemoDashboard() {
               </p>
               <div className="mt-6 flex flex-col items-start gap-3">
                 <a
-                  href={ROOT_DIAGNOSTIC_SECTION_HREF}
+                  href={CALENDLY_URL}
                   onClick={() => trackDiagnosisClick("opportunities_section_cta")}
                   className="inline-flex min-h-11 items-center justify-center rounded-[14px] bg-[#7111DF] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#5c0ec0]"
                 >

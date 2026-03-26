@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, BarChart3, TrendingUp, Users } from "lucide-react";
-import { DEMO_PAGE_HREF } from "../lib/contact";
+import { CALENDLY_URL, DEMO_PAGE_HREF } from "../lib/contact";
 import { trackDiagnosisClick, trackEvent } from "../lib/analytics";
 import { InteractiveDashboard } from "./HeroDashboard";
 
@@ -42,7 +42,7 @@ export function Hero() {
             <div className="space-y-3">
               <div className="flex flex-col gap-4 sm:flex-row">
                 <a
-                  href="#contacto"
+                  href={CALENDLY_URL}
                   onClick={() => trackDiagnosisClick("hero")}
                   className="group inline-flex items-center justify-center rounded-full bg-accent px-8 py-4 text-base font-medium text-accent-foreground transition-all duration-300 hover:scale-[1.02] hover:bg-accent/90 hover:shadow-xl hover:shadow-accent/25"
                 >

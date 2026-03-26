@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { Clock, ArrowRight } from "lucide-react";
+import { ArrowRight, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { CALENDLY_URL, QUOTE_PAGE_HREF } from "../lib/contact";
 import { trackCalendlyClick, trackDiagnosisClick, trackQuoteClick } from "../lib/analytics";
@@ -7,8 +7,8 @@ import { trackCalendlyClick, trackDiagnosisClick, trackQuoteClick } from "../lib
 const LINKEDIN_URL = "https://www.linkedin.com/in/alan-leonel-perez-argentina/?skipRedirect=true";
 
 const items = [
-  "Dónde puede estar yéndose dinero hoy sin que esté visible",
-  "Qué señal conviene mirar primero",
+  "D\u00f3nde puede estar y\u00e9ndose dinero sin que hoy sea visible",
+  "Qu\u00e9 se\u00f1al conviene mirar primero",
   "Si el problema es de datos, de foco o de lectura comercial",
   "Si tiene sentido construir algo ahora o no",
 ];
@@ -17,7 +17,7 @@ export function EntryOffer() {
   return (
     <section id="contacto" className="relative overflow-hidden bg-white py-24 lg:py-36">
       <div
-        className="absolute top-0 left-1/2 -z-10 h-[400px] w-[700px] -translate-x-1/2 opacity-25 blur-3xl pointer-events-none"
+        className="pointer-events-none absolute top-0 left-1/2 -z-10 h-[400px] w-[700px] -translate-x-1/2 opacity-25 blur-3xl"
         style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(139,92,246,0.12) 0%, transparent 70%)" }}
       />
 
@@ -38,21 +38,21 @@ export function EntryOffer() {
             </div>
 
             <div className="space-y-5">
-              <h2 className="text-[2rem] font-semibold leading-[1.13] tracking-tight text-foreground md:text-[2.4rem] lg:text-[2.6rem]">
-                {"En 15 minutos podemos saber si tiene sentido trabajar juntos"}
+              <h2 className="max-w-[30rem] text-[2rem] font-semibold leading-[1.12] tracking-tight text-foreground md:text-[2.35rem] lg:text-[2.55rem]">
+                {"En 15 minutos podemos ver si tiene sentido avanzar"}
               </h2>
-              <p className="max-w-md text-[1.05rem] leading-[1.75] text-muted-foreground">
+              <p className="max-w-[31rem] text-[1.02rem] leading-[1.72] text-muted-foreground">
                 {
-                  "No es una llamada comercial genérica. Es una revisión inicial para ver si hoy hay una pérdida visible en cartera, margen o expansión."
+                  "No es una llamada comercial gen\u00e9rica. Es una revisi\u00f3n inicial para detectar si hoy hay una p\u00e9rdida visible en cartera, margen o expansi\u00f3n."
                 }
               </p>
             </div>
 
             <div className="space-y-4">
-              <p className="text-[0.8rem] font-semibold uppercase tracking-[0.12em] text-foreground/40">
+              <p className="text-[0.78rem] font-semibold uppercase tracking-[0.12em] text-foreground/38">
                 {"En esa llamada revisamos"}
               </p>
-              <ul className="space-y-3">
+              <ul className="max-w-[31rem] space-y-3">
                 {items.map((item, index) => (
                   <motion.li
                     key={item}
@@ -62,14 +62,14 @@ export function EntryOffer() {
                     transition={{ duration: 0.4, delay: 0.15 + index * 0.07, ease: [0.22, 1, 0.36, 1] }}
                     className="flex items-start gap-3"
                   >
-                    <div className="mt-2 h-1 w-1 flex-shrink-0 rounded-full bg-accent/50" />
-                    <span className="text-[0.9rem] leading-relaxed text-foreground/70">{item}</span>
+                    <div className="mt-2 h-1 w-1 flex-shrink-0 rounded-full bg-accent/45" />
+                    <span className="text-[0.92rem] leading-relaxed text-foreground/70">{item}</span>
                   </motion.li>
                 ))}
               </ul>
             </div>
 
-            <p className="border-t border-border/30 pt-6 text-sm text-muted-foreground/60">
+            <p className="max-w-[31rem] border-t border-border/30 pt-6 text-sm text-muted-foreground/60">
               {"Sin compromiso. Sin necesidad de tener todo resuelto de antemano."}
             </p>
           </motion.div>
@@ -84,38 +84,37 @@ export function EntryOffer() {
             <div className="relative overflow-hidden rounded-3xl border border-border/50 bg-white shadow-2xl shadow-black/[0.06]">
               <div className="h-1 w-full bg-gradient-to-r from-accent/60 via-accent to-accent/60" />
 
-              <div className="space-y-8 p-8 lg:p-10">
+              <div className="space-y-7 p-8 lg:p-10">
                 <div className="space-y-3">
-                  <div className="flex items-center gap-2.5">
-                    <div className="inline-flex items-center gap-1.5 rounded-full border border-accent/12 bg-accent/8 px-3 py-1.5">
-                      <Clock className="h-3 w-3 text-accent" />
-                      <span className="text-[11px] font-semibold text-accent">15 min</span>
-                    </div>
-                    <span className="text-[11px] font-medium text-muted-foreground/50">Sin costo</span>
+                  <div className="inline-flex items-center gap-2 rounded-full border border-accent/12 bg-accent/8 px-3 py-1.5 text-[11px] font-semibold text-accent">
+                    <Clock className="h-3 w-3" />
+                    <span>15 min</span>
+                    <span className="h-1 w-1 rounded-full bg-accent/55" />
+                    <span>Sin costo</span>
                   </div>
 
-                  <h3 className="text-[1.5rem] font-semibold leading-tight tracking-tight text-foreground">
-                    {"Elegí cómo querés avanzar"}
+                  <h3 className="max-w-[24rem] text-[1.5rem] font-semibold leading-tight tracking-tight text-foreground">
+                    {"Eleg\u00ed el camino m\u00e1s \u00fatil para tu caso"}
                   </h3>
 
-                  <p className="text-[0.9rem] leading-relaxed text-muted-foreground">
+                  <p className="max-w-[26rem] text-[0.9rem] leading-relaxed text-muted-foreground">
                     {
-                      "Si necesitás una lectura inicial, el camino natural es diagnóstico. Si ya tenés el alcance bastante claro, podés pasar directo a cotización."
+                      "Si todav\u00eda necesit\u00e1s una lectura inicial, empez\u00e1 por diagn\u00f3stico. Si ya definiste objetivo, fuentes y alcance, pod\u00e9s pasar directo a cotizaci\u00f3n."
                     }
                   </p>
                 </div>
 
                 <div className="space-y-4">
-                  <div className="rounded-[1.5rem] border border-accent/18 bg-accent/[0.05] p-5">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-accent/70">
+                  <div className="rounded-[1.55rem] border border-accent/18 bg-accent/[0.05] p-5 shadow-[0_16px_40px_rgba(122,92,255,0.06)]">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-accent/58">
                       Principal
                     </p>
-                    <p className="mt-2 text-base font-semibold text-foreground">
-                      {"Solicitar diagnóstico"}
+                    <p className="mt-2 text-[1.02rem] font-semibold text-foreground">
+                      {"Diagn\u00f3stico inicial"}
                     </p>
-                    <p className="mt-2 text-[0.9rem] leading-relaxed text-muted-foreground">
+                    <p className="mt-2 max-w-[24rem] text-[0.9rem] leading-relaxed text-muted-foreground">
                       {
-                        "Ideal si todavía necesitás ordenar el problema, validar prioridad o entender si hoy conviene construir algo."
+                        "Ideal si todav\u00eda necesit\u00e1s ordenar el problema, validar prioridad o entender si hoy conviene construir algo."
                       }
                     </p>
                     <a
@@ -126,36 +125,36 @@ export function EntryOffer() {
                       }}
                       className="group mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-base font-medium text-accent-foreground transition-all duration-300 hover:bg-accent/90 hover:shadow-xl hover:shadow-accent/20"
                     >
-                      {"Solicitar diagnóstico"}
+                      {"Agendar diagn\u00f3stico"}
                       <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
                     </a>
                   </div>
 
-                  <div className="rounded-[1.5rem] border border-border/60 bg-white p-5">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground/55">
+                  <div className="rounded-[1.55rem] border border-border/55 bg-[#FBFBFA] p-5">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-foreground/38">
                       Secundario
                     </p>
-                    <p className="mt-2 text-base font-semibold text-foreground">
-                      {"Solicitar cotización"}
+                    <p className="mt-2 text-[1.02rem] font-semibold text-foreground">
+                      {"Cotizaci\u00f3n directa"}
                     </p>
-                    <p className="mt-2 text-[0.9rem] leading-relaxed text-muted-foreground">
+                    <p className="mt-2 max-w-[24rem] text-[0.9rem] leading-relaxed text-muted-foreground">
                       {
-                        "Mejor si ya definiste objetivo, fuentes, usuarios y el tipo de solución que querés evaluar."
+                        "Mejor si ya definiste objetivo, fuentes, usuarios y el tipo de soluci\u00f3n que quer\u00e9s evaluar."
                       }
                     </p>
                     <Link
                       to={QUOTE_PAGE_HREF}
                       onClick={() => trackQuoteClick("entry_offer_secondary")}
-                      className="group mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full border border-border bg-white px-8 py-4 text-base font-medium text-foreground transition-all duration-300 hover:border-accent/35 hover:bg-accent/5 hover:text-accent"
+                      className="group mt-5 inline-flex items-center justify-center gap-2 rounded-full border border-border/70 bg-white px-6 py-3.5 text-sm font-medium text-foreground transition-all duration-300 hover:border-accent/35 hover:bg-accent/5 hover:text-accent"
                     >
-                      {"Solicitar cotización"}
+                      {"Completar brief"}
                       <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
                     </Link>
                   </div>
                 </div>
 
                 <p className="border-t border-border/30 pt-4 text-[11px] text-muted-foreground/55">
-                  {"Si preferís un contacto más simple primero, también podés "}
+                  {"\u00bfPrefer\u00eds un contacto m\u00e1s simple primero? Pod\u00e9s "}
                   <a
                     href={LINKEDIN_URL}
                     target="_blank"
@@ -176,7 +175,7 @@ export function EntryOffer() {
               transition={{ duration: 0.5, delay: 0.5 }}
               className="mt-5 text-center text-[11px] font-medium text-muted-foreground/45"
             >
-              {"Sin presentación comercial. Sin vueltas."}
+              {"Sin presentaci\u00f3n comercial. Sin vueltas."}
             </motion.p>
           </motion.div>
         </div>
