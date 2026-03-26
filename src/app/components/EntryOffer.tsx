@@ -118,7 +118,7 @@ export function EntryOffer() {
                 <div className="space-y-4">
                   <div className="rounded-[1.55rem] border border-accent/18 bg-accent/[0.05] p-6 shadow-[0_16px_40px_rgba(122,92,255,0.06)]">
                     <p className={`${cardLabelClassName} text-accent/52`}>
-                      PRINCIPAL
+                      PARA EMPEZAR
                     </p>
                     <p className="mt-2.5 text-[1.05rem] font-semibold text-foreground">
                       {"Diagn\u00f3stico inicial"}
@@ -141,7 +141,7 @@ export function EntryOffer() {
 
                   <div className="rounded-[1.55rem] border border-border/65 bg-white/95 p-5 shadow-[0_10px_26px_rgba(15,23,42,0.03)]">
                     <p className={`${cardLabelClassName} text-foreground/40`}>
-                      SECUNDARIO
+                      SI YA ESTA DEFINIDO
                     </p>
                     <p className="mt-2.5 text-[1.02rem] font-semibold text-foreground/95">
                       {"Cotizaci\u00f3n directa"}
