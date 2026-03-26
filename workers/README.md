@@ -1,114 +1,65 @@
 # Brevo Worker
 
-Este Worker resuelve dos endpoints:
+Este worker resuelve dos endpoints:
 
 - `POST /lead-magnet`
 - `POST /quote-request`
 
-## Secrets necesarios en Cloudflare
+## Estado actual
+
+- Worker publico: `https://divine-bread-7e7e.alanlperez1996.workers.dev`
+- Config de Wrangler: `workers/wrangler.toml`
+- Script principal: `workers/brevo-worker.js`
+- Tabla D1: `workers/d1-quote-requests.sql`
+
+## Flujo de cotizacion
+
+1. El usuario completa el brief en `src/app/pages/PresupuestoDashboard.tsx`
+2. El frontend envia el payload a `/quote-request`
+3. El worker crea `requestId`
+4. Guarda la cotizacion en D1 con estado `received`
+5. Sincroniza o crea el contacto en Brevo
+6. Envia un email de confirmacion al lead
+7. Si hay `INTERNAL_NOTIFY_WEBHOOK_URL`, dispara una notificacion interna en segundo plano
+8. Si todo sale bien, la cotizacion queda con estado `finalized`
+
+## Secrets y bindings
+
+Obligatorios:
 
 - `BREVO_API_KEY`
 - `BREVO_SENDER_EMAIL`
 - `BREVO_SENDER_NAME`
-- `QUOTE_SHEET_WEBHOOK_URL` (opcional)
-- `QUOTE_SHEET_WEBHOOK_TOKEN` (recomendado si usas Google Sheets)
+- binding D1 `QUOTE_REQUESTS_DB`
 
-## Archivo para pegar en Cloudflare
+Opcionales:
 
-Usar el contenido de:
+- `BREVO_NOTIFICATION_EMAIL`
+- `BREVO_NOTIFICATION_NAME`
+- `INTERNAL_NOTIFY_WEBHOOK_URL`
 
-- [brevo-worker.js](C:/Users/Alan/Desktop/trabajo/webpage/WebPage/workers/brevo-worker.js)
+## Comandos
 
-## Estado operativo actual
+Migrar tabla D1 remota:
 
-- Frontend: `src/app/lib/forms-api.ts`
-- Worker publico esperado: `https://divine-bread-7e7e.alanlperez1996.workers.dev`
-- Pagina de cotizacion: `src/app/pages/PresupuestoDashboard.tsx`
-- Thank-you page de cotizacion: `src/app/pages/GraciasPresupuestoDashboard.tsx`
+```bash
+npm run worker:d1:migrate
+```
 
-## Flujo recomendado
+Desplegar el worker preservando vars existentes en Cloudflare:
 
-### Cotizacion
+```bash
+npm run worker:deploy
+```
 
-1. El usuario completa el brief
-2. Si el submit sale bien, se muestra un aviso corto y redirige a `/gracias/presupuesto-dashboard`
-3. El worker:
-   - crea o actualiza el contacto en Brevo
-   - lo agrega a la lista `Quote Requests`
-   - envia confirmacion al lead
-   - envia notificacion interna
-4. Si el submit falla, el usuario se queda en la pagina y ve el error
+Ver logs:
 
-## Limites a tener presentes
+```bash
+npm run worker:tail
+```
 
-### Brevo Free
+## Notas operativas
 
-- 300 emails por dia
-- 100.000 contactos
-
-Como hoy una cotizacion envia 2 emails en Brevo:
-
-- 1 al lead
-- 1 interno
-
-El cuello real de Brevo Free es aproximadamente 150 envios de formulario por dia si no se usa ese cupo para otra cosa.
-
-### Cloudflare Workers Free
-
-- 100.000 requests por dia
-- 50 subrequests por invocacion
-- 128 MB de memoria
-
-Para este caso, el limite practico no es Cloudflare sino Brevo.
-
-## Deliverability
-
-- No usar `gmail.com` como sender transaccional
-- Usar un sender del dominio propio, por ejemplo `contacto@alanlperez.com`
-- Mantener DKIM activo
-- Agregar DMARC en el dominio
-- Revisar inbox y spam en las pruebas reales
-
-## Backup de datos
-
-Todavia no hay backup externo aparte de Brevo.
-
-Opciones recomendadas:
-
-1. Cloudflare D1
-2. Google Sheets via Apps Script Web App
-3. Slack webhook solo como notificacion, no como base primaria
-
-Importante:
-
-- Un link editor de Google Sheets no alcanza para escribir desde el worker
-- Hace falta un webhook de Apps Script o credenciales de Google Sheets API
-- Hay un ejemplo listo en `workers/google-sheets-webhook.gs`
-- Si `QUOTE_SHEET_WEBHOOK_URL` esta configurado, la cotizacion se guarda en la Sheet y deja de usar el segundo email interno de Brevo
-- Si no esta configurado, el worker mantiene el email interno como fallback
-
-## Flujo actual
-
-### Lead magnet
-
-1. Crea o actualiza el contacto en Brevo
-2. Lo agrega a la lista `Lead Magnet Requests`
-3. Envía el recurso por email
-4. Envía notificación interna
-
-### Cotización
-
-1. Crea o actualiza el contacto en Brevo
-2. Lo agrega a la lista `Quote Requests`
-3. Envía confirmación al lead
-4. Envía notificación interna
-
-## Endpoint público esperado
-
-El frontend está apuntando a:
-
-- `https://divine-bread-7e7e.alanlperez1996.workers.dev`
-
-Si el Worker termina con otro nombre o URL, hay que actualizar:
-
-- [forms-api.ts](C:/Users/Alan/Desktop/trabajo/webpage/WebPage/src/app/lib/forms-api.ts)
+- `worker:deploy` usa `--keep-vars` para no borrar variables creadas desde el dashboard.
+- El frontend puede sobreescribir la URL del worker con `VITE_FORMS_WORKER_BASE`.
+- La respuesta de `/quote-request` ahora devuelve `requestId` para trazabilidad.

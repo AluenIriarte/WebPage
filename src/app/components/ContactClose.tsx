@@ -33,7 +33,7 @@ export function ContactClose() {
 
             <p className="text-lg leading-relaxed text-muted-foreground">
               {
-                "Con el diagn\u00f3stico alcanza para bajar tu caso a una primera lectura seria y definir si vale la pena avanzar."
+                "Con el diagnóstico alcanza para bajar tu caso a una primera lectura seria y definir si vale la pena avanzar."
               }
             </p>
           </div>
@@ -44,18 +44,18 @@ export function ContactClose() {
               onClick={() => trackDiagnosisClick("final_close")}
               className="group inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-8 py-4 font-medium text-background transition-all duration-300 hover:bg-accent hover:shadow-xl hover:shadow-accent/20"
             >
-              {"Agendar diagn\u00f3stico"}
+              {"Agendar diagnóstico"}
               <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
             </a>
 
             <p className="text-sm text-muted-foreground">
-              {"\u00bfYa ten\u00e9s claro lo que busc\u00e1s? "}
+              {"¿Ya tenés claro lo que buscás? "}
               <Link
                 to={QUOTE_PAGE_HREF}
                 onClick={() => trackQuoteClick("final_close")}
                 className="font-medium text-accent transition-colors hover:text-accent/75"
               >
-                {"Ped\u00ed cotizaci\u00f3n"}
+                {"Pedí cotización"}
               </Link>
               {"."}
             </p>

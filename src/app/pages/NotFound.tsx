@@ -6,10 +6,10 @@ export function NotFound() {
       <div className="w-full max-w-2xl rounded-[2rem] border border-border/60 bg-white p-10 md:p-14 shadow-2xl shadow-black/[0.06] text-center space-y-6">
         <p className="text-xs font-semibold text-accent/70 uppercase tracking-[0.18em]">404</p>
         <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-foreground leading-[1.05]">
-          Esta pagina no existe
+          Esta página no existe
         </h1>
         <p className="text-base text-muted-foreground leading-relaxed max-w-xl mx-auto">
-          La ruta que abriste no forma parte de la nueva web. Volve al inicio y segui desde ahi.
+          La ruta que abriste no forma parte de la nueva web. Volvé al inicio y seguí desde ahí.
         </p>
         <Link
           to="/"

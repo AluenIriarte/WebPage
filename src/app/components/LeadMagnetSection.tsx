@@ -4,6 +4,7 @@ import { ArrowRight, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { trackFormSubmit } from "../lib/analytics";
 import { AUTO_DIAGNOSTIC_THANKYOU_HREF } from "../lib/contact";
+import { submitLeadMagnetRequest } from "../lib/forms-api";
 import { freeResources } from "../lib/free-resources";
 
 const initialForm = {
@@ -36,30 +37,49 @@ export function LeadMagnetSection() {
   const navigate = useNavigate();
   const [form, setForm] = useState(initialForm);
   const [selectedResourceId, setSelectedResourceId] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const selectedResource = useMemo(
     () => freeResources.find((resource) => resource.id === selectedResourceId) ?? null,
     [selectedResourceId],
   );
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (!selectedResource) {
+      return;
+    }
 
     const payload = {
       ...form,
-      recursoId: selectedResource?.id ?? "",
-      recurso: selectedResource?.title ?? "",
-      recursoHref: selectedResource?.pageHref ?? "",
+      recursoId: selectedResource.id,
+      recurso: selectedResource.title,
+      recursoHref: selectedResource.pageHref,
     };
 
-    if (typeof window !== "undefined") {
-      window.sessionStorage.setItem("leadmagnet_request", JSON.stringify(payload));
-    }
+    setIsSubmitting(true);
+    setSubmitError(null);
 
-    trackFormSubmit("lead_magnet_request", selectedResource?.title);
-    navigate(AUTO_DIAGNOSTIC_THANKYOU_HREF, {
-      state: payload,
-    });
+    try {
+      await submitLeadMagnetRequest(payload);
+
+      if (typeof window !== "undefined") {
+        window.sessionStorage.setItem("leadmagnet_request", JSON.stringify(payload));
+      }
+
+      trackFormSubmit("lead_magnet_request", selectedResource.title);
+      navigate(AUTO_DIAGNOSTIC_THANKYOU_HREF, { state: payload });
+    } catch (error) {
+      setSubmitError(
+        error instanceof Error
+          ? error.message
+          : "No pudimos enviar el recurso. Proba de nuevo en unos segundos.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -80,7 +100,7 @@ export function LeadMagnetSection() {
             Recurso <span className="text-accent">GRATUITO</span> para convertir datos en decisiones comerciales.
           </h2>
           <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
-            Herramientas prácticas para detectar oportunidades ocultas en tus ventas.
+            Herramientas practicas para detectar oportunidades ocultas en tus ventas.
           </p>
         </motion.div>
 
@@ -110,27 +130,34 @@ export function LeadMagnetSection() {
                         <div className="flex flex-col gap-8 lg:grid lg:grid-cols-[minmax(0,210px)_minmax(0,1fr)] lg:items-center lg:gap-10">
                           <div className="flex justify-center lg:justify-start">
                             <div className="translate-y-1 lg:-translate-y-3">
-                              <ResourceCover title={resource.title} type={resource.type} coverSrc={resource.coverSrc} />
+                              <ResourceCover
+                                title={resource.title}
+                                type={resource.type}
+                                coverSrc={resource.coverSrc}
+                              />
                             </div>
                           </div>
 
                           <div className="flex flex-col items-start">
                             <div className="inline-flex items-center gap-2 rounded-full border border-accent/12 bg-accent/[0.06] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-accent/80">
                               <Mail className="h-3.5 w-3.5" />
-                              Se envía por email
+                              Se envia por email
                             </div>
 
                             <p className="mt-4 max-w-2xl text-lg font-medium leading-snug text-foreground sm:text-[1.45rem]">
-                              Framework de Diagnóstico Comercial
+                              Framework de Diagnostico Comercial
                             </p>
 
                             <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-[0.98rem]">
-                              Cómo detectar oportunidades ocultas en tu base de clientes, priorizar cartera y decidir con criterio comercial.
+                              Como detectar oportunidades ocultas en tu base de clientes, priorizar cartera y decidir con criterio comercial.
                             </p>
 
                             <button
                               type="button"
-                              onClick={() => setSelectedResourceId(resource.id)}
+                              onClick={() => {
+                                setSubmitError(null);
+                                setSelectedResourceId(resource.id);
+                              }}
                               className="group mt-6 inline-flex h-[50px] items-center justify-center gap-2 rounded-full bg-accent px-7 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent/92 hover:shadow-[0_20px_35px_rgba(122,92,255,0.28)] sm:h-[52px] sm:px-8"
                             >
                               Solicitar recurso
@@ -154,7 +181,7 @@ export function LeadMagnetSection() {
                         </div>
 
                         <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-[0.98rem]">
-                          Completá tus datos y te enviamos el recurso para que lo revises con calma.
+                          Completa tus datos y te enviamos el recurso para que lo revises con calma.
                         </p>
 
                         <form onSubmit={handleSubmit} className="mt-6 grid gap-4">
@@ -165,7 +192,9 @@ export function LeadMagnetSection() {
                                 type="text"
                                 required
                                 value={form.nombre}
-                                onChange={(event) => setForm((current) => ({ ...current, nombre: event.target.value }))}
+                                onChange={(event) =>
+                                  setForm((current) => ({ ...current, nombre: event.target.value }))
+                                }
                                 className="rounded-[1.15rem] border border-border bg-[#FAFAF8] px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-accent/35"
                                 placeholder="Alan"
                               />
@@ -177,7 +206,9 @@ export function LeadMagnetSection() {
                                 type="email"
                                 required
                                 value={form.email}
-                                onChange={(event) => setForm((current) => ({ ...current, email: event.target.value }))}
+                                onChange={(event) =>
+                                  setForm((current) => ({ ...current, email: event.target.value }))
+                                }
                                 className="rounded-[1.15rem] border border-border bg-[#FAFAF8] px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-accent/35"
                                 placeholder="nombre@empresa.com"
                               />
@@ -189,24 +220,36 @@ export function LeadMagnetSection() {
                             <input
                               type="text"
                               value={form.empresa}
-                              onChange={(event) => setForm((current) => ({ ...current, empresa: event.target.value }))}
+                              onChange={(event) =>
+                                setForm((current) => ({ ...current, empresa: event.target.value }))
+                              }
                               className="rounded-[1.15rem] border border-border bg-[#FAFAF8] px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-accent/35"
                               placeholder="Opcional"
                             />
                           </label>
 
+                          {submitError ? (
+                            <p className="rounded-[1rem] border border-[#F1C5C5] bg-[#FFF6F6] px-4 py-3 text-sm text-[#9B2C2C]">
+                              {submitError}
+                            </p>
+                          ) : null}
+
                           <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center">
                             <button
                               type="submit"
-                              className="group inline-flex h-[50px] items-center justify-center gap-2 rounded-full bg-accent px-7 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent/92 hover:shadow-[0_20px_35px_rgba(122,92,255,0.28)] sm:h-[52px] sm:px-8"
+                              disabled={isSubmitting}
+                              className="group inline-flex h-[50px] items-center justify-center gap-2 rounded-full bg-accent px-7 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent/92 hover:shadow-[0_20px_35px_rgba(122,92,255,0.28)] disabled:cursor-not-allowed disabled:opacity-70 sm:h-[52px] sm:px-8"
                             >
-                              Recibir guía por email
+                              {isSubmitting ? "Enviando..." : "Recibir guia por email"}
                               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                             </button>
 
                             <button
                               type="button"
-                              onClick={() => setSelectedResourceId(null)}
+                              onClick={() => {
+                                setSubmitError(null);
+                                setSelectedResourceId(null);
+                              }}
                               className="inline-flex items-center gap-2 text-sm font-medium text-foreground/68 transition-colors hover:text-accent"
                             >
                               Volver

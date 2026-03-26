@@ -172,7 +172,7 @@ export function TableroDeVentas() {
                 <div className="p-6 rounded-2xl border border-border/50 bg-white shadow-sm">
                   <div className="mb-4">
                     <p className="text-[11px] font-semibold text-muted-foreground/60 uppercase tracking-widest mb-1">Vista ejecutiva</p>
-                    <h3 className="text-base font-semibold text-foreground">Evolucion de ventas</h3>
+                    <h3 className="text-base font-semibold text-foreground">Evolución de ventas</h3>
                   </div>
                   <ResponsiveContainer width="100%" height={200}>
                     <LineChart data={monthlyTrend} margin={{ top: 5, right: 10, left: -10, bottom: 5 }}>
@@ -189,7 +189,7 @@ export function TableroDeVentas() {
               <section id="regiones">
                 <h2>Análisis regional y territorial</h2>
                 <div className="p-6 rounded-2xl border border-border/50 bg-white shadow-sm">
-                  <h3 className="text-base font-semibold text-foreground mb-5">Ventas reales vs. meta por region</h3>
+                  <h3 className="text-base font-semibold text-foreground mb-5">Ventas reales vs. meta por región</h3>
                   <ResponsiveContainer width="100%" height={240}>
                     <BarChart data={regionData} margin={{ top: 5, right: 10, left: -10, bottom: 5 }}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" vertical={false} />

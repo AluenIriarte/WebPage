@@ -14,11 +14,11 @@ const quoteSubject = "Consulta por dashboard de ventas a medida";
 
 export const PRODUCT_OPTIONS = [
   "Dashboard de ventas / BI comercial a medida",
-  "Dashboard para otra área",
-  "Automatización / RPA",
+  "Dashboard para otra \u00e1rea",
+  "Automatizaci\u00f3n / RPA",
   "IA aplicada al negocio",
-  "Acompañamiento y capacitación",
-  "Página web / landing page",
+  "Acompa\u00f1amiento y capacitaci\u00f3n",
+  "P\u00e1gina web / landing page",
   "Activos comerciales y de marca",
   "Sistema de contenido / calendario editorial",
 ] as const;
@@ -61,18 +61,18 @@ export function buildQuoteEmailBody(fields: Partial<QuoteBriefFields> = {}) {
   return [
     "Hola Alan,",
     "",
-    "Quiero pedir una cotizacion para uno de tus servicios o productos digitales.",
+    "Quiero pedir una cotizaci\u00f3n para uno de tus servicios o productos digitales.",
     "",
     `Nombre: ${normalizeField(fields.nombre)}`,
     `Email: ${normalizeField(fields.email)}`,
     `Producto o servicio: ${producto}`,
     `Empresa: ${empresa}`,
     `Rol: ${rol}`,
-    `Qué necesito ver: ${objetivo}`,
+    `Qu\u00e9 necesito ver: ${objetivo}`,
     `Fuentes o herramientas actuales: ${fuentes}`,
-    `Quiénes lo van a usar: ${destinatarios}`,
+    `Qui\u00e9nes lo van a usar: ${destinatarios}`,
     `Plazo estimado: ${plazo}`,
-    `Contexto o desafío principal: ${desafio}`,
+    `Contexto o desaf\u00edo principal: ${desafio}`,
     "",
     "Gracias.",
   ].join("\n");

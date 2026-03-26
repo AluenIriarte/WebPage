@@ -23,8 +23,8 @@ const DEMO_QUOTE_HREF = buildQuotePageHref("Dashboard de ventas / BI comercial a
 type ViewType = "global" | "ranking" | "vendedores";
 
 const viewDescriptions: Record<ViewType, string> = {
-  global: "Salud comercial general: volumen, margen, segmentacion y alertas de negocio",
-  ranking: "Desempeno del equipo comercial: resultados vs objetivo y composicion de cartera",
+  global: "Salud comercial general: volumen, margen, segmentación y alertas de negocio",
+  ranking: "Desempeño del equipo comercial: resultados vs objetivo y composición de cartera",
   vendedores: "Vista de cartera: clientes prioritarios, oportunidades de venta y foco comercial inmediato",
 };
 
@@ -63,26 +63,26 @@ const clientsData = [
   {
     name: "Industrias del Sur S.A.",
     revenue: 85000,
-    buys: ["Linea A", "Linea B"],
-    doesntBuy: ["Linea C", "Linea D"],
-    opportunity: "Ampliar a Linea C",
+    buys: ["Línea A", "Línea B"],
+    doesntBuy: ["Línea C", "Línea D"],
+    opportunity: "Ampliar a Línea C",
     coverage: 50,
     priority: "high" as const,
   },
   {
     name: "Comercial Norte Ltda.",
     revenue: 72000,
-    buys: ["Linea A", "Linea C"],
-    doesntBuy: ["Linea B", "Linea D"],
-    opportunity: "Cross-sell Linea B",
+    buys: ["Línea A", "Línea C"],
+    doesntBuy: ["Línea B", "Línea D"],
+    opportunity: "Cross-sell Línea B",
     coverage: 50,
     priority: "high" as const,
   },
   {
     name: "Grupo Tecnico Este",
     revenue: 58000,
-    buys: ["Linea B", "Linea C", "Linea D"],
-    doesntBuy: ["Linea A"],
+    buys: ["Línea B", "Línea C", "Línea D"],
+    doesntBuy: ["Línea A"],
     opportunity: "Completar portafolio",
     coverage: 75,
     priority: "medium" as const,
@@ -93,7 +93,7 @@ const signalOpportunityCards = [
   {
     icon: Users,
     title: "Clientes inactivos",
-    description: "Cuentas de valor que frenaron compra y conviene recuperar antes de abrir mas frente nuevo.",
+    description: "Cuentas de valor que frenaron compra y conviene recuperar antes de abrir más frente nuevo.",
     metric: "12 cuentas",
     detail: "recuperables",
     tone: "text-violet-600",
@@ -101,7 +101,7 @@ const signalOpportunityCards = [
   {
     icon: BarChart2,
     title: "Mix volumen / margen",
-    description: "Productos que sostienen volumen, pero esconden una brecha de rentabilidad que hoy no se esta priorizando.",
+    description: "Productos que sostienen volumen, pero esconden una brecha de rentabilidad que hoy no se está priorizando.",
     metric: "40%+",
     detail: "margen potencial",
     tone: "text-emerald-600",
@@ -109,7 +109,7 @@ const signalOpportunityCards = [
   {
     icon: TrendingUp,
     title: "Up-sell y cross-sell",
-    description: "Clientes que ya compran una linea y tienen expansion natural sobre otra categoria cercana.",
+    description: "Clientes que ya compran una línea y tienen expansión natural sobre otra categoría cercana.",
     metric: "+34%",
     detail: "potencial incremental",
     tone: "text-sky-600",
@@ -117,23 +117,23 @@ const signalOpportunityCards = [
   {
     icon: Package,
     title: "Productos subpenetrados",
-    description: "Lineas con baja adopcion dentro de la cartera mas valiosa, donde la oportunidad depende mas de foco que de demanda nueva.",
+    description: "Líneas con baja adopción dentro de la cartera más valiosa, donde la oportunidad depende más de foco que de demanda nueva.",
     metric: "15%",
-    detail: "penetracion actual",
+    detail: "penetración actual",
     tone: "text-amber-600",
   },
   {
     icon: Layers3,
-    title: "Afinidad por categoria",
-    description: "Segmentos que responden mejor a familias premium y ordenan mejor que categoria conviene empujar primero.",
+    title: "Afinidad por categoría",
+    description: "Segmentos que responden mejor a familias premium y ordenan mejor qué categoría conviene empujar primero.",
     metric: "3x",
     detail: "mayor afinidad",
     tone: "text-fuchsia-600",
   },
   {
     icon: Clock3,
-    title: "Automatizacion operativa",
-    description: "Horas de reporte manual que pueden volver al equipo como tiempo de seguimiento, analisis y accion comercial.",
+    title: "Automatización operativa",
+    description: "Horas de reporte manual que pueden volver al equipo como tiempo de seguimiento, análisis y acción comercial.",
     metric: "-8h",
     detail: "por semana",
     tone: "text-cyan-600",
@@ -230,8 +230,8 @@ function GlobalView() {
       <div className="grid grid-cols-1 gap-3 md:min-h-0 md:flex-1 md:grid-cols-2">
         <div className="flex h-[18rem] flex-col rounded-lg bg-white p-4 md:min-h-0 md:h-auto md:flex-1">
           <div className="mb-2 shrink-0">
-            <h3 className="text-sm tracking-tight text-[#14131A]">Evolucion de ventas</h3>
-            <p className="text-xs text-[#6E6A7A]">Ultimos 6 meses</p>
+            <h3 className="text-sm tracking-tight text-[#14131A]">Evolución de ventas</h3>
+            <p className="text-xs text-[#6E6A7A]">Últimos 6 meses</p>
           </div>
           <div className="min-h-0 flex-1">
             <ResponsiveContainer width="100%" height="100%">
@@ -269,8 +269,8 @@ function GlobalView() {
 
         <div className="flex h-[18rem] flex-col rounded-lg bg-white p-4 md:min-h-0 md:h-auto md:flex-1">
           <div className="mb-2 shrink-0">
-            <h3 className="text-sm tracking-tight text-[#14131A]">Volumen por region</h3>
-            <p className="text-xs text-[#6E6A7A]">Ventas ($) y margen (%) por region</p>
+            <h3 className="text-sm tracking-tight text-[#14131A]">Volumen por región</h3>
+            <p className="text-xs text-[#6E6A7A]">Ventas ($) y margen (%) por región</p>
           </div>
           <div className="min-h-0 flex-1">
             <ResponsiveContainer width="100%" height="100%">
@@ -335,7 +335,7 @@ function RankingView() {
     <div className="flex h-full flex-col gap-3">
       <div className="flex flex-col rounded-lg bg-white p-5 md:min-h-0 md:flex-1">
         <div className="mb-4 shrink-0">
-          <h3 className="text-sm tracking-tight text-[#14131A]">Desempeno por vendedor</h3>
+          <h3 className="text-sm tracking-tight text-[#14131A]">Desempeño por vendedor</h3>
           <p className="text-xs text-[#6E6A7A]">Mes actual vs objetivo</p>
         </div>
 
@@ -397,7 +397,7 @@ function RankingView() {
           insights={[
             "Maria Gonzalez lidera con resultados sobre el objetivo y el mejor margen del equipo",
             "Jorge y Laura necesitan refuerzo en cierre para alcanzar el objetivo trimestral",
-            "Ana Rodriguez tiene el mejor desempeno en captacion de nuevos clientes",
+            "Ana Rodriguez tiene el mejor desempeño en captación de nuevos clientes",
           ]}
         />
       </div>
@@ -411,14 +411,14 @@ function VendedoresView() {
       <div className="grid shrink-0 grid-cols-2 gap-3 md:grid-cols-4">
         <KPICard label="Clientes activos" value="42" change="5 nuevos este mes" changeType="positive" />
         <KPICard label="Cartera total" value="$580k" change="+11.5% vs mes anterior" changeType="positive" />
-        <KPICard label="Oportunidades" value="18" change="Para ampliar categorias" changeType="neutral" />
+        <KPICard label="Oportunidades" value="18" change="Para ampliar categorías" changeType="neutral" />
         <div className="rounded-lg border border-amber-200 bg-white p-4">
           <div className="mb-1 flex items-center gap-2 text-amber-700">
             <Package className="h-4 w-4" />
             <div className="text-xs">Alerta de stock</div>
           </div>
-          <div className="text-sm tracking-tight text-[#14131A]">Linea C limitada</div>
-          <div className="mt-1 text-xs text-[#6E6A7A]">Priorizar Lineas A y B</div>
+          <div className="text-sm tracking-tight text-[#14131A]">Línea C limitada</div>
+          <div className="mt-1 text-xs text-[#6E6A7A]">Priorizar líneas A y B</div>
         </div>
       </div>
 
@@ -468,7 +468,7 @@ function VendedoresView() {
                   </div>
                 </div>
                 <div className="flex-1">
-                  <div className="mb-1 text-xs text-[#6E6A7A]">No compra aun</div>
+                  <div className="mb-1 text-xs text-[#6E6A7A]">No compra aún</div>
                   <div className="flex flex-wrap gap-1">
                     {client.doesntBuy.map((item) => (
                       <span key={item} className="rounded-full bg-[#F3F1EE] px-2 py-0.5 text-xs text-[#6E6A7A]">
@@ -568,7 +568,7 @@ export function DemoDashboard() {
                 <div className="mb-1 text-[10px] uppercase tracking-widest text-[#7111DF]">DEMO GUIADA</div>
                 <h1 className="text-xl tracking-tight text-[#14131A] md:text-2xl">Demo interactiva de tablero comercial</h1>
                 <p className="mt-1 hidden text-xs text-[#655F7F] md:block md:text-sm">
-                  Tres vistas para entender volumen, desempeno y oportunidades de accion
+                  Tres vistas para entender volumen, desempeño y oportunidades de acción
                 </p>
               </div>
 
@@ -624,7 +624,7 @@ export function DemoDashboard() {
                   <div className="min-w-0">
                     <div className="truncate text-sm tracking-tight text-[#14131A]">¿Querés implementar estas vistas en tu negocio?</div>
                     <div className="hidden text-xs text-[#6E6A7A] md:block">
-                      Cada solucion se disena segun tu estructura comercial y necesidades.
+                      Cada solución se diseña según tu estructura comercial y necesidades.
                     </div>
                   </div>
                   <div className="flex shrink-0 gap-2">
@@ -633,7 +633,7 @@ export function DemoDashboard() {
                       onClick={() => trackDiagnosisClick("demo_primary_cta")}
                       className="whitespace-nowrap rounded-lg bg-[#7111DF] px-4 py-2 text-sm text-white transition-colors hover:bg-[#5c0ec0]"
                     >
-                      Agendar diagnostico
+                      Agendar diagnóstico
                     </a>
                     <a
                       href={DEMO_QUOTE_HREF}
@@ -642,7 +642,7 @@ export function DemoDashboard() {
                       }
                       className="whitespace-nowrap rounded-lg bg-[#F3F1EE] px-4 py-2 text-sm text-[#14131A] transition-colors hover:bg-[#e8e5e0]"
                     >
-                      Pedir cotizacion
+                      Pedir cotización
                     </a>
                   </div>
                 </div>
@@ -665,10 +665,10 @@ export function DemoDashboard() {
             <div className="max-w-3xl">
               <SectionEyebrow>Otros indicadores posibles</SectionEyebrow>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground lg:text-[2.7rem]">
-                Otras alertas y focos de accion que tambien puede volver visibles.
+                Otras alertas y focos de acción que también puede volver visibles.
               </h2>
               <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-                Esta demo muestra tres lentes principales, pero la misma arquitectura puede abrir lecturas sobre recuperacion de cartera, rentabilidad, penetracion y automatizacion operativa.
+                Esta demo muestra tres lentes principales, pero la misma arquitectura puede abrir lecturas sobre recuperación de cartera, rentabilidad, penetración y automatización operativa.
               </p>
             </div>
 
@@ -678,7 +678,7 @@ export function DemoDashboard() {
 
             <div className="mt-10 rounded-[1.9rem] border border-[#ECE5F2] bg-[#FCFBFE] px-6 py-6">
               <p className="max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">
-                El valor no esta en acumular pantallas. Esta en elegir que senales conviene volver visibles primero segun tu cartera, tu oferta y la forma en que hoy se toman decisiones comerciales.
+                El valor no está en acumular pantallas. Está en elegir qué señales conviene volver visibles primero según tu cartera, tu oferta y la forma en que hoy se toman decisiones comerciales.
               </p>
               <div className="mt-6 flex flex-col items-start gap-3">
                 <a
@@ -686,7 +686,7 @@ export function DemoDashboard() {
                   onClick={() => trackDiagnosisClick("opportunities_section_cta")}
                   className="inline-flex min-h-11 items-center justify-center rounded-[14px] bg-[#7111DF] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#5c0ec0]"
                 >
-                  Solicitar diagnostico
+                  Solicitar diagnóstico
                 </a>
                 <a
                   href={LINKEDIN_URL}

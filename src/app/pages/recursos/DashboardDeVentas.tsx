@@ -21,7 +21,7 @@ const pipelineData = [
   { etapa: "Prospectos", cantidad: 240, conversion: 100 },
   { etapa: "Calificados", cantidad: 180, conversion: 75 },
   { etapa: "Propuesta", cantidad: 110, conversion: 46 },
-  { etapa: "Negociacion", cantidad: 62, conversion: 26 },
+  { etapa: "Negociación", cantidad: 62, conversion: 26 },
   { etapa: "Cierre", cantidad: 38, conversion: 16 },
 ];
 
@@ -124,7 +124,7 @@ export function DashboardDeVentas() {
                     },
                     {
                       title: "Dashboard de ventas",
-                      desc: "Interfaz dinamica que lee los datos y los presenta para decidir ahora.",
+                      desc: "Interfaz dinámica que lee los datos y los presenta para decidir ahora.",
                     },
                   ].map((item) => (
                     <div key={item.title} className="p-5 rounded-xl border border-border/50 bg-white space-y-2">
@@ -210,7 +210,7 @@ export function DashboardDeVentas() {
                     { freq: "Mensual", use: "Cierre de periodo, margen, mix y comparación histórica." },
                   ].map((item) => (
                     <div key={item.freq} className="p-5 rounded-xl border border-border/50 bg-white space-y-3">
-                      <h3 className="text-sm font-semibold text-foreground">Revision {item.freq}</h3>
+                      <h3 className="text-sm font-semibold text-foreground">Revisión {item.freq}</h3>
                       <p className="text-xs text-muted-foreground leading-relaxed">{item.use}</p>
                     </div>
                   ))}
@@ -222,7 +222,7 @@ export function DashboardDeVentas() {
                 <div className="p-6 rounded-2xl border border-border/50 bg-white shadow-sm mb-6">
                   <div className="mb-5">
                     <h3 className="text-base font-semibold text-foreground">
-                      Evolucion semanal: nuevas ventas, renovaciones y perdidas
+                      Evolución semanal: nuevas ventas, renovaciones y pérdidas
                     </h3>
                   </div>
                   <ResponsiveContainer width="100%" height={220}>
@@ -239,7 +239,7 @@ export function DashboardDeVentas() {
                 </div>
                 <div className="space-y-3">
                   {[
-                    "Vista ejecutiva: KPIs criticos y lectura inmediata.",
+                    "Vista ejecutiva: KPIs críticos y lectura inmediata.",
                     "Vista operativa: pipeline, alertas y seguimiento por vendedor.",
                     "Vista de análisis: filtros, segmentos, regiones y mix.",
                   ].map((text) => (

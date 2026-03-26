@@ -1,9 +1,6 @@
 import { Linkedin, Mail, BarChart3 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import {
-  CONTACT_EMAIL,
-  QUOTE_PAGE_HREF,
-} from "../lib/contact";
+import { CONTACT_EMAIL, QUOTE_PAGE_HREF } from "../lib/contact";
 
 export function Footer() {
   const location = useLocation();

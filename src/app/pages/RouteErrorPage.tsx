@@ -3,14 +3,14 @@ import { Link, isRouteErrorResponse, useRouteError } from "react-router-dom";
 
 function getErrorMessage(error: unknown) {
   if (isRouteErrorResponse(error)) {
-    return error.statusText || "No pudimos cargar esta pagina.";
+    return error.statusText || "No pudimos cargar esta página.";
   }
 
   if (error instanceof Error) {
     return error.message;
   }
 
-  return "No pudimos cargar esta pagina.";
+  return "No pudimos cargar esta página.";
 }
 
 export function RouteErrorPage() {
@@ -30,13 +30,13 @@ export function RouteErrorPage() {
           </div>
 
           <h1 className="mt-5 text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
-            {isChunkLoadError ? "La web se actualizo mientras navegabas." : "No pudimos abrir esta pagina."}
+            {isChunkLoadError ? "La web se actualizó mientras navegabas." : "No pudimos abrir esta página."}
           </h1>
 
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
             {isChunkLoadError
-              ? "Recarga la pagina para traer la version nueva del sitio y seguir navegando sin friccion."
-              : "Hubo un problema cargando esta ruta. Proba recargar o volver al inicio."}
+              ? "Recargá la página para traer la versión nueva del sitio y seguir navegando sin fricción."
+              : "Hubo un problema cargando esta ruta. Probá recargar o volver al inicio."}
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -46,7 +46,7 @@ export function RouteErrorPage() {
               className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-accent/90"
             >
               <RefreshCcw className="h-4 w-4" />
-              Recargar pagina
+              Recargar página
             </button>
             <Link
               to="/"
@@ -58,7 +58,7 @@ export function RouteErrorPage() {
 
           {!isChunkLoadError ? (
             <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
-              Detalle tecnico: {message}
+              Detalle técnico: {message}
             </p>
           ) : null}
         </div>

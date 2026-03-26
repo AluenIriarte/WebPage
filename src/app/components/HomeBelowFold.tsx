@@ -10,6 +10,7 @@ export function HomeBelowFold() {
   return (
     <>
       <UnifiedProblem />
+      {/* Seccion 2 reservada para Recurso gratuito */}
       <ValueProposition />
       <CredibilitySection />
       <EntryOffer />

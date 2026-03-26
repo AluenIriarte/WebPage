@@ -14,7 +14,7 @@ const dashboardData: Record<
 > = {
   weekly: {
     metrics: [
-      { label: "Expansi\u00f3n", value: "$127K", change: "potencial cross-sell" },
+      { label: "Expansión", value: "$127K", change: "potencial cross-sell" },
       { label: "Rentabilidad", value: "+18%", change: "mejora de margen" },
     ],
     chart: [
@@ -29,7 +29,7 @@ const dashboardData: Record<
   },
   monthly: {
     metrics: [
-      { label: "Expansi\u00f3n", value: "$348K", change: "potencial cross-sell" },
+      { label: "Expansión", value: "$348K", change: "potencial cross-sell" },
       { label: "Rentabilidad", value: "+22%", change: "mejora de margen" },
     ],
     chart: [
@@ -41,7 +41,7 @@ const dashboardData: Record<
   },
   quarterly: {
     metrics: [
-      { label: "Expansi\u00f3n", value: "$890K", change: "potencial cross-sell" },
+      { label: "Expansión", value: "$890K", change: "potencial cross-sell" },
       { label: "Rentabilidad", value: "+31%", change: "mejora de margen" },
     ],
     chart: [
@@ -234,7 +234,7 @@ export function InteractiveDashboard({
                     Dashboard interactivo
                   </p>
                   <h3 className="text-xl font-semibold tracking-tight text-foreground">Mini demo</h3>
-                  <p className="mt-1 text-[11px] text-muted-foreground">Senales comerciales activas</p>
+                  <p className="mt-1 text-[11px] text-muted-foreground">Señales comerciales activas</p>
                 </>
               ) : (
                 <>

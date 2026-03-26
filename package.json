@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build && node scripts/prerender-seo.mjs",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "worker:deploy": "npx wrangler deploy --config workers/wrangler.toml --keep-vars",
+    "worker:d1:migrate": "npx wrangler d1 execute divine-bread-quote-requests --remote --file workers/d1-quote-requests.sql",
+    "worker:tail": "npx wrangler tail divine-bread-7e7e"
   },
   "dependencies": {
     "lucide-react": "0.487.0",

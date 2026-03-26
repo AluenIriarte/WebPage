@@ -1,0 +1,14 @@
+name = "divine-bread-7e7e"
+main = "brevo-worker.js"
+compatibility_date = "2026-03-25"
+workers_dev = true
+preview_urls = false
+
+[vars]
+BREVO_SENDER_EMAIL = "Contacto@alanlperez.com"
+BREVO_SENDER_NAME = "Alan L. Perez"
+
+[[d1_databases]]
+binding = "QUOTE_REQUESTS_DB"
+database_name = "divine-bread-quote-requests"
+database_id = "433e454f-84dc-4d44-870b-027814ce2834"

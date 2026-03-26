@@ -58,8 +58,12 @@ export default {
 
       if (request.method === "POST" && url.pathname === "/quote-request") {
         const payload = await request.json();
-        await handleQuoteRequest(payload, env, ctx);
-        return json({ ok: true, message: "Solicitud enviada correctamente." });
+        const result = await handleQuoteRequest(payload, env, ctx);
+        return json({
+          ok: true,
+          message: "Solicitud enviada correctamente.",
+          requestId: result.requestId,
+        });
       }
 
       return json({ ok: false, message: "Ruta no encontrada." }, 404);
@@ -129,6 +133,21 @@ function escapeHtml(value) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#39;");
+}
+
+function optionalValue(value) {
+  return normalize(value) || "-";
+}
+
+function getInternalRecipient(env) {
+  return {
+    email: env.BREVO_NOTIFICATION_EMAIL || env.BREVO_SENDER_EMAIL,
+    name: env.BREVO_NOTIFICATION_NAME || env.BREVO_SENDER_NAME,
+  };
+}
+
+function createRequestId() {
+  return crypto.randomUUID();
 }
 
 async function brevoFetch(env, path, init = {}) {
@@ -255,42 +274,159 @@ async function sendEmail(env, payload) {
   });
 }
 
-async function postQuoteBackupToSheet(env, payload) {
-  if (!env.QUOTE_SHEET_WEBHOOK_URL) {
+async function insertQuoteRequest(env, payload) {
+  if (!env.QUOTE_REQUESTS_DB || typeof env.QUOTE_REQUESTS_DB.prepare !== "function") {
+    logInfo("quote_request_d1_not_configured", {
+      email: payload.email,
+      empresa: payload.empresa,
+      producto: payload.producto,
+    });
+    return null;
+  }
+
+  await env.QUOTE_REQUESTS_DB.prepare(
+    `
+      INSERT INTO quote_requests (
+        request_id,
+        submitted_at,
+        source,
+        intent,
+        nombre,
+        email,
+        empresa,
+        producto,
+        rol,
+        objetivo,
+        fuentes,
+        destinatarios,
+        plazo,
+        desafio,
+        status,
+        brevo_contact_synced_at,
+        lead_email_sent_at,
+        internal_notified_at,
+        error_message,
+        raw_payload
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `,
+  )
+    .bind(
+      payload.requestId,
+      payload.submittedAt,
+      payload.source || "website",
+      payload.intent || "quote_request",
+      payload.nombre,
+      payload.email,
+      payload.empresa,
+      payload.producto,
+      payload.rol,
+      payload.objetivo,
+      payload.fuentes,
+      payload.destinatarios,
+      payload.plazo,
+      payload.desafio,
+      "received",
+      null,
+      null,
+      null,
+      null,
+      JSON.stringify(payload),
+    )
+    .run();
+
+  logInfo("quote_request_saved_to_d1", {
+    email: payload.email,
+    empresa: payload.empresa,
+    producto: payload.producto,
+  });
+
+  return payload.requestId;
+}
+
+async function updateQuoteRequest(env, requestId, updates) {
+  if (!requestId || !env.QUOTE_REQUESTS_DB || typeof env.QUOTE_REQUESTS_DB.prepare !== "function") {
     return false;
   }
 
-  const webhookUrl = new URL(env.QUOTE_SHEET_WEBHOOK_URL);
-  if (env.QUOTE_SHEET_WEBHOOK_TOKEN) {
-    webhookUrl.searchParams.set("token", env.QUOTE_SHEET_WEBHOOK_TOKEN);
+  const entries = Object.entries(updates).filter(([, value]) => value !== undefined);
+  if (entries.length === 0) {
+    return true;
   }
 
+  const assignments = entries.map(([key]) => `${key} = ?`).join(", ");
+  const values = entries.map(([, value]) => value);
+
+  await env.QUOTE_REQUESTS_DB.prepare(
+    `UPDATE quote_requests SET ${assignments}, updated_at = ? WHERE request_id = ?`,
+  )
+    .bind(...values, new Date().toISOString(), requestId)
+    .run();
+
+  return true;
+}
+
+function buildInternalNotificationText(payload) {
+  return [
+    "Nueva solicitud de cotizacion",
+    "",
+    `ID: ${payload.requestId}`,
+    `Nombre: ${payload.nombre}`,
+    `Email: ${payload.email}`,
+    `Empresa: ${payload.empresa}`,
+    `Producto o servicio: ${payload.producto}`,
+    `Rol: ${optionalValue(payload.rol)}`,
+    `Objetivo: ${optionalValue(payload.objetivo)}`,
+    `Fuentes o herramientas: ${optionalValue(payload.fuentes)}`,
+    `Quienes lo usan: ${optionalValue(payload.destinatarios)}`,
+    `Plazo: ${optionalValue(payload.plazo)}`,
+    `Desafio principal: ${optionalValue(payload.desafio)}`,
+    `Fecha: ${payload.submittedAt}`,
+  ].join("\n");
+}
+
+function buildInternalNotificationPayload(webhookUrl, payload) {
+  const text = buildInternalNotificationText(payload);
+  const host = webhookUrl.hostname;
+
+  if (host.includes("discord.com") || host.includes("discordapp.com")) {
+    return { content: text };
+  }
+
+  if (host.includes("slack.com") || host.includes("chat.googleapis.com")) {
+    return { text };
+  }
+
+  return {
+    text,
+    kind: payload.intent || "quote_request",
+    requestId: payload.requestId,
+    payload,
+  };
+}
+
+async function sendInternalNotification(env, payload) {
+  if (!env.INTERNAL_NOTIFY_WEBHOOK_URL) {
+    logInfo("quote_request_notification_not_configured", {
+      requestId: payload.requestId,
+      email: payload.email,
+      empresa: payload.empresa,
+      producto: payload.producto,
+    });
+    return false;
+  }
+
+  const webhookUrl = new URL(env.INTERNAL_NOTIFY_WEBHOOK_URL);
   const response = await fetch(webhookUrl.toString(), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(payload),
+    body: JSON.stringify(buildInternalNotificationPayload(webhookUrl, payload)),
   });
 
   if (!response.ok) {
     const errorText = await response.text();
-    throw new Error(`Sheets webhook devolvio ${response.status}: ${errorText}`);
-  }
-
-  const responseText = await response.text();
-  let responsePayload = null;
-
-  try {
-    responsePayload = responseText ? JSON.parse(responseText) : null;
-  } catch {
-    responsePayload = null;
-  }
-
-  if (!responsePayload?.ok) {
-    throw new Error(
-      `Sheets webhook respondio sin confirmar escritura: ${responseText || "empty_response"}`,
-    );
+    throw new Error(`Internal webhook devolvio ${response.status}: ${errorText}`);
   }
 
   return true;
@@ -349,7 +485,7 @@ async function handleLeadMagnet(payload, env) {
               Si despues queres revisar tu caso con mas contexto, la siguiente salida natural es el diagnostico de 15 minutos.
             </p>
             <p style="margin: 0; font-size: 14px; color: #98a2b3;">
-              Pedido desde alanlperez.com · recurso id: ${escapeHtml(recursoId)}
+              Pedido desde alanlperez.com - recurso id: ${escapeHtml(recursoId)}
             </p>
           </div>
         </body>
@@ -359,8 +495,12 @@ async function handleLeadMagnet(payload, env) {
   });
 
   await sendEmail(env, {
-    to: [{ email: env.BREVO_SENDER_EMAIL, name: env.BREVO_SENDER_NAME }],
+    to: [getInternalRecipient(env)],
     subject: `Nuevo lead magnet solicitado: ${recurso}`,
+    replyTo: {
+      email,
+      name: nombre,
+    },
     textContent: [
       "Nuevo pedido de recurso desde la web",
       "",
@@ -385,14 +525,46 @@ async function handleQuoteRequest(payload, env, ctx) {
   const empresa = requireValue(payload?.empresa, "Necesitamos el nombre de tu empresa.");
   const producto = requireValue(payload?.producto, "Necesitamos saber que servicio queres cotizar.");
   const rol = normalize(payload?.rol);
-  const objetivo = normalize(payload?.objetivo);
-  const fuentes = normalize(payload?.fuentes);
+  const objetivo = requireValue(
+    payload?.objetivo,
+    "Necesitamos entender que necesitas ver para preparar la cotizacion.",
+  );
+  const fuentes = requireValue(
+    payload?.fuentes,
+    "Necesitamos saber que fuentes o herramientas usas hoy.",
+  );
   const destinatarios = normalize(payload?.destinatarios);
   const plazo = normalize(payload?.plazo);
   const desafio = normalize(payload?.desafio);
   const submittedAt = new Date().toISOString();
-  const backupPayload = {
-    kind: "quote_request",
+  const requestId = createRequestId();
+  const summaryLines = [
+    `ID: ${requestId}`,
+    `Nombre: ${nombre}`,
+    `Email: ${email}`,
+    `Empresa: ${empresa}`,
+    `Producto o servicio: ${producto}`,
+    `Rol: ${optionalValue(rol)}`,
+    `Objetivo: ${optionalValue(objetivo)}`,
+    `Fuentes o herramientas: ${optionalValue(fuentes)}`,
+    `Quienes lo usan: ${optionalValue(destinatarios)}`,
+    `Plazo: ${optionalValue(plazo)}`,
+    `Desafio principal: ${optionalValue(desafio)}`,
+    `Fecha: ${submittedAt}`,
+  ];
+  const summaryHtml = [
+    `<strong>ID:</strong> ${escapeHtml(requestId)}`,
+    `<strong>Empresa:</strong> ${escapeHtml(empresa)}`,
+    `<strong>Servicio:</strong> ${escapeHtml(producto)}`,
+    `<strong>Rol:</strong> ${escapeHtml(optionalValue(rol))}`,
+    `<strong>Objetivo:</strong> ${escapeHtml(optionalValue(objetivo))}`,
+    `<strong>Fuentes:</strong> ${escapeHtml(optionalValue(fuentes))}`,
+    `<strong>Quienes lo usan:</strong> ${escapeHtml(optionalValue(destinatarios))}`,
+    `<strong>Plazo:</strong> ${escapeHtml(optionalValue(plazo))}`,
+    `<strong>Desafio:</strong> ${escapeHtml(optionalValue(desafio))}`,
+  ].join("<br />");
+  const quoteRecord = {
+    requestId,
     nombre,
     email,
     empresa,
@@ -407,119 +579,158 @@ async function handleQuoteRequest(payload, env, ctx) {
   };
 
   logInfo("quote_request_received", {
+    requestId,
     email,
     empresa,
     producto,
   });
 
-  await upsertContact(env, {
-    email,
-    firstName: nombre,
-    listName: "Quote Requests",
-    attributes: {
-      COMPANY_NAME: empresa,
-      LAST_SERVICE: producto,
-      LAST_SOURCE: "website",
-      LAST_INTENT: "quote_request",
-      ROLE_TITLE: rol,
-      LAST_OBJECTIVE: objetivo,
-      CURRENT_TOOLS: fuentes,
-      END_USERS: destinatarios,
-      ESTIMATED_TIMELINE: plazo,
-      MAIN_CHALLENGE: desafio,
-      LAST_SUBMITTED_AT: submittedAt,
-    },
-  });
+  await insertQuoteRequest(env, quoteRecord);
+  try {
+    await upsertContact(env, {
+      email,
+      firstName: nombre,
+      listName: "Quote Requests",
+      attributes: {
+        COMPANY_NAME: empresa,
+        LAST_SERVICE: producto,
+        LAST_SOURCE: "website",
+        LAST_INTENT: "quote_request",
+        ROLE_TITLE: rol,
+        LAST_OBJECTIVE: objetivo,
+        CURRENT_TOOLS: fuentes,
+        END_USERS: destinatarios,
+        ESTIMATED_TIMELINE: plazo,
+        MAIN_CHALLENGE: desafio,
+        LAST_SUBMITTED_AT: submittedAt,
+      },
+    });
 
-  await sendEmail(env, {
-    to: [{ email, name: nombre }],
-    subject: `Recibimos tu solicitud para ${producto}`,
-    htmlContent: `
-      <html>
-        <body style="font-family: Arial, sans-serif; color: #101828; line-height: 1.6; background: #f8f8f6; padding: 24px;">
-          <div style="max-width: 640px; margin: 0 auto; background: #ffffff; border-radius: 18px; padding: 32px; border: 1px solid #ece8ff;">
-            <p style="margin: 0 0 12px; color: #7a5cff; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;">Solicitud recibida</p>
-            <h1 style="margin: 0 0 16px; font-size: 32px; line-height: 1.1;">Gracias, ${escapeHtml(nombre)}.</h1>
-            <p style="margin: 0 0 16px; font-size: 16px; color: #475467;">
-              Ya recibimos tu solicitud para <strong>${escapeHtml(producto)}</strong>.
-            </p>
-            <p style="margin: 0 0 16px; font-size: 16px; color: #475467;">
-              En las proximas 24 horas revisamos el caso y te respondemos por este medio con una primera lectura.
-            </p>
-            <p style="margin: 0; font-size: 14px; color: #98a2b3;">
-              Empresa: ${escapeHtml(empresa)}
-            </p>
-          </div>
-        </body>
-      </html>
-    `,
-    textContent: `Gracias, ${nombre}. Recibimos tu solicitud para ${producto} y respondemos en las proximas 24 horas.`,
-  });
+    await updateQuoteRequest(env, requestId, {
+      brevo_contact_synced_at: new Date().toISOString(),
+      status: "contact_synced",
+    });
 
-  const backupTask = async () => {
-    if (env.QUOTE_SHEET_WEBHOOK_URL) {
-      await postQuoteBackupToSheet(env, backupPayload);
-      logInfo("quote_request_backed_up_to_sheet", {
+    await sendEmail(env, {
+      to: [{ email, name: nombre }],
+      subject: `Recibimos tu solicitud para ${producto}`,
+      htmlContent: `
+        <html>
+          <body style="font-family: Arial, sans-serif; color: #101828; line-height: 1.6; background: #f8f8f6; padding: 24px;">
+            <div style="max-width: 640px; margin: 0 auto; background: #ffffff; border-radius: 18px; padding: 32px; border: 1px solid #ece8ff;">
+              <p style="margin: 0 0 12px; color: #7a5cff; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;">Solicitud recibida</p>
+              <h1 style="margin: 0 0 16px; font-size: 32px; line-height: 1.1;">Gracias, ${escapeHtml(nombre)}.</h1>
+              <p style="margin: 0 0 16px; font-size: 16px; color: #475467;">
+                Ya recibimos tu solicitud para <strong>${escapeHtml(producto)}</strong>.
+              </p>
+              <p style="margin: 0 0 16px; font-size: 16px; color: #475467;">
+                En las proximas 24 horas revisamos el caso y te respondemos por este medio con una primera lectura.
+              </p>
+              <div style="margin: 0 0 18px; padding: 16px; border-radius: 14px; background: #f6f4ff; border: 1px solid #ece8ff;">
+                <p style="margin: 0 0 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #7a5cff;">
+                  Resumen recibido
+                </p>
+                <p style="margin: 0; font-size: 14px; color: #475467;">
+                  ${summaryHtml}
+                </p>
+              </div>
+              <p style="margin: 0; font-size: 14px; color: #98a2b3;">
+                Empresa: ${escapeHtml(empresa)}
+              </p>
+            </div>
+          </body>
+        </html>
+      `,
+      textContent: [
+        `Gracias, ${nombre}. Recibimos tu solicitud para ${producto} y respondemos en las proximas 24 horas.`,
+        "",
+        "Resumen recibido:",
+        ...summaryLines,
+      ].join("\n"),
+    });
+
+    await updateQuoteRequest(env, requestId, {
+      lead_email_sent_at: new Date().toISOString(),
+      status: "lead_emailed",
+      error_message: null,
+    });
+  } catch (error) {
+    await updateQuoteRequest(env, requestId, {
+      status: "error",
+      error_message: error instanceof Error ? error.message : "unknown_error",
+    });
+    throw error;
+  }
+
+  const followUpTasks = [];
+
+  if (env.INTERNAL_NOTIFY_WEBHOOK_URL) {
+    followUpTasks.push(async () => {
+      await sendInternalNotification(env, quoteRecord);
+      await updateQuoteRequest(env, requestId, {
+        internal_notified_at: new Date().toISOString(),
+      });
+      logInfo("quote_request_internal_notification_sent", {
+        requestId,
         email,
         empresa,
         producto,
+      });
+    });
+  }
+
+  const finalizeRequest = async () => {
+    if (followUpTasks.length === 0) {
+      await updateQuoteRequest(env, requestId, {
+        status: "finalized",
+        error_message: null,
       });
       return;
     }
 
-    await sendEmail(env, {
-      to: [{ email: env.BREVO_SENDER_EMAIL, name: env.BREVO_SENDER_NAME }],
-      subject: `Nueva solicitud de cotizacion: ${producto}`,
-      textContent: [
-        "Nueva solicitud desde la web",
-        "",
-        `Nombre: ${nombre}`,
-        `Email: ${email}`,
-        `Empresa: ${empresa}`,
-        `Producto o servicio: ${producto}`,
-        `Rol: ${rol || "-"}`,
-        `Objetivo: ${objetivo || "-"}`,
-        `Fuentes o herramientas: ${fuentes || "-"}`,
-        `Quienes lo usan: ${destinatarios || "-"}`,
-        `Plazo: ${plazo || "-"}`,
-        `Desafio principal: ${desafio || "-"}`,
-        `Fecha: ${submittedAt}`,
-      ].join("\n"),
+    const results = await Promise.allSettled(
+      followUpTasks.map((task) => task()),
+    );
+    const failures = results
+      .filter((result) => result.status === "rejected")
+      .map((result) =>
+        result.reason instanceof Error ? result.reason.message : "unknown_error",
+      );
+
+    if (failures.length === 0) {
+      await updateQuoteRequest(env, requestId, {
+        status: "finalized",
+        error_message: null,
+      });
+      return;
+    }
+
+    const errorMessage = failures.join(" | ");
+    await updateQuoteRequest(env, requestId, {
+      status: "lead_emailed",
+      error_message: errorMessage,
     });
-    logInfo("quote_request_internal_email_sent", {
+    logError("quote_request_follow_up_failed", {
+      requestId,
       email,
       empresa,
       producto,
+      message: errorMessage,
     });
   };
 
   if (ctx?.waitUntil) {
-    ctx.waitUntil(
-      backupTask().catch((error) => {
-        logError("quote_request_backup_failed", {
-          email,
-          empresa,
-          producto,
-          message: error instanceof Error ? error.message : "unknown_error",
-        });
-      }),
-    );
+    ctx.waitUntil(finalizeRequest());
   } else {
-    try {
-      await backupTask();
-    } catch (error) {
-      logError("quote_request_backup_failed", {
-        email,
-        empresa,
-        producto,
-        message: error instanceof Error ? error.message : "unknown_error",
-      });
-    }
+    await finalizeRequest();
   }
 
   logInfo("quote_request_processed", {
+    requestId,
     email,
     empresa,
     producto,
   });
+
+  return { requestId };
 }

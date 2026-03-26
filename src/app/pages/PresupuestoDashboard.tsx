@@ -27,15 +27,15 @@ const fieldConfig: {
   {
     id: "producto",
     label: "Producto / servicio",
-    placeholder: "Selecciona una opcion",
+    placeholder: "Seleccion\u00e1 una opci\u00f3n",
     required: true,
   },
   { id: "empresa", label: "Empresa", placeholder: "Nombre de tu empresa", required: true },
-  { id: "rol", label: "Rol", placeholder: "Tu rol o area" },
+  { id: "rol", label: "Rol", placeholder: "Tu rol o \u00e1rea" },
   {
     id: "objetivo",
-    label: "Que necesitas ver",
-    placeholder: "Que tipo de solucion, tablero o activo queres tener",
+    label: "Qu\u00e9 necesit\u00e1s ver",
+    placeholder: "Qu\u00e9 tipo de soluci\u00f3n, tablero o activo quer\u00e9s tener",
     required: true,
     multiline: true,
   },
@@ -47,18 +47,18 @@ const fieldConfig: {
   },
   {
     id: "destinatarios",
-    label: "Quienes lo van a usar",
-    placeholder: "Direccion, gerencia comercial, vendedores, etc.",
+    label: "Qui\u00e9nes lo van a usar",
+    placeholder: "Direcci\u00f3n, gerencia comercial, vendedores, etc.",
   },
   {
     id: "plazo",
     label: "Plazo estimado",
-    placeholder: "Este mes, proximo trimestre, sin fecha cerrada...",
+    placeholder: "Este mes, pr\u00f3ximo trimestre, sin fecha cerrada...",
   },
   {
     id: "desafio",
-    label: "Contexto o desafio principal",
-    placeholder: "Que duele hoy o que queres resolver primero",
+    label: "Contexto o desaf\u00edo principal",
+    placeholder: "Qu\u00e9 duele hoy o qu\u00e9 quer\u00e9s resolver primero",
     multiline: true,
   },
 ];
@@ -108,10 +108,11 @@ export function PresupuestoDashboard() {
     setIsSubmitting(true);
 
     try {
-      await submitQuoteRequest(fields);
+      const response = await submitQuoteRequest(fields);
       trackFormSubmit("quote_request", fields.producto);
       trackQuoteClick("quote_page_form", fields.producto);
       const requestState = {
+        requestId: response.requestId,
         nombre: fields.nombre,
         email: fields.email,
         empresa: fields.empresa,
@@ -128,7 +129,7 @@ export function PresupuestoDashboard() {
       setSubmitError(
         error instanceof Error
           ? error.message
-          : "No pudimos enviar la solicitud. Proba de nuevo en unos segundos.",
+          : "No pudimos enviar la solicitud. Prob\u00e1 de nuevo en unos segundos.",
       );
     } finally {
       setIsSubmitting(false);
@@ -183,24 +184,24 @@ export function PresupuestoDashboard() {
 
                 <div className="space-y-5">
                   <h1 className="text-4xl font-semibold leading-[1.08] tracking-tight text-foreground md:text-5xl lg:text-[3.2rem]">
-                    Pedi una primera estimacion de alcance
+                    Ped\u00ed una primera estimaci\u00f3n de alcance
                   </h1>
                   <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground">
-                    Si ya tenes claro que necesitas, completa el brief y te respondo por email con
+                    Si ya ten\u00e9s claro qu\u00e9 necesit\u00e1s, complet\u00e1 el brief y te respondo por email con
                     una primera lectura de alcance.
                   </p>
                   <p className="max-w-3xl text-base leading-relaxed text-foreground/70">
-                    Si todavia lo estas definiendo, primero conviene diagnostico.
+                    Si todav\u00eda lo est\u00e1s definiendo, primero conviene diagn\u00f3stico.
                   </p>
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="rounded-[1.75rem] border border-border/55 bg-white/85 p-5">
                     <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-                      Todavia lo estoy definiendo
+                      Todav\u00eda lo estoy definiendo
                     </p>
                     <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                      Si te falta ordenar el problema, conviene una conversacion breve antes de
+                      Si te falta ordenar el problema, conviene una conversaci\u00f3n breve antes de
                       cotizar.
                     </p>
                     <a
@@ -208,7 +209,7 @@ export function PresupuestoDashboard() {
                       onClick={() => trackDiagnosisClick("quote_page_intro")}
                       className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-accent transition-colors hover:text-accent/80"
                     >
-                      Agendar diagnostico
+                      Agendar diagn\u00f3stico
                       <ArrowRight className="h-4 w-4" />
                     </a>
                   </div>
@@ -233,25 +234,25 @@ export function PresupuestoDashboard() {
 
                 <div className="rounded-[1.75rem] border border-border/55 bg-white/75 p-5">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/55">
-                    Que pasa despues
+                    Qu\u00e9 pasa despu\u00e9s
                   </p>
                   <div className="mt-4 grid gap-3 sm:grid-cols-3">
                     <div>
-                      <p className="text-sm font-medium text-foreground">Confirmacion inmediata</p>
+                      <p className="text-sm font-medium text-foreground">Confirmaci\u00f3n inmediata</p>
                       <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                        Recibis el ok por email.
+                        Recib\u00eds el ok por email.
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-foreground">Revision en 24 horas</p>
+                      <p className="text-sm font-medium text-foreground">Revisi\u00f3n en 24 horas</p>
                       <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
                         Respondo con una primera lectura.
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-foreground">Si falta definicion</p>
+                      <p className="text-sm font-medium text-foreground">Si falta definici\u00f3n</p>
                       <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                        El siguiente paso es diagnostico.
+                        El siguiente paso es diagn\u00f3stico.
                       </p>
                     </div>
                   </div>
@@ -271,7 +272,7 @@ export function PresupuestoDashboard() {
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-foreground">
-                      Brief para pedir una primera estimacion
+                      Brief para pedir una primera estimaci\u00f3n
                     </p>
                     <p className="text-xs text-muted-foreground">
                       Servicio, empresa, objetivo y fuentes son lo clave. El resto suma contexto.
@@ -386,8 +387,8 @@ export function PresupuestoDashboard() {
                     <p className="text-sm font-semibold text-foreground">Respaldo y salida manual</p>
                   </div>
                   <p className="text-sm leading-relaxed text-muted-foreground">
-                    Te confirmo el envio por email y guardo el brief en el registro interno. Si
-                    algo falla, siempre podes copiarlo y enviarlo manualmente a{" "}
+                    Te confirmo el env\u00edo por email y guardo el brief en el registro interno. Si
+                    algo falla, siempre pod\u00e9s copiarlo y enviarlo manualmente a{" "}
                     <a
                       href={`mailto:${CONTACT_EMAIL}`}
                       className="font-medium text-foreground underline underline-offset-2"
@@ -401,7 +402,6 @@ export function PresupuestoDashboard() {
             </div>
           </div>
         </section>
-
       </main>
       <Footer />
     </div>
