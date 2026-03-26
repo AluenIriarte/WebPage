@@ -1,27 +1,28 @@
 import { motion } from "motion/react";
 import { Clock, ArrowRight } from "lucide-react";
-import { CALENDLY_URL } from "../lib/contact";
-import { trackCalendlyClick, trackDiagnosisClick } from "../lib/analytics";
+import { Link } from "react-router-dom";
+import { CALENDLY_URL, QUOTE_PAGE_HREF } from "../lib/contact";
+import { trackCalendlyClick, trackDiagnosisClick, trackQuoteClick } from "../lib/analytics";
 
 const LINKEDIN_URL = "https://www.linkedin.com/in/alan-leonel-perez-argentina/?skipRedirect=true";
 
 const items = [
-  "D\u00f3nde puede estar y\u00e9ndose dinero hoy sin que est\u00e9 visible",
-  "Qu\u00e9 se\u00f1al conviene mirar primero",
+  "Dónde puede estar yéndose dinero hoy sin que esté visible",
+  "Qué señal conviene mirar primero",
   "Si el problema es de datos, de foco o de lectura comercial",
   "Si tiene sentido construir algo ahora o no",
 ];
 
 export function EntryOffer() {
   return (
-    <section id="contacto" className="relative py-24 lg:py-36 bg-white overflow-hidden">
+    <section id="contacto" className="relative overflow-hidden bg-white py-24 lg:py-36">
       <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] -z-10 opacity-25 blur-3xl pointer-events-none"
+        className="absolute top-0 left-1/2 -z-10 h-[400px] w-[700px] -translate-x-1/2 opacity-25 blur-3xl pointer-events-none"
         style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(139,92,246,0.12) 0%, transparent 70%)" }}
       />
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="grid items-start gap-16 lg:grid-cols-2 lg:gap-24">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -30,25 +31,25 @@ export function EntryOffer() {
             className="space-y-10"
           >
             <div className="flex items-center gap-3">
-              <div className="h-px w-8 bg-accent/40 rounded-full" />
-              <span className="text-[11px] font-semibold text-accent/70 uppercase tracking-[0.14em]">
-                Primer paso
+              <div className="h-px w-8 rounded-full bg-accent/40" />
+              <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent/70">
+                Contacto
               </span>
             </div>
 
             <div className="space-y-5">
-              <h2 className="text-[2rem] md:text-[2.4rem] lg:text-[2.6rem] font-semibold leading-[1.13] tracking-tight text-foreground">
+              <h2 className="text-[2rem] font-semibold leading-[1.13] tracking-tight text-foreground md:text-[2.4rem] lg:text-[2.6rem]">
                 {"En 15 minutos podemos saber si tiene sentido trabajar juntos"}
               </h2>
-              <p className="text-[1.05rem] text-muted-foreground leading-[1.75] max-w-md">
+              <p className="max-w-md text-[1.05rem] leading-[1.75] text-muted-foreground">
                 {
-                  "No es una llamada comercial gen\u00e9rica. Es una revisi\u00f3n inicial para ver si hoy hay una p\u00e9rdida visible en cartera, margen o expansi\u00f3n."
+                  "No es una llamada comercial genérica. Es una revisión inicial para ver si hoy hay una pérdida visible en cartera, margen o expansión."
                 }
               </p>
             </div>
 
             <div className="space-y-4">
-              <p className="text-[0.8rem] font-semibold text-foreground/40 uppercase tracking-[0.12em]">
+              <p className="text-[0.8rem] font-semibold uppercase tracking-[0.12em] text-foreground/40">
                 {"En esa llamada revisamos"}
               </p>
               <ul className="space-y-3">
@@ -61,14 +62,14 @@ export function EntryOffer() {
                     transition={{ duration: 0.4, delay: 0.15 + index * 0.07, ease: [0.22, 1, 0.36, 1] }}
                     className="flex items-start gap-3"
                   >
-                    <div className="w-1 h-1 rounded-full bg-accent/50 flex-shrink-0 mt-2" />
-                    <span className="text-[0.9rem] text-foreground/70 leading-relaxed">{item}</span>
+                    <div className="mt-2 h-1 w-1 flex-shrink-0 rounded-full bg-accent/50" />
+                    <span className="text-[0.9rem] leading-relaxed text-foreground/70">{item}</span>
                   </motion.li>
                 ))}
               </ul>
             </div>
 
-            <p className="text-sm text-muted-foreground/60 border-t border-border/30 pt-6">
+            <p className="border-t border-border/30 pt-6 text-sm text-muted-foreground/60">
               {"Sin compromiso. Sin necesidad de tener todo resuelto de antemano."}
             </p>
           </motion.div>
@@ -80,77 +81,91 @@ export function EntryOffer() {
             transition={{ duration: 0.75, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
             className="lg:pt-4"
           >
-            <div className="relative rounded-3xl border border-border/50 bg-white shadow-2xl shadow-black/[0.06] overflow-hidden">
+            <div className="relative overflow-hidden rounded-3xl border border-border/50 bg-white shadow-2xl shadow-black/[0.06]">
               <div className="h-1 w-full bg-gradient-to-r from-accent/60 via-accent to-accent/60" />
 
-              <div className="p-8 lg:p-10 space-y-8">
+              <div className="space-y-8 p-8 lg:p-10">
                 <div className="space-y-3">
                   <div className="flex items-center gap-2.5">
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-accent/8 rounded-full border border-accent/12">
-                      <Clock className="w-3 h-3 text-accent" />
+                    <div className="inline-flex items-center gap-1.5 rounded-full border border-accent/12 bg-accent/8 px-3 py-1.5">
+                      <Clock className="h-3 w-3 text-accent" />
                       <span className="text-[11px] font-semibold text-accent">15 min</span>
                     </div>
-                    <span className="text-[11px] text-muted-foreground/50 font-medium">Sin costo</span>
+                    <span className="text-[11px] font-medium text-muted-foreground/50">Sin costo</span>
                   </div>
 
-                  <h3 className="text-[1.5rem] font-semibold tracking-tight text-foreground leading-tight">
-                    {"Diagn\u00f3stico inicial de 15 minutos"}
+                  <h3 className="text-[1.5rem] font-semibold leading-tight tracking-tight text-foreground">
+                    {"Elegí cómo querés avanzar"}
                   </h3>
 
-                  <p className="text-[0.9rem] text-muted-foreground leading-relaxed">
+                  <p className="text-[0.9rem] leading-relaxed text-muted-foreground">
                     {
-                      "Sal\u00eds con una lectura inicial y con un s\u00ed o no honesto sobre si vale la pena avanzar."
+                      "Si necesitás una lectura inicial, el camino natural es diagnóstico. Si ya tenés el alcance bastante claro, podés pasar directo a cotización."
                     }
                   </p>
                 </div>
 
-                <div className="h-px bg-border/40" />
-
-                <div className="space-y-3">
-                  {[
-                    "Entiendo tu contexto y tus datos disponibles",
-                    "Te marco la primera se\u00f1al que conviene mirar",
-                    "Te digo si tiene sentido avanzar o no",
-                  ].map((step, index) => (
-                    <div key={step} className="flex items-start gap-3">
-                      <span className="text-[10px] font-bold text-accent/40 mt-0.5 w-4 flex-shrink-0 tabular-nums">
-                        0{index + 1}
-                      </span>
-                      <span className="text-[0.85rem] text-foreground/65 leading-relaxed">{step}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <p className="text-[11px] text-muted-foreground/55 border-t border-border/30 pt-4">
-                  {"Ideal para: quien hoy decide o lidera lo comercial."}
-                </p>
-
-                <div className="space-y-3 pt-1">
-                  <a
-                    href={CALENDLY_URL}
-                    onClick={() => {
-                      trackDiagnosisClick("entry_offer");
-                      trackCalendlyClick("entry_offer");
-                    }}
-                    className="group inline-flex items-center justify-center w-full gap-2 px-8 py-4 bg-foreground text-background rounded-full font-medium text-base hover:bg-foreground/90 transition-all duration-300 hover:shadow-xl"
-                  >
-                    {"Agendar diagn\u00f3stico"}
-                    <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
-                  </a>
-
-                  <p className="text-center text-sm text-muted-foreground">
-                    {"\u00bfPrefer\u00eds un contacto m\u00e1s simple primero? "}
+                <div className="space-y-4">
+                  <div className="rounded-[1.5rem] border border-accent/18 bg-accent/[0.05] p-5">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-accent/70">
+                      Principal
+                    </p>
+                    <p className="mt-2 text-base font-semibold text-foreground">
+                      {"Solicitar diagnóstico"}
+                    </p>
+                    <p className="mt-2 text-[0.9rem] leading-relaxed text-muted-foreground">
+                      {
+                        "Ideal si todavía necesitás ordenar el problema, validar prioridad o entender si hoy conviene construir algo."
+                      }
+                    </p>
                     <a
-                      href={LINKEDIN_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-medium text-accent transition-colors hover:text-accent/75"
+                      href={CALENDLY_URL}
+                      onClick={() => {
+                        trackDiagnosisClick("entry_offer_primary");
+                        trackCalendlyClick("entry_offer_primary");
+                      }}
+                      className="group mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-base font-medium text-accent-foreground transition-all duration-300 hover:bg-accent/90 hover:shadow-xl hover:shadow-accent/20"
                     >
-                      {"Escribime por LinkedIn"}
+                      {"Solicitar diagnóstico"}
+                      <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
                     </a>
-                    {"."}
-                  </p>
+                  </div>
+
+                  <div className="rounded-[1.5rem] border border-border/60 bg-white p-5">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground/55">
+                      Secundario
+                    </p>
+                    <p className="mt-2 text-base font-semibold text-foreground">
+                      {"Solicitar cotización"}
+                    </p>
+                    <p className="mt-2 text-[0.9rem] leading-relaxed text-muted-foreground">
+                      {
+                        "Mejor si ya definiste objetivo, fuentes, usuarios y el tipo de solución que querés evaluar."
+                      }
+                    </p>
+                    <Link
+                      to={QUOTE_PAGE_HREF}
+                      onClick={() => trackQuoteClick("entry_offer_secondary")}
+                      className="group mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full border border-border bg-white px-8 py-4 text-base font-medium text-foreground transition-all duration-300 hover:border-accent/35 hover:bg-accent/5 hover:text-accent"
+                    >
+                      {"Solicitar cotización"}
+                      <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
+                    </Link>
+                  </div>
                 </div>
+
+                <p className="border-t border-border/30 pt-4 text-[11px] text-muted-foreground/55">
+                  {"Si preferís un contacto más simple primero, también podés "}
+                  <a
+                    href={LINKEDIN_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-medium text-accent transition-colors hover:text-accent/75"
+                  >
+                    {"escribirme por LinkedIn"}
+                  </a>
+                  {"."}
+                </p>
               </div>
             </div>
 
@@ -159,9 +174,9 @@ export function EntryOffer() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.5 }}
-              className="text-center text-[11px] text-muted-foreground/45 mt-5 font-medium"
+              className="mt-5 text-center text-[11px] font-medium text-muted-foreground/45"
             >
-              {"Sin presentaci\u00f3n comercial. Sin vueltas."}
+              {"Sin presentación comercial. Sin vueltas."}
             </motion.p>
           </motion.div>
         </div>
