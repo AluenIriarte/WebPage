@@ -16,16 +16,16 @@ export function EntryOffer() {
         style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(139,92,246,0.12) 0%, transparent 72%)" }}
       />
 
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-20">
+      <div className="mx-auto max-w-5xl px-6 lg:px-8">
+        <div className="mx-auto flex max-w-[48rem] flex-col gap-8 lg:gap-10">
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
-            className="max-w-[33rem]"
+            className="mx-auto max-w-[40rem] text-center"
           >
-            <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center gap-3">
               <div className="h-px w-8 rounded-full bg-accent/40" />
               <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent/70">CONTACTO</span>
             </div>
@@ -34,23 +34,24 @@ export function EntryOffer() {
               Opciones de contacto
             </h2>
 
-            <p className="mt-5 max-w-[31rem] text-[1rem] leading-[1.72] text-muted-foreground">
-              Elegí la vía más útil para tu caso. Si necesitás una primera lectura, empezá por diagnóstico. Si ya tenés claro el alcance, pasá directo a cotización.
+            <p className="mt-5 text-[1rem] leading-[1.72] text-muted-foreground">
+              Elegi la via mas util para tu caso. Si necesitas una primera lectura, empeza por diagnostico. Si ya tenes
+              claro el alcance, pasa directo a cotizacion.
             </p>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.75, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="rounded-[2rem] border border-border/45 bg-[#FCFBFE] p-4 sm:p-5 lg:p-6">
               <div className="rounded-[1.55rem] border border-accent/18 bg-accent/[0.05] p-6">
                 <p className={`${cardLabelClassName} text-accent/55`}>PARA EMPEZAR</p>
-                <h3 className="mt-3 text-[1.25rem] font-semibold tracking-tight text-foreground">Diagnóstico inicial</h3>
+                <h3 className="mt-3 text-[1.25rem] font-semibold tracking-tight text-foreground">Diagnostico inicial</h3>
                 <p className="mt-3 max-w-[26rem] text-[0.94rem] leading-relaxed text-muted-foreground">
-                  Una revisión breve para detectar si hoy hay una pérdida visible en cartera, margen o foco comercial.
+                  Una revision breve para detectar si hoy hay una perdida visible en cartera, margen o foco comercial.
                 </p>
                 <a
                   href={CALENDLY_URL}
@@ -60,16 +61,16 @@ export function EntryOffer() {
                   }}
                   className="group mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-6 py-4 text-base font-medium text-accent-foreground transition-colors duration-300 hover:bg-accent/90"
                 >
-                  Agendar diagnóstico
+                  Agendar diagnostico
                   <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
                 </a>
               </div>
 
               <div className="mt-4 rounded-[1.4rem] border border-border/60 bg-white p-5">
-                <p className={`${cardLabelClassName} text-foreground/42`}>SI YA ESTÁ DEFINIDO</p>
-                <h3 className="mt-3 text-[1.08rem] font-semibold tracking-tight text-foreground">Cotización directa</h3>
+                <p className={`${cardLabelClassName} text-foreground/42`}>SI YA ESTA DEFINIDO</p>
+                <h3 className="mt-3 text-[1.08rem] font-semibold tracking-tight text-foreground">Cotizacion directa</h3>
                 <p className="mt-2.5 max-w-[25rem] text-[0.92rem] leading-relaxed text-muted-foreground">
-                  Mejor para proyectos con alcance, fuentes y necesidad más claros.
+                  Mejor para proyectos con alcance, fuentes y necesidad mas claros.
                 </p>
                 <Link
                   to={QUOTE_PAGE_HREF}
@@ -83,7 +84,7 @@ export function EntryOffer() {
 
               <div className="mt-4 border-t border-border/45 pt-4">
                 <p className="text-sm leading-relaxed text-muted-foreground">
-                  ¿Preferís escribir primero?{" "}
+                  Preferis escribir primero?{" "}
                   <a
                     href={LINKEDIN_URL}
                     target="_blank"
