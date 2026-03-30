@@ -64,8 +64,6 @@ function getAchievementStyles(achievement: number) {
     return {
       textClassName: "text-emerald-600",
       barClassName: "bg-emerald-500",
-      badgeClassName: "bg-emerald-50 text-emerald-700",
-      label: "Buen desempeño",
     };
   }
 
@@ -73,17 +71,36 @@ function getAchievementStyles(achievement: number) {
     return {
       textClassName: "text-amber-600",
       barClassName: "bg-amber-500",
-      badgeClassName: "bg-amber-50 text-amber-700",
-      label: "Seguimiento",
     };
   }
 
   return {
     textClassName: "text-rose-600",
     barClassName: "bg-rose-500",
-    badgeClassName: "bg-rose-50 text-rose-700",
-    label: "Crítico",
   };
+}
+
+type SellerWithAchievement = (typeof sellersData)[number] & { achievement: number; rank: number };
+
+function getRankedSellers(): SellerWithAchievement[] {
+  return sellersData
+    .map((seller) => ({ ...seller, achievement: (seller.sales / seller.target) * 100 }))
+    .sort((left, right) => right.achievement - left.achievement)
+    .map((seller, index) => ({ ...seller, rank: index + 1 }));
+}
+
+function getRankingShowcaseSellers(rankedSellers: SellerWithAchievement[]) {
+  const greenSeller = rankedSellers.find((seller) => seller.achievement >= 90);
+  const yellowSeller = rankedSellers.find((seller) => seller.achievement >= 50 && seller.achievement < 90);
+  const redSeller = rankedSellers.find((seller) => seller.achievement < 50);
+  const fallbackSellers = rankedSellers.filter(
+    (seller) =>
+      seller.name !== greenSeller?.name && seller.name !== yellowSeller?.name && seller.name !== redSeller?.name,
+  );
+
+  return [greenSeller, yellowSeller, redSeller, ...fallbackSellers]
+    .filter((seller): seller is SellerWithAchievement => Boolean(seller))
+    .slice(0, 3);
 }
 
 const clientsData = [
@@ -465,6 +482,9 @@ function GlobalViewMobile() {
 }
 
 function RankingView() {
+  const rankedSellers = getRankedSellers();
+  const displaySellers = getRankingShowcaseSellers(rankedSellers);
+
   return (
     <div className="flex h-full flex-col gap-3">
       <div className="flex flex-col rounded-lg bg-white p-5 md:min-h-0 md:flex-1">
@@ -474,9 +494,8 @@ function RankingView() {
         </div>
 
         <div className="space-y-4 md:min-h-0 md:flex-1 md:overflow-auto md:pr-1">
-          {sellersData.map((seller, index) => {
-            const achievement = (seller.sales / seller.target) * 100;
-            const achievementStyles = getAchievementStyles(achievement);
+          {displaySellers.map((seller, index) => {
+            const achievementStyles = getAchievementStyles(seller.achievement);
 
             return (
               <div key={seller.name} className="space-y-2">
@@ -493,7 +512,7 @@ function RankingView() {
                   <div className="shrink-0 text-right">
                     <div className="tracking-tight text-[#14131A]">${(seller.sales / 1000).toFixed(0)}k</div>
                     <div className={`text-xs ${achievementStyles.textClassName}`}>
-                      {achievement.toFixed(0)}% del objetivo
+                      {seller.achievement.toFixed(0)}% del objetivo
                     </div>
                   </div>
                 </div>
@@ -501,14 +520,11 @@ function RankingView() {
                 <div className="h-1.5 overflow-hidden rounded-full bg-[#F3F1EE]">
                   <div
                     className={`h-full rounded-full ${achievementStyles.barClassName}`}
-                    style={{ width: `${Math.min(achievement, 100)}%` }}
+                    style={{ width: `${Math.min(seller.achievement, 100)}%` }}
                   />
                 </div>
 
                 <div className="flex flex-wrap items-center gap-3 text-xs text-[#6E6A7A]">
-                  <span className={`rounded-full px-2 py-0.5 font-semibold ${achievementStyles.badgeClassName}`}>
-                    {achievementStyles.label}
-                  </span>
                   <div className="flex items-center gap-1">
                     <Users className="h-3 w-3" />
                     <span>{seller.newClients} nuevos</span>
@@ -532,9 +548,9 @@ function RankingView() {
         </div>
         <ExecutiveReading
           insights={[
-            "Maria Gonzalez lidera con claridad y marca el estándar comercial del equipo",
-            "Carlos y Ana están en zona recuperable si se refuerza seguimiento y cierre",
-            "Laura Perez quedó en nivel crítico y pide intervención directa de management",
+            "La muestra deja un caso verde, uno amarillo y uno rojo para leer rapido al equipo",
+            "Con el color de la barra alcanza para ver quien esta sano, quien pide seguimiento y quien esta en riesgo",
+            "Tres nombres bien elegidos explican el panorama sin cargar la vista con ruido",
           ]}
         />
       </div>
@@ -543,30 +559,14 @@ function RankingView() {
 }
 
 function RankingViewMobile() {
-  const sellersWithAchievement = sellersData
-    .map((seller) => ({ ...seller, achievement: (seller.sales / seller.target) * 100 }))
-    .sort((left, right) => right.achievement - left.achievement)
-    .map((seller, index) => ({ ...seller, rank: index + 1 }));
-  const topSeller = sellersWithAchievement[0];
-  const underTargetCount = sellersWithAchievement.filter((seller) => seller.achievement < 100).length;
-  const closestToTargetSeller =
-    sellersWithAchievement
-      .filter((seller) => seller.name !== topSeller.name)
-      .sort((left, right) => Math.abs(left.achievement - 100) - Math.abs(right.achievement - 100))[0] ??
-    topSeller;
-  const belowTargetSeller = sellersWithAchievement.find(
-    (seller) =>
-      seller.achievement < 100 && seller.name !== topSeller.name && seller.name !== closestToTargetSeller.name,
-  );
-  const fallbackSellers = sellersWithAchievement.filter(
-    (seller) =>
-      seller.name !== topSeller.name &&
-      seller.name !== closestToTargetSeller.name &&
-      seller.name !== belowTargetSeller?.name,
-  );
-  const displaySellers = [topSeller, closestToTargetSeller, belowTargetSeller, ...fallbackSellers]
-    .filter((seller): seller is (typeof sellersWithAchievement)[number] => Boolean(seller))
-    .slice(0, 3);
+  const rankedSellers = getRankedSellers();
+  const displaySellers = getRankingShowcaseSellers(rankedSellers);
+  const topSeller = displaySellers[0] ?? rankedSellers[0];
+  const underTargetCount = displaySellers.filter((seller) => seller.achievement < 100).length;
+
+  if (!topSeller) {
+    return null;
+  }
 
   return (
     <div className="space-y-3">
@@ -583,10 +583,10 @@ function RankingViewMobile() {
       <MobilePanel
         eyebrow="Equipo comercial"
         title="Ranking resumido para celular"
-        description="La muestra mezcla un líder, alguien cerca del objetivo y un caso a reforzar para leer mejor el equipo."
+        description="La muestra deja un caso por color para leer rapido quien esta sano, quien requiere seguimiento y quien esta en rojo."
       >
         <div className="space-y-4">
-          {displaySellers.map((seller) => {
+          {displaySellers.map((seller, index) => {
             const achievementStyles = getAchievementStyles(seller.achievement);
 
             return (
@@ -594,7 +594,7 @@ function RankingViewMobile() {
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-3">
                     <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#7111DF]/10 text-sm text-[#7111DF]">
-                      {seller.rank}
+                      {index + 1}
                     </div>
                     <div>
                       <p className="text-sm font-medium text-foreground">{seller.name}</p>
@@ -617,9 +617,6 @@ function RankingViewMobile() {
                 </div>
 
                 <div className="mt-3 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
-                  <span className={`rounded-full px-2 py-0.5 font-semibold ${achievementStyles.badgeClassName}`}>
-                    {achievementStyles.label}
-                  </span>
                   <div className="flex items-center gap-1">
                     <Users className="h-3 w-3" />
                     <span>{seller.newClients} nuevos</span>
@@ -637,9 +634,9 @@ function RankingViewMobile() {
 
       <ExecutiveReading
         insights={[
-          "El top 3 alcanza para ver si el equipo está traccionando o si el resultado depende de pocos nombres",
-          "Cuando dos vendedores quedan debajo del objetivo, la conversación pasa a coaching y seguimiento",
-          "La vista móvil tiene que ayudar a decidir rápido, no a leer una planilla larga",
+          "Un caso por color alcanza para leer la salud del equipo sin perder tiempo",
+          "Si la barra amarilla o roja domina, la conversacion pasa a seguimiento e intervencion",
+          "La vista movil tiene que ayudar a decidir rapido, no a leer una planilla larga",
         ]}
       />
     </div>
