@@ -143,7 +143,7 @@ function getClientPortfolioSummary(client: (typeof clientsData)[number]) {
   };
 }
 
-type PortfolioMobileView = "products" | "clients";
+type PortfolioDetailView = "products" | "clients";
 type PortfolioProductTone = "focus" | "warning" | "neutral";
 
 const portfolioProductsData = [
@@ -720,10 +720,11 @@ function RankingViewMobile() {
 function VendedoresView() {
   const priorityClients = getPriorityClients();
   const averageCoverage = getPortfolioCoverageAverage();
+  const [activePortfolioView, setActivePortfolioView] = useState<PortfolioDetailView>("products");
 
   return (
-    <div className="grid h-full min-h-0 gap-4 xl:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]">
-      <div className="flex min-h-0 flex-col gap-4">
+    <div className="flex h-full min-h-0 flex-col gap-4">
+      <div className="grid shrink-0 gap-4 xl:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]">
         <section className="relative overflow-hidden rounded-[1.85rem] bg-[linear-gradient(140deg,#14131A_0%,#241B3C_55%,#3A1F78_100%)] p-5 text-white shadow-[0_22px_48px_rgba(20,19,26,0.18)]">
           <div className="absolute right-[-4rem] top-[-3rem] h-32 w-32 rounded-full bg-white/8 blur-3xl" />
           <div className="absolute bottom-[-4rem] left-[-2rem] h-24 w-24 rounded-full bg-[#9E6BFF]/20 blur-3xl" />
@@ -749,19 +750,68 @@ function VendedoresView() {
           </div>
         </section>
 
-        <section className="flex min-h-0 flex-1 flex-col rounded-[1.7rem] border border-[#ECE5F2] bg-white p-5 shadow-[0_12px_28px_rgba(20,19,26,0.04)]">
-          <div className="shrink-0">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#7111DF]/10 text-[#7111DF]">
-                <Layers3 className="h-5 w-5" />
-              </div>
-              <div>
-                <h3 className="text-base font-semibold tracking-tight text-[#14131A]">Productos subpenetrados</h3>
-                <p className="mt-1 text-sm text-[#6E6A7A]">Brecha por línea antes de decidir en qué cuentas entrar.</p>
-              </div>
+        <section className="rounded-[1.85rem] border border-amber-300 bg-[linear-gradient(145deg,#FFF7E8_0%,#FFF2D8_100%)] p-5 shadow-[0_18px_38px_rgba(245,158,11,0.14)]">
+          <div className="flex items-start gap-4">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-amber-500 text-white shadow-[0_12px_24px_rgba(245,158,11,0.24)]">
+              <Package className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-800">Stock bajo</p>
+              <h3 className="mt-2 text-lg font-semibold tracking-tight text-[#14131A]">Línea C limitada</h3>
+              <p className="mt-2 text-sm leading-relaxed text-amber-900/80">
+                Conviene empujar líneas A y B mientras se normaliza stock, para no frenar expansión comercial.
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section className="flex min-h-0 flex-1 flex-col rounded-[1.7rem] border border-[#ECE5F2] bg-white p-5 shadow-[0_12px_28px_rgba(20,19,26,0.04)]">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div className="flex items-center gap-3">
+            <div
+              className={`flex h-10 w-10 items-center justify-center rounded-2xl ${
+                activePortfolioView === "products" ? "bg-[#7111DF]/10 text-[#7111DF]" : "bg-[#14131A]/6 text-[#14131A]"
+              }`}
+            >
+              {activePortfolioView === "products" ? <Layers3 className="h-5 w-5" /> : <Users className="h-5 w-5" />}
+            </div>
+            <div>
+              <h3 className="text-base font-semibold tracking-tight text-[#14131A]">
+                {activePortfolioView === "products" ? "Productos subpenetrados" : "Clientes para accionar"}
+              </h3>
+              <p className="mt-1 text-sm text-[#6E6A7A]">
+                {activePortfolioView === "products"
+                  ? "Brecha por línea antes de decidir en qué cuentas entrar."
+                  : "Pocas cuentas y una próxima acción explícita para mover la cartera."}
+              </p>
             </div>
           </div>
 
+          <div className="rounded-full bg-[#F4F1F8] p-1">
+            <div className="grid grid-cols-2 gap-1">
+              {[
+                { key: "products" as const, label: "Productos" },
+                { key: "clients" as const, label: "Clientes" },
+              ].map((viewOption) => (
+                <button
+                  key={viewOption.key}
+                  type="button"
+                  onClick={() => setActivePortfolioView(viewOption.key)}
+                  className={`rounded-full px-5 py-2 text-sm font-medium transition-colors ${
+                    activePortfolioView === viewOption.key
+                      ? "bg-[#14131A] text-white shadow-[0_10px_20px_rgba(20,19,26,0.12)]"
+                      : "text-[#6E6A7A]"
+                  }`}
+                >
+                  {viewOption.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {activePortfolioView === "products" ? (
           <div className="mt-4 space-y-3 md:min-h-0 md:flex-1 md:overflow-auto md:pr-1">
             {portfolioProductsData.map((product) => {
               const styles = getPortfolioProductStyles(product.tone);
@@ -793,38 +843,7 @@ function VendedoresView() {
               );
             })}
           </div>
-        </section>
-      </div>
-
-      <div className="flex min-h-0 flex-col gap-4">
-        <section className="rounded-[1.85rem] border border-amber-300 bg-[linear-gradient(145deg,#FFF7E8_0%,#FFF2D8_100%)] p-5 shadow-[0_18px_38px_rgba(245,158,11,0.14)]">
-          <div className="flex items-start gap-4">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-amber-500 text-white shadow-[0_12px_24px_rgba(245,158,11,0.24)]">
-              <Package className="h-5 w-5" />
-            </div>
-            <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-800">Stock bajo</p>
-              <h3 className="mt-2 text-lg font-semibold tracking-tight text-[#14131A]">Línea C limitada</h3>
-              <p className="mt-2 text-sm leading-relaxed text-amber-900/80">
-                Conviene empujar líneas A y B mientras se normaliza stock, para no frenar expansión comercial.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section className="flex min-h-0 flex-1 flex-col rounded-[1.7rem] border border-[#ECE5F2] bg-white p-5 shadow-[0_12px_28px_rgba(20,19,26,0.04)]">
-          <div className="shrink-0">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#14131A]/6 text-[#14131A]">
-                <Users className="h-5 w-5" />
-              </div>
-              <div>
-                <h3 className="text-base font-semibold tracking-tight text-[#14131A]">Clientes para accionar</h3>
-                <p className="mt-1 text-sm text-[#6E6A7A]">Pocas cuentas y una próxima acción explícita.</p>
-              </div>
-            </div>
-          </div>
-
+        ) : (
           <div className="mt-4 space-y-3 md:min-h-0 md:flex-1 md:overflow-auto md:pr-1">
             {priorityClients.map((client) => {
               const portfolioSummary = getClientPortfolioSummary(client);
@@ -863,8 +882,8 @@ function VendedoresView() {
               );
             })}
           </div>
-        </section>
-      </div>
+        )}
+      </section>
     </div>
   );
 }
@@ -872,7 +891,7 @@ function VendedoresView() {
 function VendedoresViewMobile() {
   const highlightedClients = getPriorityClients();
   const averageCoverage = getPortfolioCoverageAverage();
-  const [activePortfolioView, setActivePortfolioView] = useState<PortfolioMobileView>("products");
+  const [activePortfolioView, setActivePortfolioView] = useState<PortfolioDetailView>("products");
 
   return (
     <div className="space-y-3">
