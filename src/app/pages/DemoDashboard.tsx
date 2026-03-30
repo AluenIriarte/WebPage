@@ -725,42 +725,33 @@ function VendedoresView() {
   return (
     <div className="flex h-full min-h-0 flex-col gap-4">
       <div className="grid shrink-0 gap-4 xl:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]">
-        <section className="relative overflow-hidden rounded-[1.85rem] bg-[linear-gradient(140deg,#14131A_0%,#241B3C_55%,#3A1F78_100%)] p-5 text-white shadow-[0_22px_48px_rgba(20,19,26,0.18)]">
-          <div className="absolute right-[-4rem] top-[-3rem] h-32 w-32 rounded-full bg-white/8 blur-3xl" />
-          <div className="absolute bottom-[-4rem] left-[-2rem] h-24 w-24 rounded-full bg-[#9E6BFF]/20 blur-3xl" />
+        <section className="relative overflow-hidden rounded-[1.7rem] bg-[linear-gradient(140deg,#14131A_0%,#241B3C_55%,#3A1F78_100%)] p-4 text-white shadow-[0_18px_36px_rgba(20,19,26,0.16)]">
+          <div className="absolute right-[-3.5rem] top-[-3rem] h-24 w-24 rounded-full bg-white/8 blur-3xl" />
+          <div className="absolute bottom-[-4rem] left-[-2rem] h-20 w-20 rounded-full bg-[#9E6BFF]/18 blur-3xl" />
           <div className="relative">
             <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/58">Cobertura cartera</p>
-            <div className="mt-4 flex items-end justify-between gap-6">
+            <div className="mt-3 flex items-end justify-between gap-4">
               <div>
-                <div className="text-4xl font-semibold tracking-[-0.04em]">{averageCoverage}%</div>
-                <p className="mt-2 max-w-md text-sm leading-relaxed text-white/72">
-                  Cobertura promedio sobre líneas estratégicas dentro de la cartera más valiosa.
+                <div className="text-[2.75rem] font-semibold tracking-[-0.04em]">{averageCoverage}%</div>
+                <p className="mt-1.5 max-w-md text-sm leading-relaxed text-white/70">
+                  Cobertura promedio sobre líneas estratégicas de la cartera foco.
                 </p>
               </div>
-              <div className="rounded-[1.2rem] border border-white/12 bg-white/8 px-3 py-2.5 backdrop-blur">
-                <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/55">Pulso comercial</div>
-                <div className="mt-1.5 text-sm font-semibold text-white">18 oportunidades listas</div>
+              <div className="rounded-full border border-white/12 bg-white/8 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/78 backdrop-blur">
+                KPI principal
               </div>
-            </div>
-            <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-white/62">
-              <span>2 clientes con acción inmediata</span>
-              <span>3 productos subpenetrados</span>
-              <span>1 restricción operativa activa</span>
             </div>
           </div>
         </section>
 
-        <section className="rounded-[1.85rem] border border-amber-300 bg-[linear-gradient(145deg,#FFF7E8_0%,#FFF2D8_100%)] p-5 shadow-[0_18px_38px_rgba(245,158,11,0.14)]">
-          <div className="flex items-start gap-4">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-amber-500 text-white shadow-[0_12px_24px_rgba(245,158,11,0.24)]">
+        <section className="rounded-[1.7rem] border border-amber-300 bg-[linear-gradient(145deg,#FFF7E8_0%,#FFF2D8_100%)] p-4 shadow-[0_16px_30px_rgba(245,158,11,0.12)]">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-amber-500 text-white shadow-[0_10px_20px_rgba(245,158,11,0.22)]">
               <Package className="h-5 w-5" />
             </div>
             <div>
               <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-800">Stock bajo</p>
-              <h3 className="mt-2 text-lg font-semibold tracking-tight text-[#14131A]">Línea C limitada</h3>
-              <p className="mt-2 text-sm leading-relaxed text-amber-900/80">
-                Conviene empujar líneas A y B mientras se normaliza stock, para no frenar expansión comercial.
-              </p>
+              <h3 className="mt-1.5 text-lg font-semibold tracking-tight text-[#14131A]">Línea C con bajo stock</h3>
             </div>
           </div>
         </section>
