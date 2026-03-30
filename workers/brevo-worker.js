@@ -668,6 +668,59 @@ async function handleQuoteRequest(payload, env, ctx) {
 
   const followUpTasks = [];
 
+  followUpTasks.push(async () => {
+    await sendEmail(env, {
+      to: [getInternalRecipient(env)],
+      replyTo: {
+        email,
+        name: nombre,
+      },
+      subject: `Nueva solicitud de cotizacion: ${producto}`,
+      htmlContent: `
+        <html>
+          <body style="font-family: Arial, sans-serif; color: #101828; line-height: 1.6; background: #f8f8f6; padding: 24px;">
+            <div style="max-width: 640px; margin: 0 auto; background: #ffffff; border-radius: 18px; padding: 32px; border: 1px solid #ece8ff;">
+              <p style="margin: 0 0 12px; color: #7a5cff; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;">Nueva cotizacion</p>
+              <h1 style="margin: 0 0 16px; font-size: 32px; line-height: 1.1;">${escapeHtml(producto)}</h1>
+              <p style="margin: 0 0 16px; font-size: 16px; color: #475467;">
+                Llego una nueva solicitud desde la web. Podes responder directo a <strong>${escapeHtml(nombre)}</strong> en <strong>${escapeHtml(email)}</strong>.
+              </p>
+              <div style="margin: 0 0 18px; padding: 16px; border-radius: 14px; background: #f6f4ff; border: 1px solid #ece8ff;">
+                <p style="margin: 0 0 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #7a5cff;">
+                  Resumen recibido
+                </p>
+                <p style="margin: 0; font-size: 14px; color: #475467;">
+                  ${summaryHtml}
+                </p>
+              </div>
+              <p style="margin: 0; font-size: 14px; color: #98a2b3;">
+                Request ID: ${escapeHtml(requestId)}
+              </p>
+            </div>
+          </body>
+        </html>
+      `,
+      textContent: [
+        `Nueva solicitud de cotizacion: ${producto}`,
+        "",
+        `Responder a: ${nombre} <${email}>`,
+        `Request ID: ${requestId}`,
+        "",
+        ...summaryLines,
+      ].join("\n"),
+    });
+    await updateQuoteRequest(env, requestId, {
+      internal_notified_at: new Date().toISOString(),
+    });
+    logInfo("quote_request_internal_email_sent", {
+      requestId,
+      email,
+      empresa,
+      producto,
+      internalEmail: getInternalRecipient(env).email,
+    });
+  });
+
   if (env.INTERNAL_NOTIFY_WEBHOOK_URL) {
     followUpTasks.push(async () => {
       await sendInternalNotification(env, quoteRecord);

@@ -20,8 +20,9 @@ Este worker resuelve dos endpoints:
 4. Guarda la cotizacion en D1 con estado `received`
 5. Sincroniza o crea el contacto en Brevo
 6. Envia un email de confirmacion al lead
-7. Si hay `INTERNAL_NOTIFY_WEBHOOK_URL`, dispara una notificacion interna en segundo plano
-8. Si todo sale bien, la cotizacion queda con estado `finalized`
+7. Envia un email interno al destinatario configurado en `BREVO_NOTIFICATION_EMAIL` o usa `BREVO_SENDER_EMAIL` como fallback
+8. Si hay `INTERNAL_NOTIFY_WEBHOOK_URL`, dispara una notificacion interna en segundo plano
+9. Si todo sale bien, la cotizacion queda con estado `finalized`
 
 ## Secrets y bindings
 
