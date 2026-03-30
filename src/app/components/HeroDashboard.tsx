@@ -199,6 +199,118 @@ export function InteractiveDashboard({
 
   const gradientVentas = `${uid}-ventas`;
   const gradientMargen = `${uid}-margen`;
+  const chartBlock = (
+    <div className={isMini ? "px-2 pb-1 pt-4" : "px-4 pb-2 pt-5"}>
+      <div style={{ height: chartHeight }}>
+        <ResponsiveContainer width="100%" height={chartHeight}>
+          <AreaChart data={data.chart} margin={{ top: 4, right: 8, left: -28, bottom: 0 }}>
+            <defs>
+              <linearGradient id={gradientVentas} x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#8B5CF6" stopOpacity={0.35} />
+                <stop offset="100%" stopColor="#8B5CF6" stopOpacity={0} />
+              </linearGradient>
+              <linearGradient id={gradientMargen} x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#06b6d4" stopOpacity={0.25} />
+                <stop offset="100%" stopColor="#06b6d4" stopOpacity={0} />
+              </linearGradient>
+            </defs>
+
+            <XAxis
+              dataKey="name"
+              tick={{ fontSize: 9, fill: "#9ca3af", fontWeight: 500 }}
+              axisLine={false}
+              tickLine={false}
+            />
+            <YAxis tick={{ fontSize: 9, fill: "#9ca3af" }} axisLine={false} tickLine={false} />
+            <Tooltip
+              content={<CustomTooltip />}
+              cursor={{
+                stroke: "#8B5CF6",
+                strokeWidth: 1,
+                strokeDasharray: "4 2",
+                strokeOpacity: 0.5,
+              }}
+            />
+            <Area
+              key="area-ventas"
+              type="monotone"
+              dataKey="ventas"
+              stroke="#8B5CF6"
+              strokeWidth={2}
+              fill={`url(#${gradientVentas})`}
+              dot={false}
+              activeDot={{ r: 3.5, fill: "#8B5CF6", strokeWidth: 2, stroke: "#fff" }}
+              isAnimationActive={animated}
+              animationDuration={animated ? 700 : 0}
+              animationEasing="ease-out"
+            />
+            <Area
+              key="area-margen"
+              type="monotone"
+              dataKey="margen"
+              stroke="#06b6d4"
+              strokeWidth={2}
+              fill={`url(#${gradientMargen})`}
+              dot={false}
+              activeDot={{ r: 3.5, fill: "#06b6d4", strokeWidth: 2, stroke: "#fff" }}
+              isAnimationActive={animated}
+              animationDuration={animated ? 700 : 0}
+              animationEasing="ease-out"
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
+
+      <div className={`${isMini ? "px-3 pb-2" : "px-2 pb-3"} flex gap-4`}>
+        <div className="flex items-center gap-1.5">
+          <div className="h-0.5 w-4 rounded-full bg-[#8B5CF6]" />
+          <span className="text-[9px] font-medium text-muted-foreground">Ventas</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <div className="h-0.5 w-4 rounded-full bg-cyan-500" />
+          <span className="text-[9px] font-medium text-muted-foreground">Margen</span>
+        </div>
+      </div>
+    </div>
+  );
+  const metricsBlock = (
+    <div
+      className={`grid gap-3 ${
+        isMini ? "grid-cols-2 px-4 pb-4 pt-4" : "px-6 pb-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,0.95fr)]"
+      }`}
+    >
+      {data.metrics.map((metric, index) => (
+        <motion.div
+          key={`${period}-kpi-${index}`}
+          initial={animated ? { opacity: 0, scale: 0.92 } : undefined}
+          animate={animated ? { opacity: 1, scale: 1 } : undefined}
+          transition={animated ? { delay: index * 0.06, duration: 0.3, ease: "easeOut" } : undefined}
+          className={`rounded-xl p-3.5 ${
+            isMini ? "border border-border/30 bg-muted/50" : "border border-[#ECE6F2] bg-[#FCFBFE]"
+          }`}
+        >
+          <p className="mb-1.5 text-[9px] font-medium uppercase tracking-wide text-muted-foreground">
+            {metric.label}
+          </p>
+          <div className="mb-0.5 text-base font-bold text-foreground">
+            <AnimatedValue value={metric.value} animated={animated} />
+          </div>
+          <span className="text-[9px] font-semibold text-emerald-600">{metric.change}</span>
+        </motion.div>
+      ))}
+
+      {!isMini && (
+        <motion.div
+          key={`${period}-risk`}
+          initial={animated ? { opacity: 0, scale: 0.92 } : undefined}
+          animate={animated ? { opacity: 1, scale: 1 } : undefined}
+          transition={animated ? { delay: 0.16, duration: 0.3, ease: "easeOut" } : undefined}
+        >
+          <RiskAlertCard animated={animated} />
+        </motion.div>
+      )}
+    </div>
+  );
 
   return (
     <div
@@ -283,115 +395,17 @@ export function InteractiveDashboard({
           </div>
         </div>
 
-        <div className={isMini ? "px-2 pb-1 pt-4" : "px-4 pb-2 pt-5"}>
-          <div style={{ height: chartHeight }}>
-            <ResponsiveContainer width="100%" height={chartHeight}>
-              <AreaChart data={data.chart} margin={{ top: 4, right: 8, left: -28, bottom: 0 }}>
-                <defs>
-                  <linearGradient id={gradientVentas} x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#8B5CF6" stopOpacity={0.35} />
-                    <stop offset="100%" stopColor="#8B5CF6" stopOpacity={0} />
-                  </linearGradient>
-                  <linearGradient id={gradientMargen} x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#06b6d4" stopOpacity={0.25} />
-                    <stop offset="100%" stopColor="#06b6d4" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-
-                <XAxis
-                  dataKey="name"
-                  tick={{ fontSize: 9, fill: "#9ca3af", fontWeight: 500 }}
-                  axisLine={false}
-                  tickLine={false}
-                />
-                <YAxis tick={{ fontSize: 9, fill: "#9ca3af" }} axisLine={false} tickLine={false} />
-                <Tooltip
-                  content={<CustomTooltip />}
-                  cursor={{
-                    stroke: "#8B5CF6",
-                    strokeWidth: 1,
-                    strokeDasharray: "4 2",
-                    strokeOpacity: 0.5,
-                  }}
-                />
-                <Area
-                  key="area-ventas"
-                  type="monotone"
-                  dataKey="ventas"
-                  stroke="#8B5CF6"
-                  strokeWidth={2}
-                  fill={`url(#${gradientVentas})`}
-                  dot={false}
-                  activeDot={{ r: 3.5, fill: "#8B5CF6", strokeWidth: 2, stroke: "#fff" }}
-                  isAnimationActive={animated}
-                  animationDuration={animated ? 700 : 0}
-                  animationEasing="ease-out"
-                />
-                <Area
-                  key="area-margen"
-                  type="monotone"
-                  dataKey="margen"
-                  stroke="#06b6d4"
-                  strokeWidth={2}
-                  fill={`url(#${gradientMargen})`}
-                  dot={false}
-                  activeDot={{ r: 3.5, fill: "#06b6d4", strokeWidth: 2, stroke: "#fff" }}
-                  isAnimationActive={animated}
-                  animationDuration={animated ? 700 : 0}
-                  animationEasing="ease-out"
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-
-          <div className={`${isMini ? "px-3 pb-2" : "px-2 pb-3"} flex gap-4`}>
-            <div className="flex items-center gap-1.5">
-              <div className="h-0.5 w-4 rounded-full bg-[#8B5CF6]" />
-              <span className="text-[9px] font-medium text-muted-foreground">Ventas</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <div className="h-0.5 w-4 rounded-full bg-cyan-500" />
-              <span className="text-[9px] font-medium text-muted-foreground">Margen</span>
-            </div>
-          </div>
-        </div>
-
-        <div
-          className={`grid gap-3 ${
-            isMini ? "grid-cols-2 px-4 pb-5" : "px-6 pb-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,0.95fr)]"
-          }`}
-        >
-          {data.metrics.map((metric, index) => (
-            <motion.div
-              key={`${period}-kpi-${index}`}
-              initial={animated ? { opacity: 0, scale: 0.92 } : undefined}
-              animate={animated ? { opacity: 1, scale: 1 } : undefined}
-              transition={animated ? { delay: index * 0.06, duration: 0.3, ease: "easeOut" } : undefined}
-              className={`rounded-xl p-3.5 ${
-                isMini ? "border border-border/30 bg-muted/50" : "border border-[#ECE6F2] bg-[#FCFBFE]"
-              }`}
-            >
-              <p className="mb-1.5 text-[9px] font-medium uppercase tracking-wide text-muted-foreground">
-                {metric.label}
-              </p>
-              <div className="mb-0.5 text-base font-bold text-foreground">
-                <AnimatedValue value={metric.value} animated={animated} />
-              </div>
-              <span className="text-[9px] font-semibold text-emerald-600">{metric.change}</span>
-            </motion.div>
-          ))}
-
-          {!isMini && (
-            <motion.div
-              key={`${period}-risk`}
-              initial={animated ? { opacity: 0, scale: 0.92 } : undefined}
-              animate={animated ? { opacity: 1, scale: 1 } : undefined}
-              transition={animated ? { delay: 0.16, duration: 0.3, ease: "easeOut" } : undefined}
-            >
-              <RiskAlertCard animated={animated} />
-            </motion.div>
-          )}
-        </div>
+        {isMini ? (
+          <>
+            {metricsBlock}
+            {chartBlock}
+          </>
+        ) : (
+          <>
+            {chartBlock}
+            {metricsBlock}
+          </>
+        )}
 
         {isMini && (
           <motion.div
