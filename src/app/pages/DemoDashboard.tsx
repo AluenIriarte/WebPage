@@ -1,4 +1,4 @@
-import { useEffect, useState, type MouseEvent } from "react";
+import { useEffect, useState, type MouseEvent, type ReactNode } from "react";
 import {
   Area,
   AreaChart,
@@ -12,7 +12,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { AlertCircle, ArrowRight, BarChart2, Clock3, Layers3, Linkedin, Package, TrendingUp, Users } from "lucide-react";
+import { AlertCircle, BarChart2, Clock3, Layers3, Linkedin, Package, TrendingUp, Users } from "lucide-react";
 import { Header } from "../components/Header";
 import { trackDiagnosisClick, trackQuoteClick } from "../lib/analytics";
 import { buildQuotePageHref, CALENDLY_URL } from "../lib/contact";
@@ -28,10 +28,10 @@ const viewDescriptions: Record<ViewType, string> = {
   vendedores: "Vista de cartera: clientes prioritarios, oportunidades de venta y foco comercial inmediato",
 };
 
-const views: { key: ViewType; label: string }[] = [
-  { key: "global", label: "Global" },
-  { key: "ranking", label: "Ranking comercial" },
-  { key: "vendedores", label: "Cartera de clientes" },
+const views: { key: ViewType; label: string; mobileLabel: string }[] = [
+  { key: "global", label: "Global", mobileLabel: "Global" },
+  { key: "ranking", label: "Ranking comercial", mobileLabel: "Equipo" },
+  { key: "vendedores", label: "Cartera de clientes", mobileLabel: "Cartera" },
 ];
 
 const trendData = [
@@ -192,6 +192,27 @@ function ExecutiveReading({ insights }: { insights: string[] }) {
   );
 }
 
+function MobilePanel({
+  eyebrow,
+  title,
+  description,
+  children,
+}: {
+  eyebrow: string;
+  title: string;
+  description: string;
+  children: ReactNode;
+}) {
+  return (
+    <section className="rounded-[1.5rem] border border-[#ECE5F2] bg-white p-4 shadow-[0_10px_24px_rgba(20,19,26,0.04)]">
+      <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">{eyebrow}</p>
+      <h3 className="mt-2 text-base font-semibold tracking-tight text-foreground">{title}</h3>
+      <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{description}</p>
+      <div className="mt-4">{children}</div>
+    </section>
+  );
+}
+
 function CustomTooltipRegion({
   active,
   payload,
@@ -330,6 +351,92 @@ function GlobalView() {
   );
 }
 
+function GlobalViewMobile() {
+  const maxSales = Math.max(...regionData.map((region) => region.ventas));
+
+  return (
+    <div className="space-y-3">
+      <div className="grid grid-cols-2 gap-3">
+        <KPICard label="Ventas totales" value="$3.42M" change="+8.2% mensual" changeType="positive" />
+        <KPICard label="Cartera activa" value="284" change="12 altas nuevas" changeType="positive" />
+      </div>
+
+      <MobilePanel
+        eyebrow="Pulso general"
+        title="Lo importante sin abrir todo el tablero"
+        description="En celular conviene priorizar una lectura rápida y después bajar al detalle."
+      >
+        <div className="h-52">
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={trendData} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
+              <defs>
+                <linearGradient id="colorValueMobile" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#7111DF" stopOpacity={0.18} />
+                  <stop offset="95%" stopColor="#7111DF" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="#E5E5E5" vertical={false} />
+              <XAxis dataKey="month" stroke="#6E6A7A" tick={{ fontSize: 11 }} />
+              <YAxis
+                stroke="#6E6A7A"
+                tick={{ fontSize: 11 }}
+                tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`}
+                width={48}
+              />
+              <Tooltip
+                contentStyle={{ backgroundColor: "#FFFFFF", border: "1px solid #E5E5E5", borderRadius: 8 }}
+                formatter={(value: number) => [`$${value.toLocaleString()}`, "Ventas"]}
+              />
+              <Area
+                type="monotone"
+                dataKey="value"
+                stroke="#7111DF"
+                strokeWidth={2}
+                fill="url(#colorValueMobile)"
+                isAnimationActive={false}
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+      </MobilePanel>
+
+      <MobilePanel
+        eyebrow="Foco comercial"
+        title="Regiones para mirar primero"
+        description="Una vista corta para decidir dónde conviene empujar volumen y dónde cuidar margen."
+      >
+        <div className="space-y-4">
+          {regionData.slice(0, 3).map((region) => (
+            <div key={region.region} className="space-y-2">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-sm font-medium text-foreground">{region.region}</p>
+                  <p className="text-xs text-muted-foreground">{region.margen}% de margen</p>
+                </div>
+                <p className="text-sm font-semibold tracking-tight text-foreground">${(region.ventas / 1000).toFixed(0)}k</p>
+              </div>
+              <div className="h-2 overflow-hidden rounded-full bg-[#F3F1EE]">
+                <div
+                  className="h-full rounded-full bg-[#7111DF]"
+                  style={{ width: `${(region.ventas / maxSales) * 100}%` }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </MobilePanel>
+
+      <ExecutiveReading
+        insights={[
+          "La venta crece, pero la mezcla de margen pide mÃ¡s foco comercial",
+          "Centro y Norte concentran el volumen mÃ¡s valioso de la cartera",
+          "La conversaciÃ³n comercial deberÃ­a arrancar por seÃ±ales, no por mÃ¡s pantallas",
+        ]}
+      />
+    </div>
+  );
+}
+
 function RankingView() {
   return (
     <div className="flex h-full flex-col gap-3">
@@ -401,6 +508,88 @@ function RankingView() {
           ]}
         />
       </div>
+    </div>
+  );
+}
+
+function RankingViewMobile() {
+  const sellersWithAchievement = sellersData
+    .map((seller) => ({ ...seller, achievement: (seller.sales / seller.target) * 100 }))
+    .sort((left, right) => right.achievement - left.achievement);
+  const topSeller = sellersWithAchievement[0];
+  const underTargetCount = sellersWithAchievement.filter((seller) => seller.achievement < 100).length;
+
+  return (
+    <div className="space-y-3">
+      <div className="grid grid-cols-2 gap-3">
+        <KPICard
+          label="Top performer"
+          value={topSeller.name.split(" ")[0]}
+          change={`${topSeller.achievement.toFixed(0)}% del objetivo`}
+          changeType="positive"
+        />
+        <KPICard label="Bajo objetivo" value={`${underTargetCount}`} change="vendedores a reforzar" changeType="neutral" />
+      </div>
+
+      <MobilePanel
+        eyebrow="Equipo comercial"
+        title="Ranking resumido para celular"
+        description="Los primeros puestos y la brecha contra objetivo alcanzan para entender si el equipo estÃ¡ empujando bien."
+      >
+        <div className="space-y-4">
+          {sellersWithAchievement.slice(0, 3).map((seller, index) => {
+            const overTarget = seller.achievement >= 100;
+
+            return (
+              <div key={seller.name} className="rounded-[1.15rem] border border-border/50 bg-[#FCFBFE] p-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#7111DF]/10 text-sm text-[#7111DF]">
+                      {index + 1}
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-foreground">{seller.name}</p>
+                      <p className="text-xs text-muted-foreground">{seller.clients} clientes activos</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-semibold tracking-tight text-foreground">${(seller.sales / 1000).toFixed(0)}k</p>
+                    <p className={`text-xs ${overTarget ? "text-emerald-600" : "text-amber-600"}`}>
+                      {seller.achievement.toFixed(0)}% del objetivo
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-[#F3F1EE]">
+                  <div
+                    className={`h-full rounded-full ${overTarget ? "bg-emerald-500" : "bg-[#7111DF]"}`}
+                    style={{ width: `${Math.min(seller.achievement, 100)}%` }}
+                  />
+                </div>
+
+                <div className="mt-3 flex items-center gap-4 text-xs text-muted-foreground">
+                  <div className="flex items-center gap-1">
+                    <Users className="h-3 w-3" />
+                    <span>{seller.newClients} nuevos</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <TrendingUp className="h-3 w-3" />
+                    <span>{seller.margin}% margen</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </MobilePanel>
+
+      <ExecutiveReading
+        insights={[
+          "El top 3 alcanza para ver si el equipo estÃ¡ traccionando o si el resultado depende de pocos nombres",
+          "Cuando dos vendedores quedan debajo del objetivo, la conversaciÃ³n pasa a coaching y seguimiento",
+          "La vista mÃ³vil tiene que ayudar a decidir rÃ¡pido, no a leer una planilla larga",
+        ]}
+      />
     </div>
   );
 }
@@ -493,10 +682,94 @@ function VendedoresView() {
   );
 }
 
-function OpportunitiesGrid() {
+function VendedoresViewMobile() {
+  const highlightedClients = clientsData.slice(0, 2);
+
+  return (
+    <div className="space-y-3">
+      <div className="grid grid-cols-2 gap-3">
+        <KPICard label="Clientes activos" value="42" change="5 nuevos este mes" changeType="positive" />
+        <KPICard label="Oportunidades" value="18" change="ampliar mezcla" changeType="neutral" />
+      </div>
+
+      <MobilePanel
+        eyebrow="Cartera priorizada"
+        title="QuÃ© cuentas conviene mover primero"
+        description="En celular alcanza con ver las cuentas de mayor oportunidad y la brecha de portafolio."
+      >
+        <div className="space-y-4">
+          {highlightedClients.map((client) => (
+            <article key={client.name} className="rounded-[1.15rem] border border-border/50 bg-[#FCFBFE] p-4">
+              <div className="flex flex-wrap items-center gap-2">
+                <h4 className="text-sm font-medium tracking-tight text-foreground">{client.name}</h4>
+                {client.priority === "high" ? (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs text-emerald-700">
+                    <TrendingUp className="h-3 w-3" />
+                    Alta oportunidad
+                  </span>
+                ) : null}
+              </div>
+
+              <div className="mt-3 space-y-1">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-muted-foreground">Cobertura de portafolio</span>
+                  <span className="text-foreground">{client.coverage}%</span>
+                </div>
+                <div className="h-1.5 overflow-hidden rounded-full bg-[#F3F1EE]">
+                  <div className="h-full rounded-full bg-[#7111DF]" style={{ width: `${client.coverage}%` }} />
+                </div>
+              </div>
+
+              <div className="mt-3 space-y-3">
+                <div>
+                  <div className="mb-1 text-xs text-muted-foreground">Compra</div>
+                  <div className="flex flex-wrap gap-1">
+                    {client.buys.map((item) => (
+                      <span key={item} className="rounded-full bg-emerald-50 px-2 py-0.5 text-xs text-emerald-700">
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <div className="mb-1 text-xs text-muted-foreground">No compra aÃºn</div>
+                  <div className="flex flex-wrap gap-1">
+                    {client.doesntBuy.map((item) => (
+                      <span key={item} className="rounded-full bg-[#F3F1EE] px-2 py-0.5 text-xs text-[#6E6A7A]">
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-3 flex items-start gap-2 rounded-xl border border-[#7111DF]/10 bg-[#7111DF]/5 px-3 py-2.5">
+                <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-[#7111DF]" />
+                <p className="text-xs leading-relaxed text-[#6E6A7A]">{client.opportunity}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </MobilePanel>
+
+      <ExecutiveReading
+        insights={[
+          "No hace falta abrir toda la cartera para detectar dÃ³nde hay cross-sell claro",
+          "La vista mÃ³vil deberÃ­a mostrar pocas cuentas, pero las correctas",
+          "El siguiente paso ideal desde acÃ¡ es conversaciÃ³n comercial o diagnÃ³stico, no mÃ¡s scroll",
+        ]}
+      />
+    </div>
+  );
+}
+
+function OpportunitiesGrid({ limit }: { limit?: number }) {
+  const cards = typeof limit === "number" ? signalOpportunityCards.slice(0, limit) : signalOpportunityCards;
+
   return (
     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-      {signalOpportunityCards.map((card) => (
+      {cards.map((card) => (
         <article key={card.title} className="flex h-full flex-col rounded-[1.7rem] border border-[#ECE5F2] bg-white p-6 shadow-[0_12px_28px_rgba(20,19,26,0.03)]">
           <div className="flex items-start gap-4">
             <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-accent/[0.08] text-accent">
@@ -524,6 +797,7 @@ function OpportunitiesGrid() {
 export function DemoDashboard() {
   const [activeView, setActiveView] = useState<ViewType>("global");
   const [isMobile, setIsMobile] = useState(() => (typeof window !== "undefined" ? window.innerWidth < 768 : false));
+  const [showAllMobileOpportunities, setShowAllMobileOpportunities] = useState(false);
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
@@ -551,6 +825,12 @@ export function DemoDashboard() {
   };
 
   const renderActiveView = () => {
+    if (isMobile) {
+      if (activeView === "global") return <GlobalViewMobile />;
+      if (activeView === "ranking") return <RankingViewMobile />;
+      return <VendedoresViewMobile />;
+    }
+
     if (activeView === "global") return <GlobalView />;
     if (activeView === "ranking") return <RankingView />;
     return <VendedoresView />;
@@ -560,21 +840,23 @@ export function DemoDashboard() {
     <div className="min-h-screen bg-[#F3F1EE]">
       <Header />
 
-      <main>
+      <main className="pb-28 md:pb-0">
         <section id="demo-dashboard" className="bg-[#F3F1EE] pt-20 md:pt-24">
           <div className="flex flex-col bg-[#F3F1EE] md:h-[calc(100dvh-5rem)] md:overflow-hidden">
             <div className="mx-auto flex w-full max-w-[1280px] flex-col px-4 py-4 md:min-h-0 md:flex-1 md:px-8 md:py-5">
               <div className="mb-3 shrink-0 text-center">
                 <div className="mb-1 text-[10px] uppercase tracking-widest text-[#7111DF]">DEMO GUIADA</div>
                 <h1 className="text-xl tracking-tight text-[#14131A] md:text-2xl">Demo interactiva de tablero comercial</h1>
-                <p className="mt-1 hidden text-xs text-[#655F7F] md:block md:text-sm">
-                  Tres vistas para entender volumen, desempeño y oportunidades de acción
+                <p className="mt-1 text-xs text-[#655F7F] md:text-sm">
+                  {isMobile
+                    ? "Tres vistas, una lectura corta y acciones siempre a mano."
+                    : "Tres vistas para entender volumen, desempeño y oportunidades de acción"}
                 </p>
               </div>
 
               <div className="mb-3 shrink-0">
                 <div className="mb-1 flex flex-wrap items-center justify-center gap-2">
-                  {views.map(({ key, label }) => (
+                  {views.map(({ key, label, mobileLabel }) => (
                     <button
                       key={key}
                       type="button"
@@ -585,7 +867,7 @@ export function DemoDashboard() {
                           : "bg-[#FFFFFF] text-[#655F7F] hover:bg-[#7111DF]/5"
                       }`}
                     >
-                      {label}
+                      {isMobile ? mobileLabel : label}
                     </button>
                   ))}
                 </div>
@@ -619,19 +901,19 @@ export function DemoDashboard() {
                 )}
               </div>
 
-              <div className="mt-3 shrink-0 rounded-lg bg-[#FFFFFF] px-5 py-3">
-                <div className="flex items-center justify-between gap-4">
+              <div className="mt-4 shrink-0 rounded-[1.5rem] bg-[#FFFFFF] px-4 py-4 shadow-[0_10px_24px_rgba(20,19,26,0.04)] md:mt-3 md:rounded-lg md:px-5 md:py-3 md:shadow-none">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
                   <div className="min-w-0">
-                    <div className="truncate text-sm tracking-tight text-[#14131A]">¿Querés implementar estas vistas en tu negocio?</div>
-                    <div className="hidden text-xs text-[#6E6A7A] md:block">
+                    <div className="text-sm tracking-tight text-[#14131A]">¿Querés implementar estas vistas en tu negocio?</div>
+                    <div className="mt-1 text-xs text-[#6E6A7A]">
                       Cada solución se diseña según tu estructura comercial y necesidades.
                     </div>
                   </div>
-                  <div className="flex shrink-0 gap-2">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:shrink-0">
                     <a
                       href={CALENDLY_URL}
                       onClick={() => trackDiagnosisClick("demo_primary_cta")}
-                      className="whitespace-nowrap rounded-lg bg-[#7111DF] px-4 py-2 text-sm text-white transition-colors hover:bg-[#5c0ec0]"
+                      className="inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-[14px] bg-[#7111DF] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#5c0ec0]"
                     >
                       Agendar diagnóstico
                     </a>
@@ -640,13 +922,13 @@ export function DemoDashboard() {
                       onClick={() =>
                         trackQuoteClick("demo_secondary_cta", "Dashboard de ventas / BI comercial a medida")
                       }
-                      className="whitespace-nowrap rounded-lg bg-[#F3F1EE] px-4 py-2 text-sm text-[#14131A] transition-colors hover:bg-[#e8e5e0]"
+                      className="inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-[14px] bg-[#F3F1EE] px-4 py-2 text-sm font-semibold text-[#14131A] transition-colors hover:bg-[#e8e5e0]"
                     >
                       Pedir cotización
                     </a>
                   </div>
                 </div>
-                <div className="mt-3 flex justify-end">
+                <div className="mt-3 flex justify-start sm:justify-end">
                   <a
                     href="#oportunidades"
                     onClick={(event) => handleAnchorClick(event, "oportunidades")}
@@ -673,8 +955,20 @@ export function DemoDashboard() {
             </div>
 
             <div className="mt-10">
-              <OpportunitiesGrid />
+              <OpportunitiesGrid limit={isMobile && !showAllMobileOpportunities ? 3 : undefined} />
             </div>
+
+            {isMobile && !showAllMobileOpportunities ? (
+              <div className="mt-5">
+                <button
+                  type="button"
+                  onClick={() => setShowAllMobileOpportunities(true)}
+                  className="inline-flex min-h-11 items-center justify-center rounded-[14px] border border-border bg-white px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:border-accent/25 hover:text-accent"
+                >
+                  Ver el resto de indicadores
+                </button>
+              </div>
+            ) : null}
 
             <div className="mt-10 rounded-[1.9rem] border border-[#ECE5F2] bg-[#FCFBFE] px-6 py-6">
               <p className="max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">
@@ -719,6 +1013,25 @@ export function DemoDashboard() {
           </div>
         </div>
       </section>
+
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border/60 bg-white/95 px-4 py-3 shadow-[0_-10px_30px_rgba(20,19,26,0.08)] backdrop-blur-xl md:hidden">
+        <div className="mx-auto flex max-w-7xl items-center gap-2">
+          <a
+            href={CALENDLY_URL}
+            onClick={() => trackDiagnosisClick("demo_sticky_mobile_cta")}
+            className="inline-flex min-h-11 flex-1 items-center justify-center rounded-[14px] bg-[#7111DF] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#5c0ec0]"
+          >
+            Agendar diagnóstico
+          </a>
+          <a
+            href={DEMO_QUOTE_HREF}
+            onClick={() => trackQuoteClick("demo_sticky_mobile_quote", "Dashboard de ventas / BI comercial a medida")}
+            className="inline-flex min-h-11 items-center justify-center rounded-[14px] bg-[#F3F1EE] px-4 py-2 text-sm font-semibold text-[#14131A] transition-colors hover:bg-[#e8e5e0]"
+          >
+            Cotizar
+          </a>
+        </div>
+      </div>
     </div>
   );
 }
