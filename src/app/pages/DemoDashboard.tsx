@@ -133,6 +133,16 @@ const clientsData = [
   },
 ];
 
+function getClientPortfolioSummary(client: (typeof clientsData)[number]) {
+  const totalLines = client.buys.length + client.doesntBuy.length;
+  const [primaryGap, ...remainingGaps] = client.doesntBuy;
+
+  return {
+    coverageLabel: `${client.buys.length}/${totalLines} líneas`,
+    primaryGapLabel: primaryGap ? (remainingGaps.length ? `${primaryGap} +${remainingGaps.length}` : primaryGap) : "Portafolio completo",
+  };
+}
+
 const signalOpportunityCards = [
   {
     icon: Users,
@@ -646,85 +656,121 @@ function RankingViewMobile() {
 function VendedoresView() {
   return (
     <div className="flex h-full flex-col gap-3">
-      <div className="grid shrink-0 grid-cols-2 gap-3 md:grid-cols-4">
-        <KPICard label="Clientes activos" value="42" change="5 nuevos este mes" changeType="positive" />
-        <KPICard label="Cartera total" value="$580k" change="+11.5% vs mes anterior" changeType="positive" />
-        <KPICard label="Oportunidades" value="18" change="Para ampliar categorías" changeType="neutral" />
-        <div className="rounded-lg border border-amber-200 bg-white p-4">
-          <div className="mb-1 flex items-center gap-2 text-amber-700">
-            <Package className="h-4 w-4" />
-            <div className="text-xs">Alerta de stock</div>
+      <div className="grid shrink-0 gap-3 md:grid-cols-[minmax(0,1.7fr)_minmax(18rem,0.95fr)]">
+        <div className="rounded-[1.6rem] border border-[#ECE5F2] bg-white p-4 shadow-[0_10px_24px_rgba(20,19,26,0.04)]">
+          <SectionEyebrow>Resumen cartera</SectionEyebrow>
+          <div className="mt-2 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
+              <h3 className="text-base font-semibold tracking-tight text-[#14131A]">
+                Señales rápidas para decidir qué mover primero
+              </h3>
+              <p className="mt-1 text-sm text-[#6E6A7A]">
+                Menos tarjetas, más foco en cartera, brecha y oportunidad inmediata.
+              </p>
+            </div>
+            <div className="inline-flex items-center rounded-full bg-[#14131A] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-white">
+              Vista guiada
+            </div>
           </div>
-          <div className="text-sm tracking-tight text-[#14131A]">Línea C limitada</div>
-          <div className="mt-1 text-xs text-[#6E6A7A]">Priorizar líneas A y B</div>
+
+          <div className="mt-4 grid gap-3 sm:grid-cols-3">
+            <div className="rounded-2xl border border-[#ECE5F2] bg-[#F8F6FC] p-3">
+              <div className="text-xs text-[#6E6A7A]">Clientes activos</div>
+              <div className="mt-1 text-2xl tracking-tight text-[#14131A]">42</div>
+              <div className="mt-1 text-xs text-emerald-600">5 nuevos este mes</div>
+            </div>
+            <div className="rounded-2xl border border-[#ECE5F2] bg-[#F8F6FC] p-3">
+              <div className="text-xs text-[#6E6A7A]">Cartera total</div>
+              <div className="mt-1 text-2xl tracking-tight text-[#14131A]">$580k</div>
+              <div className="mt-1 text-xs text-emerald-600">+11.5% vs mes anterior</div>
+            </div>
+            <div className="rounded-2xl border border-[#ECE5F2] bg-[#F8F6FC] p-3">
+              <div className="text-xs text-[#6E6A7A]">Oportunidades</div>
+              <div className="mt-1 text-2xl tracking-tight text-[#14131A]">18</div>
+              <div className="mt-1 text-xs text-[#6E6A7A]">para ampliar categorías</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="rounded-[1.6rem] border border-amber-300 bg-[linear-gradient(135deg,rgba(255,248,235,0.98)_0%,rgba(255,237,213,0.9)_100%)] p-4 shadow-[0_14px_30px_rgba(245,158,11,0.14)]">
+          <div className="flex items-start gap-3">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-amber-500 text-white shadow-[0_10px_22px_rgba(245,158,11,0.28)]">
+              <Package className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-amber-800">Alerta crítica</p>
+              <h3 className="mt-2 text-base font-semibold tracking-tight text-[#14131A]">Línea C limitada</h3>
+              <p className="mt-2 text-sm leading-relaxed text-amber-900/80">
+                Conviene empujar líneas A y B hasta normalizar stock y no perder tracción comercial.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="flex flex-col rounded-lg bg-white p-4 md:min-h-0 md:flex-1">
-        <div className="mb-3 shrink-0">
+      <div className="flex flex-col rounded-[1.6rem] border border-[#ECE5F2] bg-white p-5 shadow-[0_12px_28px_rgba(20,19,26,0.04)] md:min-h-0 md:flex-1">
+        <div className="mb-4 shrink-0">
           <h3 className="text-sm tracking-tight text-[#14131A]">Oportunidades de venta</h3>
-          <p className="text-xs text-[#6E6A7A]">Cartera de clientes priorizada para ampliar mezcla y foco comercial</p>
+          <p className="text-xs text-[#6E6A7A]">Menos detalle por cuenta y más claridad sobre la próxima acción comercial</p>
         </div>
 
         <div className="space-y-4 md:min-h-0 md:flex-1 md:overflow-auto md:pr-1">
-          {clientsData.map((client, index) => (
-            <div key={client.name} className="space-y-2">
-              <div className="flex items-start justify-between gap-2">
-                <div className="min-w-0 flex-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <h4 className="text-sm tracking-tight text-[#14131A]">{client.name}</h4>
-                    {client.priority === "high" ? (
-                      <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs text-emerald-700">
-                        <TrendingUp className="h-3 w-3" />
-                        Alta oportunidad
-                      </span>
-                    ) : null}
+          {clientsData.map((client) => {
+            const portfolioSummary = getClientPortfolioSummary(client);
+            const isPriorityHigh = client.priority === "high";
+
+            return (
+              <article
+                key={client.name}
+                className={`rounded-[1.35rem] border p-4 ${
+                  isPriorityHigh ? "border-[#7111DF]/14 bg-[#FCFBFE]" : "border-[#ECE5F2] bg-white"
+                }`}
+              >
+                <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className={`h-2.5 w-2.5 rounded-full ${isPriorityHigh ? "bg-[#7111DF]" : "bg-amber-500"}`} />
+                      <h4 className="text-base tracking-tight text-[#14131A]">{client.name}</h4>
+                    </div>
+                    <p className="mt-1 text-sm text-[#6E6A7A]">Aporte mensual: ${(client.revenue / 1000).toFixed(0)}k</p>
                   </div>
-                  <div className="text-xs text-[#6E6A7A]">Aporte mensual: ${(client.revenue / 1000).toFixed(0)}k</div>
-                </div>
-              </div>
-
-              <div className="space-y-1">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-[#6E6A7A]">Cobertura de portafolio</span>
-                  <span className="text-[#14131A]">{client.coverage}%</span>
-                </div>
-                <div className="h-1.5 overflow-hidden rounded-full bg-[#F3F1EE]">
-                  <div className="h-full rounded-full bg-[#7111DF]" style={{ width: `${client.coverage}%` }} />
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                <div className="flex-1">
-                  <div className="mb-1 text-xs text-[#6E6A7A]">Compra</div>
-                  <div className="flex flex-wrap gap-1">
-                    {client.buys.map((item) => (
-                      <span key={item} className="rounded-full bg-emerald-50 px-2 py-0.5 text-xs text-emerald-700">
-                        {item}
-                      </span>
-                    ))}
+                  <div className="inline-flex shrink-0 items-center rounded-full bg-[#14131A] px-3 py-1 text-xs font-semibold text-white">
+                    {client.coverage}% cubierto
                   </div>
                 </div>
-                <div className="flex-1">
-                  <div className="mb-1 text-xs text-[#6E6A7A]">No compra aún</div>
-                  <div className="flex flex-wrap gap-1">
-                    {client.doesntBuy.map((item) => (
-                      <span key={item} className="rounded-full bg-[#F3F1EE] px-2 py-0.5 text-xs text-[#6E6A7A]">
-                        {item}
-                      </span>
-                    ))}
+
+                <div className="mt-4 space-y-2">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-[#6E6A7A]">Cobertura de portafolio</span>
+                    <span className="font-medium text-[#14131A]">{client.coverage}%</span>
+                  </div>
+                  <div className="h-2 overflow-hidden rounded-full bg-[#ECE5F2]">
+                    <div
+                      className={`h-full rounded-full ${isPriorityHigh ? "bg-[#7111DF]" : "bg-[#8A839D]"}`}
+                      style={{ width: `${client.coverage}%` }}
+                    />
                   </div>
                 </div>
-              </div>
 
-              <div className="flex items-center gap-2 rounded-lg border border-[#7111DF]/10 bg-[#7111DF]/5 px-3 py-2">
-                <AlertCircle className="h-4 w-4 shrink-0 text-[#7111DF]" />
-                <div className="text-xs text-[#6E6A7A]">{client.opportunity}</div>
-              </div>
+                <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+                  <div className="text-[#6E6A7A]">
+                    Compra <span className="font-medium text-[#14131A]">{portfolioSummary.coverageLabel}</span>
+                  </div>
+                  <div className="text-[#6E6A7A]">
+                    Brecha principal <span className="font-medium text-amber-700">{portfolioSummary.primaryGapLabel}</span>
+                  </div>
+                </div>
 
-              {index < clientsData.length - 1 ? <div className="border-t border-[#F3F1EE]" /> : null}
-            </div>
-          ))}
+                <div className="mt-4 rounded-[1rem] bg-[linear-gradient(135deg,#14131A_0%,#2B1E4F_100%)] px-4 py-3 text-white shadow-[0_14px_30px_rgba(20,19,26,0.12)]">
+                  <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/70">Siguiente movimiento</div>
+                  <div className="mt-2 flex items-start gap-2">
+                    <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-[#BBA3FF]" />
+                    <p className="text-sm leading-relaxed text-white">{client.opportunity}</p>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
     </div>
@@ -744,61 +790,65 @@ function VendedoresViewMobile() {
       <MobilePanel
         eyebrow="Cartera priorizada"
         title="Qué cuentas conviene mover primero"
-        description="En celular alcanza con ver las cuentas de mayor oportunidad y la brecha de portafolio."
+        description="En celular conviene ver aporte, cobertura y siguiente movimiento, sin abrir toda la cartera."
       >
         <div className="space-y-4">
-          {highlightedClients.map((client) => (
-            <article key={client.name} className="rounded-[1.15rem] border border-border/50 bg-[#FCFBFE] p-4">
-              <div className="flex flex-wrap items-center gap-2">
-                <h4 className="text-sm font-medium tracking-tight text-foreground">{client.name}</h4>
-                {client.priority === "high" ? (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs text-emerald-700">
-                    <TrendingUp className="h-3 w-3" />
-                    Alta oportunidad
-                  </span>
-                ) : null}
-              </div>
+          {highlightedClients.map((client) => {
+            const portfolioSummary = getClientPortfolioSummary(client);
+            const isPriorityHigh = client.priority === "high";
 
-              <div className="mt-3 space-y-1">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-muted-foreground">Cobertura de portafolio</span>
-                  <span className="text-foreground">{client.coverage}%</span>
-                </div>
-                <div className="h-1.5 overflow-hidden rounded-full bg-[#F3F1EE]">
-                  <div className="h-full rounded-full bg-[#7111DF]" style={{ width: `${client.coverage}%` }} />
-                </div>
-              </div>
-
-              <div className="mt-3 space-y-3">
-                <div>
-                  <div className="mb-1 text-xs text-muted-foreground">Compra</div>
-                  <div className="flex flex-wrap gap-1">
-                    {client.buys.map((item) => (
-                      <span key={item} className="rounded-full bg-emerald-50 px-2 py-0.5 text-xs text-emerald-700">
-                        {item}
-                      </span>
-                    ))}
+            return (
+              <article
+                key={client.name}
+                className={`rounded-[1.15rem] border p-4 ${
+                  isPriorityHigh ? "border-[#7111DF]/14 bg-[#FCFBFE]" : "border-border/50 bg-white"
+                }`}
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className={`h-2.5 w-2.5 rounded-full ${isPriorityHigh ? "bg-[#7111DF]" : "bg-amber-500"}`} />
+                      <h4 className="text-sm font-medium tracking-tight text-foreground">{client.name}</h4>
+                    </div>
+                    <p className="mt-1 text-xs text-muted-foreground">Aporte mensual: ${(client.revenue / 1000).toFixed(0)}k</p>
+                  </div>
+                  <div className="rounded-full bg-[#14131A] px-2.5 py-1 text-[11px] font-semibold text-white">
+                    {client.coverage}%
                   </div>
                 </div>
 
-                <div>
-                  <div className="mb-1 text-xs text-muted-foreground">No compra aún</div>
-                  <div className="flex flex-wrap gap-1">
-                    {client.doesntBuy.map((item) => (
-                      <span key={item} className="rounded-full bg-[#F3F1EE] px-2 py-0.5 text-xs text-[#6E6A7A]">
-                        {item}
-                      </span>
-                    ))}
+                <div className="mt-3 space-y-2">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-muted-foreground">Cobertura de portafolio</span>
+                    <span className="text-foreground">{client.coverage}%</span>
+                  </div>
+                  <div className="h-2 overflow-hidden rounded-full bg-[#ECE5F2]">
+                    <div
+                      className={`h-full rounded-full ${isPriorityHigh ? "bg-[#7111DF]" : "bg-[#8A839D]"}`}
+                      style={{ width: `${client.coverage}%` }}
+                    />
                   </div>
                 </div>
-              </div>
 
-              <div className="mt-3 flex items-start gap-2 rounded-xl border border-[#7111DF]/10 bg-[#7111DF]/5 px-3 py-2.5">
-                <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-[#7111DF]" />
-                <p className="text-xs leading-relaxed text-[#6E6A7A]">{client.opportunity}</p>
-              </div>
-            </article>
-          ))}
+                <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-muted-foreground">
+                  <div>
+                    Compra <span className="font-medium text-foreground">{portfolioSummary.coverageLabel}</span>
+                  </div>
+                  <div>
+                    Brecha principal <span className="font-medium text-amber-700">{portfolioSummary.primaryGapLabel}</span>
+                  </div>
+                </div>
+
+                <div className="mt-3 rounded-xl bg-[linear-gradient(135deg,#14131A_0%,#2B1E4F_100%)] px-3 py-3 text-white shadow-[0_14px_28px_rgba(20,19,26,0.14)]">
+                  <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/70">Siguiente movimiento</div>
+                  <div className="mt-2 flex items-start gap-2">
+                    <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-[#BBA3FF]" />
+                    <p className="text-xs leading-relaxed text-white">{client.opportunity}</p>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </MobilePanel>
 
