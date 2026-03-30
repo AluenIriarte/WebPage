@@ -515,9 +515,28 @@ function RankingView() {
 function RankingViewMobile() {
   const sellersWithAchievement = sellersData
     .map((seller) => ({ ...seller, achievement: (seller.sales / seller.target) * 100 }))
-    .sort((left, right) => right.achievement - left.achievement);
+    .sort((left, right) => right.achievement - left.achievement)
+    .map((seller, index) => ({ ...seller, rank: index + 1 }));
   const topSeller = sellersWithAchievement[0];
   const underTargetCount = sellersWithAchievement.filter((seller) => seller.achievement < 100).length;
+  const closestToTargetSeller =
+    sellersWithAchievement
+      .filter((seller) => seller.name !== topSeller.name)
+      .sort((left, right) => Math.abs(left.achievement - 100) - Math.abs(right.achievement - 100))[0] ??
+    topSeller;
+  const belowTargetSeller = sellersWithAchievement.find(
+    (seller) =>
+      seller.achievement < 100 && seller.name !== topSeller.name && seller.name !== closestToTargetSeller.name,
+  );
+  const fallbackSellers = sellersWithAchievement.filter(
+    (seller) =>
+      seller.name !== topSeller.name &&
+      seller.name !== closestToTargetSeller.name &&
+      seller.name !== belowTargetSeller?.name,
+  );
+  const displaySellers = [topSeller, closestToTargetSeller, belowTargetSeller, ...fallbackSellers]
+    .filter((seller): seller is (typeof sellersWithAchievement)[number] => Boolean(seller))
+    .slice(0, 3);
 
   return (
     <div className="space-y-3">
@@ -534,10 +553,10 @@ function RankingViewMobile() {
       <MobilePanel
         eyebrow="Equipo comercial"
         title="Ranking resumido para celular"
-        description="Los primeros puestos y la brecha contra objetivo alcanzan para entender si el equipo está empujando bien."
+        description="La muestra mezcla un líder, alguien cerca del objetivo y un caso a reforzar para leer mejor el equipo."
       >
         <div className="space-y-4">
-          {sellersWithAchievement.slice(0, 3).map((seller, index) => {
+          {displaySellers.map((seller) => {
             const overTarget = seller.achievement >= 100;
 
             return (
@@ -545,7 +564,7 @@ function RankingViewMobile() {
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-3">
                     <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#7111DF]/10 text-sm text-[#7111DF]">
-                      {index + 1}
+                      {seller.rank}
                     </div>
                     <div>
                       <p className="text-sm font-medium text-foreground">{seller.name}</p>
