@@ -722,27 +722,26 @@ function VendedoresView() {
   const averageCoverage = getPortfolioCoverageAverage();
 
   return (
-    <div className="flex h-full min-h-0 flex-col gap-4 overflow-y-auto pr-1">
-      <div className="grid shrink-0 gap-4 xl:grid-cols-[minmax(0,1.45fr)_minmax(22rem,0.9fr)]">
-        <section className="relative overflow-hidden rounded-[2rem] bg-[linear-gradient(140deg,#14131A_0%,#241B3C_55%,#3A1F78_100%)] p-6 text-white shadow-[0_22px_48px_rgba(20,19,26,0.18)]">
-          <div className="absolute right-[-4.5rem] top-[-4rem] h-40 w-40 rounded-full bg-white/8 blur-3xl" />
-          <div className="absolute bottom-[-5rem] left-[-2rem] h-32 w-32 rounded-full bg-[#9E6BFF]/20 blur-3xl" />
+    <div className="grid h-full min-h-0 gap-4 xl:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]">
+      <div className="flex min-h-0 flex-col gap-4">
+        <section className="relative overflow-hidden rounded-[1.85rem] bg-[linear-gradient(140deg,#14131A_0%,#241B3C_55%,#3A1F78_100%)] p-5 text-white shadow-[0_22px_48px_rgba(20,19,26,0.18)]">
+          <div className="absolute right-[-4rem] top-[-3rem] h-32 w-32 rounded-full bg-white/8 blur-3xl" />
+          <div className="absolute bottom-[-4rem] left-[-2rem] h-24 w-24 rounded-full bg-[#9E6BFF]/20 blur-3xl" />
           <div className="relative">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/60">Cobertura cartera</p>
-            <div className="mt-6 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/58">Cobertura cartera</p>
+            <div className="mt-4 flex items-end justify-between gap-6">
               <div>
-                <div className="text-5xl font-semibold tracking-[-0.04em]">{averageCoverage}%</div>
-                <p className="mt-3 max-w-md text-sm leading-relaxed text-white/72">
+                <div className="text-4xl font-semibold tracking-[-0.04em]">{averageCoverage}%</div>
+                <p className="mt-2 max-w-md text-sm leading-relaxed text-white/72">
                   Cobertura promedio sobre líneas estratégicas dentro de la cartera más valiosa.
                 </p>
               </div>
-              <div className="rounded-[1.4rem] border border-white/12 bg-white/8 px-4 py-3 backdrop-blur">
+              <div className="rounded-[1.2rem] border border-white/12 bg-white/8 px-3 py-2.5 backdrop-blur">
                 <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/55">Pulso comercial</div>
-                <div className="mt-2 text-sm font-semibold text-white">18 oportunidades listas para activar</div>
-                <div className="mt-1 text-xs text-white/65">2.3 de 4 líneas promedio en la cartera foco</div>
+                <div className="mt-1.5 text-sm font-semibold text-white">18 oportunidades listas</div>
               </div>
             </div>
-            <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-white/62">
+            <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-white/62">
               <span>2 clientes con acción inmediata</span>
               <span>3 productos subpenetrados</span>
               <span>1 restricción operativa activa</span>
@@ -750,43 +749,25 @@ function VendedoresView() {
           </div>
         </section>
 
-        <section className="rounded-[2rem] border border-amber-300 bg-[linear-gradient(145deg,#FFF7E8_0%,#FFF2D8_100%)] p-6 shadow-[0_18px_38px_rgba(245,158,11,0.14)]">
-          <div className="flex items-start gap-4">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-amber-500 text-white shadow-[0_12px_24px_rgba(245,158,11,0.24)]">
-              <Package className="h-5 w-5" />
-            </div>
-            <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-amber-800">Stock bajo</p>
-              <h3 className="mt-2 text-xl font-semibold tracking-tight text-[#14131A]">Línea C limitada</h3>
-              <p className="mt-3 text-sm leading-relaxed text-amber-900/80">
-                Conviene empujar líneas A y B mientras se normaliza stock, para no frenar expansión comercial.
-              </p>
-              <div className="mt-4 inline-flex items-center rounded-full bg-amber-500 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-white">
-                Respuesta inmediata
+        <section className="flex min-h-0 flex-1 flex-col rounded-[1.7rem] border border-[#ECE5F2] bg-white p-5 shadow-[0_12px_28px_rgba(20,19,26,0.04)]">
+          <div className="shrink-0">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#7111DF]/10 text-[#7111DF]">
+                <Layers3 className="h-5 w-5" />
+              </div>
+              <div>
+                <h3 className="text-base font-semibold tracking-tight text-[#14131A]">Productos subpenetrados</h3>
+                <p className="mt-1 text-sm text-[#6E6A7A]">Brecha por línea antes de decidir en qué cuentas entrar.</p>
               </div>
             </div>
           </div>
-        </section>
-      </div>
 
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]">
-        <section className="rounded-[1.8rem] border border-[#ECE5F2] bg-white p-6 shadow-[0_12px_28px_rgba(20,19,26,0.04)]">
-          <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#7111DF]/10 text-[#7111DF]">
-              <Layers3 className="h-5 w-5" />
-            </div>
-            <div>
-              <h3 className="text-base font-semibold tracking-tight text-[#14131A]">Productos subpenetrados</h3>
-              <p className="mt-1 text-sm text-[#6E6A7A]">Primero conviene leer la brecha por línea, después decidir en qué cuentas entrar.</p>
-            </div>
-          </div>
-
-          <div className="mt-5 space-y-3">
+          <div className="mt-4 space-y-3 md:min-h-0 md:flex-1 md:overflow-auto md:pr-1">
             {portfolioProductsData.map((product) => {
               const styles = getPortfolioProductStyles(product.tone);
 
               return (
-                <article key={product.name} className={`rounded-[1.35rem] border p-4 ${styles.surfaceClassName}`}>
+                <article key={product.name} className={`rounded-[1.25rem] border p-3.5 ${styles.surfaceClassName}`}>
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <div className="flex items-center gap-2">
@@ -800,11 +781,11 @@ function VendedoresView() {
                     </div>
                   </div>
 
-                  <div className="mt-4 h-2 overflow-hidden rounded-full bg-[#ECE5F2]">
+                  <div className="mt-3 h-2 overflow-hidden rounded-full bg-[#ECE5F2]">
                     <div className={`h-full rounded-full ${styles.accentClassName}`} style={{ width: `${product.penetration}%` }} />
                   </div>
 
-                  <div className="mt-4 flex items-center justify-between gap-4 text-sm">
+                  <div className="mt-3 flex items-center justify-between gap-4 text-sm">
                     <p className={`font-medium ${styles.noteClassName}`}>{product.note}</p>
                     <span className="shrink-0 text-[#6E6A7A]">{product.revenueGap} potencial</span>
                   </div>
@@ -813,49 +794,68 @@ function VendedoresView() {
             })}
           </div>
         </section>
+      </div>
 
-        <section className="rounded-[1.8rem] border border-[#ECE5F2] bg-white p-6 shadow-[0_12px_28px_rgba(20,19,26,0.04)]">
-          <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#14131A]/6 text-[#14131A]">
-              <Users className="h-5 w-5" />
+      <div className="flex min-h-0 flex-col gap-4">
+        <section className="rounded-[1.85rem] border border-amber-300 bg-[linear-gradient(145deg,#FFF7E8_0%,#FFF2D8_100%)] p-5 shadow-[0_18px_38px_rgba(245,158,11,0.14)]">
+          <div className="flex items-start gap-4">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-amber-500 text-white shadow-[0_12px_24px_rgba(245,158,11,0.24)]">
+              <Package className="h-5 w-5" />
             </div>
             <div>
-              <h3 className="text-base font-semibold tracking-tight text-[#14131A]">Clientes para accionar</h3>
-              <p className="mt-1 text-sm text-[#6E6A7A]">Pocas cuentas, bien elegidas, con una próxima acción explícita.</p>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-800">Stock bajo</p>
+              <h3 className="mt-2 text-lg font-semibold tracking-tight text-[#14131A]">Línea C limitada</h3>
+              <p className="mt-2 text-sm leading-relaxed text-amber-900/80">
+                Conviene empujar líneas A y B mientras se normaliza stock, para no frenar expansión comercial.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="flex min-h-0 flex-1 flex-col rounded-[1.7rem] border border-[#ECE5F2] bg-white p-5 shadow-[0_12px_28px_rgba(20,19,26,0.04)]">
+          <div className="shrink-0">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#14131A]/6 text-[#14131A]">
+                <Users className="h-5 w-5" />
+              </div>
+              <div>
+                <h3 className="text-base font-semibold tracking-tight text-[#14131A]">Clientes para accionar</h3>
+                <p className="mt-1 text-sm text-[#6E6A7A]">Pocas cuentas y una próxima acción explícita.</p>
+              </div>
             </div>
           </div>
 
-          <div className="mt-5 space-y-3">
+          <div className="mt-4 space-y-3 md:min-h-0 md:flex-1 md:overflow-auto md:pr-1">
             {priorityClients.map((client) => {
               const portfolioSummary = getClientPortfolioSummary(client);
 
               return (
-                <article key={client.name} className="rounded-[1.35rem] border border-[#ECE5F2] bg-[#FCFBFE] p-4">
+                <article key={client.name} className="rounded-[1.25rem] border border-[#ECE5F2] bg-[#FCFBFE] p-3.5">
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <h4 className="text-base tracking-tight text-[#14131A]">{client.name}</h4>
                       <p className="mt-1 text-sm text-[#6E6A7A]">Aporte mensual: ${(client.revenue / 1000).toFixed(0)}k</p>
                     </div>
-                    <div className="rounded-full bg-[#14131A] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-white">
+                    <div className="rounded-full bg-[#14131A] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-white">
                       {client.coverage}% cobertura
                     </div>
                   </div>
 
-                  <div className="mt-4 grid gap-3 md:grid-cols-2">
-                    <div className="rounded-[1rem] border border-[#ECE5F2] bg-white px-3 py-3">
-                      <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#6E6A7A]">Brecha principal</div>
-                      <div className="mt-2 text-sm font-semibold text-amber-700">{portfolioSummary.primaryGapLabel}</div>
+                  <div className="mt-3 grid gap-2 md:grid-cols-2">
+                    <div className="rounded-[0.9rem] border border-[#ECE5F2] bg-white px-3 py-2.5">
+                      <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#6E6A7A]">Brecha principal</div>
+                      <div className="mt-1.5 text-sm font-semibold text-amber-700">{portfolioSummary.primaryGapLabel}</div>
                     </div>
-                    <div className="rounded-[1rem] border border-[#ECE5F2] bg-white px-3 py-3">
-                      <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#6E6A7A]">Compra actual</div>
-                      <div className="mt-2 text-sm font-semibold text-[#14131A]">{portfolioSummary.coverageLabel}</div>
+                    <div className="rounded-[0.9rem] border border-[#ECE5F2] bg-white px-3 py-2.5">
+                      <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#6E6A7A]">Compra actual</div>
+                      <div className="mt-1.5 text-sm font-semibold text-[#14131A]">{portfolioSummary.coverageLabel}</div>
                     </div>
                   </div>
 
-                  <div className="mt-4 flex items-start gap-3 rounded-[1rem] border border-[#7111DF]/12 bg-[#7111DF]/6 px-4 py-3">
+                  <div className="mt-3 flex items-start gap-3 rounded-[0.9rem] border border-[#7111DF]/12 bg-[#7111DF]/6 px-3.5 py-3">
                     <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-[#7111DF]" />
                     <div>
-                      <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#7111DF]">Siguiente movimiento</div>
+                      <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#7111DF]">Siguiente movimiento</div>
                       <p className="mt-1 text-sm font-medium text-[#14131A]">{client.opportunity}</p>
                     </div>
                   </div>
