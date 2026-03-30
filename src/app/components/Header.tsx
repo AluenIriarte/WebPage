@@ -11,7 +11,7 @@ import {
   BookOpen,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { AUTO_DIAGNOSTIC_PAGE_HREF, DEMO_PAGE_HREF } from "../lib/contact";
+import { DEMO_PAGE_HREF } from "../lib/contact";
 
 const recursos = [
   {
@@ -108,11 +108,10 @@ export function Header({ variant = "default" }: HeaderProps) {
   const navItems = [
     { label: "Qu\u00e9 resuelvo", href: homeHref("#problema") },
     { label: "C\u00f3mo trabajo", href: homeHref("#proceso") },
-    { label: "Gu\u00eda gratuita", href: AUTO_DIAGNOSTIC_PAGE_HREF },
     { label: "FAQ", href: homeHref("#faq") },
     { label: "Ir a contacto", href: homeHref("#contacto") },
   ];
-  const [opportunitiesItem, processItem, guideItem, faqItem, contactItem] = navItems;
+  const [opportunitiesItem, processItem, faqItem, contactItem] = navItems;
   const primaryCtaItem = { label: contactItem.label, mobileLabel: "Contacto", href: contactItem.href };
 
   return (
@@ -265,14 +264,6 @@ export function Header({ variant = "default" }: HeaderProps) {
                 </AnimatePresence>
               </div>
 
-              <Link
-                to={guideItem.href}
-                className="group relative text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              >
-                {guideItem.label}
-                <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-accent transition-all duration-300 group-hover:w-full" />
-              </Link>
-
               <a
                 href={faqItem.href}
                 className="group relative text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
@@ -399,14 +390,6 @@ export function Header({ variant = "default" }: HeaderProps) {
                     )}
                   </AnimatePresence>
                 </div>
-
-                <Link
-                  to={guideItem.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="block rounded-lg px-3 py-2.5 text-base font-medium text-foreground transition-colors hover:bg-accent/5 hover:text-accent"
-                >
-                  {guideItem.label}
-                </Link>
 
                 <a
                   href={faqItem.href}
