@@ -52,12 +52,39 @@ const regionData = [
 ];
 
 const sellersData = [
-  { name: "Maria Gonzalez", sales: 580000, target: 520000, clients: 42, newClients: 5, margin: 26.5 },
-  { name: "Carlos Mendez", sales: 520000, target: 500000, clients: 38, newClients: 3, margin: 24.8 },
-  { name: "Ana Rodriguez", sales: 490000, target: 480000, clients: 35, newClients: 7, margin: 25.2 },
-  { name: "Jorge Silva", sales: 460000, target: 520000, clients: 32, newClients: 2, margin: 23.1 },
-  { name: "Laura Perez", sales: 440000, target: 480000, clients: 29, newClients: 4, margin: 22.8 },
+  { name: "Maria Gonzalez", sales: 610000, target: 500000, clients: 42, newClients: 6, margin: 28.4 },
+  { name: "Carlos Mendez", sales: 470000, target: 520000, clients: 38, newClients: 4, margin: 24.8 },
+  { name: "Ana Rodriguez", sales: 405000, target: 470000, clients: 35, newClients: 7, margin: 23.6 },
+  { name: "Jorge Silva", sales: 285000, target: 560000, clients: 32, newClients: 2, margin: 19.4 },
+  { name: "Laura Perez", sales: 168000, target: 520000, clients: 29, newClients: 1, margin: 15.2 },
 ];
+
+function getAchievementStyles(achievement: number) {
+  if (achievement >= 90) {
+    return {
+      textClassName: "text-emerald-600",
+      barClassName: "bg-emerald-500",
+      badgeClassName: "bg-emerald-50 text-emerald-700",
+      label: "Buen desempeño",
+    };
+  }
+
+  if (achievement >= 50) {
+    return {
+      textClassName: "text-amber-600",
+      barClassName: "bg-amber-500",
+      badgeClassName: "bg-amber-50 text-amber-700",
+      label: "Seguimiento",
+    };
+  }
+
+  return {
+    textClassName: "text-rose-600",
+    barClassName: "bg-rose-500",
+    badgeClassName: "bg-rose-50 text-rose-700",
+    label: "Crítico",
+  };
+}
 
 const clientsData = [
   {
@@ -449,7 +476,7 @@ function RankingView() {
         <div className="space-y-4 md:min-h-0 md:flex-1 md:overflow-auto md:pr-1">
           {sellersData.map((seller, index) => {
             const achievement = (seller.sales / seller.target) * 100;
-            const overTarget = achievement >= 100;
+            const achievementStyles = getAchievementStyles(achievement);
 
             return (
               <div key={seller.name} className="space-y-2">
@@ -465,7 +492,7 @@ function RankingView() {
                   </div>
                   <div className="shrink-0 text-right">
                     <div className="tracking-tight text-[#14131A]">${(seller.sales / 1000).toFixed(0)}k</div>
-                    <div className={`text-xs ${overTarget ? "text-emerald-600" : "text-amber-600"}`}>
+                    <div className={`text-xs ${achievementStyles.textClassName}`}>
                       {achievement.toFixed(0)}% del objetivo
                     </div>
                   </div>
@@ -473,12 +500,15 @@ function RankingView() {
 
                 <div className="h-1.5 overflow-hidden rounded-full bg-[#F3F1EE]">
                   <div
-                    className={`h-full rounded-full ${overTarget ? "bg-emerald-500" : "bg-[#7111DF]"}`}
+                    className={`h-full rounded-full ${achievementStyles.barClassName}`}
                     style={{ width: `${Math.min(achievement, 100)}%` }}
                   />
                 </div>
 
-                <div className="flex items-center gap-4 text-xs text-[#6E6A7A]">
+                <div className="flex flex-wrap items-center gap-3 text-xs text-[#6E6A7A]">
+                  <span className={`rounded-full px-2 py-0.5 font-semibold ${achievementStyles.badgeClassName}`}>
+                    {achievementStyles.label}
+                  </span>
                   <div className="flex items-center gap-1">
                     <Users className="h-3 w-3" />
                     <span>{seller.newClients} nuevos</span>
@@ -502,9 +532,9 @@ function RankingView() {
         </div>
         <ExecutiveReading
           insights={[
-            "Maria Gonzalez lidera con resultados sobre el objetivo y el mejor margen del equipo",
-            "Jorge y Laura necesitan refuerzo en cierre para alcanzar el objetivo trimestral",
-            "Ana Rodriguez tiene el mejor desempeño en captación de nuevos clientes",
+            "Maria Gonzalez lidera con claridad y marca el estándar comercial del equipo",
+            "Carlos y Ana están en zona recuperable si se refuerza seguimiento y cierre",
+            "Laura Perez quedó en nivel crítico y pide intervención directa de management",
           ]}
         />
       </div>
@@ -557,7 +587,7 @@ function RankingViewMobile() {
       >
         <div className="space-y-4">
           {displaySellers.map((seller) => {
-            const overTarget = seller.achievement >= 100;
+            const achievementStyles = getAchievementStyles(seller.achievement);
 
             return (
               <div key={seller.name} className="rounded-[1.15rem] border border-border/50 bg-[#FCFBFE] p-4">
@@ -573,7 +603,7 @@ function RankingViewMobile() {
                   </div>
                   <div className="text-right">
                     <p className="text-sm font-semibold tracking-tight text-foreground">${(seller.sales / 1000).toFixed(0)}k</p>
-                    <p className={`text-xs ${overTarget ? "text-emerald-600" : "text-amber-600"}`}>
+                    <p className={`text-xs ${achievementStyles.textClassName}`}>
                       {seller.achievement.toFixed(0)}% del objetivo
                     </p>
                   </div>
@@ -581,12 +611,15 @@ function RankingViewMobile() {
 
                 <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-[#F3F1EE]">
                   <div
-                    className={`h-full rounded-full ${overTarget ? "bg-emerald-500" : "bg-[#7111DF]"}`}
+                    className={`h-full rounded-full ${achievementStyles.barClassName}`}
                     style={{ width: `${Math.min(seller.achievement, 100)}%` }}
                   />
                 </div>
 
-                <div className="mt-3 flex items-center gap-4 text-xs text-muted-foreground">
+                <div className="mt-3 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+                  <span className={`rounded-full px-2 py-0.5 font-semibold ${achievementStyles.badgeClassName}`}>
+                    {achievementStyles.label}
+                  </span>
                   <div className="flex items-center gap-1">
                     <Users className="h-3 w-3" />
                     <span>{seller.newClients} nuevos</span>
