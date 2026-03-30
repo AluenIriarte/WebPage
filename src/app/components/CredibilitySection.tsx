@@ -120,7 +120,7 @@ export function CredibilitySection() {
               onClick={() => trackDiagnosisClick("credibility_section_cta")}
               className="inline-flex items-center gap-2 text-sm font-semibold text-accent hover:text-accent/75 transition-colors duration-200 group"
             >
-              Agendar diagnóstico
+              Ir a contacto
               <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
             </a>
           </motion.div>
