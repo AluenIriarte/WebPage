@@ -722,7 +722,7 @@ function VendedoresView() {
   const averageCoverage = getPortfolioCoverageAverage();
 
   return (
-    <div className="flex h-full flex-col gap-4">
+    <div className="flex h-full min-h-0 flex-col gap-4 overflow-y-auto pr-1">
       <div className="grid shrink-0 gap-4 xl:grid-cols-[minmax(0,1.45fr)_minmax(22rem,0.9fr)]">
         <section className="relative overflow-hidden rounded-[2rem] bg-[linear-gradient(140deg,#14131A_0%,#241B3C_55%,#3A1F78_100%)] p-6 text-white shadow-[0_22px_48px_rgba(20,19,26,0.18)]">
           <div className="absolute right-[-4.5rem] top-[-4rem] h-40 w-40 rounded-full bg-white/8 blur-3xl" />

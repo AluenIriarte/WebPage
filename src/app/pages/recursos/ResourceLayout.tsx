@@ -8,10 +8,10 @@ interface ResourceLayoutProps {
 
 export function ResourceLayout({ children }: ResourceLayoutProps) {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen overflow-x-clip bg-background">
       <nav className="sticky top-0 z-50 border-b border-border/50 bg-white/95 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:px-8">
-          <Link to="/" className="group flex items-center space-x-2">
+        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-3 sm:h-16 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+          <Link to="/" className="group flex items-center space-x-2 self-start">
             <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-accent">
               <BarChart3 className="h-4 w-4 text-white" />
             </div>
@@ -20,28 +20,28 @@ export function ResourceLayout({ children }: ResourceLayoutProps) {
             </span>
           </Link>
 
-          <div className="flex items-center gap-1">
+          <div className="flex w-full flex-wrap items-center gap-1 sm:w-auto sm:justify-end">
             <Link
               to={DEMO_PAGE_HREF}
-              className="rounded-lg px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent/5 hover:text-accent"
+              className="rounded-lg px-2.5 py-1.5 text-[13px] text-muted-foreground transition-colors hover:bg-accent/5 hover:text-accent sm:px-3 sm:text-sm"
             >
               Demo
             </Link>
             <a
               href={ROOT_DIAGNOSTIC_SECTION_HREF}
-              className="rounded-lg px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent/5 hover:text-accent"
+              className="rounded-lg px-2.5 py-1.5 text-[13px] text-muted-foreground transition-colors hover:bg-accent/5 hover:text-accent sm:px-3 sm:text-sm"
             >
               Diagnóstico
             </a>
             <Link
               to="/recursos"
-              className="rounded-lg px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent/5 hover:text-accent"
+              className="rounded-lg px-2.5 py-1.5 text-[13px] text-muted-foreground transition-colors hover:bg-accent/5 hover:text-accent sm:px-3 sm:text-sm"
             >
               Recursos
             </Link>
             <Link
               to="/"
-              className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent/5 hover:text-accent"
+              className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[13px] text-muted-foreground transition-colors hover:bg-accent/5 hover:text-accent sm:px-3 sm:text-sm"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
               Inicio
