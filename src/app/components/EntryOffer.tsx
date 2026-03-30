@@ -31,10 +31,7 @@ export function EntryOffer() {
             Opciones de contacto
           </h2>
 
-          <p className="mt-5 text-[1rem] leading-[1.72] text-muted-foreground">
-            Elegi la via mas util para tu caso. Empeza por diagnostico si queres una primera lectura. Si ya tenes el
-            alcance mas claro, pasa directo a cotizacion.
-          </p>
+          <p className="mt-5 text-[1rem] leading-[1.72] text-muted-foreground">Elegi la via mas util para tu caso.</p>
         </motion.div>
 
         <motion.div
@@ -66,7 +63,7 @@ export function EntryOffer() {
           >
             <div className="min-w-0">
               <div className="text-base font-semibold tracking-tight text-foreground transition-colors duration-300 group-hover:text-accent">
-                Completar brief
+                Solicitar cotizacion
               </div>
               <div className="mt-1 text-sm text-muted-foreground">Cotizacion directa si ya tenes mejor definido el alcance</div>
             </div>
