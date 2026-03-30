@@ -1,4 +1,4 @@
-import { useEffect, useState, type MouseEvent, type ReactNode } from "react";
+import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from "react";
 import {
   Area,
   AreaChart,
@@ -817,6 +817,7 @@ export function DemoDashboard() {
   const [activeView, setActiveView] = useState<ViewType>("global");
   const [isMobile, setIsMobile] = useState(() => (typeof window !== "undefined" ? window.innerWidth < 768 : false));
   const [showAllMobileOpportunities, setShowAllMobileOpportunities] = useState(false);
+  const demoIntroRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
@@ -841,6 +842,14 @@ export function DemoDashboard() {
     event.preventDefault();
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
     window.history.replaceState(null, "", `#${id}`);
+  };
+
+  const handleViewChange = (view: ViewType) => {
+    if (isMobile) {
+      demoIntroRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    setActiveView(view);
   };
 
   const renderActiveView = () => {
@@ -870,7 +879,7 @@ export function DemoDashboard() {
                 <button
                   key={key}
                   type="button"
-                  onClick={() => setActiveView(key)}
+                  onClick={() => handleViewChange(key)}
                   className={`rounded-full px-3 py-2 text-xs font-semibold transition-colors duration-150 sm:text-sm ${
                     activeView === key
                       ? "bg-[#7111DF] text-white shadow-sm"
@@ -889,7 +898,7 @@ export function DemoDashboard() {
         <section id="demo-dashboard" className="bg-[#F3F1EE] pt-36 md:pt-40">
           <div className="flex flex-col bg-[#F3F1EE] md:h-[calc(100dvh-9rem)] md:overflow-hidden">
             <div className="mx-auto flex w-full max-w-[1280px] flex-col px-4 py-4 md:min-h-0 md:flex-1 md:px-8 md:py-5">
-              <div className="mb-4 shrink-0 text-center">
+              <div ref={demoIntroRef} className="mb-4 shrink-0 text-center scroll-mt-36 md:scroll-mt-40">
                 <div className="mb-1 text-[10px] uppercase tracking-widest text-[#7111DF]">DEMO GUIADA</div>
                 <h1 className="text-xl tracking-tight text-[#14131A] md:text-2xl">Demo interactiva de tablero comercial</h1>
                 <p className="mt-1 text-xs text-[#655F7F] md:text-sm">
