@@ -181,6 +181,16 @@ function getPriorityClients() {
   return clientsData.slice(0, 2);
 }
 
+function getClientRestriction(client: (typeof clientsData)[number]) {
+  const stockLowProductName = portfolioProductsData.find((product) => product.tone === "warning")?.name;
+
+  if (!stockLowProductName) {
+    return null;
+  }
+
+  return client.doesntBuy.includes(stockLowProductName) ? "Stock bajo" : null;
+}
+
 function getPortfolioProductStyles(tone: PortfolioProductTone) {
   switch (tone) {
     case "focus":
@@ -724,38 +734,28 @@ function VendedoresView() {
 
   return (
     <div className="flex h-full min-h-0 flex-col gap-4">
-      <div className="grid shrink-0 gap-4 xl:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]">
-        <section className="relative overflow-hidden rounded-[1.7rem] bg-[linear-gradient(140deg,#14131A_0%,#241B3C_55%,#3A1F78_100%)] p-4 text-white shadow-[0_18px_36px_rgba(20,19,26,0.16)]">
-          <div className="absolute right-[-3.5rem] top-[-3rem] h-24 w-24 rounded-full bg-white/8 blur-3xl" />
-          <div className="absolute bottom-[-4rem] left-[-2rem] h-20 w-20 rounded-full bg-[#9E6BFF]/18 blur-3xl" />
-          <div className="relative">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/58">Cobertura cartera</p>
-            <div className="mt-3 flex items-end justify-between gap-4">
-              <div>
-                <div className="text-[2.75rem] font-semibold tracking-[-0.04em]">{averageCoverage}%</div>
-                <p className="mt-1.5 max-w-md text-sm leading-relaxed text-white/70">
-                  Cobertura promedio sobre líneas estratégicas de la cartera foco.
-                </p>
-              </div>
-              <div className="rounded-full border border-white/12 bg-white/8 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/78 backdrop-blur">
-                KPI principal
-              </div>
+      <section className="shrink-0 rounded-[1.7rem] border border-[#ECE5F2] bg-white px-5 py-4 shadow-[0_12px_28px_rgba(20,19,26,0.04)]">
+        <div className="grid items-center gap-4 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
+          <div className="flex items-center justify-center gap-4 text-center md:justify-start md:text-left">
+            <div className="rounded-[1.2rem] bg-[#F6F1FF] px-4 py-3">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#7111DF]/72">Cobertura cartera</p>
+              <div className="mt-1 text-[2.6rem] font-semibold tracking-[-0.05em] text-[#14131A]">{averageCoverage}%</div>
             </div>
           </div>
-        </section>
 
-        <section className="rounded-[1.7rem] border border-amber-300 bg-[linear-gradient(145deg,#FFF7E8_0%,#FFF2D8_100%)] p-4 shadow-[0_16px_30px_rgba(245,158,11,0.12)]">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-amber-500 text-white shadow-[0_10px_20px_rgba(245,158,11,0.22)]">
+          <div className="hidden h-10 w-px rounded-full bg-[#ECE5F2] md:block" />
+
+          <div className="flex items-center justify-center gap-3 rounded-[1.2rem] bg-[linear-gradient(145deg,#FFF8EC_0%,#FFF3DE_100%)] px-4 py-3 text-center md:justify-start md:text-left">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-amber-500 text-white">
               <Package className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-800">Stock bajo</p>
-              <h3 className="mt-1.5 text-lg font-semibold tracking-tight text-[#14131A]">Línea C con bajo stock</h3>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-amber-800">Stock bajo</p>
+              <h3 className="mt-1 text-lg font-semibold tracking-tight text-[#14131A]">Linea C con bajo stock</h3>
             </div>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
 
       <section className="flex min-h-0 flex-1 flex-col rounded-[1.7rem] border border-[#ECE5F2] bg-white p-5 shadow-[0_12px_28px_rgba(20,19,26,0.04)]">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -773,8 +773,8 @@ function VendedoresView() {
               </h3>
               <p className="mt-1 text-sm text-[#6E6A7A]">
                 {activePortfolioView === "products"
-                  ? "Brecha por línea antes de decidir en qué cuentas entrar."
-                  : "Pocas cuentas y una próxima acción explícita para mover la cartera."}
+                  ? "Brecha por linea antes de decidir en que cuentas entrar."
+                  : "Vista por cliente con cobertura, brecha y siguiente accion."}
               </p>
             </div>
           </div>
@@ -815,7 +815,7 @@ function VendedoresView() {
                         <span className={`h-2.5 w-2.5 rounded-full ${styles.accentClassName}`} />
                         <h4 className="text-base tracking-tight text-[#14131A]">{product.name}</h4>
                       </div>
-                      <p className="mt-1 text-sm text-[#6E6A7A]">{product.openAccounts} cuentas todavía sin cobertura</p>
+                      <p className="mt-1 text-sm text-[#6E6A7A]">{product.openAccounts} cuentas todavia sin cobertura</p>
                     </div>
                     <div className={`text-right text-2xl font-semibold tracking-tight ${styles.metricClassName}`}>
                       {product.penetration}%
@@ -835,43 +835,57 @@ function VendedoresView() {
             })}
           </div>
         ) : (
-          <div className="mt-4 space-y-3 md:min-h-0 md:flex-1 md:overflow-auto md:pr-1">
-            {priorityClients.map((client) => {
-              const portfolioSummary = getClientPortfolioSummary(client);
+          <div className="mt-4 min-h-0 flex-1 overflow-auto rounded-[1.25rem] border border-[#ECE5F2] bg-[#FCFBFE]">
+            <table className="min-w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-[#F7F5FA]">
+                  {["Cliente", "Compra actual", "Cobertura", "Brecha principal", "Proxima accion", "Restriccion"].map((label) => (
+                    <th
+                      key={label}
+                      className="sticky top-0 z-10 border-b border-[#ECE5F2] bg-[#F7F5FA] px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-[0.16em] text-[#6E6A7A]"
+                    >
+                      {label}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {priorityClients.map((client, index) => {
+                  const portfolioSummary = getClientPortfolioSummary(client);
+                  const restriction = getClientRestriction(client);
+                  const rowBorderClassName = index === 0 ? "" : "border-t border-[#ECE5F2]";
 
-              return (
-                <article key={client.name} className="rounded-[1.25rem] border border-[#ECE5F2] bg-[#FCFBFE] p-3.5">
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <h4 className="text-base tracking-tight text-[#14131A]">{client.name}</h4>
-                      <p className="mt-1 text-sm text-[#6E6A7A]">Aporte mensual: ${(client.revenue / 1000).toFixed(0)}k</p>
-                    </div>
-                    <div className="rounded-full bg-[#14131A] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-white">
-                      {client.coverage}% cobertura
-                    </div>
-                  </div>
-
-                  <div className="mt-3 grid gap-2 md:grid-cols-2">
-                    <div className="rounded-[0.9rem] border border-[#ECE5F2] bg-white px-3 py-2.5">
-                      <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#6E6A7A]">Brecha principal</div>
-                      <div className="mt-1.5 text-sm font-semibold text-amber-700">{portfolioSummary.primaryGapLabel}</div>
-                    </div>
-                    <div className="rounded-[0.9rem] border border-[#ECE5F2] bg-white px-3 py-2.5">
-                      <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#6E6A7A]">Compra actual</div>
-                      <div className="mt-1.5 text-sm font-semibold text-[#14131A]">{portfolioSummary.coverageLabel}</div>
-                    </div>
-                  </div>
-
-                  <div className="mt-3 flex items-start gap-3 rounded-[0.9rem] border border-[#7111DF]/12 bg-[#7111DF]/6 px-3.5 py-3">
-                    <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-[#7111DF]" />
-                    <div>
-                      <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#7111DF]">Siguiente movimiento</div>
-                      <p className="mt-1 text-sm font-medium text-[#14131A]">{client.opportunity}</p>
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
+                  return (
+                    <tr key={client.name} className={index % 2 === 0 ? "bg-white" : "bg-[#FCFBFE]"}>
+                      <td className={`px-4 py-4 align-top ${rowBorderClassName}`}>
+                        <div className="min-w-[15rem]">
+                          <div className="font-medium tracking-tight text-[#14131A]">{client.name}</div>
+                          <div className="mt-1 text-xs text-[#6E6A7A]">Aporte mensual: ${(client.revenue / 1000).toFixed(0)}k</div>
+                        </div>
+                      </td>
+                      <td className={`whitespace-nowrap px-4 py-4 align-top text-[#14131A] ${rowBorderClassName}`}>
+                        {portfolioSummary.coverageLabel}
+                      </td>
+                      <td className={`px-4 py-4 align-top ${rowBorderClassName}`}>
+                        <div className="flex min-w-[8rem] items-center gap-3">
+                          <span className="min-w-[2.75rem] text-xs font-semibold text-[#14131A]">{client.coverage}%</span>
+                          <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-[#ECE5F2]">
+                            <div className="h-full rounded-full bg-[#14131A]" style={{ width: `${client.coverage}%` }} />
+                          </div>
+                        </div>
+                      </td>
+                      <td className={`whitespace-nowrap px-4 py-4 align-top font-medium text-[#7111DF] ${rowBorderClassName}`}>
+                        {portfolioSummary.primaryGapLabel}
+                      </td>
+                      <td className={`px-4 py-4 align-top font-medium text-[#7111DF] ${rowBorderClassName}`}>{client.opportunity}</td>
+                      <td className={`whitespace-nowrap px-4 py-4 align-top ${rowBorderClassName}`}>
+                        {restriction ? <span className="font-medium text-amber-700">{restriction}</span> : <span className="text-[#A09AAD]">-</span>}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         )}
       </section>
@@ -886,27 +900,29 @@ function VendedoresViewMobile() {
 
   return (
     <div className="space-y-3">
-      <div className="grid grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] gap-3">
-        <section className="relative overflow-hidden rounded-[1.6rem] bg-[linear-gradient(140deg,#14131A_0%,#241B3C_55%,#3A1F78_100%)] px-4 py-4 text-white shadow-[0_18px_34px_rgba(20,19,26,0.2)]">
-          <div className="absolute right-[-2rem] top-[-2rem] h-20 w-20 rounded-full bg-white/8 blur-2xl" />
-          <div className="relative">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/58">Cobertura</p>
-            <div className="mt-2 text-3xl font-semibold tracking-[-0.04em]">{averageCoverage}%</div>
-            <p className="mt-2 text-xs leading-relaxed text-white/68">Promedio sobre líneas estratégicas en la cartera foco.</p>
+      <section className="rounded-[1.55rem] border border-[#ECE5F2] bg-white px-4 py-3 shadow-[0_12px_24px_rgba(20,19,26,0.04)]">
+        <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-center gap-3">
+          <div className="rounded-[1.05rem] bg-[#F6F1FF] px-3 py-3 text-center">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#7111DF]/72">Cobertura</p>
+            <div className="mt-1 text-3xl font-semibold tracking-[-0.05em] text-[#14131A]">{averageCoverage}%</div>
           </div>
-        </section>
 
-        <section className="rounded-[1.6rem] border border-amber-300 bg-[linear-gradient(145deg,#FFF7E8_0%,#FFF2D8_100%)] px-4 py-4 shadow-[0_16px_30px_rgba(245,158,11,0.14)]">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-amber-800">Stock bajo</p>
-          <div className="mt-2 text-sm font-semibold tracking-tight text-[#14131A]">Línea C</div>
-          <p className="mt-2 text-xs leading-relaxed text-amber-900/78">Empujar A y B mientras normaliza stock.</p>
-        </section>
-      </div>
+          <div className="flex items-center gap-2 rounded-[1.05rem] bg-[linear-gradient(145deg,#FFF8EC_0%,#FFF3DE_100%)] px-3 py-3">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-amber-500 text-white">
+              <Package className="h-4 w-4" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-amber-800">Stock bajo</p>
+              <div className="mt-1 text-sm font-semibold tracking-tight text-[#14131A]">Linea C</div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <MobilePanel
         eyebrow="Cartera guiada"
-        title="Producto primero, cuenta después"
-        description="En mobile conviene cambiar entre dos vistas cortas: dónde está la brecha y en qué cuentas entrar."
+        title="Producto primero, cuenta despues"
+        description="En mobile conviene cambiar entre dos vistas cortas: donde esta la brecha y en que cuentas entrar."
       >
         <div className="rounded-full bg-[#F4F1F8] p-1">
           <div className="grid grid-cols-2 gap-1">
@@ -966,6 +982,7 @@ function VendedoresViewMobile() {
           <div className="mt-4 space-y-3">
             {highlightedClients.map((client) => {
               const portfolioSummary = getClientPortfolioSummary(client);
+              const restriction = getClientRestriction(client);
 
               return (
                 <article key={client.name} className="rounded-[1.15rem] border border-border/50 bg-white p-4">
@@ -982,7 +999,7 @@ function VendedoresViewMobile() {
                   <div className="mt-3 grid gap-2 sm:grid-cols-2">
                     <div className="rounded-xl border border-[#ECE5F2] bg-[#FCFBFE] px-3 py-2.5">
                       <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Brecha</div>
-                      <div className="mt-1 text-xs font-semibold text-amber-700">{portfolioSummary.primaryGapLabel}</div>
+                      <div className="mt-1 text-xs font-semibold text-[#7111DF]">{portfolioSummary.primaryGapLabel}</div>
                     </div>
                     <div className="rounded-xl border border-[#ECE5F2] bg-[#FCFBFE] px-3 py-2.5">
                       <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Compra</div>
@@ -990,12 +1007,12 @@ function VendedoresViewMobile() {
                     </div>
                   </div>
 
-                  <div className="mt-3 flex items-start gap-2 rounded-xl border border-[#7111DF]/12 bg-[#7111DF]/6 px-3 py-3">
-                    <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-[#7111DF]" />
+                  <div className="mt-3 flex items-start justify-between gap-3 rounded-xl bg-[#F9F7FC] px-3 py-3">
                     <div>
-                      <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#7111DF]">Siguiente movimiento</div>
-                      <p className="mt-1 text-xs font-medium leading-relaxed text-foreground">{client.opportunity}</p>
+                      <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#7111DF]">Proxima accion</div>
+                      <p className="mt-1 text-xs font-medium leading-relaxed text-[#7111DF]">{client.opportunity}</p>
                     </div>
+                    {restriction ? <span className="shrink-0 text-[11px] font-medium text-amber-700">{restriction}</span> : null}
                   </div>
                 </article>
               );
@@ -1006,7 +1023,7 @@ function VendedoresViewMobile() {
 
       <ExecutiveReading
         insights={[
-          "La lectura arranca por producto, porque ahí se ve primero la brecha comercial real",
+          "La lectura arranca por producto, porque ahi se ve primero la brecha comercial real",
           "La alerta de stock queda aislada para que no compita con el resto de la historia",
           "En mobile conviene alternar entre productos y cuentas, no apilar dos paneles largos",
         ]}
