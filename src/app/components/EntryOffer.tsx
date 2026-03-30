@@ -1,74 +1,41 @@
 import { motion } from "motion/react";
-import { ArrowRight, Clock } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { CALENDLY_URL, QUOTE_PAGE_HREF } from "../lib/contact";
 import { trackCalendlyClick, trackDiagnosisClick, trackQuoteClick } from "../lib/analytics";
 
 const LINKEDIN_URL = "https://www.linkedin.com/in/alan-leonel-perez-argentina/?skipRedirect=true";
 
-const items = [
-  "Qu\u00e9 se\u00f1al conviene mirar primero",
-  "Si el problema es de datos, foco o lectura comercial",
-  "Si tiene sentido construir algo ahora o no",
-];
-
 const cardLabelClassName = "text-[10px] font-semibold uppercase tracking-[0.16em]";
 
 export function EntryOffer() {
   return (
-    <section id="contacto" className="relative overflow-hidden bg-white py-24 lg:py-36">
+    <section id="contacto" className="relative overflow-hidden bg-white py-24 lg:py-32">
       <div
-        className="pointer-events-none absolute top-0 left-1/2 -z-10 h-[400px] w-[700px] -translate-x-1/2 opacity-25 blur-3xl"
-        style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(139,92,246,0.12) 0%, transparent 70%)" }}
+        className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[360px] w-[680px] -translate-x-1/2 opacity-20 blur-3xl"
+        style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(139,92,246,0.12) 0%, transparent 72%)" }}
       />
 
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="grid items-start gap-14 lg:grid-cols-2 lg:gap-24">
+        <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-20">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
-            className="space-y-7"
+            className="max-w-[33rem]"
           >
             <div className="flex items-center gap-3">
               <div className="h-px w-8 rounded-full bg-accent/40" />
-              <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent/70">
-                Contacto
-              </span>
+              <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent/70">CONTACTO</span>
             </div>
 
-            <div className="space-y-4">
-              <h2 className="max-w-[30rem] text-[2rem] font-semibold leading-[1.12] tracking-tight text-foreground md:text-[2.35rem] lg:text-[2.55rem]">
-                {"En 15 minutos vemos si conviene avanzar"}
-              </h2>
-              <p className="max-w-[29rem] text-[1.02rem] leading-[1.72] text-muted-foreground">
-                {
-                  "Una revisi\u00f3n inicial para detectar si hoy hay una p\u00e9rdida visible en cartera, margen o expansi\u00f3n."
-                }
-              </p>
-            </div>
+            <h2 className="mt-6 text-[2rem] font-semibold leading-[1.08] tracking-tight text-foreground md:text-[2.35rem] lg:text-[2.6rem]">
+              Opciones de contacto
+            </h2>
 
-            <div>
-              <ul className="max-w-[29rem] space-y-3">
-                {items.map((item, index) => (
-                  <motion.li
-                    key={item}
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: 0.15 + index * 0.07, ease: [0.22, 1, 0.36, 1] }}
-                    className="flex items-start gap-3"
-                  >
-                    <div className="mt-2 h-1 w-1 flex-shrink-0 rounded-full bg-accent/45" />
-                    <span className="text-[0.92rem] leading-relaxed text-foreground/70">{item}</span>
-                  </motion.li>
-                ))}
-              </ul>
-            </div>
-
-            <p className="pt-1 text-sm font-medium text-muted-foreground/68">
-              {"Sin compromiso."}
+            <p className="mt-5 max-w-[31rem] text-[1rem] leading-[1.72] text-muted-foreground">
+              Elegí la vía más útil para tu caso. Si necesitás una primera lectura, empezá por diagnóstico. Si ya tenés claro el alcance, pasá directo a cotización.
             </p>
           </motion.div>
 
@@ -77,88 +44,55 @@ export function EntryOffer() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.75, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:pt-4"
           >
-            <div className="relative overflow-hidden rounded-3xl border border-border/50 bg-white shadow-2xl shadow-black/[0.06]">
-              <div className="h-1 w-full bg-gradient-to-r from-accent/60 via-accent to-accent/60" />
+            <div className="rounded-[2rem] border border-border/45 bg-[#FCFBFE] p-4 sm:p-5 lg:p-6">
+              <div className="rounded-[1.55rem] border border-accent/18 bg-accent/[0.05] p-6">
+                <p className={`${cardLabelClassName} text-accent/55`}>PARA EMPEZAR</p>
+                <h3 className="mt-3 text-[1.25rem] font-semibold tracking-tight text-foreground">Diagnóstico inicial</h3>
+                <p className="mt-3 max-w-[26rem] text-[0.94rem] leading-relaxed text-muted-foreground">
+                  Una revisión breve para detectar si hoy hay una pérdida visible en cartera, margen o foco comercial.
+                </p>
+                <a
+                  href={CALENDLY_URL}
+                  onClick={() => {
+                    trackDiagnosisClick("entry_offer_primary");
+                    trackCalendlyClick("entry_offer_primary");
+                  }}
+                  className="group mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-6 py-4 text-base font-medium text-accent-foreground transition-colors duration-300 hover:bg-accent/90"
+                >
+                  Agendar diagnóstico
+                  <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
+                </a>
+              </div>
 
-              <div className="space-y-5 p-8 lg:p-10">
-                <div className="space-y-4">
-                  <div className="inline-flex items-center gap-2 rounded-full border border-accent/12 bg-accent/8 px-3 py-1.5 text-[11px] font-semibold text-accent">
-                    <Clock className="h-3 w-3" />
-                    <span>15 min</span>
-                    <span className="h-1 w-1 rounded-full bg-accent/55" />
-                    <span>Sin costo</span>
-                  </div>
+              <div className="mt-4 rounded-[1.4rem] border border-border/60 bg-white p-5">
+                <p className={`${cardLabelClassName} text-foreground/42`}>SI YA ESTÁ DEFINIDO</p>
+                <h3 className="mt-3 text-[1.08rem] font-semibold tracking-tight text-foreground">Cotización directa</h3>
+                <p className="mt-2.5 max-w-[25rem] text-[0.92rem] leading-relaxed text-muted-foreground">
+                  Mejor para proyectos con alcance, fuentes y necesidad más claros.
+                </p>
+                <Link
+                  to={QUOTE_PAGE_HREF}
+                  onClick={() => trackQuoteClick("entry_offer_secondary")}
+                  className="group mt-5 inline-flex items-center justify-center gap-2 rounded-full border border-border/70 bg-white px-5 py-3 text-sm font-medium text-foreground transition-colors duration-300 hover:border-accent/35 hover:text-accent"
+                >
+                  Completar brief
+                  <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
+                </Link>
+              </div>
 
-                  <h3 className="max-w-[21rem] text-[1.5rem] font-semibold leading-tight tracking-tight text-foreground">
-                    {"Eleg\u00ed el camino m\u00e1s \u00fatil para tu caso"}
-                  </h3>
-
-                  <p className="max-w-[24rem] text-[0.9rem] leading-relaxed text-muted-foreground">
-                    {
-                      "Si necesit\u00e1s una lectura inicial, empez\u00e1 por diagn\u00f3stico. Si ya ten\u00e9s claro el alcance, pas\u00e1 directo a cotizaci\u00f3n."
-                    }
-                  </p>
-
-                  <p className="max-w-[24rem] rounded-2xl border border-border/45 bg-[#FBFBFA] px-4 py-3 text-[0.9rem] leading-relaxed text-muted-foreground">
-                    {"\u00bfPrefer\u00eds escribir primero? "}
-                    <a
-                      href={LINKEDIN_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-medium text-accent underline decoration-accent/35 underline-offset-4 transition-colors hover:text-accent/80 hover:decoration-accent/70"
-                    >
-                      {"Hablemos por LinkedIn"}
-                    </a>
-                    {"."}
-                  </p>
-                </div>
-
-                <div className="space-y-4">
-                  <div className="rounded-[1.55rem] border border-accent/18 bg-accent/[0.05] p-6 shadow-[0_16px_40px_rgba(122,92,255,0.06)]">
-                    <p className={`${cardLabelClassName} text-accent/52`}>
-                      PARA EMPEZAR
-                    </p>
-                    <p className="mt-2.5 text-[1.05rem] font-semibold text-foreground">
-                      {"Diagn\u00f3stico inicial"}
-                    </p>
-                    <p className="mt-2.5 max-w-[18rem] text-[0.9rem] leading-relaxed text-muted-foreground">
-                      {"Ideal para ordenar el problema y validar prioridad."}
-                    </p>
-                    <a
-                      href={CALENDLY_URL}
-                      onClick={() => {
-                        trackDiagnosisClick("entry_offer_primary");
-                        trackCalendlyClick("entry_offer_primary");
-                      }}
-                      className="group mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-base font-medium text-accent-foreground transition-all duration-300 hover:bg-accent/90 hover:shadow-xl hover:shadow-accent/20"
-                    >
-                      {"Agendar diagn\u00f3stico"}
-                      <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
-                    </a>
-                  </div>
-
-                  <div className="rounded-[1.55rem] border border-border/65 bg-white/95 p-5 shadow-[0_10px_26px_rgba(15,23,42,0.03)]">
-                    <p className={`${cardLabelClassName} text-foreground/40`}>
-                      SI YA ESTA DEFINIDO
-                    </p>
-                    <p className="mt-2.5 text-[1.02rem] font-semibold text-foreground/95">
-                      {"Cotizaci\u00f3n directa"}
-                    </p>
-                    <p className="mt-2.5 max-w-[17rem] text-[0.9rem] leading-relaxed text-muted-foreground/90">
-                      {"Mejor para proyectos ya definidos."}
-                    </p>
-                    <Link
-                      to={QUOTE_PAGE_HREF}
-                      onClick={() => trackQuoteClick("entry_offer_secondary")}
-                      className="group mt-5 inline-flex items-center justify-center gap-2 rounded-full border border-border/70 bg-white px-5 py-3 text-sm font-medium text-foreground transition-all duration-300 hover:border-accent/35 hover:bg-accent/5 hover:text-accent"
-                    >
-                      {"Completar brief"}
-                      <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
-                    </Link>
-                  </div>
-                </div>
+              <div className="mt-4 border-t border-border/45 pt-4">
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  ¿Preferís escribir primero?{" "}
+                  <a
+                    href={LINKEDIN_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-medium text-accent transition-colors hover:text-accent/80"
+                  >
+                    Hablemos por LinkedIn.
+                  </a>
+                </p>
               </div>
             </div>
           </motion.div>
