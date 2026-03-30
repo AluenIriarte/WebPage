@@ -755,14 +755,17 @@ function VendedoresView() {
         </section>
 
         <section className="rounded-[1.7rem] border border-amber-300 bg-[linear-gradient(145deg,#FFF7E8_0%,#FFF2D8_100%)] px-5 py-4 shadow-[0_16px_30px_rgba(245,158,11,0.12)]">
-          <div className="flex min-h-[8.75rem] items-center justify-center">
-            <div className="flex w-full max-w-[22rem] items-center gap-3">
+          <div className="flex min-h-[8.75rem] items-center">
+            <div className="flex w-full items-center justify-between gap-6">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-amber-500 text-white shadow-[0_10px_20px_rgba(245,158,11,0.22)]">
                 <Package className="h-5 w-5" />
               </div>
-              <div>
+              <div className="flex-1 text-left">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-800">Stock bajo</p>
                 <h3 className="mt-1.5 text-lg font-semibold tracking-tight text-[#14131A]">Linea C con bajo stock</h3>
+              </div>
+              <div className="shrink-0 rounded-full border border-amber-300/80 bg-white/55 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-amber-800">
+                Restriccion activa
               </div>
             </div>
           </div>
