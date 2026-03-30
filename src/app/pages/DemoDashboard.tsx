@@ -859,11 +859,37 @@ export function DemoDashboard() {
     <div className="min-h-screen bg-[#F3F1EE]">
       <Header />
 
+      <div className="fixed inset-x-0 top-20 z-40 border-b border-border/50 bg-[rgba(243,241,238,0.94)] backdrop-blur-xl">
+        <div className="mx-auto max-w-[1280px] px-4 py-3 md:px-8">
+          <div className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-2">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/60">
+              Vistas:
+            </span>
+            <div className="grid grid-cols-3 gap-1 rounded-full bg-white/80 p-1 shadow-[0_8px_18px_rgba(20,19,26,0.04)]">
+              {views.map(({ key, mobileLabel }) => (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => setActiveView(key)}
+                  className={`rounded-full px-3 py-2 text-xs font-semibold transition-colors duration-150 sm:text-sm ${
+                    activeView === key
+                      ? "bg-[#7111DF] text-white shadow-sm"
+                      : "text-[#655F7F] hover:bg-[#7111DF]/5 hover:text-[#14131A]"
+                  }`}
+                >
+                  {mobileLabel}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
       <main className="pb-28 md:pb-0">
-        <section id="demo-dashboard" className="bg-[#F3F1EE] pt-20 md:pt-24">
-          <div className="flex flex-col bg-[#F3F1EE] md:h-[calc(100dvh-5rem)] md:overflow-hidden">
+        <section id="demo-dashboard" className="bg-[#F3F1EE] pt-36 md:pt-40">
+          <div className="flex flex-col bg-[#F3F1EE] md:h-[calc(100dvh-9rem)] md:overflow-hidden">
             <div className="mx-auto flex w-full max-w-[1280px] flex-col px-4 py-4 md:min-h-0 md:flex-1 md:px-8 md:py-5">
-              <div className="mb-3 shrink-0 text-center">
+              <div className="mb-4 shrink-0 text-center">
                 <div className="mb-1 text-[10px] uppercase tracking-widest text-[#7111DF]">DEMO GUIADA</div>
                 <h1 className="text-xl tracking-tight text-[#14131A] md:text-2xl">Demo interactiva de tablero comercial</h1>
                 <p className="mt-1 text-xs text-[#655F7F] md:text-sm">
@@ -871,26 +897,9 @@ export function DemoDashboard() {
                     ? "Tres vistas, una lectura corta y acciones siempre a mano."
                     : "Tres vistas para entender volumen, desempeño y oportunidades de acción"}
                 </p>
-              </div>
-
-              <div className="mb-3 shrink-0">
-                <div className="mb-1 flex flex-wrap items-center justify-center gap-2">
-                  {views.map(({ key, label, mobileLabel }) => (
-                    <button
-                      key={key}
-                      type="button"
-                      onClick={() => setActiveView(key)}
-                      className={`rounded-full px-4 py-2 text-sm transition-colors duration-150 ${
-                        activeView === key
-                          ? "bg-[#7111DF] text-white"
-                          : "bg-[#FFFFFF] text-[#655F7F] hover:bg-[#7111DF]/5"
-                      }`}
-                    >
-                      {isMobile ? mobileLabel : label}
-                    </button>
-                  ))}
-                </div>
-                <p className="text-center text-xs text-[#6E6A7A]">{viewDescriptions[activeView]}</p>
+                <p className="mx-auto mt-3 max-w-2xl text-xs leading-relaxed text-[#6E6A7A] md:text-sm">
+                  {viewDescriptions[activeView]}
+                </p>
               </div>
 
               <div className="relative md:flex-1 md:min-h-0">
