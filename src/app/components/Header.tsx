@@ -11,7 +11,7 @@ import {
   BookOpen,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { AUTO_DIAGNOSTIC_PAGE_HREF, CALENDLY_URL, DEMO_PAGE_HREF } from "../lib/contact";
+import { AUTO_DIAGNOSTIC_PAGE_HREF, DEMO_PAGE_HREF } from "../lib/contact";
 
 const recursos = [
   {
@@ -113,9 +113,7 @@ export function Header({ variant = "default" }: HeaderProps) {
     { label: "Ir a contacto", href: homeHref("#contacto") },
   ];
   const [opportunitiesItem, processItem, guideItem, faqItem, contactItem] = navItems;
-  const primaryCtaItem = isDemoPage
-    ? { label: "Agendar diagn\u00f3stico", mobileLabel: "Agendar", href: CALENDLY_URL }
-    : { label: contactItem.label, mobileLabel: "Contacto", href: contactItem.href };
+  const primaryCtaItem = { label: contactItem.label, mobileLabel: "Contacto", href: contactItem.href };
 
   return (
     <motion.header
@@ -285,16 +283,10 @@ export function Header({ variant = "default" }: HeaderProps) {
 
               <a
                 href={primaryCtaItem.href}
-                className={`group relative rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${
-                  isDemoPage
-                    ? "border border-transparent bg-[#7111DF] text-white hover:bg-[#5c0ec0]"
-                    : "border border-accent/15 bg-accent/[0.05] text-foreground hover:border-accent/25 hover:bg-accent/[0.08] hover:text-accent"
-                }`}
+                className="group relative rounded-full border border-accent/15 bg-accent/[0.05] px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:border-accent/25 hover:bg-accent/[0.08] hover:text-accent"
               >
                 {primaryCtaItem.label}
-                {!isDemoPage ? (
-                  <span className="absolute -bottom-1 left-3 right-3 h-0.5 scale-x-0 bg-accent transition-transform duration-300 group-hover:scale-x-100" />
-                ) : null}
+                <span className="absolute -bottom-1 left-3 right-3 h-0.5 scale-x-0 bg-accent transition-transform duration-300 group-hover:scale-x-100" />
               </a>
             </nav>
           )}
@@ -303,11 +295,7 @@ export function Header({ variant = "default" }: HeaderProps) {
             <div className="flex items-center gap-2 md:hidden">
               <a
                 href={primaryCtaItem.href}
-                className={`inline-flex min-h-10 items-center justify-center rounded-full px-3 py-2 text-sm font-medium transition-colors ${
-                  isDemoPage
-                    ? "bg-[#7111DF] text-white hover:bg-[#5c0ec0]"
-                    : "border border-accent/15 bg-accent/[0.05] text-foreground hover:border-accent/25 hover:bg-accent/[0.08] hover:text-accent"
-                }`}
+                className="inline-flex min-h-10 items-center justify-center rounded-full border border-accent/15 bg-accent/[0.05] px-3 py-2 text-sm font-medium text-foreground transition-colors hover:border-accent/25 hover:bg-accent/[0.08] hover:text-accent"
               >
                 {primaryCtaItem.mobileLabel}
               </a>
@@ -431,11 +419,7 @@ export function Header({ variant = "default" }: HeaderProps) {
                 <a
                   href={primaryCtaItem.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className={`block rounded-full px-3 py-2.5 text-base font-medium transition-colors ${
-                    isDemoPage
-                      ? "bg-[#7111DF] text-white hover:bg-[#5c0ec0]"
-                      : "border border-accent/15 bg-accent/[0.05] text-foreground hover:border-accent/25 hover:bg-accent/[0.08] hover:text-accent"
-                  }`}
+                  className="block rounded-full border border-accent/15 bg-accent/[0.05] px-3 py-2.5 text-base font-medium text-foreground transition-colors hover:border-accent/25 hover:bg-accent/[0.08] hover:text-accent"
                 >
                   {primaryCtaItem.label}
                 </a>
