@@ -735,14 +735,14 @@ function VendedoresView() {
   return (
     <div className="flex h-full min-h-0 flex-col gap-4">
       <div className="grid shrink-0 gap-4 xl:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]">
-        <section className="relative overflow-hidden rounded-[1.7rem] bg-[linear-gradient(140deg,#14131A_0%,#241B3C_55%,#3A1F78_100%)] p-4 text-white shadow-[0_18px_36px_rgba(20,19,26,0.16)]">
+        <section className="relative overflow-hidden rounded-[1.7rem] bg-[linear-gradient(140deg,#14131A_0%,#241B3C_55%,#3A1F78_100%)] px-5 py-4 text-white shadow-[0_18px_36px_rgba(20,19,26,0.16)]">
           <div className="absolute right-[-3.5rem] top-[-3rem] h-24 w-24 rounded-full bg-white/8 blur-3xl" />
           <div className="absolute bottom-[-4rem] left-[-2rem] h-20 w-20 rounded-full bg-[#9E6BFF]/18 blur-3xl" />
-          <div className="relative flex min-h-[9.75rem] items-center">
-            <div className="mx-auto flex w-full max-w-[34rem] items-center justify-between gap-6">
-              <div className="text-left">
+          <div className="relative flex min-h-[8.75rem] items-center">
+            <div className="flex w-full items-center justify-between gap-8">
+              <div className="max-w-[18rem] text-left">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/58">Cobertura cartera</p>
-                <div className="mt-3 text-[2.75rem] font-semibold tracking-[-0.04em]">{averageCoverage}%</div>
+                <div className="mt-2.5 text-[2.7rem] font-semibold tracking-[-0.04em]">{averageCoverage}%</div>
                 <p className="mt-1.5 max-w-md text-sm leading-relaxed text-white/70">
                   Cobertura promedio sobre lineas estrategicas de la cartera foco.
                 </p>
@@ -754,9 +754,9 @@ function VendedoresView() {
           </div>
         </section>
 
-        <section className="rounded-[1.7rem] border border-amber-300 bg-[linear-gradient(145deg,#FFF7E8_0%,#FFF2D8_100%)] p-4 shadow-[0_16px_30px_rgba(245,158,11,0.12)]">
-          <div className="flex min-h-[9.75rem] items-center">
-            <div className="mx-auto flex w-full max-w-[24rem] items-center gap-3">
+        <section className="rounded-[1.7rem] border border-amber-300 bg-[linear-gradient(145deg,#FFF7E8_0%,#FFF2D8_100%)] px-5 py-4 shadow-[0_16px_30px_rgba(245,158,11,0.12)]">
+          <div className="flex min-h-[8.75rem] items-center justify-center">
+            <div className="flex w-full max-w-[22rem] items-center gap-3">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-amber-500 text-white shadow-[0_10px_20px_rgba(245,158,11,0.22)]">
                 <Package className="h-5 w-5" />
               </div>
