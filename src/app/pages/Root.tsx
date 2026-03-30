@@ -19,10 +19,32 @@ export function Root() {
   useEffect(() => {
     if (location.hash) {
       const elementId = location.hash.replace("#", "");
-      requestAnimationFrame(() => {
-        document.getElementById(elementId)?.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
-      return;
+      let attempts = 0;
+      let timeoutId: number | undefined;
+
+      const scrollToHashTarget = () => {
+        const element = document.getElementById(elementId);
+
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+          return;
+        }
+
+        if (attempts >= 20) {
+          return;
+        }
+
+        attempts += 1;
+        timeoutId = window.setTimeout(scrollToHashTarget, 100);
+      };
+
+      requestAnimationFrame(scrollToHashTarget);
+
+      return () => {
+        if (timeoutId !== undefined) {
+          window.clearTimeout(timeoutId);
+        }
+      };
     }
 
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
