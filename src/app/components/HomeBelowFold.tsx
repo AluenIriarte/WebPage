@@ -1,4 +1,3 @@
-import { ContactClose } from "./ContactClose";
 import { CredibilitySection } from "./CredibilitySection";
 import { EntryOffer } from "./EntryOffer";
 import { FAQSection } from "./FAQSection";
@@ -13,9 +12,8 @@ export function HomeBelowFold() {
       {/* Seccion 2 reservada para Recurso gratuito */}
       <ValueProposition />
       <CredibilitySection />
-      <EntryOffer />
       <FAQSection />
-      <ContactClose />
+      <EntryOffer />
       <Footer />
     </>
   );
