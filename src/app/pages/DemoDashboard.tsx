@@ -428,9 +428,9 @@ function GlobalViewMobile() {
 
       <ExecutiveReading
         insights={[
-          "La venta crece, pero la mezcla de margen pide mÃ¡s foco comercial",
-          "Centro y Norte concentran el volumen mÃ¡s valioso de la cartera",
-          "La conversaciÃ³n comercial deberÃ­a arrancar por seÃ±ales, no por mÃ¡s pantallas",
+          "La venta crece, pero la mezcla de margen pide más foco comercial",
+          "Centro y Norte concentran el volumen más valioso de la cartera",
+          "La conversación comercial debería arrancar por señales, no por más pantallas",
         ]}
       />
     </div>
@@ -534,7 +534,7 @@ function RankingViewMobile() {
       <MobilePanel
         eyebrow="Equipo comercial"
         title="Ranking resumido para celular"
-        description="Los primeros puestos y la brecha contra objetivo alcanzan para entender si el equipo estÃ¡ empujando bien."
+        description="Los primeros puestos y la brecha contra objetivo alcanzan para entender si el equipo está empujando bien."
       >
         <div className="space-y-4">
           {sellersWithAchievement.slice(0, 3).map((seller, index) => {
@@ -585,9 +585,9 @@ function RankingViewMobile() {
 
       <ExecutiveReading
         insights={[
-          "El top 3 alcanza para ver si el equipo estÃ¡ traccionando o si el resultado depende de pocos nombres",
-          "Cuando dos vendedores quedan debajo del objetivo, la conversaciÃ³n pasa a coaching y seguimiento",
-          "La vista mÃ³vil tiene que ayudar a decidir rÃ¡pido, no a leer una planilla larga",
+          "El top 3 alcanza para ver si el equipo está traccionando o si el resultado depende de pocos nombres",
+          "Cuando dos vendedores quedan debajo del objetivo, la conversación pasa a coaching y seguimiento",
+          "La vista móvil tiene que ayudar a decidir rápido, no a leer una planilla larga",
         ]}
       />
     </div>
@@ -694,7 +694,7 @@ function VendedoresViewMobile() {
 
       <MobilePanel
         eyebrow="Cartera priorizada"
-        title="QuÃ© cuentas conviene mover primero"
+        title="Qué cuentas conviene mover primero"
         description="En celular alcanza con ver las cuentas de mayor oportunidad y la brecha de portafolio."
       >
         <div className="space-y-4">
@@ -733,7 +733,7 @@ function VendedoresViewMobile() {
                 </div>
 
                 <div>
-                  <div className="mb-1 text-xs text-muted-foreground">No compra aÃºn</div>
+                  <div className="mb-1 text-xs text-muted-foreground">No compra aún</div>
                   <div className="flex flex-wrap gap-1">
                     {client.doesntBuy.map((item) => (
                       <span key={item} className="rounded-full bg-[#F3F1EE] px-2 py-0.5 text-xs text-[#6E6A7A]">
@@ -755,9 +755,9 @@ function VendedoresViewMobile() {
 
       <ExecutiveReading
         insights={[
-          "No hace falta abrir toda la cartera para detectar dÃ³nde hay cross-sell claro",
-          "La vista mÃ³vil deberÃ­a mostrar pocas cuentas, pero las correctas",
-          "El siguiente paso ideal desde acÃ¡ es conversaciÃ³n comercial o diagnÃ³stico, no mÃ¡s scroll",
+          "No hace falta abrir toda la cartera para detectar dónde hay cross-sell claro",
+          "La vista móvil debería mostrar pocas cuentas, pero las correctas",
+          "El siguiente paso ideal desde acá es conversación comercial o diagnóstico, no más scroll",
         ]}
       />
     </div>
