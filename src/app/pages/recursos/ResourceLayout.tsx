@@ -1,6 +1,6 @@
 import { BarChart3, ArrowLeft, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
-import { CONTACT_EMAIL, DEMO_PAGE_HREF, ROOT_DIAGNOSTIC_SECTION_HREF } from "../../lib/contact";
+import { CONTACT_EMAIL, QUOTE_PAGE_HREF, ROOT_DIAGNOSTIC_SECTION_HREF } from "../../lib/contact";
 
 interface ResourceLayoutProps {
   children: React.ReactNode;
@@ -22,10 +22,10 @@ export function ResourceLayout({ children }: ResourceLayoutProps) {
 
           <div className="flex w-full flex-wrap items-center gap-1 sm:w-auto sm:justify-end">
             <Link
-              to={DEMO_PAGE_HREF}
+              to={QUOTE_PAGE_HREF}
               className="rounded-lg px-2.5 py-1.5 text-[13px] text-muted-foreground transition-colors hover:bg-accent/5 hover:text-accent sm:px-3 sm:text-sm"
             >
-              Demo
+              Cotizar
             </Link>
             <a
               href={ROOT_DIAGNOSTIC_SECTION_HREF}
@@ -67,10 +67,10 @@ export function ResourceLayout({ children }: ResourceLayoutProps) {
                 Inicio
               </Link>
               <Link
-                to={DEMO_PAGE_HREF}
+                to={QUOTE_PAGE_HREF}
                 className="text-sm text-muted-foreground transition-colors hover:text-accent"
               >
-                Demo
+                Cotizar
               </Link>
               <a
                 href={ROOT_DIAGNOSTIC_SECTION_HREF}

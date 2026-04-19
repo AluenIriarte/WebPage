@@ -1,7 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import { AutoDiagnostico } from "./pages/AutoDiagnostico";
 import { DashboardVentasPowerBi } from "./pages/DashboardVentasPowerBi";
-import { DemoDashboard } from "./pages/DemoDashboard";
 import { GraciasAutoDiagnostico } from "./pages/GraciasAutoDiagnostico";
 import { GraciasPresupuestoDashboard } from "./pages/GraciasPresupuestoDashboard";
 import { Home } from "./pages/Home";
@@ -34,10 +33,6 @@ export const router = createBrowserRouter([
       {
         path: "dashboard-de-ventas-power-bi",
         Component: DashboardVentasPowerBi,
-      },
-      {
-        path: "demo-dashboard",
-        Component: DemoDashboard,
       },
       {
         path: "auto-diagnostico",

@@ -158,7 +158,7 @@ export function RecursosHub() {
         <div className="mx-auto max-w-3xl px-6">
           <CommercialCta
             title="Si alguno de estos recursos ya te hizo sentido, el siguiente paso es verlo aplicado."
-            description="Podés pasar por una demo real, bajar tu caso a diagnóstico o escribir por LinkedIn si preferís un contacto más simple."
+            description="Podés agendar una reunión breve, pedir una cotización o escribir por LinkedIn si preferís un contacto más simple."
           />
         </div>
       </section>

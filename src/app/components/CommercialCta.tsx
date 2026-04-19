@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import { DEMO_PAGE_HREF, ROOT_DIAGNOSTIC_SECTION_HREF } from "../lib/contact";
+import { CALENDLY_URL, QUOTE_PAGE_HREF } from "../lib/contact";
+import { trackCalendlyClick, trackDiagnosisClick, trackQuoteClick } from "../lib/analytics";
 
 const LINKEDIN_URL = "https://www.linkedin.com/in/alan-leonel-perez-argentina/?skipRedirect=true";
 
@@ -20,20 +21,25 @@ export function CommercialCta({ title, description }: CommercialCtaProps) {
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">{description}</p>
 
       <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-        <Link
-          to={DEMO_PAGE_HREF}
+        <a
+          href={CALENDLY_URL}
+          onClick={() => {
+            trackDiagnosisClick("commercial_cta_primary");
+            trackCalendlyClick("commercial_cta_primary");
+          }}
           className="group inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-colors hover:bg-accent"
         >
-          Ver demo
+          Agendar reunión
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-        </Link>
+        </a>
 
-        <a
-          href={ROOT_DIAGNOSTIC_SECTION_HREF}
+        <Link
+          to={QUOTE_PAGE_HREF}
+          onClick={() => trackQuoteClick("commercial_cta_secondary")}
           className="inline-flex items-center justify-center rounded-full border border-border px-6 py-3 text-sm font-medium text-foreground transition-colors hover:border-accent/35 hover:text-accent"
         >
-          Agendar diagnóstico
-        </a>
+          Cotizar
+        </Link>
       </div>
 
       <p className="mt-4 text-sm text-muted-foreground">

@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { motion } from "motion/react";
 import { ArrowRight, ClipboardCheck } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
-import { DEMO_PAGE_HREF } from "../lib/contact";
+import { CALENDLY_URL } from "../lib/contact";
+import { trackCalendlyClick, trackDiagnosisClick } from "../lib/analytics";
 
 type RequestState = {
   nombre?: string;
@@ -77,17 +78,21 @@ export function GraciasAutoDiagnostico() {
                 </p>
 
                 <p className="mt-3 max-w-2xl text-base leading-relaxed text-foreground/70">
-                  Mientras tanto, si querés ver un ejemplo concreto antes de hablar, mirá la demo.
+                  Mientras tanto, si querés revisar cómo llevarlo a tu caso, agendemos una reunión breve.
                 </p>
 
                 <div className="mt-8">
-                  <Link
-                    to={DEMO_PAGE_HREF}
+                  <a
+                    href={CALENDLY_URL}
+                    onClick={() => {
+                      trackDiagnosisClick("thankyou_autodiagnostic");
+                      trackCalendlyClick("thankyou_autodiagnostic");
+                    }}
                     className="group inline-flex items-center gap-2 rounded-full bg-foreground px-7 py-3.5 text-sm font-medium text-background transition-colors hover:bg-accent"
                   >
-                    Ver demo
+                    Agendar reunión
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </Link>
+                  </a>
                 </div>
               </div>
             </motion.div>

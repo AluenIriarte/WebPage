@@ -38,7 +38,7 @@ function getResult(score: number, maxScore: number) {
       title: "Ya hay base para operar con criterio",
       description:
         "No parece faltar todo. Lo más probable es que convenga ordenar foco, elevar algunas señales y refinar el sistema.",
-      recommendation: "El mejor siguiente paso suele ser revisar servicios o ver una demo más completa.",
+      recommendation: "El mejor siguiente paso suele ser revisar servicios o pedir una cotización con alcance concreto.",
     };
   }
 
@@ -50,7 +50,7 @@ function getResult(score: number, maxScore: number) {
       description:
         "Seguramente ya existen datos y reportes, pero todavía no están traducidos a prioridades claras para el equipo comercial.",
       recommendation:
-        "Acá conviene ver demo o pedir un diagnóstico para detectar qué señal vale atacar primero.",
+        "Acá conviene pedir un diagnóstico breve para detectar qué señal vale atacar primero.",
     };
   }
 
@@ -119,7 +119,7 @@ export function AutoDiagnostico() {
                   </p>
                   <p className="max-w-3xl text-base leading-relaxed text-foreground/70">
                     No reemplaza un diagnóstico, pero sí te deja una primera lectura seria para
-                    elegir mejor si te conviene ver demo, servicios, presupuesto o una conversación.
+                    elegir mejor si te conviene revisar servicios, pedir presupuesto o una conversación.
                   </p>
                 </div>
 
@@ -260,7 +260,7 @@ export function AutoDiagnostico() {
                     Elegí el siguiente paso según tu punto de partida
                   </h2>
                   <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/70">
-                    Si todavía estás comparando, servicios y demo te ordenan. Si ya sabés que querés
+                    Si todavía estás comparando, la página de servicios te ordena. Si ya sabés que querés
                     resolver, presupuesto o diagnóstico te llevan más directo.
                   </p>
                 </div>

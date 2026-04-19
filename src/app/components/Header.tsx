@@ -11,7 +11,6 @@ import {
   BookOpen,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { DEMO_PAGE_HREF } from "../lib/contact";
 
 const recursos = [
   {
@@ -60,9 +59,7 @@ export function Header({ variant = "default" }: HeaderProps) {
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const location = useLocation();
   const isConversion = variant === "conversion";
-  const isDemoConversion = isConversion && location.pathname === "/demo-dashboard";
-  const isDemoPage = location.pathname === DEMO_PAGE_HREF;
-  const disableEntranceMotion = isDemoConversion || isDemoPage;
+  const disableEntranceMotion = isConversion;
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -117,7 +114,7 @@ export function Header({ variant = "default" }: HeaderProps) {
   return (
     <motion.header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isDemoConversion || isDemoPage
+        isConversion
           ? "border-b border-border/50 bg-[rgba(243,241,238,0.88)] backdrop-blur-xl"
           : isScrolled
             ? "bg-white/80 backdrop-blur-xl shadow-sm"
@@ -136,7 +133,7 @@ export function Header({ variant = "default" }: HeaderProps) {
               </span>
             </a>
 
-            {isDemoConversion && (
+            {isConversion && (
               <a
                 href={homeHref("#home")}
                 className="hidden md:inline-flex text-sm font-medium text-muted-foreground/70 transition-colors hover:text-foreground"
@@ -163,20 +160,6 @@ export function Header({ variant = "default" }: HeaderProps) {
                 {processItem.label}
                 <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-accent transition-all duration-300 group-hover:w-full" />
               </a>
-
-              <Link
-                to={DEMO_PAGE_HREF}
-                className={`group relative text-sm font-medium transition-colors ${
-                  isDemoPage ? "text-accent" : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                Ver demo
-                <span
-                  className={`absolute -bottom-1 left-0 h-0.5 bg-accent transition-all duration-300 ${
-                    isDemoPage ? "w-full" : "w-0 group-hover:w-full"
-                  }`}
-                />
-              </Link>
 
               <div
                 ref={dropdownRef}
@@ -330,16 +313,6 @@ export function Header({ variant = "default" }: HeaderProps) {
                 >
                   {processItem.label}
                 </a>
-
-                <Link
-                  to={DEMO_PAGE_HREF}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`block rounded-lg px-3 py-2.5 text-base font-medium transition-colors hover:bg-accent/5 ${
-                    isDemoPage ? "text-accent" : "text-foreground hover:text-accent"
-                  }`}
-                >
-                  Ver demo
-                </Link>
 
                 <div>
                   <button

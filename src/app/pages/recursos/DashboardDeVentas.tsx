@@ -290,7 +290,7 @@ export function DashboardDeVentas() {
               </div>
               <CommercialCta
                 title={"¿Necesitás un dashboard de ventas para tu empresa?"}
-                description={"Podés ver una demo real, bajar tu caso a diagnóstico o escribir por LinkedIn si preferís un contacto más simple."}
+                description={"Podés agendar una reunión breve, pedir una cotización o escribir por LinkedIn si preferís un contacto más simple."}
               />
             </motion.article>
 

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { motion } from "motion/react";
-import { ArrowRight, Download, FileText, LineChart, Radar, Users } from "lucide-react";
+import { Download, FileText, LineChart, Radar, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import leadmagnet5PalancasCover from "../../../../assets/leadmagnets/5 palancas/Page01Cover.png";
 import leadmagnet5PalancasPage02 from "../../../../assets/leadmagnets/5 palancas/Page02Thesis.png";
@@ -8,7 +8,8 @@ import leadmagnet5PalancasPage04 from "../../../../assets/leadmagnets/5 palancas
 import leadmagnet5PalancasPage10 from "../../../../assets/leadmagnets/5 palancas/Page10Checklist.png";
 import leadmagnet5PalancasPdf from "../../../../assets/leadmagnets/5 palancas/5 palancas comerciales.pdf";
 import { ResourceLayout } from "./ResourceLayout";
-import { DEMO_PAGE_HREF, ROOT_DIAGNOSTIC_SECTION_HREF } from "../../lib/contact";
+import { CALENDLY_URL, QUOTE_PAGE_HREF } from "../../lib/contact";
+import { trackCalendlyClick, trackDiagnosisClick, trackQuoteClick } from "../../lib/analytics";
 
 const signals = [
   {
@@ -90,10 +91,11 @@ export function AutoevaluacionEjecutiva() {
                   <Download className="h-4 w-4" />
                 </a>
                 <Link
-                  to={DEMO_PAGE_HREF}
+                  to={QUOTE_PAGE_HREF}
+                  onClick={() => trackQuoteClick("executive_assessment_hero")}
                   className="inline-flex items-center justify-center rounded-full border border-border bg-white px-7 py-3.5 text-sm font-medium text-foreground transition-colors hover:border-accent/35 hover:text-accent"
                 >
-                  Ver demo completa
+                  Cotizar proyecto
                 </Link>
               </div>
             </div>
@@ -171,23 +173,28 @@ export function AutoevaluacionEjecutiva() {
                   Si esto te resonó, el paso siguiente no es mirar más datos.
                 </h2>
                 <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/70">
-                  El siguiente paso es construir una capa de visibilidad útil para decidir mejor: demo si querés ver algo tangible, o diagnóstico si querés revisar tu caso real.
+                  El siguiente paso es construir una capa de visibilidad útil para decidir mejor: cotización si ya tenés alcance, o reunión breve si querés revisar tu caso real.
                 </p>
               </div>
 
               <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
-                <Link
-                  to={DEMO_PAGE_HREF}
+                <a
+                  href={CALENDLY_URL}
+                  onClick={() => {
+                    trackDiagnosisClick("executive_assessment_final");
+                    trackCalendlyClick("executive_assessment_final");
+                  }}
                   className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-accent hover:text-white"
                 >
-                  Ver demo completa
-                </Link>
-                <a
-                  href={ROOT_DIAGNOSTIC_SECTION_HREF}
+                  Agendar reunión
+                </a>
+                <Link
+                  to={QUOTE_PAGE_HREF}
+                  onClick={() => trackQuoteClick("executive_assessment_final")}
                   className="inline-flex items-center justify-center rounded-full border border-white/15 px-6 py-3 text-sm font-medium text-white/80 transition-colors hover:border-white/30 hover:text-white"
                 >
-                  Solicitar diagnóstico
-                </a>
+                  Cotizar
+                </Link>
               </div>
             </div>
           </motion.section>

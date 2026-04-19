@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, BarChart3, TrendingUp, Users } from "lucide-react";
-import { CALENDLY_URL, DEMO_PAGE_HREF } from "../lib/contact";
-import { trackDiagnosisClick, trackEvent } from "../lib/analytics";
+import { buildQuotePageHref, CALENDLY_URL } from "../lib/contact";
+import { trackCalendlyClick, trackDiagnosisClick, trackQuoteClick } from "../lib/analytics";
 import { InteractiveDashboard } from "./HeroDashboard";
+
+const DASHBOARD_PRODUCT = "Dashboard de ventas / BI comercial a medida";
 
 export function Hero() {
   return (
@@ -43,19 +45,22 @@ export function Hero() {
               <div className="flex flex-col gap-4 sm:flex-row">
                 <a
                   href={CALENDLY_URL}
-                  onClick={() => trackDiagnosisClick("hero")}
+                  onClick={() => {
+                    trackDiagnosisClick("hero");
+                    trackCalendlyClick("hero");
+                  }}
                   className="group inline-flex items-center justify-center rounded-full bg-accent px-8 py-4 text-base font-medium text-accent-foreground transition-all duration-300 hover:scale-[1.02] hover:bg-accent/90 hover:shadow-xl hover:shadow-accent/25"
                 >
-                  {"Agendar diagn\u00f3stico"}
+                  {"Agendar reuni\u00f3n"}
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </a>
 
                 <Link
-                  to={DEMO_PAGE_HREF}
-                  onClick={() => trackEvent("demo_click", { source: "hero" })}
+                  to={buildQuotePageHref(DASHBOARD_PRODUCT)}
+                  onClick={() => trackQuoteClick("hero", DASHBOARD_PRODUCT)}
                   className="group inline-flex items-center justify-center rounded-full border border-border bg-white px-8 py-4 text-base font-medium text-foreground transition-all duration-300 hover:border-accent/40 hover:bg-accent/5 hover:text-accent"
                 >
-                  {"Ver demo"}
+                  {"Cotizar"}
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </Link>
               </div>
@@ -92,17 +97,6 @@ export function Hero() {
             </div>
 
             <InteractiveDashboard variant="mini" animated={false} />
-
-            <div className="mt-4 flex justify-center lg:hidden">
-              <Link
-                to={DEMO_PAGE_HREF}
-                onClick={() => trackEvent("demo_click", { source: "hero_preview_mobile" })}
-                className="group inline-flex items-center justify-center rounded-full border border-accent/18 bg-white px-5 py-2.5 text-sm font-medium text-foreground transition-all duration-200 hover:border-accent/35 hover:text-accent"
-              >
-                Ver demo completa
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </div>
           </div>
         </div>
       </div>

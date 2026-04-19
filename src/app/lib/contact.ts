@@ -4,7 +4,6 @@ export const DIAGNOSTIC_SECTION_HREF = "#contacto";
 export const ROOT_DIAGNOSTIC_SECTION_HREF = "/#contacto";
 export const SERVICES_PAGE_HREF = "/servicios";
 export const QUOTE_PAGE_HREF = "/presupuesto-dashboard";
-export const DEMO_PAGE_HREF = "/demo-dashboard";
 export const AUTO_DIAGNOSTIC_PAGE_HREF = "/auto-diagnostico";
 export const AUTO_DIAGNOSTIC_THANKYOU_HREF = "/gracias/auto-diagnostico";
 export const QUOTE_THANKYOU_HREF = "/gracias/presupuesto-dashboard";
