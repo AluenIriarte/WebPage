@@ -1,10 +1,7 @@
-import { Link } from "react-router-dom";
 import { ArrowRight, BarChart3, TrendingUp, Users } from "lucide-react";
-import { buildQuotePageHref, CALENDLY_URL } from "../lib/contact";
-import { trackCalendlyClick, trackDiagnosisClick, trackQuoteClick } from "../lib/analytics";
+import { DIAGNOSTIC_SECTION_HREF } from "../lib/contact";
+import { trackEvent } from "../lib/analytics";
 import { InteractiveDashboard } from "./HeroDashboard";
-
-const DASHBOARD_PRODUCT = "Dashboard de ventas / BI comercial a medida";
 
 export function Hero() {
   return (
@@ -44,25 +41,22 @@ export function Hero() {
             <div className="space-y-3">
               <div className="flex flex-col gap-4 sm:flex-row">
                 <a
-                  href={CALENDLY_URL}
-                  onClick={() => {
-                    trackDiagnosisClick("hero");
-                    trackCalendlyClick("hero");
-                  }}
+                  href={DIAGNOSTIC_SECTION_HREF}
+                  onClick={() => trackEvent("hero_path_click", { path: "meeting" })}
                   className="group inline-flex items-center justify-center rounded-full bg-accent px-8 py-4 text-base font-medium text-accent-foreground transition-all duration-300 hover:scale-[1.02] hover:bg-accent/90 hover:shadow-xl hover:shadow-accent/25"
                 >
                   {"Agendar reuni\u00f3n"}
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </a>
 
-                <Link
-                  to={buildQuotePageHref(DASHBOARD_PRODUCT)}
-                  onClick={() => trackQuoteClick("hero", DASHBOARD_PRODUCT)}
+                <a
+                  href={DIAGNOSTIC_SECTION_HREF}
+                  onClick={() => trackEvent("hero_path_click", { path: "quote" })}
                   className="group inline-flex items-center justify-center rounded-full border border-border bg-white px-8 py-4 text-base font-medium text-foreground transition-all duration-300 hover:border-accent/40 hover:bg-accent/5 hover:text-accent"
                 >
                   {"Cotizar"}
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                </Link>
+                </a>
               </div>
 
               <div className="flex flex-wrap items-center gap-x-4 gap-y-2 pl-1 pt-1">

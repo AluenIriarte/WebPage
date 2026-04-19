@@ -34,6 +34,18 @@ export function Home() {
     return () => window.clearTimeout(timeoutId);
   }, [location.hash, showBelowFold]);
 
+  useEffect(() => {
+    if (!showBelowFold || !location.hash) {
+      return;
+    }
+
+    const frameId = window.requestAnimationFrame(() => {
+      document.querySelector(location.hash)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    return () => window.cancelAnimationFrame(frameId);
+  }, [location.hash, showBelowFold]);
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
