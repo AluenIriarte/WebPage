@@ -1,5 +1,6 @@
 export const CALENDLY_URL = "https://calendly.com/alanlperez1996/15";
 export const CONTACT_EMAIL = "contacto@alanlperez.com";
+export const PROBLEM_SECTION_HREF = "#problema";
 export const DIAGNOSTIC_SECTION_HREF = "#contacto";
 export const ROOT_DIAGNOSTIC_SECTION_HREF = "/#contacto";
 export const SERVICES_PAGE_HREF = "/servicios";

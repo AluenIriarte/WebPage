@@ -1,5 +1,5 @@
 import { ArrowRight, BarChart3, TrendingUp, Users } from "lucide-react";
-import { DIAGNOSTIC_SECTION_HREF } from "../lib/contact";
+import { DIAGNOSTIC_SECTION_HREF, PROBLEM_SECTION_HREF } from "../lib/contact";
 import { trackEvent } from "../lib/analytics";
 import { InteractiveDashboard } from "./HeroDashboard";
 
@@ -41,20 +41,20 @@ export function Hero() {
             <div className="space-y-3">
               <div className="flex flex-col gap-4 sm:flex-row">
                 <a
-                  href={DIAGNOSTIC_SECTION_HREF}
-                  onClick={() => trackEvent("hero_path_click", { path: "meeting" })}
+                  href={PROBLEM_SECTION_HREF}
+                  onClick={() => trackEvent("hero_path_click", { path: "problem" })}
                   className="group inline-flex items-center justify-center rounded-full bg-accent px-8 py-4 text-base font-medium text-accent-foreground transition-all duration-300 hover:scale-[1.02] hover:bg-accent/90 hover:shadow-xl hover:shadow-accent/25"
                 >
-                  {"Agendar reuni\u00f3n"}
+                  {"Ver el problema real"}
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </a>
 
                 <a
                   href={DIAGNOSTIC_SECTION_HREF}
-                  onClick={() => trackEvent("hero_path_click", { path: "quote" })}
+                  onClick={() => trackEvent("hero_path_click", { path: "contact" })}
                   className="group inline-flex items-center justify-center rounded-full border border-border bg-white px-8 py-4 text-base font-medium text-foreground transition-all duration-300 hover:border-accent/40 hover:bg-accent/5 hover:text-accent"
                 >
-                  {"Cotizar"}
+                  {"Ir a contacto"}
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </a>
               </div>
