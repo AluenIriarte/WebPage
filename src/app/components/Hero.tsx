@@ -74,7 +74,7 @@ export function Hero() {
             </div>
           </div>
 
-          <div id="demo" className="relative mt-4 scroll-mt-28 px-4 lg:mt-0 lg:px-0">
+          <div id="demo" className="relative mt-6 scroll-mt-36 px-4 pt-3 lg:mt-0 lg:px-0 lg:pt-0">
             <div className="mb-5 flex flex-wrap gap-2 lg:hidden">
               {[
                 { color: "bg-rose-50 border-rose-100 text-rose-700", text: "12 cuentas en riesgo" },

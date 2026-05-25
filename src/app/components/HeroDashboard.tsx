@@ -1,13 +1,14 @@
 import { useId, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { AlertTriangle, ArrowUpRight, Target, TrendingDown, Users, type LucideIcon } from "lucide-react";
-import { Area, AreaChart, CartesianGrid, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Area, CartesianGrid, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 type Period = "weekly" | "monthly" | "quarterly";
 
 type SignalMetric = {
   label: string;
   value: string;
+  valueSuffix?: string;
   detail: string;
   tone: "rose" | "violet" | "amber" | "emerald";
   icon: LucideIcon;
@@ -24,21 +25,24 @@ const dashboardData: Record<
     metrics: [
       {
         label: "Clientes en riesgo",
-        value: "4 cuentas",
+        value: "4",
+        valueSuffix: "cuentas",
         detail: "sin actividad por más de 90 días",
         tone: "rose",
         icon: Users,
       },
       {
         label: "Vendedores bajo objetivo",
-        value: "1 zona",
+        value: "1",
+        valueSuffix: "zona",
         detail: "desvío crítico",
         tone: "violet",
         icon: Target,
       },
       {
         label: "Margen erosionado",
-        value: "-1.2 pts",
+        value: "-1.2",
+        valueSuffix: "pts",
         detail: "vs semana anterior",
         tone: "amber",
         icon: TrendingDown,
@@ -65,21 +69,24 @@ const dashboardData: Record<
     metrics: [
       {
         label: "Clientes en riesgo",
-        value: "9 cuentas",
+        value: "9",
+        valueSuffix: "cuentas",
         detail: "sin actividad por más de 90 días",
         tone: "rose",
         icon: Users,
       },
       {
         label: "Vendedores bajo objetivo",
-        value: "2 zonas",
+        value: "2",
+        valueSuffix: "zonas",
         detail: "desvío crítico",
         tone: "violet",
         icon: Target,
       },
       {
         label: "Margen erosionado",
-        value: "-2.8 pts",
+        value: "-2.8",
+        valueSuffix: "pts",
         detail: "vs mes anterior",
         tone: "amber",
         icon: TrendingDown,
@@ -103,21 +110,24 @@ const dashboardData: Record<
     metrics: [
       {
         label: "Clientes en riesgo",
-        value: "12 cuentas",
+        value: "12",
+        valueSuffix: "cuentas",
         detail: "sin actividad por más de 90 días",
         tone: "rose",
         icon: Users,
       },
       {
         label: "Vendedores bajo objetivo",
-        value: "3 zonas",
+        value: "3",
+        valueSuffix: "zonas",
         detail: "desvío crítico",
         tone: "violet",
         icon: Target,
       },
       {
         label: "Margen erosionado",
-        value: "-4 pts",
+        value: "-4",
+        valueSuffix: "pts",
         detail: "vs trimestre anterior",
         tone: "amber",
         icon: TrendingDown,
@@ -131,9 +141,9 @@ const dashboardData: Record<
       },
     ],
     chart: [
-      { name: "Ene", ventas: 66, margen: 36, senales: 3 },
+      { name: "Ene", ventas: 66, margen: 36, senales: 4 },
       { name: "Feb", ventas: 74, margen: 33, senales: 5 },
-      { name: "Mar", ventas: 82, margen: 32, senales: 6 },
+      { name: "Mar", ventas: 82, margen: 32, senales: 7 },
     ],
   },
 };
@@ -231,17 +241,26 @@ function SignalMetricCard({
       initial={animated ? { opacity: 0, y: 14 } : undefined}
       animate={animated ? { opacity: 1, y: 0 } : undefined}
       transition={animated ? { delay: index * 0.07, duration: 0.3, ease: "easeOut" } : undefined}
-      className={`rounded-2xl border p-4 ${styles.card}`}
+      className={`rounded-2xl border p-3.5 sm:p-4 ${styles.card}`}
     >
       <div className="mb-4 flex items-center gap-3">
         <div className={`flex h-9 w-9 items-center justify-center rounded-xl ${styles.icon}`}>
           <Icon className="h-[18px] w-[18px]" />
         </div>
-        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-foreground/55">{card.label}</p>
+        <p className="text-[10px] font-semibold uppercase leading-snug tracking-[0.09em] text-foreground/55 sm:text-[11px] sm:tracking-[0.14em]">
+          {card.label}
+        </p>
       </div>
-      <div className={`text-[1.55rem] font-semibold tracking-tight ${styles.value}`}>
-        <AnimatedValue value={card.value} animated={animated} />
+
+      <div className={`flex items-end gap-1 ${styles.value}`}>
+        <div className="text-[1.95rem] font-semibold leading-none tracking-tight sm:text-[1.55rem]">
+          <AnimatedValue value={card.value} animated={animated} />
+        </div>
+        {card.valueSuffix ? (
+          <span className="pb-0.5 text-[0.95rem] font-medium sm:text-[0.88rem]">{card.valueSuffix}</span>
+        ) : null}
       </div>
+
       <p className={`mt-1 text-[11px] leading-relaxed ${styles.detail}`}>{card.detail}</p>
     </motion.div>
   );
@@ -262,7 +281,7 @@ export function InteractiveDashboard({
   const data = dashboardData[period];
   const uid = useId().replace(/:/g, "");
   const isMini = variant === "mini";
-  const chartHeight = isMini ? 146 : 188;
+  const chartHeight = isMini ? 172 : 196;
 
   const periods: Period[] = ["weekly", "monthly", "quarterly"];
   const periodLabels: Record<Period, string> = {
@@ -333,20 +352,21 @@ export function InteractiveDashboard({
           ))}
         </div>
 
-        <div className={isMini ? "px-3 pb-3 pt-2" : "px-4 pb-2 pt-5"}>
+        <div className={isMini ? "px-3 pb-4 pt-2" : "px-4 pb-2 pt-5"}>
           <div className={`${isMini ? "px-3 pb-3" : "px-2 pb-3"} flex items-center justify-between`}>
             <p className="text-[11px] font-semibold text-foreground/72">Evolución de ventas y margen</p>
             <span className="rounded-full border border-border/60 bg-white px-3 py-1 text-[10px] font-medium text-muted-foreground">
               {periodLabels[period]}
             </span>
           </div>
+
           <div style={{ height: chartHeight }}>
             <ResponsiveContainer width="100%" height={chartHeight}>
-              <AreaChart data={data.chart} margin={{ top: 4, right: 8, left: -24, bottom: 0 }}>
+              <ComposedChart data={data.chart} margin={{ top: 8, right: 10, left: -18, bottom: 4 }}>
                 <defs>
                   <linearGradient id={gradientVentas} x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#8B5CF6" stopOpacity={0.35} />
-                    <stop offset="100%" stopColor="#8B5CF6" stopOpacity={0} />
+                    <stop offset="0%" stopColor="#8B5CF6" stopOpacity={0.18} />
+                    <stop offset="100%" stopColor="#8B5CF6" stopOpacity={0.02} />
                   </linearGradient>
                 </defs>
 
@@ -356,15 +376,18 @@ export function InteractiveDashboard({
                   tick={{ fontSize: 9, fill: "#9ca3af", fontWeight: 500 }}
                   axisLine={false}
                   tickLine={false}
+                  tickMargin={8}
+                  minTickGap={8}
                 />
                 <YAxis
                   yAxisId="performance"
+                  domain={[0, 90]}
                   tick={{ fontSize: 9, fill: "#9ca3af" }}
                   axisLine={false}
                   tickLine={false}
                   width={24}
                 />
-                <YAxis yAxisId="signals" orientation="right" hide domain={[0, "dataMax + 1"]} />
+                <YAxis yAxisId="signals" orientation="right" hide domain={[0, 8]} />
                 <Tooltip
                   content={<CustomTooltip />}
                   cursor={{
@@ -380,7 +403,7 @@ export function InteractiveDashboard({
                   dataKey="ventas"
                   yAxisId="performance"
                   stroke="#8B5CF6"
-                  strokeWidth={2}
+                  strokeWidth={2.25}
                   fill={`url(#${gradientVentas})`}
                   dot={false}
                   activeDot={{ r: 3.5, fill: "#8B5CF6", strokeWidth: 2, stroke: "#fff" }}
@@ -394,8 +417,8 @@ export function InteractiveDashboard({
                   dataKey="margen"
                   yAxisId="performance"
                   stroke="#F59E0B"
-                  strokeWidth={2}
-                  dot={false}
+                  strokeWidth={2.35}
+                  dot={{ r: 2.75, fill: "#F59E0B", strokeWidth: 0 }}
                   activeDot={{ r: 3.5, fill: "#F59E0B", strokeWidth: 2, stroke: "#fff" }}
                   isAnimationActive={animated}
                   animationDuration={animated ? 700 : 0}
@@ -407,28 +430,28 @@ export function InteractiveDashboard({
                   dataKey="senales"
                   yAxisId="signals"
                   stroke="#FB7185"
-                  strokeWidth={2}
-                  dot={{ r: 2.5, fill: "#FB7185", strokeWidth: 0 }}
+                  strokeWidth={2.35}
+                  dot={{ r: 2.75, fill: "#FB7185", strokeWidth: 0 }}
                   activeDot={{ r: 4, fill: "#FB7185", strokeWidth: 2, stroke: "#fff" }}
                   isAnimationActive={animated}
                   animationDuration={animated ? 700 : 0}
                   animationEasing="ease-out"
                 />
-              </AreaChart>
+              </ComposedChart>
             </ResponsiveContainer>
           </div>
 
-          <div className={`${isMini ? "px-3 pb-2" : "px-2 pb-3"} flex flex-wrap gap-x-4 gap-y-2`}>
+          <div className={`${isMini ? "px-3 pb-1 pt-2" : "px-2 pb-3"} flex flex-wrap gap-x-4 gap-y-2`}>
             <div className="flex items-center gap-1.5">
-              <div className="h-0.5 w-4 rounded-full bg-[#8B5CF6]" />
+              <div className="h-[2px] w-4 rounded-full bg-[#8B5CF6]" />
               <span className="text-[9px] font-medium text-muted-foreground">Ventas</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="h-0.5 w-4 rounded-full bg-amber-500" />
+              <div className="h-[2px] w-4 rounded-full bg-amber-500" />
               <span className="text-[9px] font-medium text-muted-foreground">Margen</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="h-0.5 w-4 rounded-full bg-rose-400" />
+              <div className="h-[2px] w-4 rounded-full bg-rose-400" />
               <span className="text-[9px] font-medium text-muted-foreground">Señales activas</span>
             </div>
           </div>
