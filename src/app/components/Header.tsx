@@ -11,6 +11,8 @@ import {
   BookOpen,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
+import { trackCalendlyClick, trackDiagnosisClick } from "../lib/analytics";
+import { CALENDLY_URL } from "../lib/contact";
 
 const recursos = [
   {
@@ -99,17 +101,21 @@ export function Header({ variant = "default" }: HeaderProps) {
     timeoutRef.current = setTimeout(() => setIsRecursosOpen(false), 120);
   };
 
+  const trackHeaderDiagnosis = (source: string) => {
+    trackDiagnosisClick(source);
+    trackCalendlyClick(source);
+  };
+
   const homeHref = (hash: string) => (location.pathname === "/" ? hash : `/${hash}`);
   const brandHref = homeHref("#home");
-
-  const navItems = [
-    { label: "Qu\u00e9 resuelvo", href: homeHref("#problema") },
-    { label: "C\u00f3mo trabajo", href: homeHref("#proceso") },
-    { label: "FAQ", href: homeHref("#faq") },
-    { label: "Ir a contacto", href: homeHref("#contacto") },
-  ];
-  const [opportunitiesItem, processItem, faqItem, contactItem] = navItems;
-  const primaryCtaItem = { label: contactItem.label, mobileLabel: "Contacto", href: contactItem.href };
+  const opportunitiesHref = homeHref("#problema");
+  const processHref = homeHref("#como-funciona");
+  const faqHref = homeHref("#faq");
+  const primaryCtaItem = {
+    label: "Solicitar diagnóstico",
+    mobileLabel: "Diagnóstico",
+    href: CALENDLY_URL,
+  };
 
   return (
     <motion.header
@@ -146,18 +152,18 @@ export function Header({ variant = "default" }: HeaderProps) {
           {!isConversion && (
             <nav className="hidden items-center space-x-8 md:flex">
               <a
-                href={opportunitiesItem.href}
+                href={opportunitiesHref}
                 className="group relative text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
               >
-                {opportunitiesItem.label}
+                Qué resuelvo
                 <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-accent transition-all duration-300 group-hover:w-full" />
               </a>
 
               <a
-                href={processItem.href}
+                href={processHref}
                 className="group relative text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
               >
-                {processItem.label}
+                Cómo trabajo
                 <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-accent transition-all duration-300 group-hover:w-full" />
               </a>
 
@@ -248,15 +254,16 @@ export function Header({ variant = "default" }: HeaderProps) {
               </div>
 
               <a
-                href={faqItem.href}
+                href={faqHref}
                 className="group relative text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
               >
-                {faqItem.label}
+                FAQ
                 <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-accent transition-all duration-300 group-hover:w-full" />
               </a>
 
               <a
                 href={primaryCtaItem.href}
+                onClick={() => trackHeaderDiagnosis("header_primary")}
                 className="group relative rounded-full border border-accent/15 bg-accent/[0.05] px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:border-accent/25 hover:bg-accent/[0.08] hover:text-accent"
               >
                 {primaryCtaItem.label}
@@ -269,6 +276,7 @@ export function Header({ variant = "default" }: HeaderProps) {
             <div className="flex items-center gap-2 md:hidden">
               <a
                 href={primaryCtaItem.href}
+                onClick={() => trackHeaderDiagnosis("header_mobile_primary")}
                 className="inline-flex min-h-10 items-center justify-center rounded-full border border-accent/15 bg-accent/[0.05] px-3 py-2 text-sm font-medium text-foreground transition-colors hover:border-accent/25 hover:bg-accent/[0.08] hover:text-accent"
               >
                 {primaryCtaItem.mobileLabel}
@@ -283,7 +291,6 @@ export function Header({ variant = "default" }: HeaderProps) {
               </button>
             </div>
           )}
-
         </div>
       </div>
 
@@ -299,19 +306,19 @@ export function Header({ variant = "default" }: HeaderProps) {
             >
               <div className="space-y-1 px-6 py-6">
                 <a
-                  href={opportunitiesItem.href}
+                  href={opportunitiesHref}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="block rounded-lg px-3 py-2.5 text-base font-medium text-foreground transition-colors hover:bg-accent/5 hover:text-accent"
                 >
-                  {opportunitiesItem.label}
+                  Qué resuelvo
                 </a>
 
                 <a
-                  href={processItem.href}
+                  href={processHref}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="block rounded-lg px-3 py-2.5 text-base font-medium text-foreground transition-colors hover:bg-accent/5 hover:text-accent"
                 >
-                  {processItem.label}
+                  Cómo trabajo
                 </a>
 
                 <div>
@@ -365,16 +372,19 @@ export function Header({ variant = "default" }: HeaderProps) {
                 </div>
 
                 <a
-                  href={faqItem.href}
+                  href={faqHref}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="block rounded-lg px-3 py-2.5 text-base font-medium text-foreground transition-colors hover:bg-accent/5 hover:text-accent"
                 >
-                  {faqItem.label}
+                  FAQ
                 </a>
 
                 <a
                   href={primaryCtaItem.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={() => {
+                    trackHeaderDiagnosis("header_mobile_menu_primary");
+                    setIsMobileMenuOpen(false);
+                  }}
                   className="block rounded-full border border-accent/15 bg-accent/[0.05] px-3 py-2.5 text-base font-medium text-foreground transition-colors hover:border-accent/25 hover:bg-accent/[0.08] hover:text-accent"
                 >
                   {primaryCtaItem.label}

@@ -10,9 +10,10 @@ export function Footer() {
     main: [
       { name: "Inicio", href: homeHref("#home"), internal: false },
       { name: "Qué resuelvo", href: homeHref("#problema"), internal: false },
-      { name: "Cómo trabajo", href: homeHref("#proceso"), internal: false },
-      { name: "Pedir presupuesto", href: QUOTE_PAGE_HREF, internal: true },
+      { name: "Cómo trabajo", href: homeHref("#como-funciona"), internal: false },
+      { name: "Solicitar cotización", href: QUOTE_PAGE_HREF, internal: true },
       { name: "Recursos", href: "/recursos", internal: true },
+      { name: "Contacto", href: homeHref("#contacto"), internal: false },
     ],
     social: [
       {
@@ -40,8 +41,8 @@ export function Footer() {
               <span className="text-xl font-semibold text-foreground">Alan L. Perez</span>
             </div>
             <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">
-              Dashboards de ventas, tableros comerciales y sistemas de BI para volver visible dónde
-              se pierde o se gana dinero.
+              Dashboards de ventas, tableros comerciales y sistemas de BI para volver visible dónde se
+              pierden clientes, margen u oportunidades.
             </p>
           </div>
 
@@ -71,7 +72,7 @@ export function Footer() {
                 to={QUOTE_PAGE_HREF}
                 className="block text-sm font-medium text-foreground transition-colors hover:text-accent"
               >
-                Pedir presupuesto
+                Solicitar cotización
               </Link>
               <a
                 href={`mailto:${CONTACT_EMAIL}`}

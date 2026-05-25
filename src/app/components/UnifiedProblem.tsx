@@ -57,13 +57,13 @@ function MetricRow({
       className="space-y-2"
     >
       <div className="flex items-center justify-between">
-        <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wide">{label}</span>
+        <span className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">{label}</span>
         <div className="flex items-center gap-2">
           <Sparkline points={sparkPoints} color={sparkColor} />
           <span className={`text-[13px] font-bold ${valueColor}`}>{value}</span>
         </div>
       </div>
-      <div className="h-1.5 bg-muted/60 rounded-full overflow-hidden">
+      <div className="h-1.5 overflow-hidden rounded-full bg-muted/60">
         <motion.div
           className="h-full rounded-full"
           style={{ backgroundColor: barColor }}
@@ -80,17 +80,17 @@ const signals = [
   {
     icon: Users,
     title: "Clientes que se enfrían",
-    body: "Clientes que dejan de comprar o reducen frecuencia sin que nadie los active a tiempo.",
+    body: "Cuentas que compraban con frecuencia y pasan semanas sin actividad ni seguimiento.",
   },
   {
     icon: TrendingDown,
     title: "Margen que se erosiona",
-    body: "Las ventas siguen, pero cada operación empieza a dejar menos valor.",
+    body: "El volumen sigue, pero la rentabilidad cae por mix, descuentos o clientes menos rentables.",
   },
   {
     icon: Layers,
-    title: "Segmentos con potencial frenado",
-    body: "Hay cuentas, categorías o productos con espacio para crecer que hoy no están siendo activados.",
+    title: "Foco comercial disperso",
+    body: "Hay oportunidades por cliente, producto o zona que nadie está priorizando a tiempo.",
   },
 ];
 
@@ -99,14 +99,14 @@ export function UnifiedProblem() {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section ref={ref} id="problema" className="relative py-20 lg:py-36 bg-white overflow-hidden">
+    <section ref={ref} id="problema" className="relative overflow-hidden bg-white py-20 lg:py-36">
       <div
-        className="absolute top-0 right-0 w-[500px] h-[500px] -z-10 opacity-30 blur-3xl pointer-events-none"
+        className="absolute top-0 right-0 -z-10 h-[500px] w-[500px] opacity-30 blur-3xl pointer-events-none"
         style={{ background: "radial-gradient(ellipse at 80% 20%, rgba(139,92,246,0.08) 0%, transparent 70%)" }}
       />
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="grid items-start gap-16 lg:grid-cols-2 lg:gap-24">
           <motion.div
             initial={{ opacity: 0, x: -24 }}
             animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -24 }}
@@ -114,20 +114,20 @@ export function UnifiedProblem() {
             className="space-y-10"
           >
             <div className="flex items-center gap-3">
-              <div className="h-px w-8 bg-accent/40 rounded-full" />
-              <span className="text-[11px] font-semibold text-accent/70 uppercase tracking-[0.14em]">
+              <div className="h-px w-8 rounded-full bg-accent/40" />
+              <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent/70">
                 El problema real
               </span>
             </div>
 
             <div className="space-y-5">
-              <h2 className="text-[2rem] md:text-[2.4rem] lg:text-[2.6rem] font-semibold leading-[1.13] tracking-tight text-foreground">
-                Podés seguir vendiendo mientras perdés clientes, margen y foco comercial
+              <h2 className="text-[2rem] font-semibold leading-[1.13] tracking-tight text-foreground md:text-[2.4rem] lg:text-[2.6rem]">
+                La facturación puede subir mientras el negocio <span className="text-accent">pierde calidad</span>
               </h2>
-              <p className="text-[1.05rem] text-muted-foreground leading-[1.75] max-w-md">
-                El problema no siempre es la facturación. Muchas veces el deterioro ya empezó, pero
-                todavía no está visible: la cartera se enfría, la rentabilidad cede y el equipo pierde
-                claridad sobre dónde intervenir primero.
+              <p className="max-w-md text-[1.05rem] leading-[1.75] text-muted-foreground">
+                El deterioro comercial no siempre aparece como una caída inmediata en ventas. Muchas veces
+                empieza antes: clientes menos activos, margen más chico, vendedores desviados y
+                oportunidades que nadie activa a tiempo.
               </p>
               <p className="text-sm font-medium text-foreground/60">Eso no suele explotar de golpe. Se acumula.</p>
             </div>
@@ -141,12 +141,12 @@ export function UnifiedProblem() {
                   transition={{ duration: 0.55, delay: 0.25 + index * 0.1, ease: [0.22, 1, 0.36, 1] }}
                   className="flex gap-4"
                 >
-                  <div className="flex-shrink-0 w-9 h-9 rounded-xl bg-accent/8 flex items-center justify-center mt-0.5">
-                    <signal.icon className="w-[18px] h-[18px] text-accent" />
+                  <div className="mt-0.5 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-accent/8">
+                    <signal.icon className="h-[18px] w-[18px] text-accent" />
                   </div>
                   <div>
-                    <p className="text-[0.95rem] font-semibold text-foreground mb-1">{signal.title}</p>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{signal.body}</p>
+                    <p className="mb-1 text-[0.95rem] font-semibold text-foreground">{signal.title}</p>
+                    <p className="text-sm leading-relaxed text-muted-foreground">{signal.body}</p>
                   </div>
                 </motion.div>
               ))}
@@ -156,11 +156,11 @@ export function UnifiedProblem() {
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : { opacity: 0 }}
               transition={{ duration: 0.5, delay: 0.65 }}
-              className="pt-2 border-t border-border/40"
+              className="border-t border-border/40 pt-2"
             >
               <a
-                href="#proceso"
-                className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent/75 transition-colors duration-200 group"
+                href="#como-funciona"
+                className="group inline-flex items-center gap-2 text-sm font-medium text-accent transition-colors duration-200 hover:text-accent/75"
               >
                 Ver cómo lo llevamos a la operación
                 <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
@@ -175,18 +175,18 @@ export function UnifiedProblem() {
             className="relative lg:pt-4"
           >
             <div
-              className="absolute -inset-6 rounded-3xl -z-10 opacity-20 blur-2xl"
+              className="absolute -inset-6 -z-10 rounded-3xl opacity-20 blur-2xl"
               style={{ background: "radial-gradient(ellipse at 50% 50%, rgba(139,92,246,0.25) 0%, transparent 70%)" }}
             />
 
-            <div className="bg-white rounded-2xl border border-border/60 shadow-xl shadow-black/[0.05] overflow-hidden">
-              <div className="px-6 pt-6 pb-5 border-b border-border/40">
-                <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest">
+            <div className="overflow-hidden rounded-2xl border border-border/60 bg-white shadow-xl shadow-black/[0.05]">
+              <div className="border-b border-border/40 px-6 pt-6 pb-5">
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
                   Panorama actual · últimos 6 meses
                 </p>
               </div>
 
-              <div className="px-6 py-6 space-y-6">
+              <div className="space-y-6 px-6 py-6">
                 <MetricRow
                   label="Ventas totales"
                   value="+6%"
@@ -229,15 +229,15 @@ export function UnifiedProblem() {
                 initial={{ opacity: 0, y: 6 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 6 }}
                 transition={{ duration: 0.55, delay: 0.85, ease: [0.22, 1, 0.36, 1] }}
-                className="mx-4 mb-4 px-4 py-3 rounded-xl bg-amber-50/80 border border-amber-200/60 flex items-start gap-3"
+                className="mx-4 mb-4 flex items-start gap-3 rounded-xl border border-amber-200/60 bg-amber-50/80 px-4 py-3"
               >
-                <span className="relative flex-shrink-0 mt-[5px]">
+                <span className="relative mt-[5px] flex-shrink-0">
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-500" />
                 </span>
                 <div>
-                  <p className="text-[11px] font-semibold text-amber-800 leading-tight">Señal detectada</p>
-                  <p className="text-[11px] text-amber-700/80 mt-0.5 leading-snug">
-                    La facturación sube, pero la base activa cae y el margen se achica.
+                  <p className="text-[11px] font-semibold leading-tight text-amber-800">Falso positivo comercial</p>
+                  <p className="mt-0.5 text-[11px] leading-snug text-amber-700/80">
+                    Vendés más, pero con menos clientes activos y menor margen.
                   </p>
                 </div>
               </motion.div>

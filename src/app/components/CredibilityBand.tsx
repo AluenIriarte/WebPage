@@ -2,9 +2,9 @@ import { motion } from "motion/react";
 import { ArrowDown } from "lucide-react";
 
 const stats = [
-  { value: "+3 años", label: "de experiencia aplicada" },
-  { value: "Global", label: "clientes en múltiples mercados" },
-  { value: "B2B", label: "foco en ventas y margen" },
+  { value: "+3 años", label: "experiencia aplicada en BI y automatización" },
+  { value: "30+ proyectos", label: "reporting, dashboards y operación" },
+  { value: "B2B / gestión", label: "foco en ventas, margen y seguimiento" },
 ];
 
 export function CredibilityBand() {
@@ -32,7 +32,7 @@ export function CredibilityBand() {
 
           <a href="#problema" className="group inline-flex flex-col items-center gap-3 text-center">
             <span className="text-sm font-medium tracking-wide text-muted-foreground/60">
-              Ver qué podrías estar perdiendo hoy
+              Ver dónde se esconden hoy las pérdidas comerciales
             </span>
             <motion.div
               animate={{ y: [0, 5, 0] }}
