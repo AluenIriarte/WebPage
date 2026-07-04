@@ -55,6 +55,16 @@ export interface ProcessEvaluationResponse extends ApiResponse {
   requestId: string;
 }
 
+class ApiRequestError extends Error {
+  status: number;
+
+  constructor(message: string, status: number) {
+    super(message);
+    this.name = "ApiRequestError";
+    this.status = status;
+  }
+}
+
 async function postJson<TPayload extends object, TResponse extends ApiResponse = ApiResponse>(
   path: string,
   payload: TPayload,
@@ -75,7 +85,10 @@ async function postJson<TPayload extends object, TResponse extends ApiResponse =
   }
 
   if (!response.ok || !data?.ok) {
-    throw new Error(data?.message || "No se pudo procesar la solicitud.");
+    throw new ApiRequestError(
+      data?.message || "No se pudo procesar la solicitud.",
+      response.status,
+    );
   }
 
   return data as TResponse;
@@ -99,10 +112,34 @@ export async function submitQuoteRequest(payload: QuoteRequestPayload) {
 }
 
 export async function submitProcessEvaluation(payload: ProcessEvaluationPayload) {
-  const response = await postJson<ProcessEvaluationPayload, ProcessEvaluationResponse>(
-    "/process-evaluation",
-    payload,
-  );
+  let response: ProcessEvaluationResponse;
+
+  try {
+    response = await postJson<ProcessEvaluationPayload, ProcessEvaluationResponse>(
+      "/process-evaluation",
+      payload,
+    );
+  } catch (error) {
+    if (!(error instanceof ApiRequestError) || error.status !== 404) {
+      throw error;
+    }
+
+    response = await postJson<QuoteRequestPayload, ProcessEvaluationResponse>(
+      "/quote-request",
+      {
+        nombre: payload.nombre,
+        email: payload.email,
+        empresa: payload.estudio,
+        producto: `IA aplicada: ${payload.proceso}`,
+        rol: payload.rol,
+        objetivo: `Evaluar ${payload.proceso}. Volumen: ${payload.volumen}.`,
+        fuentes: payload.sistemasFormatos,
+        destinatarios: "Equipo del estudio contable",
+        plazo: payload.volumen,
+        desafio: payload.cuelloBotella,
+      },
+    );
+  }
 
   if (!response.requestId) {
     throw new Error("La evaluación se envió sin devolver un requestId.");
