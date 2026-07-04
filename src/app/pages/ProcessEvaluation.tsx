@@ -37,7 +37,7 @@ const initialFields: EvaluationFields = {
 };
 
 const inputClass =
-  "mt-2 min-h-12 w-full rounded-xl border border-border bg-white px-4 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/55 focus:border-accent focus:ring-4 focus:ring-accent/10";
+  "mt-2 min-h-13 w-full border border-[#BEBAB0] bg-[#FCFCFA] px-4 text-sm text-foreground outline-none transition-colors placeholder:text-[#666870] focus:border-[#2D5BFF] focus:ring-4 focus:ring-[#2D5BFF]/10";
 
 function validate(fields: EvaluationFields): FieldErrors {
   const errors: FieldErrors = {};
@@ -111,7 +111,8 @@ export function ProcessEvaluation() {
     }));
     if (stepFields.some((field) => Boolean(errors[field]))) return;
     setStep(2);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -149,59 +150,60 @@ export function ProcessEvaluation() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#F5F1E8]">
       <SiteHeader />
-      <main className="pb-20 pt-28 lg:pb-28 lg:pt-36">
-        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-          <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:gap-16">
+      <main className="paper-grid relative pb-20 pt-28 lg:pb-28 lg:pt-36">
+        <div className="mx-auto max-w-[1440px] px-5 sm:px-7 lg:px-10 xl:px-14">
+          <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20">
             <aside className="lg:sticky lg:top-28 lg:self-start">
-              <p className="mono-label text-[10px] font-semibold uppercase text-accent">
-                Evaluación de proceso
-              </p>
-              <h1 className="mt-5 text-4xl font-semibold leading-[1.03] tracking-[-0.05em] sm:text-5xl">
+              <div className="flex items-center gap-4">
+                <span className="h-px w-9 bg-[#2D5BFF]" />
+                <p className="mono-label text-[9px] font-semibold uppercase text-[#334BC1]">
+                  Evaluación de proceso
+                </p>
+              </div>
+              <h1 className="mt-7 max-w-xl font-display text-5xl leading-[0.95] tracking-[-0.035em] text-[#11131A] sm:text-6xl">
                 Preparemos una conversación útil.
               </h1>
-              <p className="mt-5 max-w-md text-base leading-7 text-muted-foreground">
+              <p className="mt-6 max-w-md text-base leading-7 text-[#666870]">
                 Necesitamos contexto operativo, no documentación contable. Con estas respuestas revisamos si
                 existe un proceso razonable para mostrar y pilotear.
               </p>
 
-              <div className="mt-8 space-y-4">
+              <div className="mt-9 border-t border-[#BEBAB0]">
                 {[
                   { icon: FileLock2, text: "No adjuntes balances, extractos ni datos de clientes." },
                   { icon: ShieldCheck, text: "La demo se realiza de forma privada y guiada." },
                   { icon: Check, text: "El envío no implica contratar ni recibir una cotización automática." },
                 ].map((item) => (
-                  <div key={item.text} className="flex gap-3 text-sm leading-6 text-muted-foreground">
-                    <item.icon className="mt-0.5 h-4 w-4 shrink-0 text-[#159A80]" aria-hidden="true" />
+                  <div key={item.text} className="flex gap-3 border-b border-[#D9D5CB] py-4 text-xs leading-5 text-[#666870]">
+                    <item.icon className="mt-0.5 h-4 w-4 shrink-0 text-[#1C806A]" aria-hidden="true" />
                     <span>{item.text}</span>
                   </div>
                 ))}
               </div>
             </aside>
 
-            <section className="rounded-[1.75rem] border border-border bg-white p-6 shadow-[0_24px_80px_rgba(11,18,32,0.06)] sm:p-8 lg:p-10">
+            <section className="border border-[#BEBAB0] bg-[#FCFCFA] p-6 shadow-[0_28px_80px_rgba(17,19,26,0.08)] sm:p-8 lg:p-10">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <p className="text-sm font-semibold">Paso {step} de 2</p>
-                  <p className="mt-1 text-xs text-muted-foreground">
+                  <p className="mono-label text-[9px] font-semibold uppercase text-[#4656B8]">Paso {step} de 2</p>
+                  <p className="mt-2 text-sm font-semibold text-[#2A2C33]">
                     {step === 1 ? "Quién sos y desde qué estudio escribís" : "Qué proceso querés revisar"}
                   </p>
                 </div>
-                <span className="mono-label text-[10px] text-muted-foreground">{step === 1 ? "50%" : "100%"}</span>
+                <span className="font-display text-3xl text-[#11131A]">{step === 1 ? "01" : "02"}</span>
               </div>
               <div
-                className="mt-5 h-1.5 overflow-hidden rounded-full bg-muted"
+                className="mt-6 grid h-1.5 grid-cols-2 gap-2"
                 role="progressbar"
                 aria-label="Progreso de la evaluación"
                 aria-valuemin={0}
                 aria-valuemax={100}
                 aria-valuenow={step === 1 ? 50 : 100}
               >
-                <div
-                  className="h-full rounded-full bg-accent transition-[width] duration-200"
-                  style={{ width: step === 1 ? "50%" : "100%" }}
-                />
+                <span className="h-full bg-[#2D5BFF]" />
+                <span className={`h-full transition-colors duration-200 ${step === 2 ? "bg-[#6C52FF]" : "bg-[#E3DED4]"}`} />
               </div>
 
               <form className="mt-8" onSubmit={handleSubmit} onFocus={trackStart} noValidate>
@@ -275,10 +277,10 @@ export function ProcessEvaluation() {
                       <button
                         type="button"
                         onClick={goToStepTwo}
-                        className="inline-flex min-h-13 w-full items-center justify-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-white transition-colors duration-200 hover:bg-accent"
+                        className="group inline-flex min-h-13 w-full items-center justify-center gap-3 bg-[#11131A] px-6 text-sm font-semibold text-white transition-colors duration-200 hover:bg-[#2D5BFF]"
                       >
                         Continuar
-                        <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
                       </button>
                     </div>
                   </div>
@@ -368,7 +370,7 @@ export function ProcessEvaluation() {
                     </label>
 
                     {submitError ? (
-                      <div role="alert" className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                      <div role="alert" className="border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
                         {submitError}
                       </div>
                     ) : null}
@@ -377,7 +379,7 @@ export function ProcessEvaluation() {
                       <button
                         type="button"
                         onClick={() => setStep(1)}
-                        className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-border px-5 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
+                        className="inline-flex min-h-12 items-center justify-center gap-2 border border-[#BEBAB0] px-5 text-sm font-semibold text-[#34363D] transition-colors hover:border-[#777A84] hover:bg-[#F4F1EA]"
                       >
                         <ArrowLeft className="h-4 w-4" aria-hidden="true" />
                         Volver
@@ -385,7 +387,7 @@ export function ProcessEvaluation() {
                       <button
                         type="submit"
                         disabled={submitting}
-                        className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-white transition-colors duration-200 hover:bg-accent disabled:cursor-not-allowed disabled:opacity-60"
+                        className="group inline-flex min-h-12 items-center justify-center gap-3 bg-[#11131A] px-6 text-sm font-semibold text-white transition-colors duration-200 hover:bg-[#2D5BFF] disabled:cursor-not-allowed disabled:opacity-60"
                       >
                         {submitting ? (
                           <>

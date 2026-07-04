@@ -140,3 +140,15 @@ export function trackDemoClick(source: string) {
 export function trackWorkflowInterest(process: string) {
   trackEvent("workflow_interest", { process });
 }
+
+export function trackWorkspaceFlowChange(flow: string) {
+  trackEvent("workspace_flow_change", { flow });
+}
+
+export function trackWorkspaceStageView(flow: string, stage: string) {
+  trackEvent("workspace_stage_view", { flow, stage });
+}
+
+export function trackAuthorityLinkClick(destination: string) {
+  trackEvent("authority_link_click", { destination });
+}

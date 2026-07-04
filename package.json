@@ -30,7 +30,9 @@
     "outbound:seed:ia-contable": "npx wrangler d1 execute divine-bread-quote-requests --remote --config workers/wrangler.toml --file outbound/sql/003-ia-contable-campaign-seed.sql"
   },
   "dependencies": {
+    "@fontsource/instrument-serif": "5.2.8",
     "lucide-react": "0.487.0",
+    "motion": "12.42.2",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-router-dom": "^7.18.1",
