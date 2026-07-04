@@ -3,3 +3,12 @@ dist/
 *.log
 .wrangler/
 .dev.vars*
+.savepoints/
+
+# Outbound operational data can include personal contact information.
+outbound/data/
+outbound/reports/
+outbound/tmp/
+outbound/tmp-*.json
+outbound/sql/generated/
+outbound/assets/email/

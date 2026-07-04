@@ -8,16 +8,32 @@
     "build": "vite build && node scripts/prerender-seo.mjs",
     "preview": "vite preview",
     "worker:deploy": "npx wrangler deploy --config workers/wrangler.toml --keep-vars",
-    "worker:d1:migrate": "npx wrangler d1 execute divine-bread-quote-requests --remote --file workers/d1-quote-requests.sql",
-    "worker:tail": "npx wrangler tail divine-bread-7e7e"
+    "worker:d1:migrate": "npx wrangler d1 execute divine-bread-quote-requests --remote --config workers/wrangler.toml --file workers/d1-quote-requests.sql",
+    "worker:d1:migrate:evaluations": "npx wrangler d1 execute divine-bread-quote-requests --remote --config workers/wrangler.toml --file workers/d1-process-evaluations.sql",
+    "worker:tail": "npx wrangler tail divine-bread-7e7e",
+    "outbound:build-account-candidates": "node outbound/scripts/build-account-candidates.mjs",
+    "outbound:source-laguiademayoristas": "node outbound/scripts/source-laguiademayoristas.mjs",
+    "outbound:discover-public-emails": "node outbound/scripts/discover-public-emails.mjs",
+    "outbound:ready-validation": "powershell -ExecutionPolicy Bypass -File outbound/scripts/export-ready-validation.ps1",
+    "outbound:contact-stock": "powershell -ExecutionPolicy Bypass -File outbound/scripts/export-contact-stock.ps1",
+    "outbound:review-candidates": "powershell -ExecutionPolicy Bypass -File outbound/scripts/export-review-candidates.ps1",
+    "outbound:juli-pending-validation": "powershell -ExecutionPolicy Bypass -File outbound/scripts/export-juli-pending-validation.ps1",
+    "outbound:validate-emailable": "node outbound/scripts/validate-emailable-batch.mjs",
+    "outbound:validate-quickemail": "node outbound/scripts/validate-quickemail-batch.mjs",
+    "outbound:build-researchops-batch": "powershell -ExecutionPolicy Bypass -File outbound/scripts/build-researchops-priority-batch.ps1",
+    "outbound:export-borderline": "powershell -ExecutionPolicy Bypass -File outbound/scripts/export-borderline-candidates.ps1",
+    "outbound:filter-borderline": "node outbound/scripts/filter-accept-all-second-pass.mjs",
+    "outbound:followups": "powershell -ExecutionPolicy Bypass -File outbound/scripts/export-followup-candidates.ps1",
+    "outbound:plan-followups": "powershell -ExecutionPolicy Bypass -File outbound/scripts/plan-followups-by-lane.ps1",
+    "outbound:ops-funnel": "powershell -ExecutionPolicy Bypass -File outbound/scripts/export-operational-funnel.ps1",
+    "outbound:monthly": "powershell -ExecutionPolicy Bypass -File outbound/scripts/export-monthly-performance.ps1",
+    "outbound:seed:ia-contable": "npx wrangler d1 execute divine-bread-quote-requests --remote --config workers/wrangler.toml --file outbound/sql/003-ia-contable-campaign-seed.sql"
   },
   "dependencies": {
     "lucide-react": "0.487.0",
-    "motion": "12.23.24",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "react-router-dom": "7.13.0",
-    "recharts": "2.15.2",
+    "react-router-dom": "^7.18.1",
     "tw-animate-css": "1.3.8"
   },
   "devDependencies": {
@@ -27,6 +43,6 @@
     "@vitejs/plugin-react": "4.7.0",
     "tailwindcss": "4.1.12",
     "typescript": "5.6.3",
-    "vite": "6.3.5"
+    "vite": "^6.4.3"
   }
 }

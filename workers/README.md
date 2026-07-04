@@ -1,9 +1,10 @@
 # Brevo Worker
 
-Este worker resuelve dos endpoints:
+Este worker resuelve tres endpoints públicos de captación:
 
 - `POST /lead-magnet`
 - `POST /quote-request`
+- `POST /process-evaluation`
 
 ## Estado actual
 
@@ -11,6 +12,16 @@ Este worker resuelve dos endpoints:
 - Config de Wrangler: `workers/wrangler.toml`
 - Script principal: `workers/brevo-worker.js`
 - Tabla D1: `workers/d1-quote-requests.sql`
+- Tabla D1 de evaluaciones: `workers/d1-process-evaluations.sql`
+
+## Flujo de evaluación de procesos
+
+1. El usuario completa el formulario en `/evaluar-proceso`.
+2. El frontend envía el contexto operativo a `/process-evaluation`, sin archivos.
+3. El Worker guarda la evaluación en `process_evaluations`.
+4. Sincroniza el contacto a la lista `IA Contable - Evaluaciones` en Brevo.
+5. Envía confirmación al lead y una notificación interna.
+6. El lead agenda la demo privada desde `/gracias/evaluacion`.
 
 ## Flujo de cotizacion
 
@@ -38,6 +49,7 @@ Opcionales:
 - `BREVO_NOTIFICATION_EMAIL`
 - `BREVO_NOTIFICATION_NAME`
 - `INTERNAL_NOTIFY_WEBHOOK_URL`
+- `OUTBOUND_SUMMARIES_ON_HOLD`: default `true`; mientras este activo, el worker no envia los resumenes outbound diarios ni semanales.
 
 ## Comandos
 
@@ -45,6 +57,12 @@ Migrar tabla D1 remota:
 
 ```bash
 npm run worker:d1:migrate
+```
+
+Migrar la tabla de evaluaciones:
+
+```bash
+npm run worker:d1:migrate:evaluations
 ```
 
 Desplegar el worker preservando vars existentes en Cloudflare:
@@ -64,3 +82,4 @@ npm run worker:tail
 - `worker:deploy` usa `--keep-vars` para no borrar variables creadas desde el dashboard.
 - El frontend puede sobreescribir la URL del worker con `VITE_FORMS_WORKER_BASE`.
 - La respuesta de `/quote-request` ahora devuelve `requestId` para trazabilidad.
+- `OUTBOUND_SUMMARIES_ON_HOLD=true` deja en pausa los mails automaticos de resumen outbound sin afectar los envios de la cola.

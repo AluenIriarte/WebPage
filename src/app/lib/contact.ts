@@ -9,6 +9,8 @@ export const AUTO_DIAGNOSTIC_PAGE_HREF = "/auto-diagnostico";
 export const AUTO_DIAGNOSTIC_THANKYOU_HREF = "/gracias/auto-diagnostico";
 export const QUOTE_THANKYOU_HREF = "/gracias/presupuesto-dashboard";
 export const PRIMARY_SERVICE_PAGE_HREF = "/dashboard-de-ventas-power-bi";
+export const PROCESS_EVALUATION_PAGE_HREF = "/evaluar-proceso";
+export const PROCESS_EVALUATION_THANKYOU_HREF = "/gracias/evaluacion";
 
 const quoteSubject = "Consulta por dashboard de ventas a medida";
 

@@ -4,9 +4,14 @@ compatibility_date = "2026-03-25"
 workers_dev = true
 preview_urls = false
 
+[triggers]
+crons = ["*/15 12-21 * * 1-5"]
+
 [vars]
 BREVO_SENDER_EMAIL = "Contacto@alanlperez.com"
 BREVO_SENDER_NAME = "Alan L. Perez"
+OUTBOUND_PUBLIC_BASE_URL = "https://divine-bread-7e7e.alanlperez1996.workers.dev"
+OUTBOUND_SUMMARIES_ON_HOLD = "true"
 
 [[d1_databases]]
 binding = "QUOTE_REQUESTS_DB"

@@ -56,13 +56,8 @@ export function scheduleAnalyticsLoad() {
 
   const load = () => injectAnalyticsScript();
 
-  if ("requestIdleCallback" in window) {
-    const idleId = window.requestIdleCallback(load, { timeout: 2000 });
-    return () => window.cancelIdleCallback(idleId);
-  }
-
-  const timeoutId = window.setTimeout(load, 1200);
-  return () => window.clearTimeout(timeoutId);
+  const timeoutId = globalThis.setTimeout(load, 1200);
+  return () => globalThis.clearTimeout(timeoutId);
 }
 
 export function trackEvent(eventName: string, params: EventParams = {}) {
@@ -100,6 +95,9 @@ export function setupCalendlyTracking() {
       trackEvent("calendly_reservation", {
         calendly_event_uri: String(payload.payload?.event || ""),
       });
+      trackEvent("demo_booked", {
+        calendly_event_uri: String(payload.payload?.event || ""),
+      });
     }
   };
 
@@ -125,4 +123,20 @@ export function trackFormSubmit(formName: string, product?: string) {
 
 export function trackCalendlyClick(source: string) {
   trackEvent("calendly_click", { source });
+}
+
+export function trackEvaluationStart(source: string) {
+  trackEvent("evaluation_start", { source });
+}
+
+export function trackEvaluationSubmit(process: string) {
+  trackEvent("evaluation_submit", { process });
+}
+
+export function trackDemoClick(source: string) {
+  trackEvent("demo_click", { source });
+}
+
+export function trackWorkflowInterest(process: string) {
+  trackEvent("workflow_interest", { process });
 }

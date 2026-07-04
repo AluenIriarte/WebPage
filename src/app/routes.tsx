@@ -1,20 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
-import { AutoDiagnostico } from "./pages/AutoDiagnostico";
-import { DashboardVentasPowerBi } from "./pages/DashboardVentasPowerBi";
-import { GraciasAutoDiagnostico } from "./pages/GraciasAutoDiagnostico";
-import { GraciasPresupuestoDashboard } from "./pages/GraciasPresupuestoDashboard";
-import { Home } from "./pages/Home";
-import { NotFound } from "./pages/NotFound";
+import { LegacyRedirect } from "./pages/LegacyRedirect";
 import { Root } from "./pages/Root";
 import { RouteErrorPage } from "./pages/RouteErrorPage";
-import { Servicios } from "./pages/Servicios";
-import { PresupuestoDashboard } from "./pages/PresupuestoDashboard";
-import { AutoevaluacionEjecutiva } from "./pages/recursos/AutoevaluacionEjecutiva";
-import { DashboardDeVentas } from "./pages/recursos/DashboardDeVentas";
-import { KpisComerciales } from "./pages/recursos/KpisComerciales";
-import { QueEsUnDashboard } from "./pages/recursos/QueEsUnDashboard";
-import { RecursosHub } from "./pages/recursos/RecursosHub";
-import { TableroDeVentas } from "./pages/recursos/TableroDeVentas";
 
 export const router = createBrowserRouter([
   {
@@ -24,59 +11,59 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        Component: Home,
+        lazy: async () => {
+          const { Home } = await import("./pages/Home");
+          return { Component: Home };
+        },
+      },
+      {
+        path: "evaluar-proceso",
+        lazy: async () => {
+          const { ProcessEvaluation } = await import("./pages/ProcessEvaluation");
+          return { Component: ProcessEvaluation };
+        },
+      },
+      {
+        path: "gracias/evaluacion",
+        lazy: async () => {
+          const { EvaluationThankYou } = await import("./pages/EvaluationThankYou");
+          return { Component: EvaluationThankYou };
+        },
       },
       {
         path: "servicios",
-        Component: Servicios,
+        Component: LegacyRedirect,
       },
       {
         path: "dashboard-de-ventas-power-bi",
-        Component: DashboardVentasPowerBi,
+        Component: LegacyRedirect,
       },
       {
         path: "auto-diagnostico",
-        Component: AutoDiagnostico,
+        Component: LegacyRedirect,
       },
       {
         path: "gracias/auto-diagnostico",
-        Component: GraciasAutoDiagnostico,
+        Component: LegacyRedirect,
       },
       {
         path: "gracias/presupuesto-dashboard",
-        Component: GraciasPresupuestoDashboard,
+        Component: LegacyRedirect,
       },
       {
         path: "presupuesto-dashboard",
-        Component: PresupuestoDashboard,
+        Component: LegacyRedirect,
       },
       {
-        path: "recursos",
-        Component: RecursosHub,
-      },
-      {
-        path: "recursos/que-es-un-dashboard",
-        Component: QueEsUnDashboard,
-      },
-      {
-        path: "recursos/dashboard-de-ventas",
-        Component: DashboardDeVentas,
-      },
-      {
-        path: "recursos/autoevaluacion-ejecutiva",
-        Component: AutoevaluacionEjecutiva,
-      },
-      {
-        path: "recursos/kpis-comerciales",
-        Component: KpisComerciales,
-      },
-      {
-        path: "recursos/tablero-de-ventas",
-        Component: TableroDeVentas,
+        path: "recursos/*",
+        Component: LegacyRedirect,
       },
       {
         path: "*",
-        Component: NotFound,
+        lazy: async () => {
+          const { NotFound } = await import("./pages/NotFound");
+          return { Component: NotFound };
+        },
       },
     ],
   },

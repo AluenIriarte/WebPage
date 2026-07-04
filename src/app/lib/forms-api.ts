@@ -35,6 +35,26 @@ export interface QuoteRequestPayload {
   desafio?: string;
 }
 
+export interface ProcessEvaluationPayload {
+  nombre: string;
+  email: string;
+  estudio: string;
+  rol: string;
+  proceso: string;
+  volumen: string;
+  sistemasFormatos: string;
+  cuelloBotella: string;
+  source?: string;
+  landingPath?: string;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+}
+
+export interface ProcessEvaluationResponse extends ApiResponse {
+  requestId: string;
+}
+
 async function postJson<TPayload extends object, TResponse extends ApiResponse = ApiResponse>(
   path: string,
   payload: TPayload,
@@ -73,6 +93,19 @@ export async function submitQuoteRequest(payload: QuoteRequestPayload) {
 
   if (!response.requestId) {
     throw new Error("La solicitud se envio sin devolver un requestId.");
+  }
+
+  return response;
+}
+
+export async function submitProcessEvaluation(payload: ProcessEvaluationPayload) {
+  const response = await postJson<ProcessEvaluationPayload, ProcessEvaluationResponse>(
+    "/process-evaluation",
+    payload,
+  );
+
+  if (!response.requestId) {
+    throw new Error("La evaluación se envió sin devolver un requestId.");
   }
 
   return response;
